@@ -66,15 +66,6 @@ if (($_POST['setting_bootstrap_submenu']) ||
     // These are not form elements. We only ever change them via ajax, so exit now.
     exit();
 }
-
-
-
-
-
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -245,11 +236,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <span >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
                                             </span>
-                                        <span onclick="SimpleSearch(this);" id="Availability" >
+                                        <span onclick="SimpleSearch(this);" id="Appointments" >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
                                           
                                         </span>
-                                        <input id="txtAvailability" type="text" class="component-search">
+                                        <input id="txtAppointments" type="text" class="component-search">
                                             </div>
                                         </div>
                                     <div class="col-6">
@@ -316,22 +307,19 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <div class="row">
                                     <div class="col-6">
                                         <div class="compo-head">
-                                            <span style="display:none;" class="spl-mouse">
-                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/drag.svg" alt="">
-                                                </span>
-                                            <span style="display:none;">
-                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
-                                                </span>
-                                            <span onclick="SimpleSearch(this);" id="Appointments" >
-                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
-                                            
+                                        <span style="display:none;" class="spl-mouse">
+                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/drag.svg" alt="">
                                             </span>
-                                            
-                                                <input id="txtAppointments" type="text" class="component-search" name="txtAppointments">
-                                                <input type="hidden" name="webroot" id="webroot" value="<?php echo $GLOBALS['webroot']; ?>">
-                                            
+                                        <span style="display:none;">
+                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
+                                            </span>
+                                        <span onclick="SimpleSearch(this);" id="Appointments" style="display:none;">
+                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
+                                          
+                                        </span>
+                                        <input id="txtAppointments" type="text" class="component-search">
+                                            </div>
                                         </div>
-                                    </div>
                                     <div class="col-6">
                                         <p class="text-white head-p">Appointments</p>
                                         </div>
@@ -343,18 +331,16 @@ if (!empty($_REQUEST['go'])) { ?>
                                 <div class="container-fluid">
                                     <div class="wrapper">
                                         <label for="datepicker">
-                                            <input type="text" id="datepicker" placeholder="Choose date" autocomplete="off">
+                                                        <input type="text" id="datepicker" placeholder="Choose date" autocomplete="off">
                                                     </label>
                                     </div>
-
-                                    <div id="searchContent">
                                     <?php
 
                                     $from_date=$to_date=date('Y-m-d');
 
                                      //  form_apptstatus > for None
                                      $form_apptstatus='-';
-                                     $appointments = fetchAppointments($from_date, $to_date, $patient, $provider, $facility, $form_apptstatus, $with_out_provider, $with_out_facility, $form_apptcat,$search_like);
+                                     $appointments = fetchAppointments($from_date, $to_date, $patient, $provider, $facility, $form_apptstatus, $with_out_provider, $with_out_facility, $form_apptcat);
 
                                      if ($show_available_times) {
                                          $availableSlots = getAvailableSlots($from_date, $to_date, $provider, $facility);
@@ -408,7 +394,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <?php
                                     }
                                     ?>
-                                </div>
+
                                 </div>
 
                                      </div>
@@ -429,11 +415,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <span style="display:none;">
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
                                             </span>
-                                        <span onclick="SimpleSearch(this);" id="VisitsHistory" >
+                                        <span onclick="SimpleSearch(this);" id="Appointments" >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
                                           
                                         </span>
-                                        <input id="txtVisitsHistory" type="text" class="component-search">
+                                        <input id="txtAppointments" type="text" class="component-search">
                                             </div>
                                         </div>
                                     <div class="col-6">
@@ -450,7 +436,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             <input type="text" id="datepickertwo" placeholder="Choose date" autocomplete="off">
                                                         </label>
                                     </div>
-                                    <div id="searchContent_visithistory">
+
                                     <?php
 
                                         $from_date=$to_date=date('Y-m-d');
@@ -509,7 +495,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <?php
                                         }
                                         ?>
-                                   </div>
+                                  
                                 </div>
                                     </div>
                             </window-dashboard>
@@ -530,11 +516,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <span style="display:none;">
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
                                             </span>
-                                        <span onclick="SimpleSearch(this);" id="Tasks" >
+                                        <span onclick="SimpleSearch(this);" id="Appointments" >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
                                           
                                         </span>
-                                        <input id="txtTasks" type="text" class="component-search">
+                                        <input id="txtAppointments" type="text" class="component-search">
                                             </div>
                                         </div>
                                     <div class="col-6">
@@ -551,7 +537,6 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             <input type="text" id="datepickertwo" placeholder="Choose date" autocomplete="off">
                                                         </label>
                                     </div>
-                                    <div id="searchContent_tasks">
                                     <?php
 
                                     $active = 'all';
@@ -606,7 +591,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <?php
                                     }
                                     ?>
-                                 </div>  
+                                   
                                 </div>
                                     </div>
                             </window-dashboard>

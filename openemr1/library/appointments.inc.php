@@ -365,7 +365,7 @@ function fetchAllEvents($from_date, $to_date, $provider_id = null, $facility_id 
 }
 
 //Support for therapy group appointments added by shachar z.
-function fetchAppointments($from_date, $to_date, $patient_id = null, $provider_id = null, $facility_id = null, $pc_appstatus = null, $with_out_provider = null, $with_out_facility = null, $pc_catid = null, $tracker_board = false, $nextX = 0, $group_id = null, $patient_name = null)
+function fetchAppointments($from_date, $to_date, $patient_id = null, $provider_id = null, $facility_id = null, $pc_appstatus = null, $with_out_provider = null, $with_out_facility = null, $pc_catid = null, $tracker_board = false, $nextX = 0, $group_id = null, $patient_name = null  ,$search_like= null) 
 {
     $sqlBindArray = array();
 
@@ -416,6 +416,12 @@ function fetchAppointments($from_date, $to_date, $patient_id = null, $provider_i
     //Without Facility checking
     if ($with_out_facility != '') {
         $where .= " AND e.pc_facility = 0";
+    }
+
+    // with search  edited by km
+    if($search_like != null){
+        $where .= " AND (p.fname like '%$search_like%' OR p.mname like '%$search_like%' OR p.lname like '%$search_like%')";
+       
     }
 
     $appointments = fetchEvents($from_date, $to_date, $where, '', $tracker_board, $nextX, $sqlBindArray);
@@ -733,4 +739,12 @@ function recurrence_is_current($end_date)
     }
 
     return false;
+}
+
+//  custom km
+function AppointmentsSearch(){
+
+    $search=$_POST['search'];
+    $value=fetchAppointments();
+    print_r($value);
 }
