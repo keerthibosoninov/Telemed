@@ -9,8 +9,10 @@ require_once("$srcdir/patient.inc");
     $active = 'all';
     $show_all = 'yes';
     $search_like=$_POST['search'];
-    // $search_like='fsdg';
-    $result = getPnotesByUser($active, $show_all, $_SESSION['authUser'], false, $sortby, $sortorder, $begin, $listnumber,$search_like);
+    $date_task_n=$_POST['task_date'];
+
+    $date_task=date('Y-m-d',strtotime($date_task_n));
+    $result = getPnotesByUser($active, $show_all, $_SESSION['authUser'], false, $sortby, $sortorder, $begin, $listnumber,$search_like,$date_task);
     if($result){
        
             while ($myrow = sqlFetchArray($result)) {

@@ -68,6 +68,10 @@ if (($_POST['setting_bootstrap_submenu']) ||
 }
 
 
+// print_r($res);
+
+$provider_id=$_SESSION['authUserID'];
+
 
 
 
@@ -311,26 +315,25 @@ if (!empty($_REQUEST['go'])) { ?>
                         </div>
                         <div class="col-md-6 droptarget" id="drag-b">
                             <window-dashboard title="Appointments">
+                           
                                 <div class="head-component">
                                 <div class="container-fluid">
                                     <div class="row">
                                     <div class="col-6">
-                                        <div class="compo-head">
-                                            <span style="display:none;" class="spl-mouse">
-                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/drag.svg" alt="">
-                                                </span>
-                                            <span style="display:none;">
-                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
-                                                </span>
-                                            <span onclick="SimpleSearch(this);" id="Appointments" >
-                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
-                                            
+                                          <div class="compo-head">
+                                        <span class="spl-mouse">
+                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/drag.svg" alt="">
                                             </span>
-                                            
-                                                <input id="txtAppointments" type="text" class="component-search" name="txtAppointments">
-                                                <input type="hidden" name="webroot" id="webroot" value="<?php echo $GLOBALS['webroot']; ?>">
-                                            
-                                        </div>
+                                        <span >
+                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
+                                            </span>
+                                        <span onclick="SimpleSearch(this);" id="Appointments" >
+                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
+                                          
+                                        </span>
+                                        <input id="txtAppointments" type="text" class="component-search" name="txtAppointments">
+                                        <input type="hidden" name="webroot" id="webroot" value="<?php echo $GLOBALS['webroot']; ?>">
+                                    </div>
                                     </div>
                                     <div class="col-6">
                                         <p class="text-white head-p">Appointments</p>
@@ -339,11 +342,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </div>
                                 </div>
 
-                                 <div class="body-compo">
+                                <div class="body-compo">
                                 <div class="container-fluid">
-                                    <div class="wrapper">
+                                    <div class="wrapper relative">
                                         <label for="datepicker">
-                                            <input type="text" id="datepicker" placeholder="Choose date" autocomplete="off">
+                                            <input type="text" id="datepicker" placeholder="<?php echo date('Y-m-d')?>" autocomplete="off" >
                                                     </label>
                                     </div>
 
@@ -351,6 +354,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <?php
 
                                     $from_date=$to_date=date('Y-m-d');
+                                    $provider=$provider_id;
 
                                      //  form_apptstatus > for None
                                      $form_apptstatus='-';
@@ -361,10 +365,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                          $appointments = array_merge($appointments, $availableSlots);
                                      }
 
-                                    //  print_r( $appointments);
-
-                                   
-                                 
+                                  
                                      $appointments = sortAppointments($appointments, $form_orderby);
                                      $pid_list = array();  // Initialize list of PIDs for Superbill option
                                      $apptdate_list = array(); // same as above for the appt details
@@ -389,8 +390,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                         $startdate=$appointment['pc_eventDate'];
                                         ?>
                                             <h5><?php echo date('G:i',strtotime($starttime)); ?>&nbsp;<?php echo text(date('a', $starttime)); ?></h5>
-                                            <h5><?php echo date('d',strtotime($starttime)) ?></h5>
-                                            <h6><?php echo date('D',strtotime($starttime)) ?></h6>
+                                            <h5><?php echo date('d',strtotime($startdate)) ?></h5>
+                                            <h6><?php echo date('D',strtotime($startdate)) ?></h6>
                                         </div>
                                         <div class="col-7 task-para">
                                             <div class="">
@@ -412,30 +413,34 @@ if (!empty($_REQUEST['go'])) { ?>
                                 </div>
 
                                      </div>
-
                             </window-dashboard>
 
+                           
+                           
                         </div>
-                        <div class="col-md-6 droptarget" id="drag-c">
+
+                         <div class="col-md-6 droptarget" id="drag-c">
                             <window-dashboard title="Visits history">
+                           
                                 <div class="head-component">
                                 <div class="container-fluid">
                                     <div class="row">
                                     <div class="col-6">
                                           <div class="compo-head">
-                                        <span style="display:none;" class="spl-mouse">
+                                        <span class="spl-mouse">
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/drag.svg" alt="">
                                             </span>
-                                        <span style="display:none;">
+                                        <span >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
                                             </span>
                                         <span onclick="SimpleSearch(this);" id="VisitsHistory" >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search-white.svg" alt="">
                                           
                                         </span>
-                                        <input id="txtVisitsHistory" type="text" class="component-search">
-                                            </div>
-                                        </div>
+                                        <input id="txtVisitsHistory" type="text" class="component-search" name="txtVisitsHistory">
+                                        <input type="hidden" name="webroot" id="webroot" value="<?php echo $GLOBALS['webroot']; ?>">
+                                    </div>
+                                    </div>
                                     <div class="col-6">
                                         <p class="text-white head-p">Visits history</p>
                                         </div>
@@ -447,7 +452,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                 <div class="container-fluid">
                                     <div class="wrapper">
                                         <label for="datepickertwo">
-                                                            <input type="text" id="datepickertwo" placeholder="Choose date" autocomplete="off">
+                                                            <input type="text" id="datepickertwo" placeholder="<?php echo date('Y-m-d')?>" autocomplete="off">
                                                         </label>
                                     </div>
                                     <div id="searchContent_visithistory">
@@ -456,6 +461,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                         $from_date=$to_date=date('Y-m-d');
                                         //  form_apptstatus > for checked out
                                         $form_apptstatus='>';
+
+                                        $provider=$provider_id;
+                                        
                                         $appointments = fetchAppointments($from_date, $to_date, $patient, $provider, $facility, $form_apptstatus, $with_out_provider, $with_out_facility, $form_apptcat);
 
                                         if ($show_available_times) {
@@ -491,8 +499,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                         $startdate=$appointment['pc_eventDate'];
                                         ?>
                                             <h5><?php echo date('G:i',strtotime($starttime)); ?>&nbsp;<?php echo text(date('a', $starttime)); ?></h5>
-                                            <h5><?php echo date('d',strtotime($starttime)) ?></h5>
-                                            <h6><?php echo date('D',strtotime($starttime)) ?></h6>
+                                            <h5><?php echo date('d',strtotime($startdate)) ?></h5>
+                                            <h6><?php echo date('D',strtotime($startdate)) ?></h6>
                                         </div>
                                         <div class="col-7 task-para">
                                             <div class="">
@@ -514,20 +522,23 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </div>
                             </window-dashboard>
 
-
+                           
+                           
                         </div>
-                        <div class="col-md-6 droptarget" id="drag-d">
 
-                        <window-dashboard title="Tasks">
+                
+                        <div class="col-md-6 droptarget" id="drag-d">
+                            <window-dashboard title="Tasks">
+                           
                                 <div class="head-component">
                                 <div class="container-fluid">
                                     <div class="row">
                                     <div class="col-6">
                                           <div class="compo-head">
-                                        <span style="display:none;" class="spl-mouse">
+                                        <span class="spl-mouse">
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/drag.svg" alt="">
                                             </span>
-                                        <span style="display:none;">
+                                        <span >
                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg" alt="">
                                             </span>
                                         <span onclick="SimpleSearch(this);" id="Tasks" >
@@ -547,8 +558,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                 <div class="body-compo">
                                 <div class="container-fluid">
                                     <div class="wrapper">
-                                        <label for="datepickertwo">
-                                                            <input type="text" id="datepickertwo" placeholder="Choose date" autocomplete="off">
+                                        <label for="datepickerthree">
+                                                            <input type="text" id="datepickerthree" placeholder="<?php echo date('Y-m-d')?>" autocomplete="off">
                                                         </label>
                                     </div>
                                     <div id="searchContent_tasks">
@@ -556,7 +567,8 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                     $active = 'all';
                                     $show_all = 'yes';
-                                     $result = getPnotesByUser($active, $show_all, $_SESSION['authUser'], false, $sortby, $sortorder, $begin, $listnumber);
+                                    $date=date('Y-m-d');
+                                     $result = getPnotesByUser($active, $show_all, $_SESSION['authUser'], false, $sortby, $sortorder, $begin, $listnumber,null,$date);
                                      while ($myrow = sqlFetchArray($result)) {
                                        
 
@@ -611,7 +623,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </div>
                             </window-dashboard>
 
+                           
+                           
                         </div>
+                        
+                        
                     </div>
                 </div>
             </div>

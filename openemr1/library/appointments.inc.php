@@ -105,6 +105,7 @@ function checkEvent($recurrtype, $recurrspec)
 function fetchEvents($from_date, $to_date, $where_param = null, $orderby_param = null, $tracker_board = false, $nextX = 0, $bind_param = null, $query_param = null)
 {
 
+ 
     $sqlBindArray = array();
 
     if ($query_param) {
@@ -134,6 +135,10 @@ function fetchEvents($from_date, $to_date, $where_param = null, $orderby_param =
             $where .= $where_param;
         }
 
+    
+
+    
+
         // Filter out appointments based on a custom module filter
         $apptFilterEvent = new AppointmentsFilterEvent(new BoundFilter());
         $apptFilterEvent = $GLOBALS["kernel"]->getEventDispatcher()->dispatch(AppointmentsFilterEvent::EVENT_HANDLE, $apptFilterEvent, 10);
@@ -161,7 +166,7 @@ function fetchEvents($from_date, $to_date, $where_param = null, $orderby_param =
         $query = "SELECT " .
         "e.pc_eventDate, e.pc_endDate, e.pc_startTime, e.pc_endTime, e.pc_duration, e.pc_recurrtype, e.pc_recurrspec, e.pc_recurrfreq, e.pc_catid, e.pc_eid, e.pc_gid, " .
         "e.pc_title, e.pc_hometext, e.pc_apptstatus, " .
-        "p.fname, p.mname, p.lname, p.pid, p.pubpid, p.phone_home, p.phone_cell, " .
+        "p.fname, p.mname, p.lname,p.title,p.city,p.state, p.pid, p.pubpid, p.phone_home, p.phone_cell, " .
         "p.hipaa_allowsms, p.phone_home, p.phone_cell, p.hipaa_voice, p.hipaa_allowemail, p.email, " .
         "u.fname AS ufname, u.mname AS umname, u.lname AS ulname, u.id AS uprovider_id, " .
         "f.name, " .
@@ -190,6 +195,7 @@ function fetchEvents($from_date, $to_date, $where_param = null, $orderby_param =
     $events2 = array();
 
     $res = sqlStatement($query, $sqlBindArray);
+    
 
   ////////
     if ($nextX) {

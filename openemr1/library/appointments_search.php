@@ -4,11 +4,27 @@ require_once("../interface/globals.php");
 require_once "$srcdir/appointments.inc.php";
 
 
-        $from_date=$to_date=date('Y-m-d');
+        
         $search_like=$_POST['search'];
         $form_apptstatus=$_POST['form_apptstatus'];
+        if($_POST['new_date']==""){
+            $from_date_n=$to_date_n=date('Y-m-d');
+        }else{
+            $from_date_n=$_POST['new_date'];
+            $to_date_n=$_POST['new_date'];
+            
+        }
 
-        $patient=$provider=$facility= $with_out_provider=$with_out_facility=null;
+        $provider=$_SESSION['authUserID'];
+
+
+
+        $from_date=date('Y-m-d',strtotime($from_date_n));
+        $to_date=date('Y-m-d',strtotime($to_date_n));
+
+     
+
+        $patient=$facility= $with_out_provider=$with_out_facility=null;
         $appointments = fetchAppointments($from_date, $to_date, $patient, $provider, $facility, $form_apptstatus, $with_out_provider, $with_out_facility, $form_apptcat,false,0,null,null,$search_like);
 
         if ($show_available_times) {
@@ -16,7 +32,7 @@ require_once "$srcdir/appointments.inc.php";
                                          $appointments = array_merge($appointments, $availableSlots);
         }
 
-        // print_r( $appointments);
+      
 
                                    
         $appointments = sortAppointments($appointments, $form_orderby);
@@ -43,8 +59,8 @@ require_once "$srcdir/appointments.inc.php";
             
             
                 <h5>  ".date('G:i',strtotime($starttime))." &nbsp;  ".text(date('a', $starttime))." </h5>
-                <h5>  ".date('d',strtotime($starttime))." </h5>
-                <h6> ". date('D',strtotime($starttime))." </h6>
+                <h5>  ".date('d',strtotime($startdate))." </h5>
+                <h6> ". date('D',strtotime($startdate))." </h6>
             </div>
             <div class='col-7 task-para'>
                 <div class=''>

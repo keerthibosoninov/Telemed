@@ -42,7 +42,7 @@ function getPnoteById($id, $cols = "*")
  * @param string $listnumber number of rows to return.
  * @return int The number of rows retrieved, or 0 if $count was true.
  */
-function getPnotesByUser($activity = "1", $show_all = "no", $user = '', $count = false, $sortby = '', $sortorder = '', $begin = '', $listnumber = '',$search_like=null)
+function getPnotesByUser($activity = "1", $show_all = "no", $user = '', $count = false, $sortby = '', $sortorder = '', $begin = '', $listnumber = '',$search_like=null,$date=null)
 {
 
   // Set the activity part of query
@@ -75,12 +75,18 @@ function getPnotesByUser($activity = "1", $show_all = "no", $user = '', $count =
 // updated by km
     if($search_like != null){ 
        $sql .= " AND (patient_data.fname like '%$search_like%' or patient_data.lname like '%$search_like%' or  patient_data.mname like '%$search_like%' or pnotes.title like '%$search_like%') ";
+    }
+
+    if($date != null){
+        $sql.=" AND date(pnotes.date) = '$date'";
     }     
     if (!empty($sortby) || !empty($sortorder)  || !empty($begin) || !empty($listnumber)) {
         $sql .= " order by ".escape_sql_column_name($sortby, array('users','patient_data','pnotes'), true).
             " ".escape_sort_order($sortorder).
             " limit ".escape_limit($begin).", ".escape_limit($listnumber);
     }
+    
+
 
     
 
