@@ -112,7 +112,11 @@ $usrval = json_encode(array ( $cb_top_chk, $cb_bot_chk ));
 
 $primary_docs = array(
 'dash' => array(xl('Dashboard')  , 0, 'main/dashboard.php'),
-'emp' => array(xl('Employees')  , 0, 'main/employees.php'),
+'emp_info' => array(xl('Employee Info')  , 0, 'main/employee_info.php'),
+'emp_info2' => array(xl('Employee Info 2')  , 0, 'main/employee_info2.php'),
+
+'injury_det' => array(xl('Injury Details')  , 0, 'main/injury_details.php'),
+
 'appoint' => array(xl('Appointments')  , 0, 'main/appointments.php'),
 
 'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
@@ -1179,7 +1183,10 @@ $(function (){
     });
     // km
     $("#navigation-slide > li  > a#dash0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon"> </span>&nbsp;');
-    $("#navigation-slide > li  > a#emp0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#emp_info0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#emp_info20").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon"> </span>&nbsp;');
+
+    $("#navigation-slide > li  > a#injury_det0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#appoint0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
 
    
@@ -1275,7 +1282,11 @@ $(function (){
 <?php
 
    genTreeLink('RTop', 'dash', xl('Dashboard'));
-   genTreeLink('RTop', 'emp', xl('Employees'));
+   genTreeLink('RTop', 'emp_info', xl('Employee Info'));
+   genTreeLink('RTop', 'emp_info2', xl('Employee Info 2'));
+   genTreeLink('RTop', 'injury_det', xl('Injury Details'));
+
+   
    genTreeLink('RTop', 'appoint', xl('Appointment'));
 
 

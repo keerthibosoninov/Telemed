@@ -19,7 +19,8 @@ use OpenEMR\Core\Header;
 <html>
 <head>
 
-<?php Header::setupHeader();?>
+<?php 
+//Header::setupHeader();?>
 <style type="text/css">
     .hidden {
     display:none;

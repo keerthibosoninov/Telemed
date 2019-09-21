@@ -39,7 +39,8 @@ function generate_html_start()
 ?>
     <html>
     <head>
-    <?php Header::setupHeader(); ?>
+    <?php
+    // Header::setupHeader(); ?>
     <title><?php echo xlt("MFA Authorization"); ?></title>
     <style>
     .alert-msg {

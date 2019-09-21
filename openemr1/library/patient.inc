@@ -1959,3 +1959,7 @@ function is_patient_deceased($pid, $date = '')
         return $results;
     }
 }
+
+function testfunction(){
+    echo "1";
+}
