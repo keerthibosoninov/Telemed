@@ -1,0 +1,340 @@
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+
+/* Events fired on the drag target */
+
+document.addEventListener("dragstart", function (event) {
+    // The dataTransfer.setData() method sets the data type and the value of the dragged data
+    event.dataTransfer.setData("Text", event.target.id);
+    console.log(event);
+    // Output some text when starting to drag the p element
+    // document.getElementById("demo").innerHTML = "Started to drag the p element.";
+    event.dataTransfer.setData("text/plain", event.target.id);
+    // Change the opacity of the draggable element
+    event.target.style.opacity = "0.4";
+});
+
+// While dragging the p element, change the color of the output text
+document.addEventListener("drag", function (event) {
+    // document.getElementById("demo").style.color = "red";
+});
+
+// Output some text when finished dragging the p element and reset the opacity
+document.addEventListener("dragend", function (event) {
+    // document.getElementById("demo").innerHTML = "Finished dragging the p element.";
+    event.target.style.opacity = "1";
+});
+
+/* Events fired on the drop target */
+
+// When the draggable p element enters the droptarget, change the DIVS's border style
+document.addEventListener("dragenter", function (event) {
+
+    if (event.target.className == "col-md-6 droptarget") {
+        console.log("done")
+
+        $(".component").addClass("PointerEvents");
+        event.target.style.border = "3px dotted red";
+
+    } else {
+        console.log("sorry");
+        console.log(event);
+    }
+});
+
+// By default, data/elements cannot be dropped in other elements. To allow a drop, we must prevent the default handling of the element
+document.addEventListener("dragover", function (event) {
+    event.preventDefault();
+
+});
+
+// When the draggable p element leaves the droptarget, reset the DIVS's border style
+document.addEventListener("dragleave", function (event) {
+    if (event.target.className == "col-md-6 droptarget") {
+        event.target.style.border = "";
+
+    }
+});
+
+/* On drop - Prevent the browser default handling of the data (default is open as link on drop)
+   Reset the color of the output text and DIV's border color
+   Get the dragged data with the dataTransfer.getData() method
+   The dragged data is the id of the dragged element ("drag1")
+   Append the dragged element into the drop element
+*/
+document.addEventListener("drop", function (event) {
+    event.preventDefault();
+    if (event.target.className == "col-md-6 droptarget") {
+        // document.getElementById("demo").style.color = "";
+        event.target.style.border = "";
+        $(".component").removeClass("PointerEvents");
+        var data = event.dataTransfer.getData("Text");
+        event.target.appendChild(document.getElementById(data));
+        // event.appendChild(document.getElementById(backdata));
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(function () {
+    $("#datepicker").datepicker({
+        dateFormat: "dd-mm-yy",
+        duration: "fast",
+        setDate : new Date(),
+        onSelect: function() {
+            $(this).change();
+            $new_date= $(this).val();
+
+           getAppointments($search,$webroot,$form_apptstatus,$new_date);
+
+        }
+      
+
+        
+  
+    });
+});
+$(function () {
+    $("#datepickertwo").datepicker({
+        dateFormat: "dd-mm-yy",
+        duration: "fast"
+    });
+});
+$(function () {
+    $("#datepickerthree").datepicker({
+        dateFormat: "dd-mm-yy",
+        duration: "fast"
+    });
+});
+
+function SimpleSearch(ThisVal) {
+   
+   
+
+    // alert($(ThisVal).attr("id"));
+    // console.log($(ThisVal).attr("id"));
+    if ($(ThisVal).attr("id") == "Appointments") {
+        if ($("#txtAppointments").attr("class") == "component-search") {
+            $("#txtAppointments").attr("class", "component-search w-100");
+        }
+        else {
+            $("#txtAppointments").attr("class", "component-search");
+        }
+    }
+    else if ($(ThisVal).attr("id") == "VisitsHistory") {
+        if ($("#txtVisitsHistory").attr("class") == "component-search") {
+            $("#txtVisitsHistory").attr("class", "component-search w-100");
+        }
+        else {
+            $("#txtVisitsHistory").attr("class", "component-search");
+        }
+    }
+    else if ($(ThisVal).attr("id") == "Availability") {
+        if ($("#txtAvailability").attr("class") == "component-search") {
+            $("#txtAvailability").attr("class", "component-search w-100");
+        }
+        else {
+            $("#txtAvailability").attr("class", "component-search");
+        }
+    }else if ($(ThisVal).attr("id") == "Tasks") {
+        if ($("#txtTasks").attr("class") == "component-search") {
+            $("#txtTasks").attr("class", "component-search w-100");
+        }
+        else {
+            $("#txtTasks").attr("class", "component-search");
+        }
+    }
+}
+
+$(function () {
+
+
+    // appointments
+    $("#txtAppointments").keyup(function(event) {
+
+    
+        if (event.keyCode === 13) {
+            $search=$("#txtAppointments").val();
+            $webroot= $("#webroot").val();
+            $form_apptstatus='-';
+            $new_date=$("#datepicker").val();
+            
+            getAppointments($search,$webroot,$form_apptstatus,$new_date);   
+        }
+    });
+
+    // visit history
+
+    $("#txtVisitsHistory").keyup(function(event) {
+
+    
+        if (event.keyCode === 13) {
+            $search=$("#txtVisitsHistory").val();
+            $webroot= $("#webroot").val();
+            $form_apptstatus='>';
+            
+            $.post($webroot+"/library/appointments_search.php",
+            {
+              
+              csrf_token_form: "<?php echo attr(CsrfUtils::collectCsrfToken()); ?>",
+              search :$search,
+              form_apptstatus:$form_apptstatus,
+    
+            },
+            function(data) {
+    
+                $('#searchContent_visithistory').empty().append(data);
+            //    console.log(data);
+            });
+    
+            
+        }
+    });
+
+    // tasks
+
+    $("#txtTasks").keyup(function(event) {
+
+    
+        if (event.keyCode === 13) {
+            $search=$("#txtTasks").val();
+            $webroot= $("#webroot").val();
+           
+            
+            $.post($webroot+"/library/tasks_search.php",
+            {
+              
+              csrf_token_form: "<?php echo attr(CsrfUtils::collectCsrfToken()); ?>",
+              search :$search,
+              
+    
+            },
+            function(data) {
+    
+                $('#searchContent_tasks').empty().append(data);
+                console.log(data);
+           
+            });
+    
+            
+        }
+    });
+
+
+    
+});
+
+function getAppointments($search,$webroot,$form_apptstatus,$new_date){
+    $.post($webroot+"/library/appointments_search.php",
+        {
+          
+          csrf_token_form: "<?php echo attr(CsrfUtils::collectCsrfToken()); ?>",
+          search :$search,
+          form_apptstatus:$form_apptstatus,
+          new_date:$new_date,
+
+        },
+        function(data) {
+
+            $('#searchContent').empty().append(data);
+       
+        });
+}
+
+
+
+function serach() {
+    // preventDefault();
+    var x = $(this);
+    // var searchbox = $(this).nextElementSibling;
+    $(x).next().css("width", "100%");
+    console.log(x);
+    // $(x).css("width", "100%")
+    // $(this).next().css("width", "100%");
+}
+
+
+
+
+
+
+
+
+
+// --------------------vue---------------------
+
+Vue.component('window-dashboard', {
+    data: function () {
+        return {
+            count: 0,
+            showSearchBox: false,
+            fullscrn: false
+
+        }
+    },
+    props: [
+        'title'
+    ],
+
+    template: ` <div v-bind:class="['component',(fullscrn?'full-scrn':'')]" draggable="true" id="dragtarget1">
+    <div class="head-component">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="compo-head">
+                        <span class="spl-mouse"><img src="img/drag.svg" alt=""></span>
+                        <span v-on:click="fullscrn = !fullscrn"> <img src="img/min.svg" alt=""></span>
+                        <span v-on:click="showSearchBox = !showSearchBox"> <img src="img/search-white.svg" alt=""></span>
+                        <input type="text" v-bind:class="['component-search',(showSearchBox?'w-100':'')]">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <p class="text-white head-p" v-text="title"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-compo">
+     
+    <slot></slot>
+
+    </div>
+</div>`
+})
+new Vue({
+    el: '#app',
+
+    data: {
+        isActive: false,
+        width: false,
+        width2: false,
+        width3: false,
+        fullscrn: false
+    },
+
+    methods: {
+
+    }
+
+})

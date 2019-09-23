@@ -26,11 +26,24 @@ require_once("$srcdir/gprelations.inc.php");
 require_once "$srcdir/user.inc";
 require_once("$srcdir/MedEx/API.php");
 require_once "$srcdir/appointments.inc.php";
+include_once("$webroot/interface/new/new_injury_save.php");
+
+
 
 use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Common\Logging\EventAuditLogger;
 use OpenEMR\Core\Header;
 use OpenEMR\OeUI\OemrUI;
+
+// test
+$pid=1;
+
+if($pid){
+    $conset=sqlStatement("Select hipaa_voice,hipaa_mail,hipaa_allowsms,hipaa_allowemail,email_verified from patient_data where id=$pid");
+    $conset_data=sqlFetchArray($conset);
+}
+
+
 
 
 
@@ -401,111 +414,116 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                     </div>
                                     <div id="menu2" class="container tab-pane fade">
+                                        <form id="employee_conset" onsubmit="return  submit_conset();">
                                         <div class="pt-4 pb-5">
-                                            <div>
-                                                <div class="">
+                                                <div>
+                                                    <div class="">
 
-                                                    <div class="yes-no">
-                                                        <div class="pt-3">
-                                                            <p>Verbal Consent given for Telemedicine ?</p>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="form-check ">
-                                                                        <label class="form-check-label">
-                                                                            <input type="radio" class="form-check-input w-auto" name="optradio">yes
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6 text-right">
-                                                                    <div class="form-check">
-                                                                        <label class="form-check-label">
-                                                                            <input type="radio" class="form-check-input w-auto" name="optradio">No
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="pt-3">
-                                                            <p>Written Consent given for Telemedicine ?</p>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="form-check ">
-                                                                        <label class="form-check-label">
-                                                                                <input type="radio" class="form-check-input w-auto" name="optradio">yes
+                                                        <div class="yes-no">
+                                                            <div class="pt-3">
+                                                                <p>Verbal Consent given for Telemedicine ?</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-check ">
+                                                                            <label class="form-check-label">
+                                                                                <input type="radio" class="form-check-input w-auto" name="hipaa_voice" value="YES" <?php if(isset($conset_data['hipaa_voice']) && $conset_data['hipaa_voice']=='YES'){ echo "checked";}?> >yes
                                                                             </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6 text-right">
-                                                                    <div class="form-check">
-                                                                        <label class="form-check-label">
-                                                                                <input type="radio" class="form-check-input w-auto" name="optradio">No
+                                                                    <div class="col-6 text-right">
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label">
+                                                                                <input type="radio" class="form-check-input w-auto" name="hipaa_voice" value="NO" <?php if(isset($conset_data['hipaa_voice']) && $conset_data['hipaa_voice']=='NO'){ echo "checked";}?>>No
                                                                             </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="pt-3">
-                                                            <p>Okay to Leave a Message?</p>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="form-check ">
-                                                                        <label class="form-check-label">
-                                                                                    <input type="radio" class="form-check-input w-auto" name="optradio">yes
+                                                            <div class="pt-3">
+                                                                <p>Written Consent given for Telemedicine ?</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-check ">
+                                                                            <label class="form-check-label">
+                                                                                    <input type="radio" class="form-check-input w-auto" name="hipaa_mail" value="YES" <?php if(isset($conset_data['hipaa_mail']) && $conset_data['hipaa_mail']=='YES'){ echo "checked";}?>>yes
                                                                                 </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6 text-right">
-                                                                    <div class="form-check">
-                                                                        <label class="form-check-label">
-                                                                                    <input type="radio" class="form-check-input w-auto" name="optradio">No
+                                                                    <div class="col-6 text-right">
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label">
+                                                                                    <input type="radio" class="form-check-input w-auto" name="hipaa_mail" value="NO" <?php if(isset($conset_data['hipaa_mail']) && $conset_data['hipaa_mail']=='NO'){ echo "checked";}?>>No
                                                                                 </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="pt-3">
-                                                            <p>Okay to send E-Mail?</p>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="form-check ">
-                                                                        <label class="form-check-label">
-                                                                                        <input type="radio" class="form-check-input w-auto" name="optradio">yes
+                                                            <div class="pt-3">
+                                                                <p>Okay to Leave a Message?</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-check ">
+                                                                            <label class="form-check-label">
+                                                                                        <input type="radio" class="form-check-input w-auto" name="hipaa_allowsms" value="YES" <?php if(isset($conset_data['hipaa_allowsms']) && $conset_data['hipaa_allowsms']=='YES'){ echo "checked";}?>>yes
                                                                                     </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6 text-right">
-                                                                    <div class="form-check">
-                                                                        <label class="form-check-label">
-                                                                                        <input type="radio" class="form-check-input w-auto" name="optradio">No
+                                                                    <div class="col-6 text-right">
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label">
+                                                                                        <input type="radio" class="form-check-input w-auto" name="hipaa_allowsms" value="NO" <?php if(isset($conset_data['hipaa_allowsms']) && $conset_data['hipaa_allowsms']=='NO'){ echo "checked";}?>>No
                                                                                     </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="pt-3 pb-4">
-                                                            <p> E-Mail Verified</p>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="form-check ">
-                                                                        <label class="form-check-label">
-                                                                                            <input type="radio" class="form-check-input w-auto" name="optradio">yes
+                                                            <div class="pt-3">
+                                                                <p>Okay to send E-Mail?</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-check ">
+                                                                            <label class="form-check-label">
+                                                                                            <input type="radio" class="form-check-input w-auto" name="hipaa_allowemail" value="YES" <?php if(isset($conset_data['hipaa_allowemail']) && $conset_data['hipaa_allowemail']=='YES'){ echo "checked";}?>>yes
                                                                                         </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6 text-right">
-                                                                    <div class="form-check">
-                                                                        <label class="form-check-label">
-                                                                                            <input type="radio" class="form-check-input w-auto" name="optradio">No
+                                                                    <div class="col-6 text-right">
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label">
+                                                                                            <input type="radio" class="form-check-input w-auto" name="hipaa_allowemail" value="NO" <?php if(isset($conset_data['hipaa_allowemail']) && $conset_data['hipaa_allowemail']=='NO'){ echo "checked";}?>>No
                                                                                         </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="pt-3 pb-4">
+                                                                <p> E-Mail Verified</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-check ">
+                                                                            <label class="form-check-label">
+                                                                                                <input type="radio" class="form-check-input w-auto" name="email_verified" value="YES" <?php if(isset($conset_data['email_verified']) && $conset_data['email_verified']=='YES'){ echo "checked";}?>>yes
+                                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6 text-right">
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label">
+                                                                                                <input type="radio" class="form-check-input w-auto" name="email_verified" value="NO" <?php if(isset($conset_data['email_verified']) && $conset_data['email_verified']=='NO'){ echo "checked";}?>>No
+                                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <input type="hidden" value="1" name="conset_insert">
+                                                            <input type="hidden" value="<?php echo $pid?>" name="pid">
+                                                            <button class="form-save " type="submit">Save</button>
                                                         </div>
-                                                        <button class="form-save ">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -517,321 +535,31 @@ if (!empty($_REQUEST['go'])) { ?>
 
     <!--end of container div-->
     <?php $oemr_ui->oeBelowContainerDiv();?>
-    <?php
-    //home of the help modal ;)
-    //$GLOBALS['enable_help'] = 0; // Please comment out line if you want help modal to function on this page
-    if ($GLOBALS['enable_help'] == 1) {
-        echo "<script>var helpFile = 'message_center_help.php'</script>";
-        //help_modal.php lives in interface, set path accordingly
-        require "../help_modal.php";
-    }
-    ?>
-    <script language="javascript">
-    var collectvalidation = <?php echo $collectthis; ?> ;
+   
+<script>
 
-    $(function() {
-        $("#reminders-div").hide();
-        $("#recalls-div").hide();
-        $("#sms-div").hide();
-        $("#messages-li").click(function() {
-            $("#messages-div").show(250);
-            $("#reminders-div").hide(250);
-            $("#recalls-div").hide(250);
-            $("#sms-div").hide(250);
-            $("#li-mess").addClass("active");
-            $("#li-remi").removeClass("active");
-            $("#li-reca").removeClass("active");
-            $("#li-sms").removeClass("active");
-
-        });
-        $("#reminders-li").click(function() {
-            $("#messages-div").hide(250);
-            $("#reminders-div").show(250);
-            $("#recalls-div").hide(250);
-            $("#sms-div").hide(250);
-            $("#li-remi").addClass("active");
-            $("#li-mess").removeClass("active");
-            $("#li-reca").removeClass("active");
-            $("#li-sms").removeClass("active");
-        });
-        $("#recalls-li").click(function() {
-            $("#messages-div").hide(250);
-            $("#reminders-div").hide(250);
-            $("#recalls-div").show(250);
-            $("#sms-div").hide(250);
-            $("#li-remi").removeClass("active");
-            $("#li-mess").removeClass("active");
-            $("#li-reca").addClass("active");
-            $("#li-sms").removeClass("active");
-        });
-        $("#sms-li").click(function() {
-            $("#messages-div").hide(250);
-            $("#reminders-div").hide(250);
-            $("#recalls-div").hide(250);
-            $("#sms-div").show(250);
-            $("#li-remi").removeClass("active");
-            $("#li-mess").removeClass("active");
-            $("#li-reca").removeClass("active");
-            $("#li-sms").addClass("active");
-        });
+function submit_conset(){
 
 
 
-    });
-    $(function() {
-        $("ul.navbar-nav").children().click(function() {
-            $(".collapse").collapse('hide');
-        });
-    });
-    $(function() {
-        //for jquery tooltip to function if jquery 1.12.1.js is called via jquery-ui in the Header::setupHeader
-        // the relevant css file needs to be called i.e. jquery-ui-darkness
-        $('#see-all-tooltip').attr("title", "<?php echo xla('Click to show messages for all users'); ?>");
-        $('#see-all-tooltip').tooltip();
-        $('#just-mine-tooltip').attr("title",
-            "<?php echo xla('Click to show messages for only the current user'); ?>");
-        $('#just-mine-tooltip').tooltip();
-    });
-    $(function() {
-        var f = $("#smsForm");
-        $("#SMS_patient").autocomplete({
-            source: "save.php?go=sms_search",
-            minLength: 2,
-            select: function(event, ui) {
-                event.preventDefault();
-                $("#SMS_patient").val(ui.item.label + ' ' + ui.item.mobile);
-                $("#sms_pid").val(ui.item.pid);
-                $("#sms_mobile").val(ui.item.mobile);
-                $("#sms_allow").val(ui.item.allow);
-            }
-        });
-    });
-    jQuery.ui.autocomplete.prototype._resizeMenu = function() {
-        var ul = this.menu.element;
-        ul.outerWidth(this.element.outerWidth());
-    };
-    $(function() {
-        $("#newnote").click(function(event) {
-            NewNote(event);
-        });
-        $("#printnote").click(function() {
-            PrintNote();
-        });
-        var obj = $("#form_message_status");
-        obj.onchange = function() {
-            SaveNote();
-        };
-        $("#cancel").click(function() {
-            CancelNote();
-        });
-        $("#note").focus();
+    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
 
-        //clear button in messages
-        $("#clear_user").click(function() {
-            $("#assigned_to_text").val("<?php echo xls('Select Users From The Dropdown List'); ?>");
-            $("#assigned_to").val("");
-            $("#users").val("--");
-        });
 
-        //clear inputs of patients
-        $("#clear_patients").click(function() {
-            $("#reply_to").val("");
-            $("#form_patient").val("");
-        });
-    });
-
-    var NewNote = function(event) {
-        top.restoreSession();
-        if (document.getElementById("form_message_status").value !== 'Done') {
-            collectvalidation.assigned_to = {
-                presence: {
-                    message: "<?php echo xls('Recipient required unless status is Done'); ?>"
-                }
-            }
-        } else {
-            delete collectvalidation.assigned_to;
+    $.ajax({
+        type: 'POST',
+        url: $webroot+"/interface/new/new_injury_save.php",
+        data: $('#employee_conset').serialize(),   
+        success: function(data){
+        alert(data);
+        console.log(data);
+        
         }
-
-        $('#newnote').attr('disabled', true);
-
-        var submit = submitme(1, event, 'new_note', collectvalidation);
-        if (!submit) {
-            $('#newnote').attr('disabled', false);
-        } else {
-            $("#new_note").submit();
-        }
-    };
-    var PrintNote = function() {
-        top.restoreSession();
-        window.open('../../patient_file/summary/pnotes_print.php?noteid=' + <?php echo js_url($noteid); ?> ,
-            '_blank', 'resizable=1,scrollbars=1,width=600,height=500');
-    };
-
-    var SaveNote = function() {
-        <?php
-        if ($noteid) {
-            ?>
-            top.restoreSession();
-            $("#task").val("save");
-            $("#new_note").submit(); 
-            <?php
-        } ?>
-    };
-
-    var CancelNote = function() {
-        top.restoreSession();
-        $("#task").val("");
-        $("#new_note").submit();
-    };
-
-    function gotoReport(doc_id, pname, pid, pubpid, str_dob) {
-        EncounterDateArray = [];
-        CalendarCategoryArray = [];
-        EncounterIdArray = [];
-        Count = 0; 
-        <?php
-        if (isset($enc_list) && sqlNumRows($enc_list) > 0) {
-            while ($row = sqlFetchArray($enc_list)) {
-                ?>
-                EncounterIdArray[Count] = '<?php echo attr($row['encounter ']); ?>';
-                EncounterDateArray[Count] = '<?php echo attr(oeFormatShortDate(date("Y-m-d", strtotime($row['date '])))); ?>';
-                CalendarCategoryArray[Count] = '<?php echo attr(xl_appt_category($row['pc_catname '])); ?>';
-                Count++; 
-                <?php
-            }
-        } 
-        ?>
-        top.restoreSession();
-        $.ajax({
-            type: 'get',
-            url: '<?php echo $GLOBALS['
-            webroot '] . "/library/ajax/set_pt.php";?>',
-            data: {
-                set_pid: pid,
-                csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
-            },
-            async: false
-        });
-        parent.left_nav.setPatient(pname, pid, pubpid, '', str_dob);
-        parent.left_nav.setPatientEncounter(EncounterIdArray, EncounterDateArray, CalendarCategoryArray); 
-        <?php
-        if ($GLOBALS['new_tabs_layout']) {
-            ?>
-            var docurl = '../controller.php?document&view' + "&patient_id=" + encodeURIComponent(pid) +
-                "&document_id=" + encodeURIComponent(doc_id) + "&";
-            var paturl = 'patient_file/summary/demographics.php?pid=' + encodeURIComponent(pid);
-            parent.left_nav.loadFrame('dem1', 'pat', paturl);
-            parent.left_nav.loadFrame('doc0', 'enc', docurl);
-            top.activateTabByName('enc', true); 
-            <?php
-        } else {
-            ?>
-            var docurl = '<?php  echo $GLOBALS['
-            webroot '] . "/controller.php?document&view"; ?>' + "&patient_id=" + encodeURIComponent(pid) +
-                "&document_id=" + encodeURIComponent(doc_id) + "&";
-            var paturl = '<?php  echo $GLOBALS['
-            webroot '] . "/interface/patient_file/summary/demographics.php?pid="; ?>' + encodeURIComponent(pid);
-            var othername = (window.name === 'RTop') ? 'RBot' : 'RTop';
-            parent.frames[othername].location.href = paturl;
-            location.href = docurl; 
-            <?php
-        } ?>
-    }
-
-    // This is for callback by the find-patient popup.
-    function setpatient(pid, lname, fname, dob) {
-        var f = document.getElementById('new_note');
-        f.form_patient.value += lname + ', ' + fname + '; ';
-        f.reply_to.value += pid + ';'; 
-        <?php
-        if ($noteid) {
-            ?>
-            //used when direct messaging service inserts a pnote with indeterminate patient
-            //to allow the user to assign the message to a patient.
-            top.restoreSession();
-            $("#task").val("savePatient");
-            $("#new_note").submit(); 
-            <?php
-        } ?>
-    }
-
-    // This is for callback by the multi_patients_finder popup.
-    function setMultiPatients(patientsList) {
-        var f = document.getElementById('new_note');
-        f.form_patient.value = '';
-        f.reply_to.value = '';
-        $.each(patientsList, function(key, patient) {
-                f.form_patient.value += patient.lname + ', ' + patient.fname + '; ';
-                f.reply_to.value += patient.pid + ';';
-            })
-
-            <?php
-        if ($noteid) {
-            ?>
-            //used when direct messaging service inserts a pnote with indeterminate patient
-            //to allow the user to assign the message to a patient.
-            top.restoreSession();
-            $("#task").val("savePatient");
-            $("#new_note").submit(); 
-            <?php
-        } ?>
-    }
-
-    // This invokes the find-patient popup.
-    function sel_patient() {
-        dlgopen('../../main/calendar/find_patient_popup.php', '_blank', 625, 400);
-    }
-
-    function multi_sel_patient() {
-        $('#reply_to').trigger('click');
-        var url = '../../main/finder/multi_patients_finder.php'
-        // for edit selected list
-        if ($('#reply_to').val() !== '') {
-            url = url + '?patients=' + $('#reply_to').val() +
-                '&csrf_token_form=<?php echo attr_url(CsrfUtils::collectCsrfToken()); ?>';
-        }
-        dlgopen(url, '_blank', 625, 400);
-    }
-
-    function addtolist(sel) {
-        $('#assigned_to').trigger("click");
-        var itemtext = document.getElementById('assigned_to_text');
-        var item = document.getElementById('assigned_to');
-        if (sel.value !== '--') {
-            if (item.value) {
-                if (item.value.indexOf(sel.value) === -1) {
-                    itemtext.value = itemtext.value + ' ; ' + sel.options[sel.selectedIndex].text;
-                    item.value = item.value + ';' + sel.value;
-                }
-            } else {
-                itemtext.value = sel.options[sel.selectedIndex].text;
-                item.value = sel.value;
-            }
-        }
-    }
-
-    function SMS_direct() {
-        var pid = $("#sms_pid").val();
-        var m = $("#sms_mobile").val();
-        var allow = $("#sms_allow").val();
-        if ((pid === '') || (m === '')) {
-            alert('<?php echo xls("MedEx needs a valid mobile number to send SMS messages..."); ?>');
-        } else if (allow === 'NO') {
-            alert('<?php echo xls("This patient does not allow SMS messaging!"); ?>');
-        } else {
-            top.restoreSession();
-            window.open('messages.php?nomenu=1&go=SMS_bot&pid=' + encodeURIComponent(pid) + '&m=' + encodeURIComponent(
-                m), 'SMS_bot', 'width=370,height=600,resizable=0');
-        }
-    }
-    </script>
-    <script>
-    var area = document.querySelector('.zoomable')
-    panzoom(area, {
-        maxZoom: 3.5,
-        minZoom: .5
     });
-    </script>
+
+}
+
+</script>
+
     </body>
     <?php
 }

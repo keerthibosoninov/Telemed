@@ -281,7 +281,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-check "><label class="form-check-label fs-14 
-                                                                "><input type="checkbox" onclick="getEmployerLocation(<?php echo $pid;?>);" name="optradio" class="form-check-input w-auto">Same as Employer location
+                                                                "><input type="checkbox" id="emp_location_check" onclick="getEmployerLocation(<?php echo $pid;?>);" name="optradio" class="form-check-input w-auto">Same as Employer location
                                                             </label></div>
                                                     </div>
 
@@ -1223,9 +1223,11 @@ if (!empty($_REQUEST['go'])) { ?>
         
 
         $webroot=  "<?php echo $GLOBALS['webroot'];?>";
-    
 
-        $.post($webroot+"/interface/new/new_injury_save.php",
+// alert($('#emp_location_check').prop("checked"));
+        if($('#emp_location_check').prop("checked") == true){
+            
+            $.post($webroot+"/interface/new/new_injury_save.php",
             {
                 location: "loc",
                 pid:$pid,
@@ -1239,6 +1241,16 @@ if (!empty($_REQUEST['go'])) { ?>
               $('#emp_zip').val($arr['postal_code']);
               $('#emp_city').val($arr['city']);
             });
+        }else{
+            $('#emp_address').val("");
+              $('#emp_state').val('');
+              $('#emp_country').val('');
+              $('#emp_zip').val('');
+              $('#emp_city').val('');
+        }
+    
+
+        
 
     }
 

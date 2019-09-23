@@ -118,6 +118,42 @@ if ($_POST['location'] && $_POST['location']=='loc') {
 
 
 
+// conset
+
+if ($_POST['conset_insert'] && $_POST['conset_insert']=='1') {
+
+  
+  $pid = $_POST["pid"];
+  $hipaa_voice =$_POST["hipaa_voice"];
+  $hipaa_mail = $_POST["hipaa_mail"];
+  $hipaa_allowsms = $_POST["hipaa_allowsms"];
+  $hipaa_allowemail = $_POST["hipaa_allowemail"];
+  $email_verified = $_POST["email_verified"];
+  
+
+
+   sqlStatement("update patient_data  set
+     
+      hipaa_voice='" . add_escape_custom($hipaa_voice) . "',
+      hipaa_mail='" . add_escape_custom($hipaa_mail) . "',
+      hipaa_allowsms='" . add_escape_custom($hipaa_allowsms) . "',
+      hipaa_allowemail='" . add_escape_custom($hipaa_allowemail) . "',
+      email_verified='" . add_escape_custom($email_verified) . "'
+      where id=$pid
+      ");
+ 
+}
+
+function getPatientData_conset($pid){
+
+  $conset=sqlStatement("Select hipaa_voice,hipaa_mail,hipaa_allowsms,hipaa_allowemail,email_verified from patient_data where id=$pid");
+   $row=sqlFetchArray($conset);
+
+  return $row;
+
+}
+
+
 
 
 
