@@ -48,7 +48,7 @@ $bigdata = getRegistered("%") or $bigdata = false;
 ?>
 <html>
 <head>
-<link rel="stylesheet" href="<?php echo $css_header;?>" type="text/css">
+<!-- <link rel="stylesheet" href="<?php echo $css_header;?>" type="text/css"> -->
 </head>
 <body class="body_top">
 <span class="title"><?php echo xlt('Forms Administration');?></span>

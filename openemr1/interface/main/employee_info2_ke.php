@@ -119,8 +119,7 @@ if($pid){
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-
+  
 
 
     <?php
@@ -217,20 +216,19 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                <div id="home" class="container tab-pane active">
-                                        <form id="home_demographics" onsubmit="submit_demographics();">
+                                    <div id="home" class="container tab-pane active">
                                         <div class="form-inputs">
                                             <div class="pt-5">
                                                 <p>Name</p>
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <input name="fname" type="text" class="form-control" placeholder="First Name">
+                                                        <input type="text" class="form-control" placeholder="First Name">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input name="mname" type="text" class="form-control" placeholder="Middle Name">
+                                                        <input type="text" class="form-control" placeholder="Middle Name">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input name="lname" type="text" class="form-control" placeholder="Last Name">
+                                                        <input type="text" class="form-control" placeholder="Last Name">
                                                     </div>
                                                 </div>
                                             </div>
@@ -239,7 +237,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <p>Gender</p>
-                                                        <select name="gender" id="" class="form-control mt-2">
+                                                        <select name="" id="" class="form-control mt-2">
                                                             <option value="">male</option>
                                                             <option value="">Female</option>
                                                             <option value="">Other</option>
@@ -248,23 +246,23 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                     <div class="col-md-2">
                                                         <p>DOB</p>
-                                                        <input type="date" name="dob" class="form-control pr-1 pl-1" placeholder="">
+                                                        <input type="date" class="form-control pr-1 pl-1" placeholder="">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <p>Phone</p>
-                                                        <input type="number" name="phone" class="form-control " placeholder="Number">
+                                                        <input type="text" class="form-control " placeholder="Number">
                                                     </div>
                                                     <div class="col-md-3">
                                                         <p>Type</p>
-                                                        <select name="type" id="" class="form-control mt-2">
-                                                                <option value="Value 1">Value 1</option>
-                                                                <option value="Value 2">value 2</option>
-                                                                <option value="Value 3">Value 3</option>
+                                                        <select name="" id="" class="form-control mt-2">
+                                                                <option value="">Value 1</option>
+                                                                <option value="">value 2</option>
+                                                                <option value="">Value 3</option>
                                                             </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <p>Social Security No.</p>
-                                                        <input type="text" name="ss_no" class="form-control" placeholder="Social Security No">
+                                                        <input type="text" class="form-control" placeholder="email">
                                                     </div>
                                                 </div>
                                             </div>
@@ -272,7 +270,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <p> Email</p>
-                                                        <input type="email" name="emailid" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,7 +278,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <p>Address</p>
-                                                        <textarea name="address" id="" class="form-control" rows="4"></textarea>
+                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -289,34 +287,24 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <p>City</p>
-                                                        <input type="text" name="city" class="form-control" placeholder="City">
+                                                        <input type="text" class="form-control" placeholder="City">
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <p>State</p>
-                                                        <select name="state" class="form-control mt-2">
-                                                        <?php
-                                                            $body = sqlStatement("SELECT option_id, title FROM list_options " .
-                                                            "WHERE list_id = 'state' AND activity = 1 ORDER BY seq");
-                                                            while ($orow = sqlFetchArray($body)) {
-                                                                echo "    <option value='" . attr($orow['option_id']) . "'";
-                                                                if ($orow['option_id'] == $form_title) {
-                                                                    echo " selected";
-                                                                }
-
-                                                                echo ">" . text($orow['title']) . "</option>\n";
-                                                            }
-                                                          
-                                                        ?>
+                                                        <select name="" id="" class="form-control mt-2">
+                                                            <option value="">Value 1</option>
+                                                            <option value="">value 2</option>
+                                                            <option value="">Value 3</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <p>Zip</p>
-                                                        <input type="text" name="zip" class="form-control" placeholder="Zip">
+                                                        <input type="text" class="form-control" placeholder="Zip">
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <p>Country</p>
-                                                        <input type="text" name="country" class="form-control" placeholder="Country">
+                                                        <p>County</p>
+                                                        <input type="text" class="form-control" placeholder="County">
                                                     </div>
                                                 </div>
                                             </div>
@@ -325,21 +313,21 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-md-3 doubt">
                                                         <p>Job Title</p>
-                                                        <input type="text" name="job" class="form-control" placeholder="Job Title">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/doubt.svg" class="doubt-img" alt="">
+                                                        <input type="text" class="form-control" placeholder="Job Title">
+                                                        <img src="img/doubt.svg" class="doubt-img" alt="">
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <p>Employment Status</p>
-                                                        <input type="text" name="employ_status" class="form-control" placeholder="Employment Status">
+                                                        <input type="text" class="form-control" placeholder="Employment Status">
                                                     </div>
                                                     <div class="col-md-3">
                                                         <p>Department</p>
-                                                        <input type="text" name="dept" class="form-control" placeholder="Department">
+                                                        <input type="text" class="form-control" placeholder="Department">
                                                     </div>
                                                     <div class="col-md-3">
                                                         <p>Date of Hire</p>
-                                                        <input type="date" name="date_hire" class="form-control pr-1 pl-1" placeholder="">
+                                                        <input type="text" class="form-control" placeholder="Date of Hire">
                                                     </div>
                                                 </div>
                                             </div>
@@ -352,22 +340,20 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
 
                                                     <div class="col-md-3 add-more">
-                                                        <select name="send_link" id="" class="form-control mt-2">
-                                                            <option value="Email">Email</option>
-                                                            <option value="value 2">value 2</option>
-                                                            <option value="Value 3">Value 3</option>
+                                                        <select name="" id="" class="form-control mt-2">
+                                                            <option value="">Email</option>
+                                                            <option value="">value 2</option>
+                                                            <option value="">Value 3</option>
                                                         </select>
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" class="addmore-img" v-on:click="showMailBox = !showMailBox" alt="">
+                                                        <img src="img/addmore.svg" class="addmore-img" v-on:click="showMailBox = !showMailBox" alt="">
                                                     </div>
                                                     <div class="col-md-3 mail-hide">
-                                                        <input type="text" name="send_link_id" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                     <div class="col-md-2 p-0 mail-hide">
-                                                        <div class="form-check ">
-                                                            <label class="form-check-label fs-10 lh-25 pt-3">
-                                                            <input type="checkbox" name="optradio" class="form-check-input w-auto">Add this ID to mailing list
-                                                        </label>
-                                                    </div>
+                                                        <div class="form-check "><label class="form-check-label fs-10 lh-25 pt-3
+                                                            "><input type="checkbox" name="optradio" class="form-check-input w-auto">Add this ID to mailing list
+                                                        </label></div>
                                                     </div>
                                                     <div class="col-md-2 pt-2">
                                                         <button class="form-save">Send</button>
@@ -378,16 +364,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-4 pb-5">
                                                 <button class="form-save">Save</button>
                                             </div>
-                                            <!-- <input type="hidden" class="patient_id" name="patient_id"> -->
-
-                                            <?php 
-                                            // echo $_SESSION["pid"];
-                                            ?>
                                         </div>
-                                        </form>     
-                                    </div>
 
-                                    <!-- //demographics -->
+                                    </div>
                                     <div id="menu1" class="container tab-pane fade">
                                         <div class="pt-4 pb-4">
                                             <div class="table-div">
@@ -398,45 +377,37 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         <th>Relation</th>
                                                         <th>Contact Info</th>
                                                         <th>ROI</th>
-                                                        <th>
-                                                            <!-- <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" alt=""> -->
-                                                        </th>
+                                                        <th><img src="img/delete.svg" alt=""></th>
                                                     </tr>
-
-                                                    <?php 
-                                                    $pid=$_SESSION["pid"];     
-                                                    $i=1;   
-                                                    // $pid=1;
-                                                    if(!$pid)  {
-                                                         $pid=1;
-                                                    }                                       
-                                                    $lres=sqlStatement("Select * from patient_authorization where deleted=0 and pid=$pid");
-                                                    // $lrow = sqlFetchArray($lres);
-                                                    if(isset($lres))
-                                                    {
-                                                    while($lrow = sqlFetchArray($lres)){                                                                                                           
-                                                        
-                                                    // var_dump($lrow);
-                                                    ?>
                                                     <tr>
-                                                        <td><?= $i++ ?></td>
-                                                        <td><?= $lrow['author_name'] ?></td>
-                                                        <td><?= $lrow['relation'] ?></td>
-                                                        <td><?= $lrow['contact_no'] ?></td>
-                                                        <td><?= $lrow['roi'] ?></td>
-                                                        <th><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" alt=""></th>
+                                                        <td>2345</td>
+                                                        <td>Sasuke Uchiha</td>
+                                                        <td>Friend</td>
+                                                        <td>(213)999-6666</td>
+                                                        <td>n/a</td>
+                                                        <th><img src="img/delete.svg" alt=""></th>
                                                     </tr>
-                                                    <?php    
-                                                    }                                                    
-                                                    }
-                                                    ?>
-
-                                                   
+                                                    <tr>
+                                                        <td>2345</td>
+                                                        <td>Sasuke Uchiha</td>
+                                                        <td>Friend</td>
+                                                        <td>(213)999-6666</td>
+                                                        <td>n/a</td>
+                                                        <th><img src="img/delete.svg" alt=""></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2345</td>
+                                                        <td>Sasuke Uchiha</td>
+                                                        <td>Friend</td>
+                                                        <td>(213)999-6666</td>
+                                                        <td>n/a</td>
+                                                        <th><img src="img/delete.svg" alt=""></th>
+                                                    </tr>
                                                 </table>
                                             </div>
                                             <div>
                                                 <div class="text-center">
-                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" alt="" v-on:click="addData = !addData" class="class-hide">
+                                                    <img src="img/addmore.svg" alt="" v-on:click="addData = !addData" class="class-hide">
                                                 </div>
                                                 <div class="text-center">
                                                     <p class="fs-14">Add New</p>
@@ -444,29 +415,23 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                             <div>
                                                 <div class="container-fluid">
-                                                <form id="authorization" onsubmit="return  submit_authorization();">
                                                     <div v-bind:class="['row',(addData?'d-none':'')]">
                                                         <div class="col-md-3">
-                                                            <input type="text" name="auth_name" class="form-control" placeholder="name">
+                                                            <input type="text" class="form-control" placeholder="name">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <input type="text" name="relation" class="form-control" placeholder="Relation">
+                                                            <input type="text" class="form-control" placeholder="Relation">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <input type="number" name="contact_no" class="form-control" placeholder="Contact No.">
+                                                            <input type="text" class="form-control" placeholder="Contact No.">
                                                         </div>
                                                         <div class="col-md-3 pt-2">
-                                                            <Select name="roi" class="form-control">
-                                                            <option value="n/a">ROI</option>
+                                                            <Select class="form-control">
+                                                            <option value="">ROI</option>
                                                         </Select>
                                                         </div>
-                                                            
 
                                                     </div>
-                                                    <div class="pt-4 pb-5">
-                                                <button class="form-save">Save</button>
-                                            </div>
-                                                        </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -617,49 +582,6 @@ if (!empty($_REQUEST['go'])) { ?>
 
 // }
 
-
-</script>
-
-   
-<script>
-
-function submit_demographics(){
-
-
-
-    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
-
-
-    $.ajax({
-        type: 'POST',
-        url: $webroot+"/interface/new/new_demographics_save.php",
-        data: $('#home_demographics').serialize(),   
-        success: function(data){
-        // alert(data);
-        // console.log(data);       
-        }
-    });
-
-}
-
-function submit_authorization(){
-
-
-
-$webroot=  "<?php echo $GLOBALS['webroot'];?>";
-
-
-$.ajax({
-    type: 'POST',
-    url: $webroot+"/interface/new/new_demographics_save.php",
-    data: $('#authorization').serialize(),   
-    success: function(data){
-    // alert(data);
-    // console.log(data);       
-    }
-});
-
-}
 
 </script>
 

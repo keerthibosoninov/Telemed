@@ -477,7 +477,7 @@ $tinylogocode2 = "<img class='tinylogopng' src='" . $GLOBALS['OE_SITE_WEBROOT'] 
 
 $GLOBALS['style']['BGCOLOR1'] = "#cccccc";
 // The height in pixels of the Title bar:
-$GLOBALS['titleBarHeight'] = 68;
+$GLOBALS['titleBarHeight'] = 65;
 
 // The assistant word, MORE printed next to titles that can be clicked:
 //   Note this label gets translated here via the xl function

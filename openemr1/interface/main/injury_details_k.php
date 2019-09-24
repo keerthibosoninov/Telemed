@@ -450,7 +450,7 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                     </div>
                                     <div id="menu1" class="container tab-pane fade">
-                                        <form method='post' name='my_form' action="<?php echo $rootdir?>/forms/treatment_plan/save.php">
+                                    <form method='post' name='my_form' action="<?php echo $rootdir?>/forms/treatment_plan/save.php">
                                         <!-- <form name="treatment" id="treatment" onsubmit="submit_treatment();"> -->
                                             <div class="pt-4 pb-4">
                                                 <div class="pt-5">
@@ -592,7 +592,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                         <p>Total No. of Orders</p>
                                                                     </div>
                                                                     <div class="col-6">
-                                                                        <input type="text" class="form-control" value="" name="total_order" required>
+                                                                        <input type="text" class="form-control" value="" name="total_orders">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -600,7 +600,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                         <p>Total No. of Visits</p>
                                                                     </div>
                                                                     <div class="col-6">
-                                                                        <input type="text" class="form-control" value="" name="total_visit" required>
+                                                                        <input type="text" class="form-control" value="" name="total_visits">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -627,60 +627,35 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </form>
                                     </div>
                                     <div id="menu2" class="container tab-pane fade">
-                                         <form id="employer_info" onsubmit="return  submit_employer();">
                                         <div class="pt-4 pb-5">
                                             <div>
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <p>Company Name</p>
-                                                        <input type="text" name="cname" class="form-control" placeholder="">
+                                                        <input type="text" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <p>Employer ID </p>
-                                                        <input type="text" name="emp_id" class="form-control" placeholder="">
+                                                        <input type="text" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <p>Address</p>
-                                                        <textarea name="address" class="form-control mt-3" rows="4"></textarea>
+                                                        <textarea name="" id="" class="form-control mt-3" rows="4"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <p>City</p> <input type="text" placeholder="City" name="city" class="form-control"></div>
-                                                    <!-- <div class="col-md-3">
-                                                        <p>State</p>
-                                                         <select name="" id="state" class="form-control mt-2">
-                                                             <option value="">Value 1</option>
-                                                         <option value="">value 2</option>
-                                                          <option value="">Value 3</option>
-                                                        </select>
-                                                    </div> -->
+                                                        <p>City</p> <input type="text" placeholder="City" class="form-control"></div>
                                                     <div class="col-md-3">
-                                                        <p>State</p>
-                                                        <select name="emp_state" class="form-control mt-2">
-                                                        <?php
-                                                            $body = sqlStatement("SELECT option_id, title FROM list_options " .
-                                                            "WHERE list_id = 'state' AND activity = 1 ORDER BY seq");
-                                                            while ($orow = sqlFetchArray($body)) {
-                                                                echo "    <option value='" . attr($orow['option_id']) . "'";
-                                                                if ($orow['option_id'] == $form_title) {
-                                                                    echo " selected";
-                                                                }
-
-                                                                echo ">" . text($orow['title']) . "</option>\n";
-                                                            }
-                                                          
-                                                        ?>
-                                                        </select>
-                                                    </div>
+                                                        <p>State</p> <select name="" id="" class="form-control mt-2"><option value="">Value 1</option> <option value="">value 2</option> <option value="">Value 3</option></select></div>
                                                     <div class="col-md-3">
-                                                        <p>Zip</p> <input type="text" name="zip" placeholder="Zip" class="form-control"></div>
+                                                        <p>Zip</p> <input type="text" placeholder="Zip" class="form-control"></div>
                                                     <div class="col-md-3">
-                                                        <p>County</p> <input type="text" name="county" placeholder="County" class="form-control"></div>
+                                                        <p>County</p> <input type="text" placeholder="County" class="form-control"></div>
                                                 </div>
                                                 <div class="pt-3">
                                                     <p>Employer Authorization</p>
@@ -688,57 +663,50 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         <div class="col-md-4">
 
                                                             <p>Supervisor</p>
-                                                            <input type="text" name="super[]" class="form-control">
-                                                           
+                                                            <input type="text" class="form-control">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <p>Name</p>
-                                                            <input type="text" name="s_name[]" class="form-control">
+                                                            <input type="text" class="form-control">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <p>E-Mail ID</p>
-                                                            <input type="text" name="s_emailid[]" class="form-control">
+                                                            <input type="text" class="form-control">
                                                         </div>
                                                         <div class="col-md-4">
 
                                                             <p>Manager</p>
-                                                            <input type="text" name="manager[]" class="form-control">
+                                                            <input type="text" class="form-control">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <p>Name</p>
-                                                            <input type="text" name="m_name[]" class="form-control">
+                                                            <input type="text" class="form-control">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <p>Phone No.</p>
-                                                            <input type="text" name="m_phone[]" class="form-control">
+                                                            <input type="text" class="form-control">
                                                         </div>
-                                                        <input type="hidden" name="pid" value="1">
                                                     </div>
                                                     <div id="TextBoxContainer5" class="repeat-row"></div>
                                                     <div class="text-center p-3"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="btnemp" alt=""></div>
                                                 </div>
                                             </div>
                                             <div class="pt-4 pb-5">
-                                                <button id="employer_save" type="submit" class="form-save">Save</button>
+                                                <button class="form-save">Save</button>
                                             </div>
                                         </div>
-                                         </form>
                                     </div>
-                                   
-                                     <!-- //employer detail -->
-                                     <!-- claim_info -->
                                     <div id="menu3" class="container tab-pane fade">
-                                        <form id="claim_info" onsubmit="return  submit_claim_info();">
                                         <div>
                                             <div>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <p>II Number</p>
-                                                        <input name="ii_no" type="text" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <p>Claim Number</p>
-                                                        <input name="claim_no" type="text" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -747,11 +715,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pt-2">
                                                     <div class="col-md-4">
                                                         <p>First Name</p>
-                                                        <input name="adjuster_fname[]" type="text" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <p>last Name</p>
-                                                        <input name="adjuster_lname[]" type="text" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div id="TextBoxContainer6">
@@ -768,7 +736,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pt-2">
                                                     <div class="col-md-12">
                                                         <p>Address </p>
-                                                        <textarea name="address" id="" class="form-control pt-3" rows="4"></textarea>
+                                                        <textarea name="" id="" class="form-control pt-3" rows="4"></textarea>
                                                     </div>
 
                                                 </div>
@@ -776,40 +744,24 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-4">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <p>City</p> <input type="text" name="city" placeholder="City" class="form-control"></div>
+                                                        <p>City</p> <input type="text" placeholder="City" class="form-control"></div>
                                                     <div class="col-md-3">
-                                                        <p>State</p> 
-                                                        <select name="state" class="form-control mt-2">
-                                                        <?php
-                                                            $body = sqlStatement("SELECT option_id, title FROM list_options " .
-                                                            "WHERE list_id = 'state' AND activity = 1 ORDER BY seq");
-                                                            while ($orow = sqlFetchArray($body)) {
-                                                                echo "    <option value='" . attr($orow['option_id']) . "'";
-                                                                if ($orow['option_id'] == $form_title) {
-                                                                    echo " selected";
-                                                                }
-
-                                                                echo ">" . text($orow['title']) . "</option>\n";
-                                                            }
-                                                          
-                                                        ?>
-                                                        </select>
-                                                    </div>
+                                                        <p>State</p> <select name="" id="" class="form-control mt-2"><option value="">Value 1</option> <option value="">value 2</option> <option value="">Value 3</option></select></div>
                                                     <div class="col-md-3">
-                                                        <p>Zip</p> <input type="text" name="zip" placeholder="Zip" class="form-control"></div>
+                                                        <p>Zip</p> <input type="text" placeholder="Zip" class="form-control"></div>
                                                     <div class="col-md-3">
-                                                        <p>County</p> <input type="text" name="country" placeholder="County" class="form-control"></div>
+                                                        <p>County</p> <input type="text" placeholder="County" class="form-control"></div>
                                                 </div>
                                             </div>
                                             <div class="pt-4">
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <p>Phone</p>
-                                                        <input type="text" name="phone" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <p>Fax</p>
-                                                        <input type="text" name="fax" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -819,7 +771,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <p>E-Mail</p>
-                                                        <input type="text" name="emailid" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
 
                                                 </div>
@@ -828,11 +780,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <p>Tax ID</p>
-                                                        <input type="text" name="taxid" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <p>Policy No.</p>
-                                                        <input type="text" name="policy_no" class="form-control">
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -840,17 +792,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4 relative">
                                                         <p>Insurance Expiry Date</p>
-                                                        <input type="date" placeholder="First Name" name="exp_date" class="form-control"> <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" alt="" class="date-time"></div>
+                                                        <input type="date" placeholder="First Name" class="form-control"> <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" alt="" class="date-time"></div>
 
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="pid" value="1">
-                                            <div class="pt-4 pb-5">
-                                                <button id="claim_save" type="submit" class="form-save">Save</button>
-                                            </div>
 
                                         </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -1340,47 +1287,6 @@ if (!empty($_REQUEST['go'])) { ?>
   
 
 
-</script>
-
-<script>
-function submit_employer(){
-    
-   
-$webroot=  "<?php echo $GLOBALS['webroot'];?>";
-
-
-$.ajax({
-    type: 'POST',
-    url: $webroot+"/interface/new/new_employer_save.php",
-    data: $('#employer_info').serialize(),   
-    success: function(data){
-    // alert(data);
-    // console.log(data);
-    
-    }
-});
-
-}
-
-
-function submit_claim_info(){
-    
-   
-    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
-    
-    
-    $.ajax({
-        type: 'POST',
-        url: $webroot+"/interface/new/new_claim_save.php",
-        data: $('#claim_info').serialize(),   
-        success: function(data){
-        // alert(data);
-        console.log(data);
-        
-        }
-    });
-    
-    }
 </script>
 
 

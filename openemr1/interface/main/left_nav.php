@@ -114,6 +114,10 @@ $primary_docs = array(
 'dash' => array(xl('Dashboard')  , 0, 'main/dashboard.php'),
 'emp_info' => array(xl('Employee Info')  , 0, 'main/employee_info.php'),
 'emp_info2' => array(xl('Employee Info 2')  , 0, 'main/employee_info2.php'),
+'funct_abi'=> array(xl('Functional Abilities')  , 0, '#'),
+'health_his'=> array(xl('Health History')  , 0, 'main/health_history.php'),
+'review'=> array(xl('Review')  , 0, 'main/review_system.php'),
+
 
 'injury_det' => array(xl('Injury Details')  , 0, 'main/injury_details.php'),
 
@@ -1185,6 +1189,9 @@ $(function (){
     $("#navigation-slide > li  > a#dash0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#emp_info0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#emp_info20").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#funct_abi0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#health_his0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#review0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-5.svg" alt="" class="menu-icon"> </span>&nbsp;');
 
     $("#navigation-slide > li  > a#injury_det0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#appoint0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
@@ -1282,44 +1289,48 @@ $(function (){
 <?php
 
    genTreeLink('RTop', 'dash', xl('Dashboard'));
-   genTreeLink('RTop', 'emp_info', xl('Employee Info'));
-   genTreeLink('RTop', 'emp_info2', xl('Employee Info 2'));
+   genTreeLink('RTop', 'emp_info', xl('Employee'));
+   genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
    genTreeLink('RTop', 'injury_det', xl('Injury Details'));
+   genTreeLink('RTop', 'funct_abi', xl('Functional Abilities'));
+   genTreeLink('RTop', 'health_his', xl('Health History'));
+   genTreeLink('RTop', 'review', xl('Review of System'));
+
 
    
-   genTreeLink('RTop', 'appoint', xl('Appointment'));
+//    genTreeLink('RTop', 'appoint', xl('Appointment'));
 
 
-if (!$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
-    genTreeLink('RTop', 'cal', xl('Calendar'));
-}
+// if (!$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
+//     genTreeLink('RTop', 'cal', xl('Calendar'));
+// }
 
-if (!$GLOBALS['disable_pat_trkr'] && !$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
-    genTreeLink('RTop', 'pfb', xl('Flow Board'));
-}
-if (!$GLOBALS['disable_rcb'] && !$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
-    genTreeLink('RBot', 'rcb', xl('Recall Board'));
-}
-if (acl_check('patients', 'notes')) {
-    genTreeLink('RBot', 'msg', xl('Messages'));
-}
+// if (!$GLOBALS['disable_pat_trkr'] && !$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
+//     genTreeLink('RTop', 'pfb', xl('Flow Board'));
+// }
+// if (!$GLOBALS['disable_rcb'] && !$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
+//     genTreeLink('RBot', 'rcb', xl('Recall Board'));
+// }
+// if (acl_check('patients', 'notes')) {
+//     genTreeLink('RBot', 'msg', xl('Messages'));
+// }
 
-if ($GLOBALS['portal_offsite_enable'] && $GLOBALS['portal_offsite_address'] && acl_check('patientportal', 'portal')) {
-    genTreeLink('RTop', 'app', xl('Portal Activity'));
-}
+// if ($GLOBALS['portal_offsite_enable'] && $GLOBALS['portal_offsite_address'] && acl_check('patientportal', 'portal')) {
+//     genTreeLink('RTop', 'app', xl('Portal Activity'));
+// }
 
-if ($GLOBALS['portal_onsite_two_enable'] && acl_check('patientportal', 'portal')) {
-    genTreeLink('RTop', 'aop', xl('Portal Dashboard'));
-}
+// if ($GLOBALS['portal_onsite_two_enable'] && acl_check('patientportal', 'portal')) {
+//     genTreeLink('RTop', 'aop', xl('Portal Dashboard'));
+// }
 
-if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
-    genPopLink(xl('CMS Portal'), '../cmsportal/list_requests.php', 'ppo0');
-}
+// if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
+//     genPopLink(xl('CMS Portal'), '../cmsportal/list_requests.php', 'ppo0');
+// }
 ?>
 
 <?php if (acl_check('patients', 'demo') || acl_check('patients', 'appt') || acl_check_form('newpatient', '', array('write', 'addonly')) || acl_check('patients', 'med')) { ?>
-  <li class="open"><a class="collapsed" id="patimg" ><i class="fa fa-fw fa-user fa-2x"></i>&nbsp;<span><?php echo xlt('Patient/Client') ?></span></a>
-    <ul>
+  <li class="open" style="display:none"><a class="collapsed" id="patimg" ><i class="fa fa-fw fa-user fa-2x"></i>&nbsp;<span><?php echo xlt('Patient/Client') ?></span></a>
+    <ul style="display:none">
         <?php if (acl_check('patients', 'demo')) {
             genMiscLink('RTop', 'fin', '0', xl('Patients'), 'main/finder/dynamic_finder.php');
         } ?>
@@ -1438,7 +1449,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
     <?php // TajEmo Work by CB 2012/06/21 10:41:15 AM hides fees if disabled in globals ?>
     <?php if ((!isset($GLOBALS['enable_fees_in_left_menu']) || $GLOBALS['enable_fees_in_left_menu'] == 1) &&
     (acl_check('encounters', 'coding') || acl_check('acct', 'eob') || acl_check('acct', 'bill', '', 'write'))) { ?>
-  <li><a class="collapsed" id="feeimg" ><span><?php echo xlt('Fees') ?></span></a>
+  <li style="display:none"><a class="collapsed" id="feeimg" ><span><?php echo xlt('Fees') ?></span></a>
     <ul>
         <?php if (acl_check('encounters', 'coding')) {
             genMiscLink('RBot', 'cod', '2', xl('Fee Sheet'), 'fee_sheet', false, true);
@@ -1469,7 +1480,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
     <?php } ?>
 
     <?php  if (acl_check('menus', 'modle')) {?>
-   <li><a class="collapsed" id="modimg" ><span><?php echo xlt('Modules') ?></span></a>
+   <li style="display:none"><a class="collapsed" id="modimg" ><span><?php echo xlt('Modules') ?></span></a>
     <ul>
         <?php
         if (acl_check('admin', 'manage_modules')) {
@@ -1493,7 +1504,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
     <?php } ?>
 
 <?php if ($GLOBALS['inhouse_pharmacy'] && acl_check('admin', 'drugs')) { ?>
-  <li><a class="collapsed" id="invimg" ><span><?php echo xlt('Inventory') ?></span></a>
+  <li style="display:none"><a class="collapsed" id="invimg" ><span><?php echo xlt('Inventory') ?></span></a>
     <ul>
         <?php genMiscLink('RTop', 'adm', '0', xl('Management'), 'drugs/drug_inventory.php'); ?>
         <?php genPopLink(xl('Destroyed'), 'destroyed_drugs_report.php'); ?>
@@ -1502,7 +1513,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
 <?php } ?>
 
 <?php if (acl_check('patients', 'lab')) { ?>
-  <li><a class="collapsed" id="proimg" ><span><?php echo xlt('Procedures') ?></span></a>
+  <li style="display:none"><a class="collapsed" id="proimg" ><span><?php echo xlt('Procedures') ?></span></a>
     <ul>
         <?php if (acl_check('admin', 'super')) {
             genTreeLink('RTop', 'orl', xl('Providers'));
@@ -1528,7 +1539,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
         $newcrop_user_role = sqlQuery("SELECT newcrop_user_role FROM users WHERE username = ?", array($_SESSION['authUser']));
         if ($newcrop_user_role['newcrop_user_role']) {
             ?>
-        <li><a class="collapsed" id="feeimg" ><span><?php echo xlt('New Crop') ?></span></a>
+        <li style="display:none"><a class="collapsed" id="feeimg" ><span><?php echo xlt('New Crop') ?></span></a>
     <ul>
         <li><a class="collapsed_lv2"><span><?php echo xlt('Status') ?></span></a>
         <ul>
@@ -1547,7 +1558,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
     ?>
 
     <?php if (!$disallowed['adm']) { ?>
-  <li><a class="collapsed" id="admimg" ><span><?php echo xlt('Administration') ?></span></a>
+  <li style="display:none"><a class="collapsed" id="admimg" ><span><?php echo xlt('Administration') ?></span></a>
     <ul>
         <?php if (acl_check('admin', 'super')) {
             genMiscLink('RTop', 'adm', '0', xl('Globals'), 'super/edit_globals.php');
@@ -1647,7 +1658,7 @@ if ($GLOBALS['gbl_portal_cms_enable'] && acl_check('patientportal', 'portal')) {
   </li>
     <?php } ?>
 
-  <li><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
+  <li style="display:none"><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
     <ul>
                 <?php
                 $moduleMenuContainer = genModuleMenuObject('Reports', 'repimg');
@@ -1865,7 +1876,7 @@ if ($reglastcat) {
     </ul>
   </li>
 
-  <li><a class="collapsed" id="misimg" ><span><?php echo xlt('Miscellaneous') ?></span></a>
+  <li style="display:none"><a class="collapsed" id="misimg" ><span><?php echo xlt('Miscellaneous') ?></span></a>
     <ul>
         <?php genTreeLink('RTop', 'ped', xl('Patient Education')); ?>
         <?php if (acl_check('encounters', 'auth')) {
