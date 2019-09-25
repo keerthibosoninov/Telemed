@@ -231,7 +231,7 @@ function genTreeLink($frame, $name, $title, $mono = false)
     global $primary_docs, $disallowed;
     if (empty($disallowed[$name])) {
         $id = $name . $primary_docs[$name][1];
-        echo "<li><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\"";
+        echo "<li><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" AddActiveClass();";
         if ($mono) {
             if ($frame == 'RTop') {
                 echo "forceSpec(true,false);";
@@ -1274,10 +1274,10 @@ $(function (){
 
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" onclick="closeNav()" class="closebtn text-black">�</a>
-    <div class="menu-search">
+    <!-- <div class="menu-search">
         <input type="text" class="form-control">
         <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search.svg" alt="" class="search-menu-icon">
-        </div>
+        </div> -->
         <nav id="menu">
 
 <?php if ($GLOBALS['menu_styling_vertical'] == 1) { ?>
@@ -1292,7 +1292,7 @@ $(function (){
    genTreeLink('RTop', 'emp_info', xl('Employee'));
    genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
    genTreeLink('RTop', 'injury_det', xl('Injury Details'));
-   genTreeLink('RTop', 'funct_abi', xl('Functional Abilities'));
+//    genTreeLink('RTop', 'funct_abi', xl('Functional Abilities'));
    genTreeLink('RTop', 'health_his', xl('Health History'));
    genTreeLink('RTop', 'review', xl('Review of System'));
 
@@ -1974,5 +1974,11 @@ function save_setting (cb_frames) {
 }
 </script>
 
+<script>
+    function AddActiveClass(){
+        $(this).addClass('selected').siblings().removeClass('selected');
+
+    }
+    </script>
 </body>
 </html>

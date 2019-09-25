@@ -56,4 +56,6 @@ while ($frow = sqlFetchArray($fres)) {
 
 updateHistoryData($pid, $newdata);
 
-include_once("history.php");
+header('Location: ../../main/health_history.php'); 
+
+// include_once("history.php");

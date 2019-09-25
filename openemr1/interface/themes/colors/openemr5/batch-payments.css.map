@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,0FAA0F;AAE1F,AAAA,kBAAkB,CAAC;EACf,KAAK,EAAE,eAAe;EACtB,UAAU,EAAE,KAAK;EACjB,SAAS,EAAE,IAAI;CAClB;;AACD,AAAA,eAAe,CAAC;EACZ,YAAY,EAAE,IAAI;EAClB,WAAW,EAAE,GAAG;CACnB;;AACD,AAAA,YAAY,CAAC;EACT,OAAO,EAAE,SAAS;CACrB;;AACD,AAAA,gBAAgB,CAAC;EACb,KAAK,EAAE,cAAc;CACxB;;AACD,0FAA0F",
+    "sources": [
+        "batch-payments.scss"
+    ],
+    "names": [],
+    "file": "batch-payments.css"
+}

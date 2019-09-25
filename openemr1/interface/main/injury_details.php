@@ -1346,19 +1346,19 @@ if (!empty($_REQUEST['go'])) { ?>
 function submit_employer(){
     
    
-$webroot=  "<?php echo $GLOBALS['webroot'];?>";
+    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
 
 
-$.ajax({
-    type: 'POST',
-    url: $webroot+"/interface/new/new_employer_save.php",
-    data: $('#employer_info').serialize(),   
-    success: function(data){
-    // alert(data);
-    // console.log(data);
-    
-    }
-});
+    $.ajax({
+        type: 'POST',
+        url: $webroot+"/interface/new/new_employer_save.php",
+        data: $('#employer_info').serialize(),   
+        success: function(data){
+        // alert(data);
+        // console.log(data);
+        
+        }
+    });
 
 }
 
@@ -1381,6 +1381,144 @@ function submit_claim_info(){
     });
     
     }
+
+</script>
+
+<script>
+    function GetDynamicTextBox1(value) {
+        return `    <div class="row pt-4">
+        <div class="col-md-4 relative">
+            <p>Admit</p>
+            <input type="date" name="admit_date[]" class="form-control" placeholder="Date">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time" alt="">
+        </div>
+        <div class="col-md-4 relative">
+            <p>Discharge</p>
+            <input type="date"  name="discharge_date[]" class="form-control" placeholder="Middle Name">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time" alt="">
+        </div>
+        <div class="col-md-4 delete-row">
+            <p>Location</p>
+            <input type="text" name="location[]" class="form-control" placeholder="Location">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove1" alt="">
+        </div>
+    </div>`
+    }
+
+    function GetDynamicTextBox3(value) {
+        return `     <div class="row pt-3">
+        <div class="col-md-4 relative">
+            <p>Type</p>
+            <input type="text" class="form-control" name="ancillary_type[]" placeholder="Type">
+
+        </div>
+        <div class="col-md-4 relative">
+            <p>Date</p>
+            <input type="date" class="form-control" placeholder="" name="ancillary_date[]">
+
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time spl-top39" alt="">
+        </div>
+        <div class="col-md-4 relative delete-row">
+            <p>Status</p>
+            <input type="text" class="form-control" placeholder="Status" name="ancillary_status[]">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove3" alt="">
+        </div>
+        <div class="col-md-12">
+            <p>Findings</p>
+            <textarea  id="" class="form-control mt-2" rows="4" name="ancillary_findings[]"></textarea>
+        </div>
+    </div>`
+    }
+
+    function GetDynamicTextBox4(value) {
+        return `     <div class="row">
+        <div class="col-md-3 relative">
+            <p>Type</p>
+            <input type="text" class="form-control" placeholder="type" name="referral_type[]">
+
+        </div>
+        <div class="col-md-3 relative">
+            <p>Date</p>
+            <input type="date" class="form-control" placeholder="" name="referral_date[]">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time spl-top39" alt="">
+        </div>
+        <div class="col-md-6 delete-row">
+            <p>Findings</p>
+            <textarea  id="" class="form-control mt-2" rows="4" name="referral_findings[]"></textarea>
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove4" alt="">
+        </div>
+    </div>`
+    }
+
+    function GetDynamicTextBox2(value) {
+        return `     <div class="row">
+        <div class="col-md-3 relative">
+            <p>Type</p>
+            <input type="text" name="imaging_type[]" class="form-control" placeholder="type">
+
+        </div>
+        <div class="col-md-3 relative">
+            <p>Date</p>
+            <input type="date" name="imaging_date[]" class="form-control" placeholder="Date">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time spl-top39" alt="">
+        </div>
+        <div class="col-md-6 delete-row">
+            <p>Findings</p>
+            <textarea name="imaging_findings[]" id="" class="form-control mt-2" rows="4"></textarea>
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove2" alt="">
+        </div>
+    </div>`
+    }
+
+
+    function GetDynamicTextBox5(value) {
+        return `      <div class="row">
+        <div class="col-md-4">
+
+            <p>Supervisor</p>
+            <input type="text" name="super[]" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <p>Name</p>
+            <input type="text" name="s_name[]" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <p>E-Mail ID</p>
+            <input type="text" name="s_emailid[]"  class="form-control">
+        </div>
+        <div class="col-md-4">
+
+            <p>Manager</p>
+            <input type="text" name="manager[]" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <p>Name</p>
+            <input type="text" name="m_name[]" class="form-control">
+        </div>
+        <div class="col-md-4 delete-row">
+            <p>Phone No.</p>
+            <input type="text" name="m_phone[]" class="form-control">
+            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove5" alt="">
+        </div>
+    </div>`
+    }
+
+
+    function GetDynamicTextBox6(value) {
+        return `<div class="row pt-2">
+            <div class="col-md-4">
+                <p>First Name</p>
+                <input name="adjuster_fname[]" type="text" class="form-control">
+            </div>
+            <div class="col-md-4 delete-row">
+                <p>last Name</p>
+                <input name="adjuster_lname[]" type="text" class="form-control">
+                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove6" alt="">
+            </div>
+            </div>`
+    }
+
+
 </script>
 
 

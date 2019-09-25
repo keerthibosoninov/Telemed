@@ -217,7 +217,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                <div id="home" class="container tab-pane active">
+                                    <div id="home" class="container tab-pane active">
                                         <form id="home_demographics" onsubmit="submit_demographics();">
                                         <div class="form-inputs">
                                             <div class="pt-5">
@@ -345,7 +345,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                             <div class="pt-3">
 
-                                                <div v-bind:class="['row',(showMailBox?'show-mail':'')]">
+                                                <!-- <div v-bind:class="['row',(showMailBox?'show-mail':'')]"> -->
+                                                <div class="row show-mail">
                                                     <div class="col-md-2">
                                                         <p class="pt-3">Send Link to</p>
 
@@ -357,12 +358,14 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             <option value="value 2">value 2</option>
                                                             <option value="Value 3">Value 3</option>
                                                         </select>
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" class="addmore-img" v-on:click="showMailBox = !showMailBox" alt="">
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" class="addmore-img" id="addmore_email" v-on:click="showMailBox = !showMailBox" alt="">
                                                     </div>
-                                                    <div class="col-md-3 mail-hide">
+                                                    <!-- <div class="col-md-3 mail-hide"> -->
+                                                    <div class="col-md-3 mailing_box hidedata">
                                                         <input type="text" name="send_link_id" class="form-control">
                                                     </div>
-                                                    <div class="col-md-2 p-0 mail-hide">
+                                                    <!-- <div class="col-md-2 p-0 mail-hide"> -->
+                                                    <div class="col-md-2 p-0 mailing_box hidedata">
                                                         <div class="form-check ">
                                                             <label class="form-check-label fs-10 lh-25 pt-3">
                                                             <input type="checkbox" name="optradio" class="form-check-input w-auto">Add this ID to mailing list
@@ -436,37 +439,38 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                             <div>
                                                 <div class="text-center">
-                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" alt="" v-on:click="addData = !addData" class="class-hide">
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="addmore_data"  alt="" v-on:click="addData = !addData" class="class-hide">
                                                 </div>
                                                 <div class="text-center">
                                                     <p class="fs-14">Add New</p>
                                                 </div>
                                             </div>
                                             <div>
-                                                <div class="container-fluid">
-                                                <form id="authorization" onsubmit="return  submit_authorization();">
-                                                    <div v-bind:class="['row',(addData?'d-none':'')]">
-                                                        <div class="col-md-3">
-                                                            <input type="text" name="auth_name" class="form-control" placeholder="name">
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <input type="text" name="relation" class="form-control" placeholder="Relation">
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <input type="number" name="contact_no" class="form-control" placeholder="Contact No.">
-                                                        </div>
-                                                        <div class="col-md-3 pt-2">
-                                                            <Select name="roi" class="form-control">
-                                                            <option value="n/a">ROI</option>
-                                                        </Select>
-                                                        </div>
-                                                            
+                                                <div class="container-fluid moredata hidedata">
+                                                    <form id="authorization" onsubmit="return  submit_authorization();">
+                                                        <!-- <div v-bind:class="['row',(addData?'d-none':'')]"> -->
+                                                        <div class="row">  
+                                                            <div class="col-md-3">
+                                                                <input type="text" name="auth_name" class="form-control" placeholder="name">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input type="text" name="relation" class="form-control" placeholder="Relation">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input type="number" name="contact_no" class="form-control" placeholder="Contact No.">
+                                                            </div>
+                                                            <div class="col-md-3 pt-2">
+                                                                <Select name="roi" class="form-control">
+                                                                <option value="n/a">ROI</option>
+                                                            </Select>
+                                                            </div>
+                                                                
 
-                                                    </div>
-                                                    <div class="pt-4 pb-5">
-                                                <button class="form-save">Save</button>
-                                            </div>
-                                                        </form>
+                                                        </div>
+                                                        <div class="pt-4 pb-5">
+                                                            <button class="form-save">Save</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

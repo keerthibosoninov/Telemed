@@ -93,6 +93,29 @@ if ($GLOBALS['date_display_format'] == 1) {
 // for test
 $pid=1;
 
+if($pid){
+    $history_data = getHistoryData($pid);
+    
+}
+
+$list_id='exams';
+$field_id='exams';
+$exams_list=sqlStatement("SELECT * FROM list_options " .
+"WHERE list_id = ? AND activity = 1 ORDER BY seq, title", array($list_id));
+
+$result_history = getHistoryData($pid);
+if (!is_array($result_history)) {
+    newHistoryData($pid);
+    $result_history = getHistoryData($pid);
+}
+$condition_str = '';
+
+                                        /*Get the constraint from the DB-> LBF forms accordinf the form_id*/
+// $constraints = LBF_Validation::generate_validate_constraints("HIS");
+
+ if (isset($result_history[$field_id])) {
+        $currvalue = $result_history[$field_id];
+ }
 
 
 
@@ -102,12 +125,12 @@ $pid=1;
 <html>
 
 <head>
-    <link rel="stylesheet"
+    <!-- <link rel="stylesheet"
         href="<?php echo $webroot; ?>/interface/main/messages/css/reminder_style.css?v=<?php echo $v_js_includes; ?>"
-        type="text/css">
-    <link rel="stylesheet"
+        type="text/css"> -->
+    <!-- <link rel="stylesheet"
         href="<?php echo $GLOBALS['web_root']; ?>/library/css/bootstrap_navbar.css?v=<?php echo $v_js_includes; ?>"
-        type="text/css">
+        type="text/css"> -->
 
     <?php
     // Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
@@ -118,9 +141,9 @@ $pid=1;
     <?php require_once "$srcdir/restoreSession.php"; ?>
     </script>
 
-    <script type="text/javascript"
+    <!-- <script type="text/javascript"
         src="<?php echo $GLOBALS['web_root']; ?>/interface/main/messages/js/reminder_appts.js?v=<?php echo $v_js_includes; ?>">
-    </script>
+    </script> -->
 
     <link rel="shortcut icon" href="<?php echo $webroot; ?>/sites/default/favicon.ico" />
 
@@ -260,15 +283,58 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <div id="home" class="container tab-pane active">
                                         <div class="form-inputs pt-5 pb-5">
                                             <div class="riskfactors">
-                                                <label class="checking">Vericose Veins
+                                           <?php
+
+                                            $cols = max(1, 0);
+                                            $avalue = explode('|', $currvalue);
+                                            $list_id='riskfactors';
+                                            $lres = sqlStatement("SELECT * FROM list_options " .
+                                            "WHERE list_id = ? AND activity = 1 ORDER BY seq, title", array($list_id));
+                                            // echo "<table cellpadding='0' cellspacing='0' width='100%' title='".attr($description)."'>";
+                                            $tdpct = (int) (100 / $cols);
+                                            for ($count = 0; $lrow = sqlFetchArray($lres); ++$count) {
+                                                $option_id = $lrow['option_id'];
+                                                $option_id_esc = htmlspecialchars($option_id, ENT_QUOTES);
+                                                // // if ($count) echo "<br />";
+                                                // if ($count % $cols == 0) {
+                                                //     if ($count) {
+                                                //         echo "</tr>";
+                                                //     }
+                                                //     echo "<tr>";
+                                                // }
+                                                // echo "<td width='" . attr($tdpct) . "%' nowrap>";
+                                                // echo "<input type='checkbox' name='form_{$field_id_esc}[$option_id_esc]'" .
+                                                // "id='form_{$field_id_esc}[$option_id_esc]' class='form-control' value='1' $lbfonchange";
+                                                // if (in_array($option_id, $avalue)) {
+                                                //     echo " checked";
+                                                // }
+                                                // // Added 5-09 by BM - Translate label if applicable
+                                                // echo " $disabled />" . htmlspecialchars(xl_list_label($lrow['title']), ENT_NOQUOTES);
+                                                // echo "</td>";
+
+                                                echo "<label class='checking'>". htmlspecialchars(xl_list_label($lrow['title']), ENT_NOQUOTES)."
+                                                        <input type='checkbox'  name='form_{$field_id_esc}[$option_id_esc]' id='form_{$field_id_esc}[$option_id_esc]' value='1'>
+                                                        <span class='checkmark'></span>
+                                                    </label>";
+
+                                            //     echo " <label class='checking'>Vericose Veins
+                                            //     <input type='checkbox' checked>
+                                            //     <span class='checkmark'></span>
+                                            // </label>";
+                                            }
+                                            
+
+                                           
+                                           ?>
+                                                <!-- <label class="checking">Vericose Veins
                                                     <input type="checkbox" checked>
                                                     <span class="checkmark"></span>
                                                 </label>
                                                 <label class="checking">Hypertension
                                                     <input type="checkbox">
                                                     <span class="checkmark"></span>
-                                                </label>
-                                                <label class="checking">Diabetes
+                                                </label> -->
+                                                <!-- <label class="checking">Diabetes
                                                     <input type="checkbox">
                                                     <span class="checkmark"></span>
                                                 </label>
@@ -345,323 +411,209 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </label>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control">
-                                                </div>
-                                                <div class="pt-4 pb-5"><button class="form-save">Save</button></div>
+                                                </div> -->
+                                                <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div>
                                             </div>
                                         </div>
 
                                     </div>
                                     <div id="menu1" class="container tab-pane fade">
-                                        <div class="pt-4 pb-4">
-                                            <div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Breast Exam</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
+                                        <?php
+                                        $result_history = getHistoryData($pid);
+                                        if (!is_array($result_history)) {
+                                            newHistoryData($pid);
+                                            $result_history = getHistoryData($pid);
+                                        }
+                                        $condition_str = '';
+
+                                        /*Get the constraint from the DB-> LBF forms accordinf the form_id*/
+                                        $constraints = LBF_Validation::generate_validate_constraints("HIS");
+
+                                        if (isset($result_history[$field_id])) {
+                                            $currvalue = $result_history[$field_id];
+                                        }
+
+                                        $tmp = explode('|', $currvalue);
+                                        $avalue = array();
+                                        foreach ($tmp as $value) {
+                                            if (preg_match('/^([^:]+):(.*)$/', $value, $matches)) {
+                                                $avalue[$matches[1]] = $matches[2];
+                                            }
+
+
+                                        }
+
+                                     
+
+                                        $maxlength = $frow['max_length'];
+                                        $string_maxlength = "";
+                                        // if max_length is set to zero, then do not set a maxlength
+                                        if ($maxlength) {
+                                            $string_maxlength = "maxlength='".attr($maxlength)."'";
+                                        }
+                                        ?>
+                                        <script> var constraints = <?php echo $constraints;?>; </script>
+                                        <form action="../patient_file/history/history_save.php" id="HIS" name='history_form' method='post' onsubmit="submitme(<?php echo $GLOBALS['new_validate'] ? 1 : 0;?>,event,'HIS',constraints)">
+                                            <div class="pt-4 pb-4">
+                                                <div>
+                                                    <?php
+
+                                                    
+
+                                                    while ($lrow = sqlFetchArray($exams_list)) {
+
+                                                        $option_id = $lrow['option_id'];
+                                                        $option_id_esc = htmlspecialchars($option_id, ENT_QUOTES);
+                                                        $restype = substr($avalue[$option_id], 0, 1);
+                                                        $resnote = substr($avalue[$option_id], 2);
+                                                        $field_id_esc= htmlspecialchars($field_id, ENT_QUOTES);
+
+                                                        // Added 5-09 by BM - Translate label if applicable
+                                                        echo "<div class='row mt-3'>
+                                                        <div class='col-sm-6'>
+                                                            <p class='fs-14'>" . htmlspecialchars(xl_list_label($lrow['title']), ENT_NOQUOTES) . "&nbsp;</p>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Cardiac Echo</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
+                                                        <div class='col-sm-6'>
+                                                            <div class='row'>";
+                                                            $text='';
+                                                            for ($i = 0; $i < 3; ++$i) {
+                                                            
+                                                                switch ($i) {   
+                                                                    case 0:
+                                                                        $text='N/A'; 
+                                                                        break;
+                                                                    case 1:
+                                                                        $text='Normal'; 
+                                                                        break;
+                                                                    case 2:
+                                                                        $text='Abnormal'; 
+                                                                        break;
+                                                                }
+
+                                                                $inputValue = htmlspecialchars($i, ENT_QUOTES);
+                                                            echo"   <div class='col-4'><input type='radio' name='radio_{$field_id_esc}[$option_id_esc]' value='$inputValue' id='radio_{$field_id_esc}[$option_id_esc]' value='$inputValue'  $lbfonchange ";
+                                                            if($restype == $i){
+                                                                echo "checked";
+                                                            }
+                                                            echo "> $text
+                                                                </div>";
+                                                            }
+                                                            echo "</div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">E.C.G.</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
+                                                        <div class='col-sm-12'>
+                                                            <textarea name='form_{$field_id_esc}[$option_id_esc]' id='form_{$field_id_esc}[$option_id_esc]' class='form-control' rows='4' value='$resnote'>$resnote</textarea>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
+                                                    </div>";
+                                                        // echo "<tr><td>" . htmlspecialchars(xl_list_label($lrow['title']), ENT_NOQUOTES) . "&nbsp;</td>";
+
+                                                        // for ($i = 0; $i < 3; ++$i) {
+                                                        //     $inputValue = htmlspecialchars($i, ENT_QUOTES);
+                                                        //     echo "<td><input type='radio'" .
+                                                        //     " name='radio_{$field_id_esc}[$option_id_esc]'" .
+                                                        //     " id='radio_{$field_id_esc}[$option_id_esc]'" .
+                                                        //     " value='$inputValue' $lbfonchange";
+                                                        //     if ($restype === "$i") {
+                                                        //         echo " checked";
+                                                        //     }
+
+                                                        //     echo " $disabled /></td>";
+                                                        // }
+
+                                                        // $fldlength = htmlspecialchars($fldlength, ENT_QUOTES);
+                                                        // $resnote = htmlspecialchars($resnote, ENT_QUOTES);
+                                                        // echo "<td><input type='text'" .
+                                                        // " name='form_{$field_id_esc}[$option_id_esc]'" .
+                                                        // " id='form_{$field_id_esc}[$option_id_esc]'" .
+                                                        // " size='$fldlength'" .
+                                                        // " $string_maxlength" .
+                                                        // " value='$resnote' $disabled /></td>";
+                                                        // echo "</tr>";
+                                                    ?>
+
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+
+                                                    <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div>
                                                 </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Gynecological Exam</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Mammogram</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Physical Exam</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Prostate Exam</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Rectal Exam</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Colonoscopy</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Retinal Exam</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Flu Vaccination</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Pneumonia Vaccination</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">LDL</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="row">
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> N/A
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> Yes
-                                                            </div>
-                                                            <div class="col-4"><input type="radio" id="radio1" name="optradio" value="option1"> No
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <textarea name="" id="" class="form-control" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-4 pb-5"><button class="form-save">Save</button></div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                     <div id="menu2" class="container tab-pane fade">
-                                        <div class="pt-4 pb-5">
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Father</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right">
-                                                        <img src="img/edit-text.svg" class="xx" alt="">
+                                        <form id="family_history" name="family_history" onsubmit="family_history_submit();">
+                                            <div class="pt-4 pb-5">
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Father</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right">
+                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="history_father" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_father'])){ echo $history_data['history_father'];}?></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Mother</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right">
-                                                        <img src="img/edit-text.svg" class="xx" alt="">
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Mother</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right">
+                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="history_mother" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_mother'])){echo $history_data['history_mother'];}?></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Siblings</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right">
-                                                        <img src="img/edit-text.svg" class="xx" alt="">
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Siblings</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right">
+                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="history_siblings" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_siblings'])){echo $history_data['history_siblings'];}?></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Spouse</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right">
-                                                        <img src="img/edit-text.svg" class="xx" alt="">
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Spouse</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right">
+                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="history_spouse" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_spouse'])){ echo $history_data['history_spouse'];}?></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Offspring</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right">
-                                                        <img src="img/edit-text.svg" class="xx" alt="">
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Offspring</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right">
+                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="history_offspring" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_offspring'])){echo $history_data['history_offspring'];}?></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
-                                                </div>
-                                            </div>
 
-                                        </div>
-                                        <div class="pt-4 pb-5"><button class="form-save">Save</button></div>
+                                            </div>
+                                            <input type="hidden" name="pid" value="<?php echo $pid;?>">
+                                            <input type="hidden" name="form_id" value="family_data">
+                                            <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div>
+                                        </form>
                                     </div>
 
                                     <div id="menu3" class="container tab-pane fade ">
@@ -1037,329 +989,45 @@ if (!empty($_REQUEST['go'])) { ?>
             </div>
         </section>
 
-    <!--end of container div-->
-    <?php $oemr_ui->oeBelowContainerDiv();?>
-    <?php
-    //home of the help modal ;)
-    //$GLOBALS['enable_help'] = 0; // Please comment out line if you want help modal to function on this page
-    if ($GLOBALS['enable_help'] == 1) {
-        echo "<script>var helpFile = 'message_center_help.php'</script>";
-        //help_modal.php lives in interface, set path accordingly
-        require "../help_modal.php";
-    }
-    ?>
-    <script language="javascript">
-    var collectvalidation = <?php echo $collectthis; ?> ;
-
-    $(function() {
-        $("#reminders-div").hide();
-        $("#recalls-div").hide();
-        $("#sms-div").hide();
-        $("#messages-li").click(function() {
-            $("#messages-div").show(250);
-            $("#reminders-div").hide(250);
-            $("#recalls-div").hide(250);
-            $("#sms-div").hide(250);
-            $("#li-mess").addClass("active");
-            $("#li-remi").removeClass("active");
-            $("#li-reca").removeClass("active");
-            $("#li-sms").removeClass("active");
-
-        });
-        $("#reminders-li").click(function() {
-            $("#messages-div").hide(250);
-            $("#reminders-div").show(250);
-            $("#recalls-div").hide(250);
-            $("#sms-div").hide(250);
-            $("#li-remi").addClass("active");
-            $("#li-mess").removeClass("active");
-            $("#li-reca").removeClass("active");
-            $("#li-sms").removeClass("active");
-        });
-        $("#recalls-li").click(function() {
-            $("#messages-div").hide(250);
-            $("#reminders-div").hide(250);
-            $("#recalls-div").show(250);
-            $("#sms-div").hide(250);
-            $("#li-remi").removeClass("active");
-            $("#li-mess").removeClass("active");
-            $("#li-reca").addClass("active");
-            $("#li-sms").removeClass("active");
-        });
-        $("#sms-li").click(function() {
-            $("#messages-div").hide(250);
-            $("#reminders-div").hide(250);
-            $("#recalls-div").hide(250);
-            $("#sms-div").show(250);
-            $("#li-remi").removeClass("active");
-            $("#li-mess").removeClass("active");
-            $("#li-reca").removeClass("active");
-            $("#li-sms").addClass("active");
-        });
-
-
-
-    });
-    $(function() {
-        $("ul.navbar-nav").children().click(function() {
-            $(".collapse").collapse('hide');
-        });
-    });
-    $(function() {
-        //for jquery tooltip to function if jquery 1.12.1.js is called via jquery-ui in the Header::setupHeader
-        // the relevant css file needs to be called i.e. jquery-ui-darkness
-        $('#see-all-tooltip').attr("title", "<?php echo xla('Click to show messages for all users'); ?>");
-        $('#see-all-tooltip').tooltip();
-        $('#just-mine-tooltip').attr("title",
-            "<?php echo xla('Click to show messages for only the current user'); ?>");
-        $('#just-mine-tooltip').tooltip();
-    });
-    $(function() {
-        var f = $("#smsForm");
-        $("#SMS_patient").autocomplete({
-            source: "save.php?go=sms_search",
-            minLength: 2,
-            select: function(event, ui) {
-                event.preventDefault();
-                $("#SMS_patient").val(ui.item.label + ' ' + ui.item.mobile);
-                $("#sms_pid").val(ui.item.pid);
-                $("#sms_mobile").val(ui.item.mobile);
-                $("#sms_allow").val(ui.item.allow);
-            }
-        });
-    });
-    jQuery.ui.autocomplete.prototype._resizeMenu = function() {
-        var ul = this.menu.element;
-        ul.outerWidth(this.element.outerWidth());
-    };
-    $(function() {
-        $("#newnote").click(function(event) {
-            NewNote(event);
-        });
-        $("#printnote").click(function() {
-            PrintNote();
-        });
-        var obj = $("#form_message_status");
-        obj.onchange = function() {
-            SaveNote();
-        };
-        $("#cancel").click(function() {
-            CancelNote();
-        });
-        $("#note").focus();
-
-        //clear button in messages
-        $("#clear_user").click(function() {
-            $("#assigned_to_text").val("<?php echo xls('Select Users From The Dropdown List'); ?>");
-            $("#assigned_to").val("");
-            $("#users").val("--");
-        });
-
-        //clear inputs of patients
-        $("#clear_patients").click(function() {
-            $("#reply_to").val("");
-            $("#form_patient").val("");
-        });
-    });
-
-    var NewNote = function(event) {
-        top.restoreSession();
-        if (document.getElementById("form_message_status").value !== 'Done') {
-            collectvalidation.assigned_to = {
-                presence: {
-                    message: "<?php echo xls('Recipient required unless status is Done'); ?>"
-                }
-            }
-        } else {
-            delete collectvalidation.assigned_to;
-        }
-
-        $('#newnote').attr('disabled', true);
-
-        var submit = submitme(1, event, 'new_note', collectvalidation);
-        if (!submit) {
-            $('#newnote').attr('disabled', false);
-        } else {
-            $("#new_note").submit();
-        }
-    };
-    var PrintNote = function() {
-        top.restoreSession();
-        window.open('../../patient_file/summary/pnotes_print.php?noteid=' + <?php echo js_url($noteid); ?> ,
-            '_blank', 'resizable=1,scrollbars=1,width=600,height=500');
-    };
-
-    var SaveNote = function() {
-        <?php
-        if ($noteid) {
-            ?>
-            top.restoreSession();
-            $("#task").val("save");
-            $("#new_note").submit(); 
-            <?php
-        } ?>
-    };
-
-    var CancelNote = function() {
-        top.restoreSession();
-        $("#task").val("");
-        $("#new_note").submit();
-    };
-
-    function gotoReport(doc_id, pname, pid, pubpid, str_dob) {
-        EncounterDateArray = [];
-        CalendarCategoryArray = [];
-        EncounterIdArray = [];
-        Count = 0; 
-        <?php
-        if (isset($enc_list) && sqlNumRows($enc_list) > 0) {
-            while ($row = sqlFetchArray($enc_list)) {
-                ?>
-                EncounterIdArray[Count] = '<?php echo attr($row['encounter ']); ?>';
-                EncounterDateArray[Count] = '<?php echo attr(oeFormatShortDate(date("Y-m-d", strtotime($row['date '])))); ?>';
-                CalendarCategoryArray[Count] = '<?php echo attr(xl_appt_category($row['pc_catname '])); ?>';
-                Count++; 
-                <?php
-            }
-        } 
-        ?>
-        top.restoreSession();
-        $.ajax({
-            type: 'get',
-            url: '<?php echo $GLOBALS['
-            webroot '] . "/library/ajax/set_pt.php";?>',
-            data: {
-                set_pid: pid,
-                csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
-            },
-            async: false
-        });
-        parent.left_nav.setPatient(pname, pid, pubpid, '', str_dob);
-        parent.left_nav.setPatientEncounter(EncounterIdArray, EncounterDateArray, CalendarCategoryArray); 
-        <?php
-        if ($GLOBALS['new_tabs_layout']) {
-            ?>
-            var docurl = '../controller.php?document&view' + "&patient_id=" + encodeURIComponent(pid) +
-                "&document_id=" + encodeURIComponent(doc_id) + "&";
-            var paturl = 'patient_file/summary/demographics.php?pid=' + encodeURIComponent(pid);
-            parent.left_nav.loadFrame('dem1', 'pat', paturl);
-            parent.left_nav.loadFrame('doc0', 'enc', docurl);
-            top.activateTabByName('enc', true); 
-            <?php
-        } else {
-            ?>
-            var docurl = '<?php  echo $GLOBALS['
-            webroot '] . "/controller.php?document&view"; ?>' + "&patient_id=" + encodeURIComponent(pid) +
-                "&document_id=" + encodeURIComponent(doc_id) + "&";
-            var paturl = '<?php  echo $GLOBALS['
-            webroot '] . "/interface/patient_file/summary/demographics.php?pid="; ?>' + encodeURIComponent(pid);
-            var othername = (window.name === 'RTop') ? 'RBot' : 'RTop';
-            parent.frames[othername].location.href = paturl;
-            location.href = docurl; 
-            <?php
-        } ?>
-    }
-
-    // This is for callback by the find-patient popup.
-    function setpatient(pid, lname, fname, dob) {
-        var f = document.getElementById('new_note');
-        f.form_patient.value += lname + ', ' + fname + '; ';
-        f.reply_to.value += pid + ';'; 
-        <?php
-        if ($noteid) {
-            ?>
-            //used when direct messaging service inserts a pnote with indeterminate patient
-            //to allow the user to assign the message to a patient.
-            top.restoreSession();
-            $("#task").val("savePatient");
-            $("#new_note").submit(); 
-            <?php
-        } ?>
-    }
-
-    // This is for callback by the multi_patients_finder popup.
-    function setMultiPatients(patientsList) {
-        var f = document.getElementById('new_note');
-        f.form_patient.value = '';
-        f.reply_to.value = '';
-        $.each(patientsList, function(key, patient) {
-                f.form_patient.value += patient.lname + ', ' + patient.fname + '; ';
-                f.reply_to.value += patient.pid + ';';
-            })
-
-            <?php
-        if ($noteid) {
-            ?>
-            //used when direct messaging service inserts a pnote with indeterminate patient
-            //to allow the user to assign the message to a patient.
-            top.restoreSession();
-            $("#task").val("savePatient");
-            $("#new_note").submit(); 
-            <?php
-        } ?>
-    }
-
-    // This invokes the find-patient popup.
-    function sel_patient() {
-        dlgopen('../../main/calendar/find_patient_popup.php', '_blank', 625, 400);
-    }
-
-    function multi_sel_patient() {
-        $('#reply_to').trigger('click');
-        var url = '../../main/finder/multi_patients_finder.php'
-        // for edit selected list
-        if ($('#reply_to').val() !== '') {
-            url = url + '?patients=' + $('#reply_to').val() +
-                '&csrf_token_form=<?php echo attr_url(CsrfUtils::collectCsrfToken()); ?>';
-        }
-        dlgopen(url, '_blank', 625, 400);
-    }
-
-    function addtolist(sel) {
-        $('#assigned_to').trigger("click");
-        var itemtext = document.getElementById('assigned_to_text');
-        var item = document.getElementById('assigned_to');
-        if (sel.value !== '--') {
-            if (item.value) {
-                if (item.value.indexOf(sel.value) === -1) {
-                    itemtext.value = itemtext.value + ' ; ' + sel.options[sel.selectedIndex].text;
-                    item.value = item.value + ';' + sel.value;
-                }
-            } else {
-                itemtext.value = sel.options[sel.selectedIndex].text;
-                item.value = sel.value;
-            }
-        }
-    }
-
-    function SMS_direct() {
-        var pid = $("#sms_pid").val();
-        var m = $("#sms_mobile").val();
-        var allow = $("#sms_allow").val();
-        if ((pid === '') || (m === '')) {
-            alert('<?php echo xls("MedEx needs a valid mobile number to send SMS messages..."); ?>');
-        } else if (allow === 'NO') {
-            alert('<?php echo xls("This patient does not allow SMS messaging!"); ?>');
-        } else {
-            top.restoreSession();
-            window.open('messages.php?nomenu=1&go=SMS_bot&pid=' + encodeURIComponent(pid) + '&m=' + encodeURIComponent(
-                m), 'SMS_bot', 'width=370,height=600,resizable=0');
-        }
-    }
-    </script>
-    <script>
-    // var area = document.querySelector('.zoomable')
-    // panzoom(area, {
-    //     maxZoom: 3.5,
-    //     minZoom: .5
-    // });
-    </script>
-    </body>
+   
+   
+  
     <?php
 }
     ?>
 
 
+
+<script>
+
+$(document).ready(function() {
+
+    $(".xx").click(function() {
+        $(this)
+            .closest(".row")
+            .addClass("activatetextarea")
+    });
+});
+
+function family_history_submit(){
+    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+
+
+    $.ajax({
+        type: 'POST',
+        url: $webroot+"/interface/main/history_details_save.php",
+        data: $('#family_history').serialize(),   
+        success: function(data){
+        // alert(data);
+        location.reload();
+
+        // console.log(data);       
+        }
+    });
+}
+
+
+</script>
 
 
 

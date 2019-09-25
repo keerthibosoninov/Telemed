@@ -105,7 +105,8 @@ if ($GLOBALS['date_display_format'] == 1) {
         href="<?php echo $GLOBALS['web_root']; ?>/library/css/bootstrap_navbar.css?v=<?php echo $v_js_includes; ?>"
         type="text/css">
 
-    <?php Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
+    <?php 
+    //Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
     <script>
     var xljs1 = '<?php echo xla('
     Preferences updated successfully '); ?>';
@@ -132,7 +133,7 @@ if ($GLOBALS['date_display_format'] == 1) {
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css"> -->
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
@@ -2178,7 +2179,7 @@ if (!empty($_REQUEST['go'])) { ?>
                     </div>
                     <div class="col-lg-4">
 
-                    <div id="accordion">
+                        <div id="accordion">
                             <div class="">
                                 <div class="acco-head" style="font-size: 16px;" data-toggle="collapse" href="#collapseOne">
 
@@ -2443,6 +2444,10 @@ if (!empty($_REQUEST['go'])) { ?>
             </div>
         </div>
     </section>
+
+    <script>
+      
+    </script>
 
     <!--end of container div-->
     <?php $oemr_ui->oeBelowContainerDiv();?>
@@ -2755,11 +2760,11 @@ if (!empty($_REQUEST['go'])) { ?>
     }
     </script>
     <script>
-    var area = document.querySelector('.zoomable')
-    panzoom(area, {
-        maxZoom: 3.5,
-        minZoom: .5
-    });
+    // var area = document.querySelector('.zoomable')
+    // panzoom(area, {
+    //     maxZoom: 3.5,
+    //     minZoom: .5
+    // });
     </script>
 <script>
      $('input[type="radio"]').click(function() {

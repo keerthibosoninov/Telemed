@@ -574,8 +574,8 @@ $main_tpl .= "<frame src='". $frame1url ."' name='RTop' scrolling='auto' />";
 if (empty($GLOBALS['gbl_tall_nav_area'])) {
     // not tall nav area ?>
 <div id="app">
-<frameset rows='<?php echo attr($GLOBALS['titleBarHeight']) + 5 ?>,*' frameborder='0' border='0' noresize framespacing='1' onunload='imclosing()'>
- <frame src='main_title.php' name='Title' scrolling='no' frameborder='1' noresize />
+<frameset rows='<?php echo attr($GLOBALS['titleBarHeight']) + 10.5 ?>,*' frameborder='0' border='0' noresize framespacing='1' onunload='imclosing()'>
+ <frame class="title_set" src='main_title.php' name='Title' scrolling='no' frameborder='1' noresize />
     <?php if ($lang_dir != 'rtl') { ?>
      <frameset cols='<?php echo attr($nav_area_width) . ',*'; ?>' id='fsbody' noresize frameborder='0' border='0' framespacing='4'>
         <?php echo $sidebar_tpl ?>

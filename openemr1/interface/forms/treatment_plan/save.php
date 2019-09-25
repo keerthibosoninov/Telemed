@@ -114,8 +114,83 @@ $sets = "pid = ?,
 
         }
     }
+     // imaging details
+     if($_POST["imaging_type"]){
+  
+        foreach ($_POST["imaging_type"] as $key => $value) {
+  
+          $imaging_type=$_POST['imaging_type'][$key];
+          $imaging_date=$_POST['imaging_date'][$key];
+          $imaging_findings=$_POST['imaging_findings'][$key];
+  
+            $query1 = ("replace into tm_imaging_details set
+            
+            treatment_id='" . add_escape_custom($treatmentid) . "',
+            imaging_type='" . add_escape_custom($imaging_type) . "',
+            imaging_date='" . add_escape_custom($imaging_date) . "',
+            imaging_findings='" . add_escape_custom($imaging_findings) . "',
+            isactive=1,
+            isdeleted=0
+            ");
+  
+            sqlInsert($query1);
+  
+        }
+      }
+  
+  
+      //Ancillary Services
+      if($_POST["ancillary_type"]){
+      
+        foreach ($_POST["ancillary_type"] as $key => $value) {
+  
+          $ancillary_type=$_POST['ancillary_type'][$key];
+          $ancillary_date=$_POST['ancillary_date'][$key];
+          $ancillary_status=$_POST['ancillary_status'][$key];
+          $ancillary_findings=$_POST['ancillary_findings'][$key];
+  
+            $query1 = ("replace into tm_ancillary_details set
+            
+            treatment_id='" . add_escape_custom($treatmentid) . "',
+            ancillary_type='" . add_escape_custom($ancillary_type) . "',
+            ancillary_date='" . add_escape_custom($ancillary_date) . "',
+            ancillary_status='" . add_escape_custom($ancillary_status) . "',
+            ancillary_findings='" . add_escape_custom($ancillary_findings) . "',
+            isactive=1,
+            isdeleted=0
+            ");
+  
+            sqlInsert($query1);
+  
+        }
+      }
+  
+      
+      //Specialist Referral
+      if($_POST["referral_type"]){
+      
+        foreach ($_POST["referral_type"] as $key => $value) {
+  
+          $referral_type=$_POST['referral_type'][$key];
+          $referral_date=$_POST['referral_date'][$key];
+          $referral_findings=$_POST['referral_findings'][$key];
+  
+            $query1 = ("replace into tm_referral_details set
+            
+            treatment_id='" . add_escape_custom($treatmentid) . "',
+            referral_type='" . add_escape_custom($referral_type) . "',
+            referral_date='" . add_escape_custom($referral_date) . "',
+            referral_findings='" . add_escape_custom($referral_findings) . "',
+            isactive=1,
+            isdeleted=0
+            ");
+  
+            sqlInsert($query1);
+  
+        }
+      }
 
-  //  addForm($encounter, "Treatment Plan", $treatmentid, "treatment_plan", $pid, $userauthorized);
+   addForm($encounter, "Treatment Plan", $treatmentid, "treatment_plan", $pid, $userauthorized);
 // } else {
     // sqlStatement(
     //     "UPDATE form_treatment_plan SET $sets WHERE id = ?",
@@ -144,3 +219,8 @@ $sets = "pid = ?,
 // formHeader("Redirecting....");
 // formJump();
 // formFooter();
+
+// $url=$GLOBALS['webroot']."/"
+// header("Location: http://www.redirect.to.url.com/");
+
+?>

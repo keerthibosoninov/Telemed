@@ -1,0 +1,40 @@
+/* style taken out of the addressbook code and put here instead */
+#addressbook_list td {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#addressbook_list a, #addressbook_list a:visited, #addressbook_list a:hover {
+  color: #0000cc;
+}
+
+#addressbook_list tr.search {
+  font-weight: bold;
+}
+
+#addressbook_list tr.head {
+  background-color: #cccccc;
+  font-weight: bold;
+}
+
+#addressbook_list tr.evenrow {
+  background-color: #ddddff;
+}
+
+#addressbook_list tr.oddrow {
+  background-color: #ffffff;
+}
+
+#addressbook_list .inputtext {
+  font-weight: normal;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+  background-color: transparent;
+}
+
+#addressbook_list .button {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+/*# sourceMappingURL=addressbook.css.map */

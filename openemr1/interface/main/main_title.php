@@ -110,22 +110,7 @@ $res = sqlQuery("select * from users where username=?", array($_SESSION{"authUse
     <header>
 
         <!-- ---------- left side menu ------------ -->
-
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn text-black" onclick="closeNav()">&times;</a>
-            <div class="menu-search">
-                <input type="text" class="form-control" />
-                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/search.svg" class="search-menu-icon" alt="" />
-            </div>
-            <a href="#" class="menu-link active">
-                <span>
-                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-1.svg" alt="" class="menu-icon" />
-                </span> Dashboard
-            </a>
-
-
-
-        </div>
+ 
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
 
         <!-- --------------left side menu ended----------- -->
