@@ -90,6 +90,27 @@ if ($mode == 'new') {
         $userauthorized,
         $date
     );
+
+    sqlInsert("INSERT INTO lists ( " .
+    "date, pid, type, title,comments, " .
+    "diagnosis,occurrence, referredby, " .
+    "outcome, destination" .
+    
+    ") VALUES ( " .
+    "NOW(), " .
+    "'" . add_escape_custom($pid) . "', " .
+    "'" . add_escape_custom($_POST['newtype'])          . "', " .
+    "'" . add_escape_custom($_POST['form_title'])       . "', " .
+                         
+    "'" . add_escape_custom($_POST['form_comments'])    . "', " .
+    "'" . add_escape_custom($_POST['form_diagnosis'])   . "', " .
+    "'" . add_escape_custom($_POST['form_occur'])       . "', " .
+    "'" . add_escape_custom($_POST['form_referredby'])  . "', " .
+    "'" . add_escape_custom($_POST['form_outcome'])     . "', " .  
+    "'" . add_escape_custom($_POST['form_destination'])         . "' " .
+    ")");
+
+    
 } else if ($mode == 'update') {
     $id = $_POST["id"];
     $result = sqlQuery("SELECT encounter, sensitivity FROM form_encounter WHERE id = ?", array($id));

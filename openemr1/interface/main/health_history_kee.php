@@ -546,9 +546,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </form>
                                     </div>
 
-                                     <!-- relatives_tab -->
                                     <div id="menu3" class="container tab-pane fade ">
-                                        <form id="relatives_tab" onsubmit="submit_relatives();">
                                         <div class="pt-4 pb-5">
                                             <div class="row mt-3">
                                                 <div class="col-sm-6">
@@ -556,11 +554,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="cancer" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -569,11 +567,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="diabetes" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -582,11 +580,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="heart_pblm" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -595,11 +593,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="epilepsy" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -608,11 +606,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="suicide" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -621,11 +619,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="tuberclosis" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -634,11 +632,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="bp" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -647,11 +645,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="stroke" id="" class="form-control active-text " placeholder="edit here paragraph shown here" rows="4 "></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -660,17 +658,15 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="text-right">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
+                                                        <img src="img/edit-text.svg" class="xx" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 pt-2">
-                                                    <textarea name="mental_illness" id="" class="form-control active-text " rows="4" placeholder="edit here paragraph shown here"></textarea>
+                                                    <textarea name="" id="" class="form-control active-text " rows="4 ">edit here paragraph shown here</textarea>
                                                 </div>
-                                                <input type="hidden" value="1" name="pid">
-                                            </div>                                        
+                                            </div>
+
                                         </div>
-                                        <div class="pt-4 pb-5"><button class="form-save">Save</button></div>
-                                        </form>
                                     </div>
                                     <div id="menu4" class="container tab-pane fade ">
                                         <div class="pt-4 pb-5 ">
@@ -962,26 +958,6 @@ function family_history_submit(){
 
 
 </script>
-
-<script>
-
-function submit_relatives(){
-
-     $webroot=  "<?php echo $GLOBALS['webroot'];?>";
-     $.ajax({
-        type: 'POST',
-         url: $webroot+"/interface/new/new_relatives_save.php",
-        data: $('#relatives_tab').serialize(),   
-         success: function(data){
-         alert(data);
-       console.log(data);
-        
-         }
-     });
-
- }
-
- </script>
 
 
 

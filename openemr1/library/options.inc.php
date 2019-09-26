@@ -3366,6 +3366,7 @@ function get_layout_form_value($frow, $prefix = 'form_')
                 $value = DateTimeToYYYYMMDDHHMMSS($_POST["$prefix$field_id"]);
             }
         } elseif ($data_type == 21) {
+            // risk factors
             if (!$frow['list_id']) {
                 if (!empty($_POST["form_$field_id"])) {
                     $value = xlt('Yes');

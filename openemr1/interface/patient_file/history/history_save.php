@@ -22,6 +22,10 @@ if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
     CsrfUtils::csrfNotVerified();
 }
 
+
+//  km updated
+
+$pid=$_POST['pid'];
 // Check authorization.
 if (acl_check('patients', 'med')) {
     $tmp = getPatientData($pid, "squad");
@@ -52,6 +56,14 @@ while ($frow = sqlFetchArray($fres)) {
     if (isset($_POST["form_$field_id"])) {
         $newdata[$field_id] = get_layout_form_value($frow);
     }
+}
+
+// custom km for risk factors
+if(isset($_POST['risk_coc_other'] )){
+    $newdata['risk_coc_other']=$_POST['risk_coc_other'];
+}
+if(isset($_POST['risk_oth_other'] )){
+    $newdata['risk_oth_other']=$_POST['risk_oth_other'];
 }
 
 updateHistoryData($pid, $newdata);

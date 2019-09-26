@@ -117,6 +117,12 @@ $primary_docs = array(
 'funct_abi'=> array(xl('Functional Abilities')  , 0, '#'),
 'health_his'=> array(xl('Health History')  , 0, 'main/health_history.php'),
 'review'=> array(xl('Review')  , 0, 'main/review_system.php'),
+// 'care_ob'=> array(xl('Care Observation')  , 0, 'main/care_observation.php'),
+'care_ob'=> array(xl('Care Observation')  , 0, 'forms/observation/new.php'),
+
+'visit_his'=> array(xl('Visit History')  , 0, 'main/visit_history.php'),
+
+
 
 
 'injury_det' => array(xl('Injury Details')  , 0, 'main/injury_details.php'),
@@ -1293,10 +1299,12 @@ $(function (){
    genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
    genTreeLink('RTop', 'injury_det', xl('Injury Details'));
 //    genTreeLink('RTop', 'funct_abi', xl('Functional Abilities'));
+genTreeLink('RTop', 'visit_his', xl('Visit History'));
    genTreeLink('RTop', 'health_his', xl('Health History'));
    genTreeLink('RTop', 'review', xl('Review of System'));
-
-
+   genTreeLink('RTop', 'care_ob', xl('Care Observation'));
+   
+   
    
 //    genTreeLink('RTop', 'appoint', xl('Appointment'));
 
