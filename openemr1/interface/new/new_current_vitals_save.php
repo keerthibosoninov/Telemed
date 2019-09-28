@@ -43,7 +43,11 @@ if(isset($_POST['form_id']) && $_POST['form_id']=='current_data'){
     $bp1=explode("/",$bp);
      $bpd=$bp1[0];
      $bps=$bp1[1];
-     
+
+     $facility2 =$_POST["facility2"];
+     $reason2 =$_POST["reason2"];
+
+        
      $query = ("replace into form_soap set
         
      subjective='" . add_escape_custom($subjective) . "',        
@@ -74,6 +78,15 @@ if(isset($_POST['form_id']) && $_POST['form_id']=='current_data'){
       sqlInsert($query1);
 
      }
+
+    
+     sqlStatement(
+       "UPDATE form_encounter SET      
+           reason = '" . add_escape_custom($reason2) . "',
+           facility ='" . add_escape_custom($facility2) . "', 
+           date = NOW() WHERE pid = '" . add_escape_custom($pid) . "'"
+   );
+ //   sqlStatement($query2);
    }
 
 

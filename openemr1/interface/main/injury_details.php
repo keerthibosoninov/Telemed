@@ -137,7 +137,7 @@ $pid=1;
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css"> -->
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
@@ -151,6 +151,14 @@ $pid=1;
         .hidedata{
             display:none;
         }
+        .tab-pane {
+            margin-left:0px;
+            margin-right:0px;
+        }
+        /* .col-md-4{
+            padding-left:0px;
+            padding-right:0px;
+        } */
     </style>
 
 
@@ -252,10 +260,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="home" class="container tab-pane active">
+                                    <div id="home" class=" tab-pane active">
                                         <form id="home_employee" onsubmit="return  submit_injury();">
                                         <div class="form-inputs">
-                                            <div class="pt-5">
+                                            <div class="pt-4 pb-4">
 
                                                 <div class="row">
                                                     <div class="col-md-4 relative">
@@ -404,9 +412,13 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
 
                                             </div>
+                                           
 
                                             <div class="div pt-3">
-                                                <p>Narrative Description</p>
+                                                <div class="col-md-5 col-lg-5">
+                                                    <p>Narrative Description</p>
+                                                </div>
+                                               
                                                 <div class="row">
                                                     <div class="col-4 col-md-2">
 
@@ -449,24 +461,27 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </form>
 
                                     </div>
-                                    <div id="menu1" class="container tab-pane fade">
+                                    <div id="menu1" class=" tab-pane fade">
+                                    <!-- container -->
                                         <form method='post' name='my_form' action="<?php echo $rootdir?>/forms/treatment_plan/save.php">
                                         <!-- <form name="treatment" id="treatment" onsubmit="submit_treatment();"> -->
                                             <div class="pt-4 pb-4">
-                                                <div class="pt-5">
-                                                    <p>Hospitalization</p>
+                                                <div class="pt-4">
+                                                    <div class="col-md-6">
+                                                        <p>Hospitalization</p>
+                                                    </div>
                                                     <div class="row">
-                                                        <div class="col-md-4 relative">
+                                                        <div class="col-md-3 relative">
                                                             <p>Admit</p>
                                                             <input type="date" name="admit_date[]" class="form-control" placeholder="Date">
                                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time" alt="">
                                                         </div>
-                                                        <div class="col-md-4 relative">
+                                                        <div class="col-md-3 relative">
                                                             <p>Discharge</p>
                                                             <input type="date"  name="discharge_date[]" class="form-control" placeholder="Middle Name">
                                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time" alt="">
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <p>Location</p>
                                                             <input type="text" name="location[]" class="form-control" placeholder="Location">
                                                         </div>
@@ -481,7 +496,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
                                                 </div>
                                                 <div class="pt-3">
-                                                    <p>Imaging</p>
+                                                    <div class="col-md-6">
+                                                        <p>Imaging</p>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-3 relative">
                                                             <p>Type</p>
@@ -508,19 +525,19 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
                                                 </div>
                                                 <div class="pt-3">
-                                                    <p>Ancillary Services</p>
+                                                    <div class="col-md-6"><p>Ancillary Services</p></div>
                                                     <div class="row">
-                                                        <div class="col-md-4 relative">
+                                                        <div class="col-md-3 relative">
                                                             <p>Type</p>
                                                             <input type="text" class="form-control" name="ancillary_type[]" placeholder="Type">
 
                                                         </div>
-                                                        <div class="col-md-4 relative">
+                                                        <div class="col-md-3 relative">
                                                             <p>Date</p>
                                                             <input type="date" class="form-control" placeholder="" name="ancillary_date[]">
                                                             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time spl-top39" alt="">
                                                         </div>
-                                                        <div class="col-md-4 relative">
+                                                        <div class="col-md-6 relative">
                                                             <p>Status</p>
                                                             <input type="text" class="form-control" placeholder="Status" name="ancillary_status[]">
 
@@ -540,7 +557,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
                                                 </div>
                                                 <div class="pt-3">
-                                                    <p>Specialist Referral</p>
+                                                    <div class="col-md-6"><p>Specialist Referral</p></div>
                                                     <div class="row">
                                                         <div class="col-md-3 relative">
                                                             <p>Type</p>
@@ -626,9 +643,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                         </form>
                                     </div>
-                                    <div id="menu2" class="container tab-pane fade">
+                                    <div id="menu2" class=" tab-pane fade">
                                          <form id="employer_info" onsubmit="return  submit_employer();">
-                                        <div class="pt-4 pb-5">
+                                        <div class="pt-4 pb-4">
                                             <div>
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -683,7 +700,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         <p>County</p> <input type="text" name="county" placeholder="County" class="form-control"></div>
                                                 </div>
                                                 <div class="pt-3">
-                                                    <p>Employer Authorization</p>
+                                                    <div class="col-md-6">
+                                                        <p>Employer Authorization</p>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
 
@@ -727,9 +746,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                    
                                      <!-- //employer detail -->
                                      <!-- claim_info -->
-                                    <div id="menu3" class="container tab-pane fade">
+                                    <div id="menu3" class=" tab-pane fade">
                                         <form id="claim_info" onsubmit="return  submit_claim_info();">
-                                        <div>
+                                        <div class="pt-4 pb-4">
                                             <div>
                                                 <div class="row">
                                                     <div class="col-md-4">
@@ -743,7 +762,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
                                             </div>
                                             <div class="pt-4">
-                                                <p>Adjuster Info</p>
+                                                <div class="col-md-6">
+                                                    <p>Adjuster Info</p>
+                                                </div>
                                                 <div class="row pt-2">
                                                     <div class="col-md-4">
                                                         <p>First Name</p>
@@ -815,7 +836,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
 
                                             <div class="pt-4">
-                                                <p>Preffered Contact Method</p>
+                                                <div class="col-md-6"><p>Preffered Contact Method</p></div>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <p>E-Mail</p>
@@ -1387,17 +1408,17 @@ function submit_claim_info(){
 <script>
     function GetDynamicTextBox1(value) {
         return `    <div class="row pt-4">
-        <div class="col-md-4 relative">
+        <div class="col-md-3 relative">
             <p>Admit</p>
             <input type="date" name="admit_date[]" class="form-control" placeholder="Date">
             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time" alt="">
         </div>
-        <div class="col-md-4 relative">
+        <div class="col-md-3 relative">
             <p>Discharge</p>
             <input type="date"  name="discharge_date[]" class="form-control" placeholder="Middle Name">
             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time" alt="">
         </div>
-        <div class="col-md-4 delete-row">
+        <div class="col-md-6 delete-row">
             <p>Location</p>
             <input type="text" name="location[]" class="form-control" placeholder="Location">
             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove1" alt="">
@@ -1407,18 +1428,18 @@ function submit_claim_info(){
 
     function GetDynamicTextBox3(value) {
         return `     <div class="row pt-3">
-        <div class="col-md-4 relative">
+        <div class="col-md-3 relative">
             <p>Type</p>
             <input type="text" class="form-control" name="ancillary_type[]" placeholder="Type">
 
         </div>
-        <div class="col-md-4 relative">
+        <div class="col-md-3 relative">
             <p>Date</p>
             <input type="date" class="form-control" placeholder="" name="ancillary_date[]">
 
             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/date.svg" class="date-time spl-top39" alt="">
         </div>
-        <div class="col-md-4 relative delete-row">
+        <div class="col-md-6 relative delete-row">
             <p>Status</p>
             <input type="text" class="form-control" placeholder="Status" name="ancillary_status[]">
             <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove3" alt="">

@@ -120,7 +120,7 @@ $res = sqlQuery("select * from users where username=?", array($_SESSION{"authUse
         <div class="top-header">
             <div class="container-fluid">
                 <div class="row titleshadow">
-                    <div class="col-lg-8 col-6">
+                    <div class="col-lg-9 col-6">
                         <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/logo.svg" class="logo" alt="" />
                     </div>
                     <div class="col-lg-3 col-6">

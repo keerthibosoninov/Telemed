@@ -90,485 +90,551 @@ if ($_POST['form_xmit']) {
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-<?php Header::setupHeader(['datetime-picker']); ?>
-<title><?php echo xlt('Procedure Orders and Reports'); ?></title>
+    <?php 
+    //Header::setupHeader(['datetime-picker']); ?>
+    <title><?php echo xlt('Procedure Orders and Reports'); ?></title>
 
-<style>
+    <style>
+    tr.head {
+        font-size: 10pt;
+        background-color: grey;
+        text-align: center;
+        color: white;
+    }
 
-tr.head {
-    font-size: 10pt;
-    background-color: grey;
-    text-align: center;
-    color: white;
-}
+    tr.subhead {
+        font-size: 10pt;
+        background-color: #e6e6e6;
+        text-align: center;
+    }
 
-tr.subhead {
-    font-size: 10pt;
-    background-color: #e6e6e6;
-    text-align: center;
-}
+    tr.detail {
+        margin: 0 0;
+        padding: 0 0;
+        font-size: 10pt;
+    }
 
-tr.detail {
-    margin:0 0;padding: 0 0;
-    font-size: 10pt;
-}
+    a,
+    a:visited,
+    a:hover {
+        color: #0000cc;
+    }
 
-a, a:visited, a:hover {
-    color: #0000cc;
-}
+    .date_x{
+        width:100% !important;
+    }
+    </style>
 
-</style>
-<script language="JavaScript">
-var dlgtitle = <?php echo xlj("Match Patient") ?>;
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-function openResults(orderid) {
-    top.restoreSession();
-// Open results in a new window. The options parameter serves to defeat Firefox's
-// "open windows in a new tab", which is what we want because the doc may want to
-// see the results concurrently with other stuff like related patient notes.
-// Opening in the other frame is not good enough because if they then do related
-// patients notes it will wipe out this script's list. We need 3 viewports.
-    window.open('single_order_results.php?orderid=' + encodeURIComponent(orderid), '_blank', 'toolbar=0,location=0,menubar=0,scrollbars=yes');
-//
-// To open results in the same frame:
-// document.location.href = 'single_order_results.php?orderid=' + orderid;
-//
-// To open results in the "other" frame:
-// var w = window;
-// var othername = (w.name == 'RTop') ? 'RBot' : 'RTop';
-// w.parent.left_nav.forceDual();
-// w.parent.left_nav.loadFrame('ore1', othername, 'orders/single_order_results.php?orderid=' + orderid);
-}
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
 
-// Invokes the patient matching dialog.
-// args is a PHP-serialized array of patient attributes.
-// The dialog script will directly insert the selected pid value, or 0,
-// into the value of the form field named "[select][$key]".
-//
-function openPtMatch(args) {
-    top.restoreSession();
-    dlgopen('patient_match_dialog.php?key=' + encodeURIComponent(args), '_blank', 850, 400, '', dlgtitle);
-}
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
-function openPatient(pid) {
-    top.restoreSession();
-    document.location.href = "../patient_file/summary/demographics.php?set_pid=" + encodeURIComponent(pid);
-}
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+    <script language="JavaScript">
+    var dlgtitle = <? php echo xlj("Match Patient") ?> ;
 
-$(function () {
-    $('.datepicker').datetimepicker({
-        <?php $datetimepicker_timepicker = false; ?>
-        <?php $datetimepicker_showseconds = false; ?>
-        <?php $datetimepicker_formatInput = false; ?>
-        <?php require($GLOBALS['srcdir'] . '/js/xl/jquery-datetimepicker-2-5-4.js.php'); ?>
-        <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
+    function openResults(orderid) {
+        top.restoreSession();
+        // Open results in a new window. The options parameter serves to defeat Firefox's
+        // "open windows in a new tab", which is what we want because the doc may want to
+        // see the results concurrently with other stuff like related patient notes.
+        // Opening in the other frame is not good enough because if they then do related
+        // patients notes it will wipe out this script's list. We need 3 viewports.
+        window.open('single_order_results.php?orderid=' + encodeURIComponent(orderid), '_blank',
+            'toolbar=0,location=0,menubar=0,scrollbars=yes');
+        //
+        // To open results in the same frame:
+        // document.location.href = 'single_order_results.php?orderid=' + orderid;
+        //
+        // To open results in the "other" frame:
+        // var w = window;
+        // var othername = (w.name == 'RTop') ? 'RBot' : 'RTop';
+        // w.parent.left_nav.forceDual();
+        // w.parent.left_nav.loadFrame('ore1', othername, 'orders/single_order_results.php?orderid=' + orderid);
+    }
+
+    // Invokes the patient matching dialog.
+    // args is a PHP-serialized array of patient attributes.
+    // The dialog script will directly insert the selected pid value, or 0,
+    // into the value of the form field named "[select][$key]".
+    //
+    function openPtMatch(args) {
+        top.restoreSession();
+        dlgopen('patient_match_dialog.php?key=' + encodeURIComponent(args), '_blank', 850, 400, '', dlgtitle);
+    }
+
+    function openPatient(pid) {
+        top.restoreSession();
+        document.location.href = "../patient_file/summary/demographics.php?set_pid=" + encodeURIComponent(pid);
+    }
+
+    $(function() {
+        $('.datepicker').datetimepicker({
+            <?php $datetimepicker_timepicker = false; ?>
+            <?php $datetimepicker_showseconds = false; ?>
+            <?php $datetimepicker_formatInput = false; ?>
+            <?php require($GLOBALS['srcdir'].
+                '/js/xl/jquery-datetimepicker-2-5-4.js.php'); ?>
+            <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
+        });
     });
-});
-
-</script>
+    </script>
 </head>
 
 <body class="body_top">
-<form class="form-inline" method='post' action='list_reports.php' enctype='multipart/form-data'>
-    <!-- This might be set by the results window: -->
-    <input type='hidden' name='form_external_refresh' value=''/>
 
-    <?php
+    <section>
+        <div class="body-content body-content2">
+            <div class="container-fluid pb-4 pt-4">
+                <window-dashboard title="" class="icon-hide">
+                    <div class="head-component">
+                        <div class="row">
+                            <div class="col-6"></div>
+                            <div class="col-6">
+                                <p class="text-white head-p"> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-compo">
+                        <form class="form-inline" method='post' action='list_reports.php' enctype='multipart/form-data'>
+                            <!-- This might be set by the results window: -->
+                            <input type='hidden' name='form_external_refresh' value='' />
 
-    if ($errmsg) {
-        echo "<font color='red'>" . text($errmsg) . "</font><br />\n";
-    }
+                            <?php
 
-    $info = array('select' => array());
+                            if ($errmsg) {
+                                echo "<font color='red'>" . text($errmsg) . "</font><br />\n";
+                            }
 
-    // We skip match/delete processing if this is just a refresh, because that
-    // might be a nasty surprise.
-    if (empty($_POST['form_external_refresh'])) {
-        // Get patient matching selections from this form if there are any.
-        if (is_array($_POST['select'])) {
-            foreach ($_POST['select'] as $selkey => $selval) {
-                $info['select'][$selkey] = $selval;
-            }
-        }
+                            $info = array('select' => array());
 
-        // Get file delete requests from this form if there are any.
-        if (is_array($_POST['delete'])) {
-            foreach ($_POST['delete'] as $delkey => $dummy) {
-                $info[$delkey] = array('delete' => true);
-            }
-        }
-    }
+                            // We skip match/delete processing if this is just a refresh, because that
+                            // might be a nasty surprise.
+                            if (empty($_POST['form_external_refresh'])) {
+                                // Get patient matching selections from this form if there are any.
+                                if (is_array($_POST['select'])) {
+                                    foreach ($_POST['select'] as $selkey => $selval) {
+                                        $info['select'][$selkey] = $selval;
+                                    }
+                                }
 
-    // is this a manual run
-    if (isset($_REQUEST['form_manual'])) {
-        $info['orphaned_order'] = "R";
-    }
-    // Attempt to post any incoming results.
-    if (empty($_POST['form_external_refresh'])) {
-        $errmsg = poll_hl7_results($info);
-    }
-    // echo "<!--\n";  // debugging
-    // print_r($info); // debugging
-    // echo "-->\n";   // debugging
+                                // Get file delete requests from this form if there are any.
+                                if (is_array($_POST['delete'])) {
+                                    foreach ($_POST['delete'] as $delkey => $dummy) {
+                                        $info[$delkey] = array('delete' => true);
+                                    }
+                                }
+                            }
 
-    // Display a row for each required patient matching decision or message.
-    $s = '';
-    $matchreqs = false;
-    $errors = false;
-    $orphan_orders = false;
+                            // is this a manual run
+                            if (isset($_REQUEST['form_manual'])) {
+                                $info['orphaned_order'] = "R";
+                            }
+                            // Attempt to post any incoming results.
+                            if (empty($_POST['form_external_refresh'])) {
+                                $errmsg = poll_hl7_results($info);
+                            }
+                            
+                            // Display a row for each required patient matching decision or message.
+                            $s = '';
+                            $matchreqs = false;
+                            $errors = false;
+                            $orphan_orders = false;
 
-    // Generate HTML to request patient matching.
-    if (is_array($info['match'])) {
-        foreach ($info['match'] as $matchkey => $matchval) {
-            $matchreqs = true;
-            $s .= " <tr class='detail'>\n";
-            $s .= "  <td>&nbsp;</td>\n";
-            $s .= "  <td>&nbsp;</td>\n";
-            $s .= "  <td><a href='javascript:openPtMatch(" . attr_js($matchkey) . ")'>";
-            $tmp = unserialize($matchkey, ['allowed_classes' => false]);
-            $s .= xlt('Click to match patient') . ' "' . text($tmp['lname']) . ', ' . text($tmp['fname']) . '"';
-            $s .= "</a>";
-            $s .= "</td>\n";
-            $s .= "  <td style='width:1%'><input type='text' name='select[" .
-                attr($matchkey) . "]' size='3' value='' " .
-                "style='background-color:transparent' readonly /></td>\n";
-            $s .= " </tr>\n";
-        }
-    }
+                            // Generate HTML to request patient matching.
+                            if (is_array($info['match'])) {
+                                foreach ($info['match'] as $matchkey => $matchval) {
+                                    $matchreqs = true;
+                                    $s .= " <tr class='detail'>\n";
+                                    $s .= "  <td>&nbsp;</td>\n";
+                                    $s .= "  <td>&nbsp;</td>\n";
+                                    $s .= "  <td><a href='javascript:openPtMatch(" . attr_js($matchkey) . ")'>";
+                                    $tmp = unserialize($matchkey, ['allowed_classes' => false]);
+                                    $s .= xlt('Click to match patient') . ' "' . text($tmp['lname']) . ', ' . text($tmp['fname']) . '"';
+                                    $s .= "</a>";
+                                    $s .= "</td>\n";
+                                    $s .= "  <td style='width:1%'><input type='text' name='select[" .
+                                        attr($matchkey) . "]' size='3' value='' " .
+                                        "style='background-color:transparent' readonly /></td>\n";
+                                    $s .= " </tr>\n";
+                                }
+                            }
 
-    foreach ($info as $infokey => $infoval) {
-        if ($infokey == 'match' || $infokey == 'select') {
-            continue;
-        }
+                            foreach ($info as $infokey => $infoval) {
+                                if ($infokey == 'match' || $infokey == 'select') {
+                                    continue;
+                                }
 
-        $count = 0;
-        if (is_array($infoval['mssgs'])) {
-            foreach ($infoval['mssgs'] as $message) {
-                $s .= " <tr class='detail'>\n";
-                if (substr($message, 0, 1) == '*') {
-                    $errors = true;
-                    // Error message starts with '*'
-                    if (!$count++) {
-                        $s .= "  <td><input type='checkbox' name='delete[" . attr($infokey) . "]' value='1' /></td>\n";
-                        $s .= "  <td>" . text($infokey) . "</td>\n";
-                    } else {
-                        $s .= "  <td>&nbsp;</td>\n";
-                        $s .= "  <td>&nbsp;</td>\n";
-                    }
-                    $s .= "  <td colspan='2' style='color:red'>" . text(substr($message, 1)) . "</td>\n";
-                } else {
-                    // Informational message starts with '>'
-                    $s .= "  <td>&nbsp;</td>\n";
-                    $s .= "  <td>" . text($infokey) . "</td>\n";
-                    $s .= "  <td colspan='2' style='color:green'>" . text(substr($message, 1)) . "</td>\n";
-                }
-                $s .= " </tr>\n";
-            }
-        }
-    }
+                                $count = 0;
+                                if (is_array($infoval['mssgs'])) {
+                                    foreach ($infoval['mssgs'] as $message) {
+                                        $s .= " <tr class='detail'>\n";
+                                        if (substr($message, 0, 1) == '*') {
+                                            $errors = true;
+                                            // Error message starts with '*'
+                                            if (!$count++) {
+                                                $s .= "  <td><input type='checkbox' class='form-control' name='delete[" . attr($infokey) . "]' value='1' /></td>\n";
+                                                $s .= "  <td>" . text($infokey) . "</td>\n";
+                                            } else {
+                                                $s .= "  <td>&nbsp;</td>\n";
+                                                $s .= "  <td>&nbsp;</td>\n";
+                                            }
+                                            $s .= "  <td colspan='2' style='color:red'>" . text(substr($message, 1)) . "</td>\n";
+                                        } else {
+                                            // Informational message starts with '>'
+                                            $s .= "  <td>&nbsp;</td>\n";
+                                            $s .= "  <td>" . text($infokey) . "</td>\n";
+                                            $s .= "  <td colspan='2' style='color:green'>" . text(substr($message, 1)) . "</td>\n";
+                                        }
+                                        $s .= " </tr>\n";
+                                    }
+                                }
+                            }
 
-    if ($s) {
-        if ($matchreqs || $errors) {
-            $orphan_orders = true;
-            echo "<p class='bold' style='color:#008800'>";
-            echo xlt('Incoming results requiring attention:');
-            echo "</p>\n";
-        }
+                            if ($s) {
+                                if ($matchreqs || $errors) {
+                                    $orphan_orders = true;
+                                    echo "<p class='bold' style='color:#008800'>";
+                                    echo xlt('Incoming results requiring attention:');
+                                    echo "</p>\n";
+                                }
 
-        echo "<table  class='table table-condensed' style='margin-bottom: 0;'>\n";
-        echo " <tr class='head'>\n";
-        echo "  <th>" . xlt('Delete') . "</th>\n";
-        echo "  <th>" . xlt('Lab/File') . "</th>\n";
-        echo "  <th>" . xlt('Message') . "</th>\n";
-        echo "  <th>" . xlt('Match') . "</th>\n";
-        echo " </tr>\n";
-        echo $s;
-        echo "</table>\n";
-        if ($matchreqs || $errors) {
-            echo "<p class='bold' style='color:#008800'>";
-            if ($matchreqs) {
-                echo xlt('Click where indicated above to match the patient.') . ' ';
-                echo xlt('After that the Match column will show the selected patient ID, or 0 to create.') . ' ';
-                echo xlt('If you do not select a match the patient will be created.') . ' ';
-            }
+                                echo "<table  class='table table-condensed' style='margin-bottom: 0;'>\n";
+                                echo " <tr class='head'>\n";
+                                echo "  <th>" . xlt('Delete') . "</th>\n";
+                                echo "  <th>" . xlt('Lab/File') . "</th>\n";
+                                echo "  <th>" . xlt('Message') . "</th>\n";
+                                echo "  <th>" . xlt('Match') . "</th>\n";
+                                echo " </tr>\n";
+                                echo $s;
+                                echo "</table>\n";
+                                if ($matchreqs || $errors) {
+                                    echo "<p class='bold' style='color:#008800'>";
+                                    if ($matchreqs) {
+                                        echo xlt('Click where indicated above to match the patient.') . ' ';
+                                        echo xlt('After that the Match column will show the selected patient ID, or 0 to create.') . ' ';
+                                        echo xlt('If you do not select a match the patient will be created.') . ' ';
+                                    }
 
-            echo xlt('Checkboxes above indicate if you want to reject and delete the HL7 file.') . ' ';
-            echo xlt('When done, click Submit (below) to apply your choices.');
-            echo "</p>\n";
-        }
-    }
+                                    echo xlt('Checkboxes above indicate if you want to reject and delete the HL7 file.') . ' ';
+                                    echo xlt('When done, click Submit (below) to apply your choices.');
+                                    echo "</p>\n";
+                                }
+                            }
 
-    // If there was a fatal error display that.
-    if ($errmsg) {
-        echo "<font color='red'>" . text($errmsg) . "</font><br />\n";
-    }
+                            // If there was a fatal error display that.
+                            if ($errmsg) {
+                                echo "<font color='red'>" . text($errmsg) . "</font><br />\n";
+                            }
 
-    $form_from_date = empty($_POST['form_from_date']) ? '' : trim($_POST['form_from_date']);
-    $form_to_date = empty($_POST['form_to_date']) ? '' : trim($_POST['form_to_date']);
-    // if (empty($form_to_date)) $form_to_date = $form_from_date;
+                            $form_from_date = empty($_POST['form_from_date']) ? '' : trim($_POST['form_from_date']);
+                            $form_to_date = empty($_POST['form_to_date']) ? '' : trim($_POST['form_to_date']);
+                            // if (empty($form_to_date)) $form_to_date = $form_from_date;
 
-    $form_reviewed = empty($_POST['form_reviewed']) ? 3 : intval($_POST['form_reviewed']);
+                            $form_reviewed = empty($_POST['form_reviewed']) ? 3 : intval($_POST['form_reviewed']);
 
-    $form_patient = !empty($_POST['form_patient']);
+                            $form_patient = !empty($_POST['form_patient']);
 
-    $form_provider = empty($_POST['form_provider']) ? '' : intval($_POST['form_provider']);
-    ?>
-    <hr>
-    <table>
-        <tr>
-            <td class='text' align='center'>
-                <label><?php echo xlt('From'); ?>:</label>
-                <input type='text' size='9' name='form_from_date' id='form_from_date'
-                       class='form-control datepicker'
-                       value='<?php echo attr($form_from_date); ?>'
-                       title='<?php echo xla('yyyy-mm-dd'); ?>'/>
+                            $form_provider = empty($_POST['form_provider']) ? '' : intval($_POST['form_provider']);
+                            ?>
+                            <div class="container-fluid">
+                                <div class="pt-4 pb-4">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <p>From</p>
+                                           
+                                            <input type='date' size='9' name='form_from_date' id='form_from_date'
+                                                class='form-control date_x datepicker pr-1 pl-1' value='<?php echo attr($form_from_date); ?>'
+                                                title='<?php echo xla('yyyy-mm-dd'); ?>' />
+                                            <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>To</p>
+                                            <input type='date' size='9' name='form_to_date' id='form_to_date' class='form-control date_x datepicker pr-1 pl-1'
+                                                value='<?php echo attr($form_to_date); ?>' title='<?php echo xla('yyyy-mm-dd'); ?>' />
+                                             <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>Current EE only</p> 
+                                                <!-- <input type="checkbox" placeholder="Number" class="mt-4"> -->
+                                                <input class="form-control" type='checkbox' name='form_patient' id="ck_patient" value='1' <?php if ($form_patient) {
+                                                    echo 'checked ';
+                                                } ?> />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>Filter</p>
+                                            <select name="form_reviewed" id="" class="form-control mt-2">
+                                                <?php
+                                                    foreach (array(
+                                                                '1' => xl('All'),
+                                                                '2' => xl('Reviewed'),
+                                                                '3' => xl('Received, unreviewed'),
+                                                                '4' => xl('Sent, not received'),
+                                                                '5' => xl('Not sent'),
+                                                            ) as $key => $value) {
+                                                        echo "<option value='" . attr($key) . "'";
+                                                        if ($key == $form_reviewed) {
+                                                            echo " selected";
+                                                        }
 
-                <label><?php echo xlt('To'); ?>:</label>
-                <input type='text' size='9' name='form_to_date' id='form_to_date'
-                       class='form-control datepicker'
-                       value='<?php echo attr($form_to_date); ?>'
-                       title='<?php echo xla('yyyy-mm-dd'); ?>'/>
+                                                        echo ">" . text($value) . "</option>\n";
+                                                    }
+                                                ?>                                            
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>Providers</p>
+                                                <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">Value 1</option>
+                                                     <option value="">value 2</option> 
+                                                     <option value="">Value 3</option>
+                                                </select> -->
+                                               <?php generate_form_field(array('data_type' => 10, 'field_id' => 'provider',
+                                                    'empty_title' => '-- All Providers --'), $form_provider);
+                                                    ?>
+                                        </div>
+                                    </div>
+                                    <div class="pt-4 pb-5">
+                                        <div class="row">
+                                            <div class="col-md-5"></div>
+                                                <div class="col-md-2">
+                                                    <?php if (!$orphan_orders) { ?>
+                                                    <!-- <input type='submit' name='form_refresh' value='<?php echo xla('Submit'); ?>'> -->
+                                                    <button class="form-save" type='submit' name='form_refresh' >SEARCH</button>
+                                                    <?php } else { ?>
+                                                    <!-- <input type='submit' name='form_manual' value='<?php echo xla('Resolve Orphan Results'); ?>'> -->
+                                                    <button class="form-save" type='submit' name='form_manual' >Resolve Orphan Results</button>
+                                                    <?php } ?>
+                                                    
+                                                </div>
+                                        </div>
 
-                <input class="form-control" type='checkbox' name='form_patient' id="ck_patient" value='1'
-                    <?php if ($form_patient) {
-                        echo 'checked ';
-                    } ?>/>
-                <label for="ck_patient"><?php echo xlt('Current Pt Only'); ?></label>
+                                    </div>
+                                    <div class="table-div ">
+                                        <table class="table table-form">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="2">Patient</td>
+                                                    <td colspan="2">Order</td>
+                                                    <td colspan="2">Procedure</td>
+                                                    <td colspan="2">Report </td>
+                                                </tr>
+                                                <tr class="bg-transparent">
+                                                    <th> Name</th>
+                                                    <th>ID </th>
+                                                    <th>Date</th>
+                                                    <th>ID </th>
+                                                    <th>Code</th>
+                                                    <th>Description</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
 
-                <select class="form-control input-sm" name='form_reviewed'>
-                    <?php
-                    foreach (array(
-                                 '1' => xl('All'),
-                                 '2' => xl('Reviewed'),
-                                 '3' => xl('Received, unreviewed'),
-                                 '4' => xl('Sent, not received'),
-                                 '5' => xl('Not sent'),
-                             ) as $key => $value) {
-                        echo "<option value='" . attr($key) . "'";
-                        if ($key == $form_reviewed) {
-                            echo " selected";
-                        }
+                                                </tr>
 
-                        echo ">" . text($value) . "</option>\n";
-                    }
-                    ?>
-                </select>
+                                            </thead>
+                                            <?php
+                                            $selects =
+                                                "po.patient_id, po.procedure_order_id, po.date_ordered, po.date_transmitted, " .
+                                                "pc.procedure_order_seq, pc.procedure_code, pc.procedure_name, pc.do_not_send, " .
+                                                "pr.procedure_report_id, pr.date_report, pr.date_report_tz, pr.report_status, pr.review_status";
 
-                <?php
-                generate_form_field(array('data_type' => 10, 'field_id' => 'provider',
-                    'empty_title' => '-- All Providers --'), $form_provider);
-                ?>
-                &nbsp;
-                <?php if (!$orphan_orders) { ?>
-                    <input type='submit' name='form_refresh' value='<?php echo xla('Submit'); ?>'>
-                <?php } else { ?>
-                    <input type='submit' name='form_manual' value='<?php echo xla('Resolve Orphan Results'); ?>'>
-                <?php } ?>
-            </td>
-        </tr>
-    </table>
-    <table class="table table-bordered table-condensed table-striped table-hover">
-        <thead>
-        <tr class='head'>
-            <th colspan='2'><?php echo xlt('Patient'); ?></th>
-            <th colspan='2'><?php echo xlt('Order'); ?></th>
-            <th colspan='2'><?php echo xlt('Procedure'); ?></th>
-            <th colspan='2'><?php echo xlt('Report'); ?></th>
-        </tr>
-        <tr class='subhead'>
-            <th><?php echo xlt('Name'); ?></th>
-            <th><?php echo xlt('ID'); ?></th>
-            <th><?php echo xlt('Date'); ?></th>
-            <th><?php echo xlt('ID'); ?></th>
-            <th><?php echo xlt('Code'); ?></th>
-            <th><?php echo xlt('Description'); ?></th>
-            <th><?php echo xlt('Date'); ?></th>
-            <th><?php echo xlt('Status'); ?></th>
-            <!-- <td><?php echo xlt('Reviewed'); ?></td> -->
-        </tr>
-        </thead>
-        <?php
-        $selects =
-            "po.patient_id, po.procedure_order_id, po.date_ordered, po.date_transmitted, " .
-            "pc.procedure_order_seq, pc.procedure_code, pc.procedure_name, pc.do_not_send, " .
-            "pr.procedure_report_id, pr.date_report, pr.date_report_tz, pr.report_status, pr.review_status";
+                                            $joins =
+                                                "LEFT JOIN procedure_report AS pr ON pr.procedure_order_id = po.procedure_order_id AND " .
+                                                "pr.procedure_order_seq = pc.procedure_order_seq";
 
-        $joins =
-            "LEFT JOIN procedure_report AS pr ON pr.procedure_order_id = po.procedure_order_id AND " .
-            "pr.procedure_order_seq = pc.procedure_order_seq";
+                                            $orderby =
+                                                "po.date_ordered, po.procedure_order_id, " .
+                                                "pc.do_not_send, pc.procedure_order_seq, pr.procedure_report_id";
 
-        $orderby =
-            "po.date_ordered, po.procedure_order_id, " .
-            "pc.do_not_send, pc.procedure_order_seq, pr.procedure_report_id";
+                                            $where = "1 = 1";
+                                            $sqlBindArray = array();
 
-        $where = "1 = 1";
-        $sqlBindArray = array();
+                                            if (!empty($form_from_date)) {
+                                                $where .= " AND po.date_ordered >= ?";
+                                                $sqlBindArray[] = $form_from_date;
+                                            }
 
-        if (!empty($form_from_date)) {
-            $where .= " AND po.date_ordered >= ?";
-            $sqlBindArray[] = $form_from_date;
-        }
+                                            if (!empty($form_to_date)) {
+                                                $where .= " AND po.date_ordered <= ?";
+                                                $sqlBindArray[] = $form_to_date;
+                                            }
 
-        if (!empty($form_to_date)) {
-            $where .= " AND po.date_ordered <= ?";
-            $sqlBindArray[] = $form_to_date;
-        }
+                                            if ($form_patient) {
+                                                $where .= " AND po.patient_id = ?";
+                                                $sqlBindArray[] = $pid;
+                                            }
 
-        if ($form_patient) {
-            $where .= " AND po.patient_id = ?";
-            $sqlBindArray[] = $pid;
-        }
+                                            if ($form_provider) {
+                                                $where .= " AND po.provider_id = ?";
+                                                $sqlBindArray[] = $form_provider;
+                                            }
 
-        if ($form_provider) {
-            $where .= " AND po.provider_id = ?";
-            $sqlBindArray[] = $form_provider;
-        }
+                                            if ($form_reviewed == 2) {
+                                                $where .= " AND pr.procedure_report_id IS NOT NULL AND pr.review_status = 'reviewed'";
+                                            } else if ($form_reviewed == 3) {
+                                                $where .= " AND pr.procedure_report_id IS NOT NULL AND pr.review_status != 'reviewed'";
+                                            } else if ($form_reviewed == 4) {
+                                                $where .= " AND po.date_transmitted IS NOT NULL AND pr.procedure_report_id IS NULL";
+                                            } else if ($form_reviewed == 5) {
+                                                $where .= " AND po.date_transmitted IS NULL AND pr.procedure_report_id IS NULL";
+                                            }
 
-        if ($form_reviewed == 2) {
-            $where .= " AND pr.procedure_report_id IS NOT NULL AND pr.review_status = 'reviewed'";
-        } else if ($form_reviewed == 3) {
-            $where .= " AND pr.procedure_report_id IS NOT NULL AND pr.review_status != 'reviewed'";
-        } else if ($form_reviewed == 4) {
-            $where .= " AND po.date_transmitted IS NOT NULL AND pr.procedure_report_id IS NULL";
-        } else if ($form_reviewed == 5) {
-            $where .= " AND po.date_transmitted IS NULL AND pr.procedure_report_id IS NULL";
-        }
+                                            $query = "SELECT " .
+                                                "pd.fname, pd.mname, pd.lname, pd.pubpid, $selects " .
+                                                "FROM procedure_order AS po " .
+                                                "LEFT JOIN procedure_order_code AS pc ON pc.procedure_order_id = po.procedure_order_id " .
+                                                "LEFT JOIN patient_data AS pd ON pd.pid = po.patient_id $joins " .
+                                                "WHERE $where " .
+                                                "ORDER BY pd.lname, pd.fname, pd.mname, po.patient_id, $orderby";
 
-        $query = "SELECT " .
-            "pd.fname, pd.mname, pd.lname, pd.pubpid, $selects " .
-            "FROM procedure_order AS po " .
-            "LEFT JOIN procedure_order_code AS pc ON pc.procedure_order_id = po.procedure_order_id " .
-            "LEFT JOIN patient_data AS pd ON pd.pid = po.patient_id $joins " .
-            "WHERE $where " .
-            "ORDER BY pd.lname, pd.fname, pd.mname, po.patient_id, $orderby";
+                                            $res = sqlStatement($query, $sqlBindArray);
 
-        $res = sqlStatement($query, $sqlBindArray);
+                                            $lastptid = -1;
+                                            $lastpoid = -1;
+                                            $lastpcid = -1;
+                                            $encount = 0;
+                                            $lino = 0;
+                                            $extra_html = '';
+                                            $num_checkboxes = 0;
 
-        $lastptid = -1;
-        $lastpoid = -1;
-        $lastpcid = -1;
-        $encount = 0;
-        $lino = 0;
-        $extra_html = '';
-        $num_checkboxes = 0;
+                                            while ($row = sqlFetchArray($res)) {
+                                                $patient_id = empty($row['patient_id']) ? 0 : ($row['patient_id'] + 0);
+                                                $order_id = empty($row['procedure_order_id']) ? 0 : ($row['procedure_order_id'] + 0);
+                                                $order_seq = empty($row['procedure_order_seq']) ? 0 : ($row['procedure_order_seq'] + 0);
+                                                $date_ordered = empty($row['date_ordered']) ? '' : $row['date_ordered'];
+                                                $date_transmitted = empty($row['date_transmitted']) ? '' : $row['date_transmitted'];
+                                                $procedure_code = empty($row['procedure_code']) ? '' : $row['procedure_code'];
+                                                $procedure_name = empty($row['procedure_name']) ? '' : $row['procedure_name'];
+                                                $report_id = empty($row['procedure_report_id']) ? 0 : ($row['procedure_report_id'] + 0);
+                                                $date_report = empty($row['date_report']) ? '' : substr($row['date_report'], 0, 16);
+                                                $date_report_suf = empty($row['date_report_tz']) ? '' : (' ' . $row['date_report_tz']);
+                                                $report_status = empty($row['report_status']) ? '' : $row['report_status'];
+                                                $review_status = empty($row['review_status']) ? '' : $row['review_status'];
 
-        while ($row = sqlFetchArray($res)) {
-            $patient_id = empty($row['patient_id']) ? 0 : ($row['patient_id'] + 0);
-            $order_id = empty($row['procedure_order_id']) ? 0 : ($row['procedure_order_id'] + 0);
-            $order_seq = empty($row['procedure_order_seq']) ? 0 : ($row['procedure_order_seq'] + 0);
-            $date_ordered = empty($row['date_ordered']) ? '' : $row['date_ordered'];
-            $date_transmitted = empty($row['date_transmitted']) ? '' : $row['date_transmitted'];
-            $procedure_code = empty($row['procedure_code']) ? '' : $row['procedure_code'];
-            $procedure_name = empty($row['procedure_name']) ? '' : $row['procedure_name'];
-            $report_id = empty($row['procedure_report_id']) ? 0 : ($row['procedure_report_id'] + 0);
-            $date_report = empty($row['date_report']) ? '' : substr($row['date_report'], 0, 16);
-            $date_report_suf = empty($row['date_report_tz']) ? '' : (' ' . $row['date_report_tz']);
-            $report_status = empty($row['report_status']) ? '' : $row['report_status'];
-            $review_status = empty($row['review_status']) ? '' : $row['review_status'];
+                                                // Sendable procedures sort first, so this also applies to the order on an order ID change.
+                                                $sendable = isset($row['procedure_order_seq']) && $row['do_not_send'] == 0;
 
-// Sendable procedures sort first, so this also applies to the order on an order ID change.
-            $sendable = isset($row['procedure_order_seq']) && $row['do_not_send'] == 0;
+                                                $ptname = $row['lname'];
+                                                if ($row['fname'] || $row['mname']) {
+                                                    $ptname .= ', ' . $row['fname'] . ' ' . $row['mname'];
+                                                }
 
-            $ptname = $row['lname'];
-            if ($row['fname'] || $row['mname']) {
-                $ptname .= ', ' . $row['fname'] . ' ' . $row['mname'];
-            }
+                                                if ($lastpoid != $order_id || $lastpcid != $order_seq) {
+                                                    ++$encount;
+                                                }
+                                                ?>
 
-            if ($lastpoid != $order_id || $lastpcid != $order_seq) {
-                ++$encount;
-            }
 
-            //$bgcolor = "#" . (($encount & 1) ? "ddddff" : "ffdddd");
-            echo " <tr class='detail'>\n";
 
-// Generate patient columns.
-            if ($lastptid != $patient_id) {
-                $lastpoid = -1;
-                echo "  <td onclick='openPatient(" . attr_js($patient_id) . ")' style='cursor:pointer;color:blue'>";
-                echo text($ptname);
-                echo "</td>\n";
-                echo "  <td>" . text($row['pubpid']) . "</td>\n";
-            } else {
-                echo "  <td colspan='2' style='background-color:transparent'>&nbsp;</td>";
-            }
 
-// Generate order columns.
-            if ($lastpoid != $order_id) {
-                $lastpcid = -1;
-                echo "  <td>";
-                // Checkbox to support sending unsent orders, disabled if sent.
-                echo "<input type='checkbox' name='form_cb[" . attr($order_id) . "]' value='" . attr($order_id) . "' ";
-                if ($date_transmitted || !$sendable) {
-                    echo "disabled";
-                } else {
-                    echo "checked";
-                    ++$num_checkboxes;
-                }
 
-                echo " />&nbsp";
-                // Order date comes with a link to open results in the same frame.
-                echo "<a href='javascript:openResults(" . attr_js($order_id) . ")' ";
-                echo "title='" . xla('Click for results') . "'>";
-                echo text($date_ordered);
-                echo "</a></td>\n";
-                echo "  <td>";
-                // Order ID comes with a link to open the manifest in a new window/tab.
-                echo "<a href='" . $GLOBALS['webroot'];
-                echo "/interface/orders/order_manifest.php?orderid=";
-                echo attr_url($order_id);
-                echo "' target='_blank' onclick='top.restoreSession()' ";
-                echo "title='" . xla('Click for order summary') . "'>";
-                echo text($order_id);
-                echo "</a></td>\n";
-            } else {
-                echo "  <td colspan='2' style='background-color:transparent'>&nbsp;</td>";
-            }
+                                            <tbody>
+                                                <tr>
+                                                    <?php
+                                                    // Generate patient columns.
+                                                    if ($lastptid != $patient_id) {
+                                                        $lastpoid = -1;
+                                                        echo "  <td onclick='openPatient(" . attr_js($patient_id) . ")' style='cursor:pointer;color:blue'>";
+                                                        echo text($ptname);
+                                                        echo "</td>\n";
+                                                        echo "  <td>" . text($row['pubpid']) . "</td>\n";
+                                                    } else {
+                                                        echo "  <td colspan='2'>&nbsp;</td>";
+                                                    }
 
-// Generate procedure columns.
-            if ($order_seq && $lastpcid != $order_seq) {
-                if ($sendable) {
-                    echo "  <td>" . text($procedure_code) . "</td>\n";
-                    echo "  <td>" . text($procedure_name) . "</td>\n";
-                } else {
-                    echo "  <td><strike>" . text($procedure_code) . "</strike></td>\n";
-                    echo "  <td><strike>" . text($procedure_name) . "</strike></td>\n";
-                }
-            } else {
-                echo "  <td colspan='2' style='background-color:transparent'>&nbsp;</td>";
-            }
+                                                    // Generate order columns.
+                                                    if ($lastpoid != $order_id) {
+                                                        $lastpcid = -1;
+                                                        echo "  <td>";
+                                                        // Checkbox to support sending unsent orders, disabled if sent.
+                                                        echo "<input type='checkbox' class='' name='form_cb[" . attr($order_id) . "]' value='" . attr($order_id) . "' ";
+                                                        if ($date_transmitted || !$sendable) {
+                                                            echo "disabled";
+                                                        } else {
+                                                            echo "checked";
+                                                            ++$num_checkboxes;
+                                                        }
 
-// Generate report columns.
-            if ($report_id) {
-                echo "  <td>" . text($date_report . $date_report_suf) . "</td>\n";
-                echo "  <td title='" . xla('Check mark indicates reviewed') . "'>";
-                echo myCellText(getListItem('proc_rep_status', $report_status));
-                if ($review_status == 'reviewed') {
-                    echo " &#x2713;"; // unicode check mark character
-                }
+                                                        echo " />&nbsp";
+                                                        // Order date comes with a link to open results in the same frame.
+                                                        echo "<a href='javascript:openResults(" . attr_js($order_id) . ")' ";
+                                                        echo "title='" . xla('Click for results') . "'>";
+                                                        echo text($date_ordered);
+                                                        echo "</a></td>\n";
+                                                        echo "  <td>";
+                                                        // Order ID comes with a link to open the manifest in a new window/tab.
+                                                        echo "<a href='" . $GLOBALS['webroot'];
+                                                        echo "/interface/orders/order_manifest.php?orderid=";
+                                                        echo attr_url($order_id);
+                                                        echo "' target='_blank' onclick='top.restoreSession()' ";
+                                                        echo "title='" . xla('Click for order summary') . "'>";
+                                                        echo text($order_id);
+                                                        echo "</a></td>\n";
+                                                    } else {
+                                                        echo "  <td colspan='2'>&nbsp;</td>";
+                                                    }
+                                                    // Generate procedure columns.
+                                                    if ($order_seq && $lastpcid != $order_seq) {
+                                                        if ($sendable) {
+                                                            echo "  <td>" . text($procedure_code) . "</td>\n";
+                                                            echo "  <td>" . text($procedure_name) . "</td>\n";
+                                                        } else {
+                                                            echo "  <td><strike>" . text($procedure_code) . "</strike></td>\n";
+                                                            echo "  <td><strike>" . text($procedure_name) . "</strike></td>\n";
+                                                        }
+                                                    } else {
+                                                        echo "  <td colspan='2'>&nbsp;</td>";
+                                                    }
 
-                echo "</td>\n";
-            } else {
-                echo "  <td colspan='2' style='background-color:transparent'>&nbsp;</td>";
-            }
+                                                    // Generate report columns.
+                                                    if ($report_id) {
+                                                        echo "  <td>" . text($date_report . $date_report_suf) . "</td>\n";
+                                                        echo "  <td title='" . xla('Check mark indicates reviewed') . "'>";
+                                                            echo myCellText(getListItem('proc_rep_status', $report_status));
+                                                                if ($review_status == 'reviewed') {
+                                                                    echo " &#x2713;"; // unicode check mark character
+                                                                }
 
-            echo " </tr>\n";
+                                                        echo "</td>\n";
+                                                    } else {
+                                                        echo "  <td colspan='2' style='background-color:transparent'>&nbsp;</td>";
+                                                    }
 
-            $lastptid = $patient_id;
-            $lastpoid = $order_id;
-            $lastpcid = $order_seq;
-            ++$lino;
-        }
-        ?>
+                                                    echo " </tr>\n";
 
-    </table>
+                                                    $lastptid = $patient_id;
+                                                    $lastpoid = $order_id;
+                                                    $lastpcid = $order_seq;
+                                                    ++$lino;
+                                            }
+                                            ?>
+                                                   
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-    <?php if ($num_checkboxes) { ?>
-        <center><p>
-                <input type='submit' name='form_xmit' value='<?php echo xla('Transmit Selected Orders'); ?>'/>
-            </p></center>
-    <?php } ?>
 
-</form>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </window-dashboard >
+            </div>
+        </div>
+    </section>
+
 </body>
+
 </html>

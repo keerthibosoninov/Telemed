@@ -23,9 +23,11 @@ if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
     CsrfUtils::csrfNotVerified();
 }
 
-if (!$encounter) { // comes from globals.php
-    die(xlt("Internal error: we do not seem to be in an encounter!"));
-}
+//  CUSTOM KM UPDATED
+
+// if (!$encounter) { // comes from globals.php
+//     die(xlt("Internal error: we do not seem to be in an encounter!"));
+// }
 
 $id             = 0 + (isset($_GET['id']) ? $_GET['id'] : '');
 $code           = $_POST["code"];
@@ -113,6 +115,7 @@ if (!empty($code_desc)) {
     endforeach;
 }
 
+header("Location: new.php");
 $_SESSION["encounter"] = $encounter;
 formHeader("Redirecting....");
 formJump();

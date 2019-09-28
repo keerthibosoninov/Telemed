@@ -121,7 +121,9 @@ $primary_docs = array(
 'care_ob'=> array(xl('Care Observation')  , 0, 'forms/observation/new.php'),
 
 'visit_his'=> array(xl('Visit History')  , 0, 'main/visit_history.php'),
-
+'vitals'=> array(xl('Vitals')  , 0, 'patient_file/encounter/load_form.php?formname=vitals'),
+'tr_plan'=> array(xl('Treatment Plan')  , 0, 'patient_file/encounter/load_form.php?formname=treatment_plan'),
+'cognitive'=> array(xl('Functional and Cognitive Status Form')  , 0, 'patient_file/encounter/load_form.php?formname=functional_cognitive_status'),
 
 
 
@@ -234,10 +236,14 @@ $disallowed['eob'] = !(acl_check('acct', 'eob'));
  // Helper functions for treeview generation.
 function genTreeLink($frame, $name, $title, $mono = false)
 {
+    $active='';
+    if($name=='dash'){
+        $active='class="active"';
+    }
     global $primary_docs, $disallowed;
     if (empty($disallowed[$name])) {
         $id = $name . $primary_docs[$name][1];
-        echo "<li><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" AddActiveClass();";
+        echo "<li $active><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" AddActiveClass();";
         if ($mono) {
             if ($frame == 'RTop') {
                 echo "forceSpec(true,false);";
@@ -535,6 +541,10 @@ function genModuleMenuFromMenuItems($navMenuItems, $disallowed)
     #navigation-slide, #navigation-slide *{
         font-size: 18px !important;
     
+    }
+
+    #menu {
+    padding-left: 0px !important;
     }
 </style>
 <link rel="stylesheet" href="../../library/js/jquery.treeview-1.4.1/jquery.treeview.css" />
@@ -1198,6 +1208,8 @@ $(function (){
     $("#navigation-slide > li  > a#funct_abi0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#health_his0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#review0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-5.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#visit_his0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#care_ob0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-8.svg" alt="" class="menu-icon"> </span>&nbsp;');
 
     $("#navigation-slide > li  > a#injury_det0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#appoint0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
@@ -1221,6 +1233,7 @@ $(function (){
     $("#navigation-slide > li").each(function(index) {
       if($(" > ul > li", this).size() == 0){
         $(" > a", this).addClass("collapsed");
+      
       }
     });
   } else { // $GLOBALS['menu_styling_vertical'] == 0
@@ -1303,9 +1316,12 @@ genTreeLink('RTop', 'visit_his', xl('Visit History'));
    genTreeLink('RTop', 'health_his', xl('Health History'));
    genTreeLink('RTop', 'review', xl('Review of System'));
    genTreeLink('RTop', 'care_ob', xl('Care Observation'));
+   genTreeLink('RTop', 'vitals', xl('Vitals'));
+   genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
+    genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
+    genTreeLink('RTop', 'cognitive', xl('Functional and Cognitive Status Form')); 
    
-   
-   
+    
 //    genTreeLink('RTop', 'appoint', xl('Appointment'));
 
 
@@ -1984,9 +2000,23 @@ function save_setting (cb_frames) {
 
 <script>
     function AddActiveClass(){
-        $(this).addClass('selected').siblings().removeClass('selected');
 
+//        thiss=$(this);
+//        console.log(thiss);
+//        alert(thiss.attr('id'));
+//         // $(this).closest('a').addClass('active').siblings().removeClass('active');
+//         $(this).closest('a').addClass('active');
+
+//         $("a.active").removeClass("active");
+//    $(this).addClass("active");
+//    $(this).closest('li').addClass('active');
+        // alert();
     }
+
+    $('.menu-link').click(function(e) {
+        
+        $(this).closest('li').addClass('active').siblings().removeClass('active');
+    });
     </script>
 </body>
 </html>

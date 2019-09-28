@@ -74,7 +74,7 @@ $get_photophobia=$form->get_photophobia();
 
 $get_hearing_loss=$form->get_hearing_loss();
 $get_vertigo=$form->get_vertigo();
-$get_sore_throat=$form->get_sore_throat()
+$get_sore_throat=$form->get_sore_throat();
 $get_nosebleed=$form->get_nosebleed();
 $get_discharge=$form->get_discharge();
 $get_tinnitus=$form->get_tinnitus();
@@ -84,7 +84,7 @@ $get_pain=$form->get_pain();
 $get_frequent_colds=$form->get_frequent_colds();
 $get_post_nasal_drip=$form->get_post_nasal_drip();
 $get_apnea=$form->get_apnea();
-//
+// //
 
 
 $get_breast_mass=$form->get_breast_mass();
@@ -99,7 +99,7 @@ $get_hemoptsyis=$form->get_hemoptsyis();
 $get_shortness_of_breath=$form->get_shortness_of_breath();
 $get_asthma=$form->get_asthma();
 
-//
+// //
 $get_chest_pain=$form->get_chest_pain();
 $get_pnd=$form->get_pnd();
 $get_peripheal=$form->get_peripheal();
@@ -121,8 +121,8 @@ $get_food_intolerance=$form->get_food_intolerance();
 $get_hematochezia=$form->get_hematochezia();
 $get_constipation=$form->get_constipation();
 $get_heartburn=$form->get_heartburn();
-$get_flatulence=$form->get_flatulence()
-$get_hematemesis=$form->get_hematemesis()
+$get_flatulence=$form->get_flatulence();
+$get_hematemesis=$form->get_hematemesis();
 $get_hepatitis=$form->get_hepatitis();
 $get_changed_bowel=$form->get_changed_bowel();
 $get_bloating=$form->get_bloating();
@@ -139,8 +139,8 @@ $get_polydypsia=$form->get_polydypsia();
 $get_frequency=$form->get_frequency();
 $get_renal_stones=$form->get_renal_stones();
 $get_dysuria=$form->get_dysuria();
-$get_urgency=$form->get_urgency()
-$get_utis=$form->get_utis()
+$get_urgency=$form->get_urgency();
+$get_utis=$form->get_utis();
 
 //
 $get_hesitancy=$form->get_hesitancy();
@@ -150,7 +150,7 @@ $get_erections=$form->get_erections();
 $get_stream=$form->get_stream();
 $get_ejaculations=$form->get_ejaculations();
 
-//
+// //
 $get_g=$form->get_g();
 $get_lc=$form->get_lc();
 $get_lmp=$form->get_lmp();
@@ -164,7 +164,7 @@ $get_menopause=$form->get_menopause();
 $get_f_flow=$form->get_f_flow();
 $get_f_hirsutism=$form->get_f_hirsutism();
 
-//
+// //
 $get_joint_pain=$form->get_joint_pain();
 $get_m_warm=$form->get_m_warm();
 $get_m_aches=$form->get_m_aches();
@@ -187,7 +187,7 @@ $get_n_headache=$form->get_n_headache();
 $get_stroke=$form->get_stroke();
 $get_n_weakness=$form->get_n_weakness();
 $get_memory_problems=$form->get_memory_problems();
-//
+// //
 $get_s_cancer=$form->get_s_cancer();
 $get_s_other=$form->get_s_other();
 $get_psoriasis=$form->get_psoriasis();

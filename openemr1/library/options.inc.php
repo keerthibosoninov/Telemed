@@ -485,7 +485,7 @@ function generate_form_field($frow, $currvalue)
         "WHERE active = 1 AND ( info IS NULL OR info NOT LIKE '%Inactive%' ) " .
         "AND authorized = 1 " .
         "ORDER BY lname, fname");
-        echo "<select name='form_$field_id_esc' id='form_$field_id_esc' title='$description' $lbfonchange $disabled class='form-control'>";
+        echo "<select name='form_$field_id_esc' id='form_$field_id_esc' title='$description' $lbfonchange $disabled class='form-control mt-2'>";
         echo "<option value=''>" . xlt($empty_title) . "</option>";
         $got_selected = false;
         while ($urow = sqlFetchArray($ures)) {

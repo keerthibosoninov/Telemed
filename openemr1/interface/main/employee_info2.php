@@ -221,7 +221,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <form id="home_demographics" onsubmit="submit_demographics();">
                                         <div class="form-inputs">
                                             <div class="pt-5">
-                                                <p>Name</p>
+                                                <div class="col-md-6">
+                                                    <p>Name</p>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <input name="fname" type="text" class="form-control" placeholder="First Name">

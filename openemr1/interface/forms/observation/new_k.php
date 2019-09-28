@@ -75,10 +75,6 @@ $check_res = $formid ? $check_res : array();
                 padding: 3px;
                 margin: 3px;
             }
-
-            .code_date{
-                margin-top:2px !important;
-            }
         </style>
 
         <script type="text/javascript">
@@ -252,7 +248,7 @@ $check_res = $formid ? $check_res : array();
                                     if (!empty($check_res)) {
                                         foreach ($check_res as $key => $obj) { ?>
                                             <div class = "tb_row" id="tb_row_<?php echo attr($key) + 1; ?>">
-                                                <div class="form-group">
+                                                <div class="form-group row">
                                                     <div class="forms col-md-4">
                                                         <p>Code</p>
                                                         <!-- <label for="code_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Code'); ?>:</label> -->
@@ -303,31 +299,28 @@ $check_res = $formid ? $check_res : array();
                                                     <div class="col-md-4 text-right">
 
                                                     </div>
-                                                    <div class="clearfix"></div>
-                                                
-                                                    <div class="row mt-3">
-                                                        <div class="col-sm-6">
-                                                            <p class="fs-14">Description</p>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                        </div>
-                                                        <div class="col-sm-12 pt-2">
-                                                            <textarea name="comments[]" id="comments_<?php echo attr($key) + 1; ?>" class="form-control comments"  rows="4" ><?php echo text($obj{"observation"}); ?></textarea>
-                                                        </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Description</p>
                                                     </div>
-                                                    <div id="TextBoxContainer9" class="repeat-row"></div>
-                                                        <div class="text-center p-3">
-                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" onclick="duplicateRow(this.parentElement.parentElement.parentElement);" alt="" class="xx">
-                                                            <!-- id="observbtn" -->
-                                                        </div>  
-                                                
-                                                    <div class="clearfix"></div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <textarea name="comments[]" id="comments_<?php echo attr($key) + 1; ?>" class="form-control comments"  rows="3" ><?php echo text($obj{"observation"}); ?></textarea>
+                                                </div>
+                                                <div id="TextBoxContainer9" class="repeat-row"></div>
+                                                    <div class="text-center p-3">
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" onclick="duplicateRow(this.parentElement.parentElement.parentElement);" alt="" class="xx">
+                                                        <!-- id="observbtn" -->
+                                                    </div>  
+                                              
+                                                <div class="clearfix"></div>
                                                 
 
                                                     <!-- <div class=" forms col-xs-3">
                                                         <label for="comments_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Comments'); ?>:</label>
-                                                        <textarea name="comments[]" id="comments_<?php echo attr($key) + 1; ?>" class="form-control comments"  rows="4" ><?php echo text($obj{"observation"}); ?></textarea>
+                                                        <textarea name="comments[]" id="comments_<?php echo attr($key) + 1; ?>" class="form-control comments"  rows="3" ><?php echo text($obj{"observation"}); ?></textarea>
                                                     </div> -->
                                                     <!-- <div class="forms col-xs-2">
                                                         <label for="code_date_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Date'); ?>:</label>
@@ -339,16 +332,16 @@ $check_res = $formid ? $check_res : array();
                                                     </div>
                                                     <div class="clearfix"></div> -->
                                             </div>
-                                            </div>
                                            
                                             <?php
                                         }
                                     } else { ?>
                                         <div class="tb_row" id="tb_row_1">
-                                            <div class="form-group">
-                                                <!-- <div class="row"> -->
+                                            <div class="form-group row">
+                                                
                                                     <div class="forms col-md-4">
                                                         <p>Code</p>
+                                                        <!-- <label for="code_1" class="h5"><?php echo xlt('Code'); ?>:</label> -->
                                                         <input type="text" id="code_1" name="code[]" class="form-control code" value="<?php echo attr($obj{"code"}); ?>"  onclick='sel_code(this.parentElement.parentElement.parentElement.id);'>
                                                         <span id="displaytext_1" class="displaytext help-block"></span>
                                                         <input type="hidden" id="description_1" name="description[]" class="description" value="<?php echo attr($obj{"description"}); ?>">
@@ -389,36 +382,33 @@ $check_res = $formid ? $check_res : array();
                                                             <option value="a" <?php echo ($obj{"code"} == '21612-7' && $obj{"ob_unit"} == 'a') ? 'selected = "selected"' : ''; ?>><?php echo xlt('Year'); ?></option>
                                                         </select>
                                                     </div> -->
-                                                    <div class="col-md-4" >
+                                                    <div class="col-md-4">
                                                         <p>Date</p>
-                                                        <input type='date' id="code_date_1" name='code_date[]' class="form-control code_date datepicker" value='<?php echo attr($obj{"date"}); ?>' title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
+                                                        <input type='text' id="code_date_1" name='code_date[]' class="form-control code_date datepicker" value='<?php echo attr($obj{"date"}); ?>' title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
                                                     </div>
 
                                                     <div class="col-md-4 text-right">
 
                                                     </div>
+                                            </div>
+                                            <div class="row mt-3 activatetextarea">
+                                                <div class="col-sm-6">
+                                                    <p class="fs-14">Description</p>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx" onclick="checkTextBox();"></div>
+                                                </div>
+                                                    <!-- <label for="comments_1" class="h5"><?php echo xlt('Comments'); ?>:</label> -->
+                                                <textarea name="comments[]" id="comments_1" class="form-control comments active-text"  rows="3" ><?php echo text($obj{"observation"}); ?></textarea>
+                                            </div>
 
-                                                    <div class="clearfix"></div>
-                                               
-                                                    <div class="row mt-3 ">
-                                                        <div class="col-sm-6">
-                                                            <p class="fs-14">Description</p>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx" onclick="checkTextBox();"></div>
-                                                        </div>
-                                                        <div class="col-sm-12 pt-2">
-                                                            <textarea name="comments[]" id="comments_1" class="form-control comments active-text"  rows="4" ><?php echo text($obj{"observation"}); ?></textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div id="TextBoxContainer9" class="repeat-row"></div>
-                                                    <div class="text-center p-3">
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" onclick="duplicateRow(this.parentElement.parentElement.parentElement);" alt="" class="xx">
-                                                       
-                                                    </div>
-                                            </div>     
-                                            <div class="clearfix"></div>
+                                            <div id="TextBoxContainer9" class="repeat-row"></div>
+                                            <div class="text-center p-3">
+                                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" onclick="duplicateRow(this.parentElement.parentElement.parentElement);" alt="" class="xx">
+                                                <!-- id="observbtn" -->
+                                            </div>
+                                              
+                                                <div class="clearfix"></div>
                                         </div>
                                         
                                         <?php
@@ -502,7 +492,7 @@ $(".xx").click(function() {
 }
 
 function checkTextBox(){
-    // alert();
+    alert();
     $(this)
         .closest(".row")
         .addClass("activatetextarea");

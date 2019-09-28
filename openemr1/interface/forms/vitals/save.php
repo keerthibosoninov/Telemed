@@ -22,4 +22,8 @@ if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
 require("C_FormVitals.class.php");
 $c = new C_FormVitals();
 echo $c->default_action_process($_POST);
-@formJump();
+
+ header("Location: ../../patient_file/encounter/load_form.php?formname=vitals");
+
+
+// @formJump();

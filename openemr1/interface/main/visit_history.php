@@ -613,169 +613,170 @@ if (!empty($_REQUEST['go'])) { ?>
                                 </div>
                        
 
-                        <div id="menu1" class="container tab-pane fade">
-                            <form id="current_form" onsubmit="submit_current();">    
+                                <div id="menu1" class="container tab-pane fade">
+                                    <form id="current_form" onsubmit="submit_current();">    
 
-                                    <div>
-                                        <h4>Visit Summary</h4>
-                                        <div class="pt-4 pb-5">
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Facility</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="" id="" rows="4 " class="form-control active-text ">edit here paragraph shown here</textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Reason</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="" id="" rows="4 " class="form-control active-text ">edit here paragraph shown here</textarea></div>
-                                            </div>
-                                            <h4 class="mt-3">SOAP</h4>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Subjective</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="subjective" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Objective</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Assessment</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="assessment" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Plan</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="plan" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                                    <input type="hidden" name="pat_id" value="<?= $pid ?>" >
-                                                    <input type="hidden" name="activity" value="1" >
-                                                    <input type="hidden" name="form_id" value="current_data">
-                                            </div>
-                                            <div class="mt-3">
-                                                <h4>Vitals</h4>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Blood Pressure</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="bp" class="form-control active-text">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Height</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="height" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Temprature Method</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="temp_method" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Temprature</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="temp" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Weight</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="weight" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Pulse </p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="pulse" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-
+                                        <div>
+                                            <h4>Visit Summary</h4>
                                             <div class="pt-4 pb-5">
-                                                <button class="form-save">Save</button>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Facility</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="facility2" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Reason</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <h4 class="mt-3">SOAP</h4>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Subjective</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="subjective" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Objective</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Assessment</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="assessment" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Plan</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="plan" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                        <input type="hidden" name="pat_id" value="<?= $pid ?>" >
+                                                        <input type="hidden" name="activity" value="1" >
+                                                        <input type="hidden" name="form_id" value="current_data">
+                                                </div>
+                                                <div class="mt-3">
+                                                    <h4>Vitals</h4>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Blood Pressure</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="bp" class="form-control active-text">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Height</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="height" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Temprature Method</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="temp_method" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Temprature</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="temp" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Weight</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="weight" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Pulse </p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="pulse" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="pt-4 pb-5">
+                                                    <button class="form-save">Save</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </form>
                                 </div>
                     
