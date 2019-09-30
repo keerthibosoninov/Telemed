@@ -52,7 +52,7 @@ if ($id && $id != 0) {
 
 $count = array_filter($count);
 if (!empty($count)) {
-    foreach ($count as $key => $codeval) :
+    foreach ($code as $key => $codeval) :
         $code_val = $code[$key] ? $code[$key] : 0;
         $codetext_val = $code_text[$key] ? $code_text[$key] :'NULL';
         $description_val = $code_des[$key] ? $code_des[$key] : 'NULL';
@@ -86,6 +86,15 @@ if (!empty($count)) {
             ]
         );
     endforeach;
+}
+
+$instruction = $_POST["instruction"];
+
+if ($id && $id != 0) {
+    sqlStatement("UPDATE form_clinical_instructions SET instruction =? WHERE id = ?", array($instruction, $id));
+} else {
+    $newid = sqlInsert("INSERT INTO form_clinical_instructions (pid,encounter,user,instruction) VALUES (?,?,?,?)", array($pid, $encounter, $_SESSION['authUser'], $instruction));
+    addForm($encounter, "Clinical Instructions", $newid, "clinical_instructions", $pid, $userauthorized);
 }
 
 $_SESSION["encounter"] = $encounter;

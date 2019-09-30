@@ -1,68 +1,192 @@
 <html>
 <head>
 <title>{xlt t='SOAP'}</title>
-{headerTemplate}
+<!-- {headerTemplate} -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/style.css">
+
+    <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/emp_info_css.css">
+
+    <script src="{$FORM_ACTION}/public/assets/js/vue.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="{$FORM_ACTION}/public/assets/js/main.js"></script>
+    <script src="{$FORM_ACTION}/public/assets/js/addmore.js"></script>
+    <script src="{$FORM_ACTION}/public/assets/js/panzoom.min.js"></script>
+    {literal}
+    <style>
+            .activatetextarea .active-text {
+            pointer-events: all;
+            border: 1px solid silver;
+            background-color: #ececec00
+        }
+        .xx {
+            cursor: pointer;
+        }
+        .active-text {
+            pointer-events: none;
+            border: 0px solid silver;
+            background-color: #ececec;
+        }
+       
+        </style>
+    <script>
+
+            $(document).ready(function() {
+            
+            $(".xx").click(function() {
+                $(this)
+                    .closest(".row")
+                    .addClass("activatetextarea")
+            });
+            });
+            </script>
+    {/literal}
 </head>
 <body class="body_top">
-    <div class="container">
-        <div class="row">
+    <!-- <div class="container"> -->
+        <!-- <div class="row">
             <div class="col-xs-12">
                 <div class="page-header">
                     <h2>{xlt t='SOAP'}</h2>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
+        </div> -->
+        <section>
+                <div class="body-content body-content2">
+                    <div class="container-fluid pb-4 pt-4">
+                        <window-dashboard title="Soap Notes" class="icon-hide">
+        <div class="head-component">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="compo-head">
+                               
+                                <span>
+                                    <img src="{$FORM_ACTION}/public/assets/img/min.svg" alt="">
+                                </span>
+                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-white head-p">Soap Notes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="body-compo">
+                    <div class="container-fluid">
+            <!-- <div class="row">
+            <div class="col-xs-12"> -->
                 <form name="soap" method="post" action="{$FORM_ACTION}/interface/forms/soap/save.php" onsubmit="return top.restoreSession()">
                     <input type="hidden" name="csrf_token_form" value="{$CSRF_TOKEN_FORM|attr}">
-                    <fieldset>
+                    <!-- <fieldset>
                             <legend>{xlt t='Subjective'}</legend>
                                 <div class="form-group" >
                                     <div class="col-sm-10 col-sm-offset-1">
                                         <textarea name="subjective" class="form-control" cols="60" rows="6">{$data->get_subjective()|text}</textarea>
                                     </div>
                                 </div>
-                    </fieldset>
-                    <fieldset>
+                    </fieldset> -->
+                    <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <p class="fs-14">Subjective</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
+                            </div>
+                            <div class="col-sm-12 pt-2">
+                                <textarea name="subjective" rows="4" class="form-control active-text" placeholder="edit here paragraph shown here"></textarea></div>
+                        </div>
+
+                    <!-- <fieldset>
                             <legend>{xlt t='Objective'}</legend>
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-1">
                                         <textarea name="objective" class="form-control" cols="60" rows="6">{$data->get_objective()|text}</textarea>
                                     </div>
                                 </div>
-                    </fieldset>
-                    <fieldset>
+                    </fieldset> -->
+                    <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <p class="fs-14">Objective</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
+                            </div>
+                            <div class="col-sm-12 pt-2">
+                                <textarea name="objective" rows="4" class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                        </div>
+                    <!-- <fieldset>
                             <legend>{xlt t='Assessment'}</legend>
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-1">
                                         <textarea name="assessment" class="form-control" cols="60" rows="6">{$data->get_assessment()|text}</textarea>
                                     </div>
                                 </div>
-                    </fieldset>
-                    <fieldset>
+                    </fieldset> -->
+                    <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <p class="fs-14">Assessment</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
+                            </div>
+                            <div class="col-sm-12 pt-2">
+                                <textarea name="assessment" rows="4" class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                        </div>
+                    <!-- <fieldset>
                             <legend>{xlt t='Plan'}</legend>
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-1">
                                         <textarea name="plan" class="form-control" cols="60" rows="6">{$data->get_plan()|text}</textarea>
                                     </div>
                                 </div>
-                    </fieldset>
-                    <div class="form-group clearfix">
+                    </fieldset> -->
+                    <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <p class="fs-14">Plan</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
+                            </div>
+                            <div class="col-sm-12 pt-2">
+                                <textarea name="plan" id="" rows="4" class="form-control active-text " placeholder="edit here paragraph shown here"></textarea>
+                            </div>
+                    </div>
+
+                    <!-- <div class="form-group clearfix">
                         <div class="col-sm-10 col-sm-offset-1 position-override">
-                            <div class="btn-group oe-opt-btn-group-pinch" role="group">
-                                <button type="submit" class="btn btn-default btn-save" name="Submit">{xlt t='Save'}</button>
-                                <button type="button" class="btn btn-link btn-cancel oe-opt-btn-separate-left" onclick="top.restoreSession(); location.href='{$DONT_SAVE_LINK}';">{xlt t='Cancel'}</button>
+                            <div class="btn-group oe-opt-btn-group-pinch" role="group"> -->
+                                    <div class="pt-4 pb-5">
+                                <button type="submit" class="form-save" name="Submit">Save</button>
+                                <!-- <button type="button" class="btn btn-link btn-cancel oe-opt-btn-separate-left" onclick="top.restoreSession(); location.href='{$DONT_SAVE_LINK}';">{xlt t='Cancel'}</button> -->
                             </div>
                             <input type="hidden" name="id" value="{$data->get_id()|attr}" />
                             <input type="hidden" name="activity" value="{$data->get_activity()|attr}">
                             <input type="hidden" name="pid" value="{$data->get_pid()|attr}">
                             <input type="hidden" name="process" value="true">
-                        </div>
-                    </div>
+                        <!-- </div>
+                    </div> -->
+
                 </form>
-            </div>
+            <!-- </div>
+        </div> -->
         </div>
     </div>
+</window-dashboard>
+</div>
+</div>
+</section>
+    <!-- </div> -->
 </body>
 </html>
+
+

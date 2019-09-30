@@ -22,7 +22,8 @@ require_once($GLOBALS['fileroot'] . '/custom/code_types.inc.php');
 
 use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Core\Header;
-
+$_SESSION["pid"]=1;
+$_SESSION["encounter"]=1;
 $returnurl = 'encounter_top.php';
 $formid = 0 + (isset($_GET['id']) ? $_GET['id'] : 0);
 if ($formid) {
@@ -44,13 +45,58 @@ endforeach;
     <head>
         <title><?php echo xlt("Care Plan Form"); ?></title>
 
-        <?php Header::setupHeader(['datetime-picker']);?>
+        <?php //Header::setupHeader(['datetime-picker']);?>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
+
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
+<!-- textarea_css -->
+<style>
+    .activatetextarea .active-text {
+    pointer-events: all;
+    border: 1px solid silver;
+    background-color: #ececec00
+}
+.xx {
+    cursor: pointer;
+}
+.active-text {
+    pointer-events: none;
+    border: 0px solid silver;
+    background-color: #ececec;
+}
+.form-save1 {
+    background-color: #3C9DC5;
+    padding: 4px;
+    width: 993px;
+    border: none;
+    outline: none;
+    color: white;
+    margin-left: 16px;
+}
+</style>
+<!-- //textarea_css -->
+
+
 
         <style type="text/css" title="mystyles" media="all">
             @media only screen and (max-width: 768px) {
                 [class*="col-"] {
                 width: 100%;
                 text-align:left!Important;
+            }
             }
         </style>
 
@@ -125,17 +171,36 @@ endforeach;
         </script>
     </head>
     <body class="body_top">
-        <div class="container">
-            <div class="row">
-                <div class="page-header">
-                    <h2><?php echo xlt('Care Plan Form'); ?></h2>
-                </div>
-            </div>
-            <div class="row">
-            <?php echo "<form method='post' name='my_form' " . "action='$rootdir/forms/care_plan/save.php?id=" . attr_url($formid) . "'>\n"; ?>
+    <section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="Care plan" class="icon-hide">
+                    <div class="head-component">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="compo-head">
+                                               
+                                                <span>
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg"
+                                                        alt="">
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-white head-p">Care Plan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="body-compo">
+                        
+                        <?php echo "<form method='post' name='my_form' " . "action='$rootdir/forms/care_plan/save.php?id=" . attr_url($formid) . "'>\n"; ?>
+                        <div class="container-fluid">
                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-                <fieldset>
-                    <legend><?php echo xlt('Enter Details'); ?></legend>
+                <!-- <fieldset> -->
+                    <!-- <legend><?php echo xlt('Enter Details'); ?></legend> -->
                     <?php
                     if (!empty($check_res)) {
                         foreach ($check_res as $key => $obj) {
@@ -148,13 +213,10 @@ endforeach;
                             <span id="displaytext_<?php echo attr($key) + 1; ?>"  class="displaytext help-block"></span>
                             <input type="hidden" id="codetext_<?php echo attr($key) + 1; ?>" name="codetext[]" class="codetext" value="<?php echo attr($obj{"codetext"}); ?>">
                         </div>
-                        <div class="forms col-xs-4">
-                            <label for="description_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Description'); ?>:</label>
-                            <textarea name="description[]"  id="description_<?php echo attr($key) + 1; ?>" class="form-control description" rows="3" ><?php echo text($obj{"description"}); ?></textarea>
-                        </div>
+                        
                         <div class="forms col-xs-2">
                             <label for="code_date_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Date'); ?>:</label>
-                            <input type='text' id="code_date_<?php echo attr($key) + 1; ?>" name='code_date[]' class="form-control code_date datepicker" value='<?php echo attr($obj{"date"}); ?>' title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
+                            <input type='date' id="code_date_<?php echo attr($key) + 1; ?>" name='code_date[]' class="form-control code_date datepicker" value='<?php echo attr($obj{"date"}); ?>' title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
                         </div>
                         <div class="forms col-xs-2">
                             <label for="care_plan_type_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Type'); ?>:</label>
@@ -166,6 +228,10 @@ endforeach;
                                     <option value="<?php echo attr($value['value']);?>" <?php echo $selected;?>><?php echo text($value['title']);?></option>
                                 <?php endforeach;?>
                                 </select>
+                        </div>
+                        <div class="forms col-xs-4">
+                            <label for="description_<?php echo attr($key) + 1; ?>" class="h5"><?php echo xlt('Description'); ?>:</label>
+                            <textarea name="description[]"  id="description_<?php echo attr($key) + 1; ?>" class="form-control description" rows="3" ><?php echo text($obj{"description"}); ?></textarea>
                         </div>
                         <div class="forms col-xs-1" style="padding-top:35px">
                             <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onclick="duplicateRow(this.parentElement.parentElement.parentElement);" title='<?php echo xla('Click here to duplicate the row'); ?>'></i>
@@ -179,25 +245,23 @@ endforeach;
                         }
                     } else {
                         ?>
-                    <div class="tb_row" id="tb_row_1">
-                        <div class="form-group">
-                            <div class=" forms col-xs-3">
-                                <label for="code_1" class="h5"><?php echo xlt('Code'); ?>:</label>
+                        <!-- plan section -->
+                        <div class="row">
+                          
+                            <div class="col-md-4">
+                                <p>Code</p>
                                 <input type="text" id="code_1"  name="code[]" class="form-control code" value="<?php echo attr($obj{"code"}); ?>"  onclick='sel_code(this.parentElement.parentElement.parentElement.id);'>
                                 <span id="displaytext_1"  class="displaytext help-block"></span>
-                                <input type="hidden" id="codetext_1" name="codetext[]" class="codetext" value="<?php echo attr($obj{"codetext"}); ?>">
+                                <input type="hidden" id="codetext_1" name="codetext" class="form-control" value="<?php echo attr($obj{"codetext"}); ?>">
                             </div>
-                            <div class="forms col-xs-4">
-                                <label for="description_1" class="h5"><?php echo xlt('Description'); ?>:</label>
-                                <textarea name="description[]"  id="description_1" class="form-control description" rows="3" ><?php echo text($obj{"description"}); ?></textarea>
+                            
+                            <div class="col-md-4">
+                                <p>Date</p>
+                                <input type='date' id="code_date_1"  name='code_date[]' class="form-control" value='<?php echo attr($obj{"date"}); ?>' />
                             </div>
-                            <div class="forms col-xs-2">
-                                <label for="code_date_1" class="h5"><?php echo xlt('Date'); ?>:</label>
-                                <input type='text' id="code_date_1"  name='code_date[]' class="form-control code_date datepicker" value='<?php echo attr($obj{"date"}); ?>' title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
-                            </div>
-                            <div class="forms col-xs-2">
-                                <label for="care_plan_type_1" class="h5"><?php echo xlt('Type'); ?>:</label>
-                                <select name="care_plan_type[]" id="care_plan_type_1" class="form-control care_plan_type">
+                            <div class="col-md-4">
+                                <p>Type</p>
+                                <select name="care_plan_type[]" id="care_plan_type_1" class="form-control mt-2">
                                     <option value=""></option>
                                     <?php foreach ($care_plan_type as $value) :
                                         $selected = ($value['value'] == $obj{"care_plan_type"}) ? 'selected="selected"' : '';
@@ -206,18 +270,61 @@ endforeach;
                                     <?php endforeach;?>
                                 </select>
                             </div>
-                            <div class="forms col-xs-1 " style="padding-top:35px">
+                                    </div>
+
+                                    <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <p class="fs-14">Description</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                </div>
+                                <div class="col-sm-12 pt-2">
+
+                                <textarea name="description[]"  id="description_1" class="form-control active-text" rows="3" ><?php echo text($obj{"description"}); ?></textarea>
+                            </div>
+                                    </div>
+                                    <div id="TextBoxContainer7" class="repeat-row"></div>
+                            <div class="text-center p-3">
+                                <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="carePlan" alt="">
+                            </div>
+
+                            <!-- <div class="forms col-xs-1 " style="padding-top:35px">
                                 <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onclick="duplicateRow(this.parentElement.parentElement.parentElement);" title='<?php echo xla('Click here to duplicate the row'); ?>'></i>
                                 <i class="fa fa-times-circle fa-2x text-danger"  aria-hidden="true" onclick="deleteRow(this.parentElement.parentElement.parentElement.id);"  title='<?php echo xla('Click here to delete the row'); ?>'></i>
+                            </div> -->
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <p class="fs-14">Clinical Instructions</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                </div>
+                                <div class="col-sm-12 pt-2">
+                                    <!-- <textarea name="clinic_instr" id="" rows="4 " class="form-control active-text" placeholder="edit here paragraph shown here"></textarea></div> -->
+                                    <textarea name="instruction" id ="instruction"  class="form-control active-text" cols="80" rows="5" ><?php echo text($check_res['instruction']); ?></textarea>
+
                             </div>
-                            <div class="clearfix"></div>
-                            <input type="hidden" name="count[]" id="count_1" class="count" value="1">
-                        </div>
-                    </div>
+                            <!-- <div class="clearfix"></div> -->
+                            <!-- <input type="hidden" name="count[]" id="count_1" class="count" value="1"> -->
+                            <input type="hidden" name="count[]" id="count_<?php echo attr($key) + 1; ?>" class="count" value="<?php echo attr($key) + 1;?>">
+
+                        
+<!-- plan section end -->
+
+
                     <?php }
                     ?>
-                </fieldset>
-                 <div class="form-group clearfix">
+                <!-- </fieldset> -->
+                <!-- <fieldset>
+                        <legend class=""><?php echo xlt('Instructions'); ?></legend>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-1">
+                                    <textarea name="instruction" id ="instruction"  class="form-control" cols="80" rows="5" ><?php echo text($check_res['instruction']); ?></textarea>
+                                </div>
+                            </div>
+                    </fieldset> -->
+                 <!-- <div class="form-group clearfix">
                     <div class="col-sm-12 position-override">
                         <div class="btn-group oe-opt-btn-group-pinch" role="group">
                             <button type="submit" onclick="top.restoreSession()" class="btn btn-default btn-save"><?php echo xlt('Save'); ?></button>
@@ -225,9 +332,86 @@ endforeach;
                             <input type="hidden" id="clickId" value="">
                         </div>
                     </div>
+                </div> -->
+                <div class="pt-4 pb-5">
+                    <button type="submit" class="form-save1">Save</button>
+                    <input type="hidden" id="clickId" value="">
                 </div>
-            </form>
+                            
+                                    </div>
+                                    </form>
+                        </div>
+                    </window-dashboard>
+                </div>
             </div>
-        </div>
+        </section>
     </body>
 </html>
+
+<!-- textarea_js -->
+<script>
+
+$(document).ready(function() {
+
+$(".xx").click(function() {
+    $(this)
+        .closest(".row")
+        .addClass("activatetextarea")
+});
+});
+</script>
+<!--//textarea_js -->
+
+ <!-- careplan js--------------------------- -->
+<script>
+$(function() {
+    $("#carePlan").bind("click", function() {
+        var div = $("<div class='bodypart7' />");
+        div.html(GetDynamicTextBox7(""));
+        $("#TextBoxContainer7").append(div);
+        makeTextboxEditable();
+    });
+    $("body").on("click", ".remove7", function() {
+        $(this).closest(".bodypart7").remove();
+    });
+});
+
+function GetDynamicTextBox7(value) {
+    return `  <div class="row">
+    <div class="col-md-4">
+        <p>Code</p>
+        <input type="text" name="code[]" placeholder="" class="form-control">
+    </div>
+    <div class="col-md-4">
+        <p>Date</p>
+        <input type="date" name="code_date[]" placeholder="" class="form-control">
+    </div>
+    <div class="col-md-4">
+        <p>Type</p>
+        <select name="care_plan_type[]" id="care_plan_type_1" class="form-control mt-2">
+                                    <option value=""></option>
+                                    <?php foreach ($care_plan_type as $value) :
+                                        $selected = ($value['value'] == $obj{"care_plan_type"}) ? 'selected="selected"' : '';
+                                        ?>
+                                        <option value="<?php echo attr($value['value']);?>" <?php echo $selected;?>><?php echo text($value['title']);?></option>
+                                    <?php endforeach;?>
+                                </select>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-sm-6">
+        <p class="fs-14">Description</p>
+    </div>
+    <div class="col-sm-6">
+        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" id="carePlan" class="xx"></div>
+    </div>
+    <div class="col-sm-12 pt-2 delete-row">    
+    <textarea name="description[]"  id="description_1" class="form-control" rows="4" placeholder="edit here paragraph shown here"></textarea>
+
+    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove7" alt="">
+    </div>
+</div>`
+
+}
+</script>
+<!-- //carepan js end---------------- -->

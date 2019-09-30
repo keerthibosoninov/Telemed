@@ -48,11 +48,9 @@ if ($_GET['set_pid'] && $form_review) {
     <?php
 }
 
-// comment psa
-// if (!$form_batch && !$pid && !$form_review) {
-//     die(xlt('There is no current patient'));
-// }
-
+if (!$form_batch && !$pid && !$form_review) {
+    die(xlt('There is no current patient'));
+}
 
 function oresRawData($name, $index)
 {
@@ -155,23 +153,6 @@ if ($_POST['form_submit'] && !empty($_POST['form_line'])) {
 
 <link rel="stylesheet" href='<?php echo $css_header ?>' type='text/css'>
 <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/style.css">
-
-<link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/emp_info_css.css">
-
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/panzoom.min.js"></script>
 
 <title><?php echo xlt('Procedure Results'); ?></title>
 
@@ -336,30 +317,6 @@ $(function () {
 </head>
 
 <body class="body_top">
-<section>
-                <div class="body-content body-content2">
-                    <div class="container-fluid pb-4 pt-4">
-                        <window-dashboard title="Procedure Result" class="icon-hide">
-        <div class="head-component">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="compo-head">
-                               
-                                <span>
-                                    <img src="<?php echo $GLOBALS['webroot']; ?>/public/assets/img/min.svg" alt="">
-                                </span>
-                                
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <p class="text-white head-p">Procedure Results</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="body-compo">
-            <div class="container-fluid">
 <form method='post' action='orders_results.php?batch=<?php echo attr_url($form_batch); ?>&review=<?php echo attr_url($form_review); ?>'
  onsubmit='return validate(this)'>
 
@@ -413,20 +370,18 @@ if ($form_batch) {
     echo " checked";
                                                         } ?>><?php echo xlt('Include Completed') ?>
    &nbsp;-->
-   <!-- <input type='submit' name='form_refresh' value='<?php echo xla('Refresh'); ?>'> -->
+   <input type='submit' name='form_refresh' value='<?php echo xla('Refresh'); ?>'>
   </td>
  </tr>
 </table>
-<div class="pt-4 pb-4">
-                                <div class="table-div ">
-                                    <table class="table table-form">
-<?php if (!$form_batch || ($form_proc_type > 0 && $form_from_date)) { ?>
-<!-- <table width='100%' cellpadding='1' cellspacing='2'> -->
 
- <!-- <tr class='head'>
+<?php if (!$form_batch || ($form_proc_type > 0 && $form_from_date)) { ?>
+<table width='100%' cellpadding='1' cellspacing='2'>
+
+ <tr class='head'>
   <td colspan='2'><?php echo $form_batch ? xlt('Patient') : xlt('Order'); ?></td>
   <td colspan='4'><?php echo xlt('Report'); ?></td>
-  <td colspan='7'><?php echo xlt('Results and'); ?> <span class='reccolor'>
+  <td colspan='7'><?php echo xlt('Results and'); ?> <span class='reccolor''>
     <?php echo xlt('Recommendations'); ?></span></td>
  </tr>
 
@@ -444,28 +399,7 @@ if ($form_batch) {
   <td><?php echo xlt('Units'); ?></td>
   <td><?php echo xlt('Range'); ?></td>
   <td><?php echo xlt('?'); ?></td>
- </tr> -->
-                                    <thead>
-                                        <tr>
-                                                <td colspan="2">Order</td>
-                                                <td colspan="4">Report</td>
-                                                <td colspan="5">Result</td>
-                                            </tr>
-                                            <tr class="bg-transparent">
-                                                <th>Date</th>
-                                                <th>Procedure </th>
-                                                <th>Reported</th>
-                                                <th>Ext. time Collected</th>
-                                                <th>Specimen</th>
-                                                <th>Status</th>
-                                                <th>Code</th>
-                                                <th>Name</th>
-                                                <th>Abn</th>
-                                                <th>Value Unit</th>
-                                                <th>Range</th>
-                                            </tr>
-
-                                        </thead>
+ </tr>
 
     <?php
     $sqlBindArray = array();
@@ -817,8 +751,6 @@ if ($form_batch) {
     ?>
 
 </table>
-</div>
-</div>
 
     <?php
     if ($form_review) {
@@ -836,14 +768,13 @@ if ($form_batch) {
      </p></center>
             <?php
         }
-    } 
-    // else {
+    } else {
         ?>
- <!-- <center><p> -->
-  <!-- <input type='submit' name='form_submit' value='<?php echo xla('Save'); ?>' /> -->
- <!-- </p></center> -->
+ <center><p>
+  <input type='submit' name='form_submit' value='<?php echo xla('Save'); ?>' />
+ </p></center>
         <?php
-    // }
+    }
     ?>
 
 <?php } ?>
@@ -851,14 +782,5 @@ if ($form_batch) {
 <?php echo $extra_html; ?>
 
 </form>
-<div>
-</div>
-</div>
-</window-dashboard>
-</div>
-</div>
-</section>
-
-
 </body>
 </html>

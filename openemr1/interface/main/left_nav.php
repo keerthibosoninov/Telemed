@@ -112,6 +112,7 @@ $usrval = json_encode(array ( $cb_top_chk, $cb_bot_chk ));
 
 $primary_docs = array(
 'dash' => array(xl('Dashboard')  , 0, 'main/dashboard.php'),
+'emp' => array(xl('Dashboard')  , 0, 'reports/patient_list.php'),
 'emp_info' => array(xl('Employee Info')  , 0, 'main/employee_info.php'),
 'emp_info2' => array(xl('Employee Info 2')  , 0, 'main/employee_info2.php'),
 'funct_abi'=> array(xl('Functional Abilities')  , 0, '#'),
@@ -1320,7 +1321,53 @@ genTreeLink('RTop', 'visit_his', xl('Visit History'));
    genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
     genTreeLink('RTop', 'cognitive', xl('Functional and Cognitive Status Form')); 
-   
+    // genTreeLink('RTop', 'emp', xl('Employee List')); 
+    // genMiscLink('RTop', 'rep', '0', xl('Rx'), 'reports/prescriptions_report.php');
+    // genMiscLink('RTop', 'rep', '0', xl('Referrals'), 'reports/referrals_report.php');
+    ?>
+
+    <li ><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
+    <ul>
+        <!-- <?php
+            $moduleMenuContainer = genModuleMenuObject('Reports', 'repimg');
+                // updated menu's have already been filtered for security
+            $updatedMenuEvent = $GLOBALS["kernel"]->getEventDispatcher()->dispatch(MenuEvent::MENU_UPDATE, new MenuEvent([$moduleMenuContainer]));
+            $updatedSecurityEvent = $GLOBALS["kernel"]->getEventDispatcher()->dispatch(MenuEvent::MENU_RESTRICT, new MenuEvent($updatedMenuEvent->getMenu()));
+            $updatedMenuItems = $updatedSecurityEvent->getMenu();
+             genModuleMenuFromMenuItems($updatedSecurityEvent->getMenu(), $disallowed);
+        ?>
+
+        <?php if (acl_check('patients', 'demo') || acl_check('patients', 'med') ||
+            (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions'])) { ?>
+        <li><a class="collapsed_lv2"><span><?php echo xlt('Clients') ?></span></a>
+            <ul> -->
+                <?php if (acl_check('patients', 'demo')) {
+                    genMiscLink('RTop', 'rep', '0', xl('List'), 'reports/patient_list.php');
+                } ?>
+                <?php if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
+                    genMiscLink('RTop', 'rep', '0', xl('Rx'), 'reports/prescriptions_report.php');
+                } ?>
+                <?php if (acl_check('patients', 'med')) {
+                    genMiscLink('RTop', 'rep', '0', xl('Patient List Creation'), 'reports/patient_list_creation.php');
+                } ?>
+                <?php if (acl_check('patients', 'med')) {
+                    genMiscLink('RTop', 'rep', '0', xl('Clinical'), 'reports/clinical_reports.php');
+                } ?>
+                <?php if (acl_check('patients', 'med')) {
+                    genMiscLink('RTop', 'rep', '0', xl('Referrals'), 'reports/referrals_report.php');
+                } ?>
+                <?php if (acl_check('patients', 'med')) {
+                    genMiscLink('RTop', 'rep', '0', xl('Immunization Registry'), 'reports/immunization_report.php');
+                } ?>
+            <!-- </ul>
+        </li> -->
+    <?php } ?>
+
+
+
+        </ul>
+      </li>
+      <?php
     
 //    genTreeLink('RTop', 'appoint', xl('Appointment'));
 

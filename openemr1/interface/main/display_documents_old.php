@@ -46,24 +46,6 @@ $display_collapse_msg = "display:inline;";
 <head>
 <?php Header::setupHeader(['no_bootstrap', 'no_fontawesome', 'datetime-picker', 'common']); ?>
 
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/style.css">
-
-<link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/emp_info_css.css">
-
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/panzoom.min.js"></script>
-
 <script type="text/javascript">
     var global_date_format = '<?php echo DateFormatRead(); ?>';
     $(function () {
@@ -140,7 +122,7 @@ $display_collapse_msg = "display:inline;";
 
 </script>
 
-<!-- <style type="text/css">
+<style type="text/css">
 
 .linkcell {
     max-width: 250px ;
@@ -167,36 +149,12 @@ $display_collapse_msg = "display:inline;";
 }
 
 
-</style> -->
+</style>
 </head>
 
 <body class="body_top">
-<section>
-                <div class="body-content body-content2">
-                    <div class="container-fluid pb-4 pt-4">
-                        <window-dashboard title="Soap Notes" class="icon-hide">
-        <div class="head-component">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="compo-head">
-                               
-                                <span>
-                                    <img src="<?php echo $GLOBALS['webroot']; ?>/public/assets/img/min.svg" alt="">
-                                </span>
-                                
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <p class="text-white head-p">Lab Documents</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="body-compo">
-                    <div class="container-fluid">
-                    <div class="pt-4 pb-4">
-<!-- <div>
+
+<div>
     <span class='title'><?php echo xlt('Lab Documents'); ?></span>
     <span id='docexpand' onclick='expandOrCollapse(1,"doc")' style='cursor:pointer;<?php echo $display_expand_msg ?>'>(<?php echo xlt('expand'); ?>)</span>
     <span id='doccollapse' onclick='expandOrCollapse(2,"doc")' style='cursor:pointer;<?php echo $display_collapse_msg ?>'>(<?php echo xlt('collapse'); ?>)</span>
@@ -205,59 +163,24 @@ $display_collapse_msg = "display:inline;";
     <table style="margin-left:10px; " width='40%'>
         <tr>
             <td scope="row" class='label_custom'><?php echo xlt('From'); ?>:</td>
-            <td>
-                <input type='date' class='datepicker' name='form_from_doc_date' id="form_from_doc_date"
+            <td><input type='text' class='datepicker' name='form_from_doc_date' id="form_from_doc_date"
                 size='10' value='<?php echo attr($form_from_doc_date) ?>' title='<?php echo attr($title_tooltip) ?>'>
             </td>
             <td class='label_custom'><?php echo xlt('To'); ?>:</td>
-            <td>
-                <input type='date' class='datepicker' name='form_to_doc_date' id="form_to_doc_date"
+            <td><input type='text' class='datepicker' name='form_to_doc_date' id="form_to_doc_date"
                 size='10' value='<?php echo attr($form_to_doc_date) ?>' title='<?php echo attr($title_tooltip) ?>'>
             </td>
             <td>
                 <span style='float: left;' id="docrefresh">
-                    <a href='#' class='css_button'  onclick='return validateDate("form_from_doc_date","form_to_doc_date")'> <span><?php echo xlt('Search'); ?> </span></a>
+                    <a href='#' class='css_button'  onclick='return validateDate("form_from_doc_date","form_to_doc_date")'> <span><?php echo xlt('Refresh'); ?> </span></a>
                 </span>
             </td>
         </tr>
     </table>
     </div>
-</div> -->
+</div>
 
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <p>From</p>
-                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
-                                        <input type='date' class='form-control pr-1 pl-1 datepicker' name='form_from_doc_date' id="form_from_doc_date"
-                size='10' value='<?php echo attr($form_from_doc_date) ?>' title='<?php echo attr($title_tooltip) ?>'>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p>To</p> 
-                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
-                                        <input type='date' class='form-control pr-1 pl-1 datepicker' name='form_to_doc_date' id="form_to_doc_date"
-                size='10' value='<?php echo attr($form_to_doc_date) ?>' title='<?php echo attr($title_tooltip) ?>'>
-                                    </div>
-
-                                </div>
-                                <div class="pt-4 pb-5">
-                                    <div class="row">
-                                        <div class="col-md-5"></div>
-                                        <div class="col-md-2"> 
-                                            <!-- <button class="form-save">SEARCH</button> -->
-                                            <span style='float: left;' id="docrefresh">
-                                                <a href='#' class='form-save'  onclick='return validateDate("form_from_doc_date","form_to_doc_date")'> 
-                                                <span><?php echo xlt('Search'); ?> </span>
-                                                </a>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-
-<!-- <div id='docdiv' <?php echo $display_div; ?>> -->
+<div id='docdiv' <?php echo $display_div; ?>>
     <?php
     $current_user = $_SESSION["authId"];
     $date_filter = '';
@@ -288,29 +211,15 @@ $display_collapse_msg = "display:inline;";
         array_unshift($query_array, $catID);
     $resultSet = sqlStatement($query, $query_array);
     ?>
-<div class="table-div " id='docdiv' <?php echo $display_div; ?>>
-    <!-- <table border="1" cellpadding=3 cellspacing=0>
+
+    <table border="1" cellpadding=3 cellspacing=0>
     <tr class='text bold'>
         <th align="left" width="10%"><?php echo xlt('Date'); ?></th>
         <th align="left" class="linkcell" width="20%" ><?php echo xlt('Name'); ?></th>
-        <th align="left" width="20%"><?php echo xlt('Employer'); ?></th>        
-        <th width="10%"><?php echo xlt('Encounter ID'); ?></th>
+        <th align="left" width="20%"><?php echo xlt('Patient'); ?></th>
         <th align="left" width="30%"><?php echo xlt('Note'); ?></th>
-    </tr> -->
-
-                        <table class="table table-form">
-                                        <thead>
-
-                                            <tr class="bg-transparent">
-                                                <th> Date</th>
-                                                <th>Name </th>
-                                                <th>Employer</th>
-                                                <th>Encounter ID</th>
-                                                <th>Notes</th>
-                                            </tr>
-                                        </thead>
-
-
+        <th width="10%"><?php echo xlt('Encounter ID'); ?></th>
+    </tr>
     <?php
     if (sqlNumRows($resultSet)) {
         while ($row = sqlFetchArray($resultSet)) {
@@ -327,38 +236,24 @@ $display_collapse_msg = "display:inline;";
                 $note .= text(oeFormatShortDate(date('Y-m-d', strtotime($dates[$i])))) . " : " . text($notes[$i]) . "<br />";
             }
             ?>
-
-            <tbody>
-            <tr>
+            <tr class="text">
                 <td><?php echo text(oeFormatShortDate(date('Y-m-d', strtotime($row['date'])))); ?> </td>
-                <td>
+                <td class="linkcell">
                     <a id="<?php echo attr($row['id']); ?>" title='<?php echo $url; ?>' onclick='top.restoreSession()'><?php echo text(basename($row['url'])); ?></a>
                 </td>
                 <td><?php echo text($row['pname']); ?> </td>
-               
-                <td ><?php echo ( $row['encounter_id'] ) ? text($row['encounter_id']) : ''; ?> </td>
                 <td><?php echo $note; ?> &nbsp;</td>
+                <td align="center"><?php echo ( $row['encounter_id'] ) ? text($row['encounter_id']) : ''; ?> </td>
             </tr>
-        </tbody>
-
-
             <?php
         } ?>
         <?php
     } ?>
     </table>
-</div>
-    <!-- </div> -->
+    </div>
 
-    <!-- <div class="tooltip_container">
-        <iframe class="tooltip_doc"></iframe>
-    </div> -->
-</div>
-</div>
-</div>
-    </window-dashboard>
-</div>
-</div>
-</section>
+    <div class="tooltip_container">
+        <iframe class="tooltip_doc"></frame>
+    </div>
 </body>
 </html>

@@ -35,6 +35,20 @@ $form_facility = isset($_POST['form_facility']) ? $_POST['form_facility'] : '';
 <head>
     <title><?php echo xlt('Referrals'); ?></title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+
     <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
     <script language="JavaScript">
@@ -86,173 +100,179 @@ $form_facility = isset($_POST['form_facility']) ? $_POST['form_facility'] : '';
                 display: none;
             }
         }
+
+        input[type=date]{
+            margin-top:0px;
+        }
+        .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+            background: #3C9DC5;
+            text-decoration: none;
+        }
+
+        #report_parameters {
+            background-color: transparent !important;
+            margin-top: 10px;
+        }
+
     </style>
+
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+
 </head>
 
 <body class="body_top">
 
-<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Referrals'); ?></span>
+        <section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="" class="icon-hide">
+                        <div class="head-component">
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-6">
+                                    <p class="text-white head-p">Referrals </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body-compo">
+                            <div class="container-fluid">
+                                <form name='theform' id='theform' method='post' action='referrals_report.php' onsubmit='return top.restoreSession()'>
+                                    <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+                                    <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-<div id="report_parameters_daterange">
-<?php echo text(oeFormatShortDate($form_from_date)) ." &nbsp; " . xlt('to') . " &nbsp; ". text(oeFormatShortDate($form_to_date)); ?>
-</div>
+                                    <div class="pt-4 pb-4">
+                                        <div  id="report_parameters">
+                                            <div class="row">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-4">
+                                                    <!-- <p>Employee ID</p> -->
+                                                    <p> Facility</p>
+                                                    <?php dropdown_facility(($form_facility), 'form_facility', true); ?>
+                                                    <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                                </div>
 
-<form name='theform' id='theform' method='post' action='referrals_report.php' onsubmit='return top.restoreSession()'>
-<input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                                                <div class="col-md-2">
+                                                    <p>From</p>
+                                                    <input type='date' name='form_from_date' id="form_from_date"  value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>' class='form-control pr-1 pl-1'>
+                                                    
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <p>To</p>
+                                                    <input type='date' name='form_to_date' id="form_to_date"  value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>' class="form-control pr-1 pl-1">
+                                                    
+                                                </div>
 
-<div id="report_parameters">
-<input type='hidden' name='form_refresh' id='form_refresh' value=''/>
-<table>
- <tr>
-  <td width='640px'>
-    <div style='float:left'>
 
-    <table class='text'>
-        <tr>
-            <td class='control-label'>
-                <?php echo xlt('Facility'); ?>:
-            </td>
-            <td>
-            <?php dropdown_facility(($form_facility), 'form_facility', true); ?>
-            </td>
-            <td class='control-label'>
-                <?php echo xlt('From'); ?>:
-            </td>
-            <td>
-               <input type='text' name='form_from_date' id="form_from_date" size='10' value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>'
-         class='datepicker form-control'>
-            </td>
-            <td class='control-label'>
-                <?php echo xlt('To'); ?>:
-            </td>
-            <td>
-               <input type='text' name='form_to_date' id="form_to_date" size='10' value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>'
-         class='datepicker form-control'>
-            </td>
-        </tr>
-    </table>
 
-    </div>
 
-  </td>
-  <td align='left' valign='middle' height="100%">
-    <table style='border-left:1px solid; width:100%; height:100%' >
-        <tr>
-            <td>
-                <div class="text-center">
-          <div class="btn-group" role="group">
-                     <a href='#' class='btn btn-default btn-save' onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>
-                        <?php echo xlt('Submit'); ?>
-                     </a>
-                        <?php if ($_POST['form_refresh']) { ?>
-                       <a href='#' class='btn btn-default btn-print' id='printbutton'>
-                            <?php echo xlt('Print'); ?>
-                       </a>
-                        <?php } ?>
-          </div>
+                                            </div>
+                                            <div class="pt-4 pb-5">
+                                                <div class="row">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="table-div ">
+                                            <table class="table table-form">
+                                                <thead>
+
+                                                    <tr class="bg-transparent">
+                                                        <th>Refer To </th>
+                                                        <th> Refer Date</th>
+
+                                                        <th>Reply Date</th>
+                                                        <th>Employee </th>
+                                                        <th>ID</th>
+                                                        <th>Reason</th>
+
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    if ($_POST['form_refresh']) {
+                                                    
+                    
+                                                        $query = "SELECT t.id, t.pid, " .
+                                                        "d1.field_value AS refer_date, " .
+                                                        "d3.field_value AS reply_date, " .
+                                                        "d4.field_value AS body, " .
+                                                        "ut.organization, uf.facility_id, p.pubpid, " .
+                                                        "CONCAT(uf.fname,' ', uf.lname) AS referer_name, " .
+                                                        "CONCAT(ut.fname,' ', ut.lname) AS referer_to, " .
+                                                        "CONCAT(p.fname,' ', p.lname) AS patient_name " .
+                                                        "FROM transactions AS t " .
+                                                        "LEFT JOIN patient_data AS p ON p.pid = t.pid " .
+                                                        "JOIN      lbt_data AS d1 ON d1.form_id = t.id AND d1.field_id = 'refer_date' " .
+                                                        "LEFT JOIN lbt_data AS d3 ON d3.form_id = t.id AND d3.field_id = 'reply_date' " .
+                                                        "LEFT JOIN lbt_data AS d4 ON d4.form_id = t.id AND d4.field_id = 'body' " .
+                                                        "LEFT JOIN lbt_data AS d7 ON d7.form_id = t.id AND d7.field_id = 'refer_to' " .
+                                                        "LEFT JOIN lbt_data AS d8 ON d8.form_id = t.id AND d8.field_id = 'refer_from' " .
+                                                        "LEFT JOIN users AS ut ON ut.id = d7.field_value " .
+                                                        "LEFT JOIN users AS uf ON uf.id = d8.field_value " .
+                                                        "WHERE t.title = 'LBTref' AND " .
+                                                        "d1.field_value >= ? AND d1.field_value <= ? " .
+                                                        "ORDER BY ut.organization, d1.field_value, t.id";
+                                                        $res = sqlStatement($query, array($form_from_date, $form_to_date));
+
+                                                        while ($row = sqlFetchArray($res)) {
+                                                        // If a facility is specified, ignore rows that do not match.
+                                                            if ($form_facility !== '') {
+                                                                if ($form_facility) {
+                                                                    if ($row['facility_id'] != $form_facility) {
+                                                                        continue;
+                                                                    }
+                                                                } else {
+                                                                    if (!empty($row['facility_id'])) {
+                                                                        continue;
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            ?>                      
+                                                            <tr>
+                                                                <td><?php
+                                                                        if ($row['organization']!=null || $row['organization']!='') {
+                                                                            echo text($row['organization']);
+                                                                        } else {
+                                                                            echo text($row['referer_to']);
+                                                                        }
+                                                                        ?>
+                                                                </td>
+                                                                <td><a href='#' onclick="return show_referral(<?php echo js_escape($row['id']); ?>)">
+                                                                    <?php echo text(oeFormatShortDate($row['refer_date'])); ?>&nbsp;</a>
+                                                                </td>
+                                                                <td><?php echo text(oeFormatShortDate($row['reply_date'])) ?></td>
+                                                                <td><?php echo text($row['patient_name']) ?></td>
+                                                                <td><?php echo text($row['pubpid']) ?></td>
+                                                                <td><?php echo text($row['body']) ?></td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div> <!-- end of results -->
+
+                                                   
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </window-dashboard>
                 </div>
-            </td>
-        </tr>
-    </table>
-  </td>
- </tr>
-</table>
-</div> <!-- end of parameters -->
+            </div>
+        </section>
 
-<?php
-if ($_POST['form_refresh']) {
-    ?>
-<div id="report_results">
-<table width='98%' id='mymaintable'>
-<thead>
-<th> <?php echo xlt('Refer To'); ?> </th>
-<th> <?php echo xlt('Refer Date'); ?> </th>
-<th> <?php echo xlt('Reply Date'); ?> </th>
-<th> <?php echo xlt('Patient'); ?> </th>
-<th> <?php echo xlt('ID'); ?> </th>
-<th> <?php echo xlt('Reason'); ?> </th>
-</thead>
-<tbody>
-    <?php
-    if ($_POST['form_refresh']) {
-        $query = "SELECT t.id, t.pid, " .
-        "d1.field_value AS refer_date, " .
-        "d3.field_value AS reply_date, " .
-        "d4.field_value AS body, " .
-        "ut.organization, uf.facility_id, p.pubpid, " .
-        "CONCAT(uf.fname,' ', uf.lname) AS referer_name, " .
-        "CONCAT(ut.fname,' ', ut.lname) AS referer_to, " .
-        "CONCAT(p.fname,' ', p.lname) AS patient_name " .
-        "FROM transactions AS t " .
-        "LEFT JOIN patient_data AS p ON p.pid = t.pid " .
-        "JOIN      lbt_data AS d1 ON d1.form_id = t.id AND d1.field_id = 'refer_date' " .
-        "LEFT JOIN lbt_data AS d3 ON d3.form_id = t.id AND d3.field_id = 'reply_date' " .
-        "LEFT JOIN lbt_data AS d4 ON d4.form_id = t.id AND d4.field_id = 'body' " .
-        "LEFT JOIN lbt_data AS d7 ON d7.form_id = t.id AND d7.field_id = 'refer_to' " .
-        "LEFT JOIN lbt_data AS d8 ON d8.form_id = t.id AND d8.field_id = 'refer_from' " .
-        "LEFT JOIN users AS ut ON ut.id = d7.field_value " .
-        "LEFT JOIN users AS uf ON uf.id = d8.field_value " .
-        "WHERE t.title = 'LBTref' AND " .
-        "d1.field_value >= ? AND d1.field_value <= ? " .
-        "ORDER BY ut.organization, d1.field_value, t.id";
-        $res = sqlStatement($query, array($form_from_date, $form_to_date));
-
-        while ($row = sqlFetchArray($res)) {
-            // If a facility is specified, ignore rows that do not match.
-            if ($form_facility !== '') {
-                if ($form_facility) {
-                    if ($row['facility_id'] != $form_facility) {
-                        continue;
-                    }
-                } else {
-                    if (!empty($row['facility_id'])) {
-                        continue;
-                    }
-                }
-            }
-
-            ?>
-   <tr>
-    <td>
-            <?php
-            if ($row['organization']!=null || $row['organization']!='') {
-                echo text($row['organization']);
-            } else {
-                echo text($row['referer_to']);
-            }
-            ?>
-    </td>
-    <td>
-     <a href='#' onclick="return show_referral(<?php echo js_escape($row['id']); ?>)">
-            <?php echo text(oeFormatShortDate($row['refer_date'])); ?>&nbsp;
-     </a>
-    </td>
-    <td>
-            <?php echo text(oeFormatShortDate($row['reply_date'])) ?>
-    </td>
-    <td>
-            <?php echo text($row['patient_name']) ?>
-    </td>
-    <td>
-            <?php echo text($row['pubpid']) ?>
-    </td>
-    <td>
-            <?php echo text($row['body']) ?>
-    </td>
-   </tr>
-            <?php
-        }
-    }
-    ?>
-</tbody>
-</table>
-</div> <!-- end of results -->
-<?php } else { ?>
-<div class='text'>
-    <?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?>
-</div>
-<?php } ?>
-</form>
 
 </body>
 </html>
