@@ -24,6 +24,12 @@ if (!empty($_POST)) {
         CsrfUtils::csrfNotVerified();
     }
 }
+// String for csv_PA
+function qescape($str)
+{
+    $str = str_replace('\\', '\\\\', $str);
+    return str_replace('"', '\\"', $str);
+}
 
 $comarr = array('allow_sms'=>xl('Allow SMS'),'allow_voice'=>xl('Allow Voice Message'),'allow_mail'=>xl('Allow Mail Message'),'allow_email'=>xl('Allow Email'));
 
@@ -45,6 +51,18 @@ $form_service_codes = trim($_POST["form_service_codes"]);
 $form_immunization = trim($_POST["form_immunization"]);
 $communication = trim($_POST["communication"]);
 
+// export_CSV_PA
+if ($_POST['form_csvexport']) {
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Type: application/force-download");
+    header("Content-Disposition: attachment; filename=clinical_reports.csv");
+    header("Content-Description: File Transfer");
+}
+else
+{
+
 ?>
 <html>
 <head>
@@ -53,7 +71,25 @@ $communication = trim($_POST["communication"]);
         <?php echo xlt('Clinical Reports'); ?>
     </title>
 
-    <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
+
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
+
+    <?php //Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
     <script language="JavaScript">
         $(function() {
@@ -111,6 +147,17 @@ $communication = trim($_POST["communication"]);
     </script>
 
     <style type="text/css">
+     input[type=date]{
+            margin-top:0px;
+        }
+        input[type=text]{
+            margin-top:0px;
+        }
+
+.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+        background: #3C9DC5;
+        text-decoration: none;
+    }
         /* specifically include & exclude from printing */
         @media print {
         #report_parameters {
@@ -209,75 +256,157 @@ $communication = trim($_POST["communication"]);
 </head>
 <body class="body_top">
 <!-- Required for the popup date selectors -->
-<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<span class='title'>
+<!-- <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div> -->
+<!-- <span class='title'>
 <?php echo htmlspecialchars(xl('Report - Clinical'), ENT_NOQUOTES); ?>
-</span>
+</span> -->
 <!-- Search can be done using age range, gender, and ethnicity filters.
 Search options include diagnosis, procedure, prescription, medical history, and lab results.
 -->
+
+<section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="" class="icon-hide">
+                    <div class="head-component">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="compo-head">
+                                               
+                                                <span>
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg"
+                                                        alt="">
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-white head-p">Clinical Reports</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body-compo" style="height:auto;">
+                            <div class="container-fluid">
 <div id="report_parameters_daterange"> <?php echo text(oeFormatDateTime($sql_date_from, "global", true)) .
       " &nbsp; " . xlt("to") . " &nbsp; ". text(oeFormatDateTime($sql_date_to, "global", true)); ?> </div>
+       
 <form name='theform' id='theform' method='post' action='clinical_reports.php' onsubmit='return top.restoreSession()'>
     <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-    <div id="report_parameters">
-        <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
-        <table>
-              <tr>
-            <td width='740px'><div style='float:left'>
-                <table class='text'>
-                    <tr>
-                        <td class='control-label' width="100"><?php echo xlt('Facility'); ?>: </td>
-                        <td width="250"> <?php dropdown_facility($facility, 'facility', false); ?> </td>
-                        <td class='control-label' width="100"><?php echo xlt('From'); ?>: </td>
-                        <td><input type='text' class='datetimepicker form-control' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'></td>
-                    </tr>
-                    <tr>
-                        <td class='control-label'><?php echo xlt('Patient ID'); ?>:</td>
-                        <td><input name='patient_id' class="numeric_only form-control" type='text' id="patient_id" title='<?php echo xla('Optional numeric patient ID'); ?>' value='<?php echo attr($patient_id); ?>' size='10' maxlength='20' /></td>
-                        <td class='control-label'><?php echo xlt('To'); ?>: </td>
-                        <td><input type='text' class='datetimepicker form-control' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'></td>
-                    </tr>
-                    <tr>
-                        <td class='control-label'><?php echo xlt('Age Range'); ?>:</td>
-                        <td><table>
-                        <tr>
-                        <td class='control-label'><?php echo xlt('From'); ?></td>
-                        <td>
-                            <input name='age_from' class="numeric_only form-control" type='text' id="age_from" value="<?php echo attr($age_from); ?>" size='3' maxlength='3' />
-                        </td>
-                        <td class='control-label'><?php echo xlt('To'); ?></td>
-                        <td>
-                            <input name='age_to' class="numeric_only form-control" type='text' id="age_to" value="<?php echo attr($age_to); ?>" size='3' maxlength='3' />
-                        </td>
-                        </tr>
-                        </table></td>
-                        <td class='control-label'><?php echo xlt('Problem DX'); ?>:</td>
-                        <td><input type='text' name='form_diagnosis form-control' class= 'form-control' size='10' maxlength='250' value='<?php echo attr($form_diagnosis); ?>' onclick='sel_diagnosis(this)' title='<?php echo xla('Click to select or change diagnoses'); ?>' readonly /></td>
-                                                <td>&nbsp;</td>
-<!-- Visolve -->
-                    </tr>
-                    <tr>
-                        <td class='control-label'><?php echo xlt('Gender'); ?>:</td>
-                        <td><?php echo generate_select_list('gender', 'sex', $sql_gender, 'Select Gender', 'Unassigned', '', ''); ?></td>
-                        <td class='control-label'><?php echo xlt('Drug'); ?>:</td>
-                        <td><input type='text' name='form_drug_name' class='form-control' size='10' maxlength='250' value='<?php echo attr($form_drug_name); ?>' title='<?php echo xla('Optional drug name, use % as a wildcard'); ?>' /></td>
+    <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+    <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
 
-                    </tr>
-                    <tr>
-                        <td class='control-label'><?php echo xlt('Race'); ?>:</td>
-                        <td><?php echo generate_select_list('race', 'race', $sql_race, 'Select Race', 'Unassigned', '', ''); ?></td>
-                        <td class='control-label'><?php echo xlt('Ethnicity'); ?>:</td>
-                        <td><?php echo generate_select_list('ethnicity', 'ethnicity', $sql_ethnicity, 'Select Ethnicity', 'Unassigned', '', ''); ?></td>
-                        <td class='control-label'><?php echo xlt('Immunization'); ?>:</td>
-                        <td><input type='text' name='form_immunization' class='form-control' size='10' maxlength='250' value='<?php echo attr($form_immunization); ?>' title='<?php echo xla('Optional immunization name or code, use % as a wildcard'); ?>' /></td>
-                    </tr>
-                    <tr>
-                        <td class='control-label' width='100'><?php echo xlt('Lab Result'); ?>:</td>
-                        <td width='100'><input type='text' name='form_lab_results' class='form-control' size='13' maxlength='250' value='<?php echo attr($form_lab_results); ?>' title='<?php echo xla('Result, use % as a wildcard'); ?>' /></td>
+<!-- new form_pa -->
+    <div id="report_parameters" class="pt-4 pb-4">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p>Facility</p>
+                                         <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                         <?php dropdown_facility($facility, 'facility', false); ?>
+                                        </div>
 
-                        <td class='control-label' width='100'><?php echo xlt('Option'); ?>:</td>
-                        <td><select name="type" class='form-control' id="type" onChange="checkType();">
+                                    <div class="col-md-3">
+                                        <p>Employee ID</p> 
+                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input name='patient_id' class="numeric_only form-control pr-1 pl-1" type='text' id="patient_id" title='<?php echo xla('Optional numeric patient ID'); ?>' value='<?php echo attr($patient_id); ?>' size='10' maxlength='20' />
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>From</p>
+                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input type='date' class='datetimepicker form-control' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'>                                   
+                                     </div>
+                                    <div class="col-md-2">
+                                        <p>to</p>
+                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1">/ -->
+                                        <input type='date' class='datetimepicker form-control' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <p>gender</p>
+                                         <!-- <select name="" id="" class="form-control mt-2">
+                                                <option value="">Male</option>
+                                                <option value="">female</option>
+                                                <option value="">Value 3</option>
+                                            </select> -->
+                                            <?php echo generate_select_list('gender', 'sex', $sql_gender, 'Select Gender', 'Unassigned', '', ''); ?>
+                                        </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <p>From <span class="fs-12">(age range)</span></p>
+                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input name='age_from' class="numeric_only form-control pr-1 pl-1" type='text' id="age_from" value="<?php echo attr($age_from); ?>" size='3' maxlength='3' />
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>to</p>
+                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input name='age_to' class="numeric_only form-control pr-1 pl-1" type='text' id="age_to" value="<?php echo attr($age_to); ?>" size='3' maxlength='3' />
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <p>Problem Dx</p> 
+                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input type='text' name='form_diagnosis form-control' class= 'form-control pr-1 pl-1' size='10' maxlength='250' value='<?php echo attr($form_diagnosis); ?>' onclick='sel_diagnosis(this)' title='<?php echo xla('Click to select or change diagnoses'); ?>' readonly />
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <p>Drug</p> 
+                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input type='text' name='form_drug_name' class='form-control pr-1 pl-1' size='10' maxlength='250' value='<?php echo attr($form_drug_name); ?>' title='<?php echo xla('Optional drug name, use % as a wildcard'); ?>' />
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>Race</p> 
+                                        <!-- <select name="" id="" class="form-control mt-2">
+                                                <option value="">Value 3</option>
+                                                <option value="">Value 3</option>
+                                                <option value="">Value 3</option>
+                                            </select> -->
+                                            <?php echo generate_select_list('race', 'race', $sql_race, 'Select Race', 'Unassigned', '', ''); ?>
+                                        </div>
+
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <p>Ethinicity</p> 
+                                        <!-- <select name="" id="" class="form-control mt-2">
+                                                        <option value="">Value 3</option>
+                                                        <option value="">Value 3</option>
+                                                        <option value="">Value 3</option>
+                                                    </select> -->
+                                                    <?php echo generate_select_list('ethnicity', 'ethnicity', $sql_ethnicity, 'Select Ethnicity', 'Unassigned', '', ''); ?>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>Immunization</p>
+                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input type='text' name='form_immunization' class='form-control pr-1 pl-1' size='10' maxlength='250' value='<?php echo attr($form_immunization); ?>' title='<?php echo xla('Optional immunization name or code, use % as a wildcard'); ?>' />
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <p>Lab Results</p>
+                                         <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                         <input type='text' name='form_lab_results' class='form-control pr-1 pl-1' size='13' maxlength='250' value='<?php echo attr($form_lab_results); ?>' title='<?php echo xla('Result, use % as a wildcard'); ?>' />
+
+                                        </div>
+
+                                    <div class="col-md-3">
+                                        <p>Options</p> 
+                                        <!-- <select name="" id="" class="form-control mt-2">
+                                                <option value="">Value 3</option>
+                                                <option value="">Value 3</option>
+                                                <option value="">Value 3</option>
+                                            </select> -->
+                                            <select name="type" class='form-control' id="type" onChange="checkType();">
                             <option> <?php echo xlt('Select'); ?></option>
                             <option value="Procedure" <?php
                             if ($type == 'Procedure') {
@@ -292,10 +421,15 @@ Search options include diagnosis, procedure, prescription, medical history, and 
                                 echo "selected";
                             } ?>><?php echo xlt('Service Codes'); ?></option>
                            </select>
-                        </td>
-                        <td class='control-label'><?php echo xlt('Communication'); ?>:</td>
-                        <td>
-                            <select name="communication" class='form-control' id="communication" title="<?php echo xla('Select Communication Preferences'); ?>">
+                                        </div>
+                                    <div class="col-md-2">
+                                        <p>Communications</p> 
+                                        <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">Value 3</option>
+                                                    <option value="">Value 3</option>
+                                                    <option value="">Value 3</option>
+                                                </select> -->
+                                                <select name="communication" class='form-control' id="communication" title="<?php echo xla('Select Communication Preferences'); ?>">
                                 <option value=""> <?php echo xlt('Select'); ?></option>
                                 <?php foreach ($comarr as $comkey => $comvalue) { ?>
                                 <option value="<?php echo attr($comkey); ?>" <?php
@@ -304,10 +438,9 @@ Search options include diagnosis, procedure, prescription, medical history, and 
                                 } ?>><?php echo text($comvalue); ?></option>
                                 <?php } ?>
                             </select>
-                        </td>
-                    </tr>
-                </table>
-                <table>
+                                            </div>
+
+                                            <table style="display:none">
                     <tr class="optional_area_service_codes">
                     <td width='100'>&nbsp;</td>
                     <td width='100'>&nbsp;</td>
@@ -316,7 +449,7 @@ Search options include diagnosis, procedure, prescription, medical history, and 
                                         <td> <input type='text' name='form_service_codes' class='form-control' size='10' maxlength='250' value='<?php echo attr($form_service_codes); ?>' onclick='sel_procedure(this)' title='<?php echo xla('Click to select or change service codes'); ?>' readonly />&nbsp;</td>
                                         </tr>
                 </table>
-                <table class='text'>
+                <table class='text' style="display:none">
                     <tr>
                         <!-- Sort by Start -->
                                                  <td class='control-label' width='63'><?php echo xlt('Sort By'); ?>:</td>
@@ -405,34 +538,58 @@ Search options include diagnosis, procedure, prescription, medical history, and 
                         <td colspan=3><span id="date_error" style="color: #F00; font-siz: 11px; display: none;"><?php echo xlt('From Date Cannot be Greater than To Date.'); ?></span>&nbsp;</td>
                     </tr>
                 </table>
-                </div></td>
-                <td height="100%" valign='middle' width="175"><table style='border-left:1px solid; width:100%; height:100%'>
-                    <tr>
-                        <td>
-                            <div class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href='#' class='btn btn-default btn-save' onclick='submitForm();'>
-                                        <?php echo xlt('Submit'); ?>
-                                    </a>
-                                    <?php if ($_POST['form_refresh']) { ?>
-                                        <a href='#' class='btn btn-default btn-print' id='printbutton'>
-                                            <?php echo xlt('Print'); ?>
-                                        </a>
-                                    <?php } ?>
                                 </div>
+                                <div class="pt-4 pb-5">
+                                    <div class="row">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">                                             
+                                            <!-- <a href='#' class='btn btn-default btn-save' onclick='submitForm();'>SEARCH -->
+                                            <button  onclick='submitForm();' class="form-save">SEARCH</button>
+                                            <!-- </a> -->
+                                        </div>
+                                        <div class="col-md-2"> 
+                                        <!-- <a href='#' id='printbutton'> -->
+                                        <button  id='printbutton' class="form-save">PRINT</button>
+                                        <!-- </a> -->
+                                            <!-- <button class="form-save">PRINT</button> -->
+                                        </div>
+                                        <div class="col-md-2"> 
+                                            <button  class="form-save">Export to CSV</button>
+                                        <!-- <button onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();' class="form-save">Export to CSV</button> -->
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                               
+
+
                             </div>
-                        </td>
-                    </tr>
-                </table></td>
-            </tr>
-        </table>
-    </div>
-<!-- end of parameters -->
+<!-- //new form_pa -->
+
+    
 <?php
+} //end not export
 // SQL scripts for the various searches
 $sqlBindArray = array();
-if ($_POST['form_refresh']) {
-    $sqlstmt = "select
+if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
+    if ($_POST['form_csvexport']) {
+        // CSV headers:
+        echo '"' . xl('Date') . '",';
+        echo '"' . xl('Employee') . '",';
+        echo '"' . xl('ID') . '",';
+        echo '"' . xl('Age') . '",';
+        echo '"' . xl('Gender') . '",';
+        echo '"' . xl('Address') . '",';
+        echo '"' . xl('Provider') . '",';
+        echo '"' . xl('Contact') . '"' . "\n";
+    }
+    else
+    {
+    }
+
+    $sqlstmt = "select pd.street as p_address,pd.date as p_date,pd.phone_contact as p_contact,
                 concat(pd.fname, ' ', pd.lname) AS patient_name,
                 pd.pid AS patient_id,
                 DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(),pd.dob)), '%Y')+0 AS patient_age,
@@ -720,44 +877,54 @@ if ($_POST['form_refresh']) {
            $smoke_codes_arr = getSmokeCodes();
         ?>
     <br>
-    <div id = "report_results">
+    <!-- lists_report -->
+    <!-- <div id = "report_results"> -->
 
-        <?php $pidarr = array();
-        while ($row = sqlFetchArray($result)) { ?>
-    <table width=90% align="center" cellpadding="5" cellspacing="0" style="font-family:tahoma;color:black;" border="0">
-        <tr bgcolor = "#CCCCCC" style="font-size:15px;">
-            <td><b><?php echo xlt('Summary of');
-            echo " "; ?> <?php echo text($row['patient_name']); ?></b></td>
+        
+    <!-- <table width=90% align="center" cellpadding="5" cellspacing="0" style="font-family:tahoma;color:black;" border="0"> -->
+        <!-- <tr bgcolor = "#CCCCCC" style="font-size:15px;"> -->
+            <!-- <td><b><?php echo xlt('Summary of');
+            echo " "; ?> <?php echo text($row['patient_name']); ?></b></td> -->
+            <!-- <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td align="center">
-            <span onclick="javascript:Toggle_trGrpHeader2(<?php echo attr($row_id); ?>,<?php echo attr($img_id); ?>);"><img src="../pic/blue-down-arrow.gif" id="<?php echo attr($img_id);
-            $img_id++; ?>" title="<?php echo xla('Click here to view patient details'); ?>" /></span>
-            </td></tr>
-            <table width="100%" align="center" id = "<?php echo attr($row_id);
-            $row_id++;?>" class="border1" style="display:none; font-size:13px;" cellpadding=5>
-                <tr bgcolor="#C3FDB8" align="left">
-                <td width="15%"><b><?php echo xlt('Patient Name'); ?></b></td>
-                <td width="5%"><b><?php echo xlt('PID');?></b></td>
-                <td width="5%"><b><?php echo xlt('Age');?></b></td>
-                <td width="10%"><b><?php echo xlt('Gender'); ?></b></td>
-                <td width="15%"><b><?php echo xlt('Race');?></b></td>
-                <td width="15%"><b><?php echo xlt('Ethnicity');?></b></td>
-                <td width="15%" <?php
+            <td align="center"> -->
+            <!-- <span onclick="javascript:Toggle_trGrpHeader2(<?php echo attr($row_id); ?>,<?php echo attr($img_id); ?>);"><img src="../pic/blue-down-arrow.gif" id="<?php echo attr($img_id);
+            $img_id++; ?>" title="<?php echo xla('Click here to view patient details'); ?>" /></span> -->
+            <!-- </td></tr> -->
+
+            <div class="table-div " id = "report_results">
+            <table class="table table-form" id = "<?php echo attr($row_id);$row_id++;?>">
+            <thead>    
+            <tr class="bg-transparent">
+            <th><?php echo xlt('Date'); ?></th>
+                <th><?php echo xlt('Employee'); ?></th>
+                <th><?php echo xlt('ID');?></th>
+                <th><?php echo xlt('Age');?></th>
+                <th><?php echo xlt('Gender'); ?></th>
+                <th><?php echo xlt('Address');?></th>
+                <th><?php echo xlt('Contact');?></th>
+                <th <?php
                 if (strlen($communication) == 0 || $_POST['communication_check'] == true) {
-                    ?> colspan=5 <?php
-                } ?>><b><?php echo xlt('Provider');?></b></td>
+                    ?> <?php
+                } ?>><?php echo xlt('Provider');?></th>
                 <?php if (strlen($communication) > 0 || ($_POST['communication_check'] == true)) { ?>
-                <td colspan=4><b><?php echo xlt('Communication');?></b></td>
+                <th><?php echo xlt('Communication');?></th>
                 <?php } ?>
                 </tr>
-                <tr bgcolor="#FFFFFF">
+                </thead>
+                <?php $pidarr = array();
+        while ($row = sqlFetchArray($result)) { ?>
+                <tr>
+                
+                <td><?php echo text(oeFormatShortDate($row['p_date'])); ?>&nbsp;</td>
                 <td><?php echo text($row['patient_name']); ?>&nbsp;</td>
                 <td> <?php echo text($row['patient_id']); ?>&nbsp;</td>
                 <td> <?php echo text($row['patient_age']); ?>&nbsp;</td>
                                 <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'sex'), $row['patient_sex']); ?>&nbsp;</td>
-                <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'race'), $row['patient_race']); ?>&nbsp;</td>
-                               <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'ethnicity'), $row['patient_ethinic']); ?>&nbsp;</td>
+                <!-- <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'race'), $row['patient_race']); ?>&nbsp;</td> -->
+                <td> <?php echo text($row['p_address']); ?>&nbsp;</td>
+                               <!-- <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'ethnicity'), $row['patient_ethinic']); ?>&nbsp;</td> -->
+                               <td> <?php echo text($row['p_contact']); ?>&nbsp;</td>
                                <td <?php
                                 if (strlen($communication) == 0 || ($_POST['communication_check'] == true)) {
                                     ?> colspan=5 <?php
@@ -771,19 +938,19 @@ if ($_POST['form_refresh']) {
                 <?php
                 if (strlen($form_diagnosis) > 0 || $_POST['form_diagnosis_allergy'] == true || $_POST['form_diagnosis_medprb'] == true) {
                     ?>
-                        <tr bgcolor="#C3FDB8" align= "left">
-                <td colspan=12><b><?php echo "#";
+                        <tr>
+                <td><b><?php echo "#";
                 echo xlt('Diagnosis Report');?></b></td>
                 </tr>
-                <tr bgcolor="#C3FDB8" align= "left">
+                <tr>
                 <td><b><?php echo xlt('Diagnosis Date');?></b></td>
                 <td><b><?php echo xlt('Diagnosis');?></b></td>
-                <td colspan=10><b><?php echo xlt('Diagnosis Name');?></b></td>
+                <td><b><?php echo xlt('Diagnosis Name');?></b></td>
                 </tr>
-                            <tr bgcolor="#FFFFFF">
+                            <tr>
                 <td><?php echo text(oeFormatDateTime($row['lists_date'], "global", true)); ?>&nbsp;</td>
                 <td><?php echo text($row['lists_diagnosis']); ?>&nbsp;</td>
-                                <td colspan=10><?php echo text($row['lists_title']); ?>&nbsp;</td>
+                                <td><?php echo text($row['lists_title']); ?>&nbsp;</td>
                 </tr>
                     <?php
                 } ?>
@@ -793,10 +960,10 @@ if ($_POST['form_refresh']) {
             <?php
             if (strlen($form_drug_name) > 0 || $_POST['form_drug'] == true) {
                 ?>
-                            <tr bgcolor="#C3FDB8" align= "left">
-                <td colspan=12><b><?php echo "#";
+                            <tr>
+                <td><b><?php echo "#";
                 echo xlt('Prescription Report');?><b></td></tr>
-                            <tr bgcolor="#C3FDB8" align= "left">
+                            <tr>
                 <td><b><?php echo xlt('Date'); ?></b></td>
                 <td><b><?php echo xlt('Drug Name');?></b></td>
                 <td><b><?php echo xlt('Route');?></b></td>
@@ -809,7 +976,7 @@ if ($_POST['form_refresh']) {
                 <td><b><?php echo xlt('Quantity');?></b></td>
                 <td colspan="2"><b><?php echo xlt('NDC');?></b></td>
                 </tr>
-                            <tr bgcolor="#FFFFFF" align="">
+                            <tr>
                 <?php
                 $rx_route =  generate_display_field(array('data_type'=>'1','list_id'=>'drug_route'), $row['route']) ;
                 $rx_form = generate_display_field(array('data_type'=>'1','list_id'=>'drug_form'), $row['hform']) ;
@@ -826,7 +993,7 @@ if ($_POST['form_refresh']) {
                 <td><?php echo $rx_units; ?></td>
                 <td><?php echo text($row['refills']); ?></td>
                 <td><?php echo text($row['quantity']); ?></td>
-                <td colspan="2"><?php echo text($row['ndc_number']); ?></td>
+                <td><?php echo text($row['ndc_number']); ?></td>
                             </tr>
                 <?php
             } ?>
@@ -836,10 +1003,10 @@ if ($_POST['form_refresh']) {
                 <?php
                 if (strlen($form_lab_results) > 0 || $_POST['lab_results'] == true) {
                     ?>
-                            <tr bgcolor="#C3FDB8" align= "left">
-                <td colspan=12><b><?php echo "#";
+                            <tr>
+                <td ><b><?php echo "#";
                 echo xlt('Lab Results Report');?><b></td></tr>
-                            <tr bgcolor="#C3FDB8" align= "left">
+                            <tr>
                 <td><b><?php echo xlt('Date'); ?></b></td>
                 <td><b><?php echo xlt('Facility');?></b></td>
                 <td><b><?php echo xlt('Unit');?></b></td>
@@ -849,7 +1016,7 @@ if ($_POST['form_refresh']) {
                 <td><b><?php echo xlt('Comments');?></b></td>
                 <td colspan=5><b><?php echo xlt('Document ID');?></b></td>
                 </tr>
-                            <tr bgcolor="#FFFFFF">
+                <tr>
                 <td> <?php echo text(oeFormatShortDate($row['procedure_result_date'])); ?>&nbsp;</td>
                                 <td> <?php echo text($row['procedure_result_facility']); ?>&nbsp;</td>
                                 <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'proc_unit'), $row['procedure_result_units']); ?>&nbsp;</td>
@@ -867,10 +1034,10 @@ if ($_POST['form_refresh']) {
                 <?php
                 if ($type == 'Procedure') {
                     ?>
-                            <tr bgcolor="#C3FDB8" align= "left">
-                <td colspan=12><b><?php echo "#";
+                            <tr >
+                <td ><b><?php echo "#";
                 echo xlt('Procedure Report');?><b></td></tr>
-                            <tr bgcolor="#C3FDB8" align= "left">
+                            <tr>
                 <td><b><?php echo xlt('Date'); ?></b></td>
                 <td><b><?php echo xlt('Standard Name');?></b></td>
                 <td><b><?php echo xlt('Procedure'); ?></b></td>
@@ -879,9 +1046,9 @@ if ($_POST['form_refresh']) {
                 <td><b><?php echo xlt('Status');?></b></td>
                 <td><b><?php echo xlt('Instruction');?></b></td>
                 <td><b><?php echo xlt('Activity');?></b></td>
-                <td colspan=3><b><?php echo xlt('Control ID');?></b></td>
+                <td><b><?php echo xlt('Control ID');?></b></td>
                 </tr>
-                            <tr bgcolor="#FFFFFF">
+                            <tr>
                     <?php
                                     $procedure_type_standard_code_arr = explode(':', $row['procedure_type_standard_code']);
                                     $procedure_type_standard_code = $procedure_type_standard_code_arr[1];
@@ -906,16 +1073,16 @@ if ($_POST['form_refresh']) {
                 <?php
                 if ($type == 'Medical History') {
                     ?>
-                            <tr bgcolor="#C3FDB8" align= "left">
-                <td colspan=12><b><?php echo "#";
+                            <tr>
+                <td ><b><?php echo "#";
                 echo xlt('Medical History');?><b></td></tr>
-                            <tr bgcolor="#C3FDB8" align= "left">
+                            <tr >
                 <td><b><?php echo xlt('History Date'); ?></b></td>
                 <td><b><?php echo xlt('Tobacco');?></b></td>
                 <td><b><?php echo xlt('Alcohol');?></b></td>
                 <td colspan=8><b><?php echo xlt('Recreational Drugs');?></b></td>
                 </tr>
-                            <tr bgcolor="#FFFFFF">
+                            <tr>
                     <?php
                     $tmp_t = explode('|', $row['history_data_tobacco']);
                     $tmp_a = explode('|', $row['history_data_alcohol']);
@@ -975,15 +1142,15 @@ if ($_POST['form_refresh']) {
                 <?php
                 if ($type == 'Service Codes') {
                     ?>
-                            <tr bgcolor="#C3FDB8" align= "left">
+                            <tr>
                 <td colspan=11><b><?php echo "#";
                 echo xlt('Service Codes');?><b></td></tr>
-                            <tr bgcolor="#C3FDB8" align= "left">
+                            <tr>
                 <td><b><?php echo xlt('Date'); ?></b></td>
                 <td><b><?php echo xlt('Code');?></b></td>
                 <td><b><?php echo xlt('Encounter ID');?></b></td>
                 <td colspan=8><b><?php echo xlt('Code Text');?></b></td></tr>
-                            <tr bgcolor="#FFFFFF">
+                            <tr>
                 <td><?php echo text(oeFormatShortDate($row['date'])); ?>&nbsp;</td>
                     <td><?php echo text($row['code']); ?>&nbsp;</td>
                         <td><?php echo text($row['encounter']); ?>&nbsp;</td>
@@ -996,11 +1163,11 @@ if ($_POST['form_refresh']) {
 <!-- Immunization Report Start-->
                 <?php
                 if (strlen($form_immunization) > 0) {?>
-                    <tr bgcolor="#C3FDB8" align= "left">
+                    <tr>
                         <td colspan=12><b><?php echo "#";
                         echo xlt('Immunization Report');?></b></td>
                     </tr>
-                    <tr bgcolor="#C3FDB8" align= "left">
+                    <tr>
                         <td><b><?php echo xlt('Immunization Date');?></b></td>
                         <td><b><?php echo xlt('CVX Code');?></b></td>
                         <td><b><?php echo xlt('Vaccine');?></b></td>
@@ -1008,7 +1175,7 @@ if ($_POST['form_refresh']) {
                         <td><b><?php echo xlt('Administered Site');?></b></td>
                         <td colspan="7"><b><?php echo xlt('Notes');?></b></td>
                     </tr>
-                    <tr bgcolor="#FFFFFF">
+                    <tr>
                         <td><?php echo text(oeFormatDateTime($row['imm_date'])); ?>&nbsp;</td>
                         <td><?php echo text($row['cvx_code']); ?>&nbsp;</td>
                         <td><?php echo text($row['imm_code_short'])." (".text($row['imm_code']).")"; ?>&nbsp;</td>
@@ -1032,19 +1199,52 @@ if ($_POST['form_refresh']) {
                       </td>
                     </tr>
                     <?php
-                } ?>
+                } 
+                // csv_export_data_PA
+ if ($_POST['form_csvexport']) {
+    echo '"' . oeFormatShortDate(substr($row['p_date'], 0, 10)) . '",';
+    echo '"' . qescape($row['patient_name']) . '",';
+    echo '"' . qescape($row['patient_age']) . '",';
+    echo '"' . qescape(xl($row['patient_id'])) . '",';
+    echo '"' . qescape($row['patient_sex']) . '",';
+    echo '"' . qescape($row['p_address']) . '",';
+    echo '"' . qescape(xl($row['users_provider'])) . '",';                        
+    echo '"' . qescape($row['p_contact']) . '"' . "\n";
+}
+            } ?>
 <!-- Immunization Report End-->
                      </table>
+            </div>
             <?php
-        }  //while loop end ?>
-            </table> <!-- Main table ends -->
+
+ 
+
+
+
+
+        // } 
+         //while loop end ?>
+            <!-- </table>  -->
+            <!-- Main table ends -->
         <?php
     } //End if $result
 } else { //End if form_refresh
-    ?><div class='text'> <?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?> </div><?php
+    ?>
+    <!-- <div class='text'> <?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?> </div> -->
+    <?php
 }
 ?>
+</div>
 </form>
+</div>
+</div>
+
+</window-dashboard>
+</div>
+</div>
+</section>
+
+
 </body>
 
 </html>

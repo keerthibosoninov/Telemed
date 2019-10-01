@@ -153,6 +153,12 @@ $(function() {
                             </div>
                         </div>
                         <div class="body-compo">
+                            <div id="report_parameters_daterange">
+                                <span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Patient List'); ?></span>
+                                <?php if (!(empty($to_date) && empty($from_date))) { ?>
+                                <?php echo text(oeFormatShortDate($from_date)) ." &nbsp; " . xlt('to') . " &nbsp; " . text(oeFormatShortDate($to_date)); ?>
+                                <?php } ?>                            
+                            </div>
                             <form name='theform' id='theform' method='post' action='patient_list.php' onsubmit='return top.restoreSession()'>
                                 <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
                                 <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>

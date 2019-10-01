@@ -244,7 +244,7 @@ function genTreeLink($frame, $name, $title, $mono = false)
     global $primary_docs, $disallowed;
     if (empty($disallowed[$name])) {
         $id = $name . $primary_docs[$name][1];
-        echo "<li $active><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" AddActiveClass();";
+        echo "<li $active><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" ";
         if ($mono) {
             if ($frame == 'RTop') {
                 echo "forceSpec(true,false);";
@@ -546,6 +546,13 @@ function genModuleMenuFromMenuItems($navMenuItems, $disallowed)
 
     #menu {
     padding-left: 0px !important;
+    }
+
+    .menu-icon{
+        float:left;
+    }
+    #menu ul li a{
+        padding: 10px 10px !important;
     }
 </style>
 <link rel="stylesheet" href="../../library/js/jquery.treeview-1.4.1/jquery.treeview.css" />
@@ -1211,6 +1218,13 @@ $(function (){
     $("#navigation-slide > li  > a#review0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-5.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#visit_his0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#care_ob0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-8.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    
+    $("#navigation-slide > li  > a#vitals0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#tr_plan0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#ore0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    
+    $("#navigation-slide > li  > a#cognitive0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#rep0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-8.svg" alt="" class="menu-icon"> </span>&nbsp;&nbsp;');
 
     $("#navigation-slide > li  > a#injury_det0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#appoint0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
@@ -1308,25 +1322,50 @@ $(function (){
 
 <?php
 
-   genTreeLink('RTop', 'dash', xl('Dashboard'));
-   genTreeLink('RTop', 'emp_info', xl('Employee'));
-   genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
-   genTreeLink('RTop', 'injury_det', xl('Injury Details'));
-//    genTreeLink('RTop', 'funct_abi', xl('Functional Abilities'));
-genTreeLink('RTop', 'visit_his', xl('Visit History'));
-   genTreeLink('RTop', 'health_his', xl('Health History'));
-   genTreeLink('RTop', 'review', xl('Review of System'));
-   genTreeLink('RTop', 'care_ob', xl('Care Observation'));
-   genTreeLink('RTop', 'vitals', xl('Vitals'));
-   genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
+    genTreeLink('RTop', 'dash', xl('Dashboard'));
+    genTreeLink('RTop', 'emp_info', xl('Employee'));
+    genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
+    genTreeLink('RTop', 'injury_det', xl('Injury Details'));
+    genTreeLink('RTop', 'visit_his', xl('Visit History'));
+    genTreeLink('RTop', 'health_his', xl('Health History'));
+    genTreeLink('RTop', 'review', xl('Review of System'));
+    genTreeLink('RTop', 'care_ob', xl('Care Observation'));
+    genTreeLink('RTop', 'vitals', xl('Vitals'));
+    genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
-    genTreeLink('RTop', 'cognitive', xl('Functional and Cognitive Status Form')); 
-    // genTreeLink('RTop', 'emp', xl('Employee List')); 
-    // genMiscLink('RTop', 'rep', '0', xl('Rx'), 'reports/prescriptions_report.php');
-    // genMiscLink('RTop', 'rep', '0', xl('Referrals'), 'reports/referrals_report.php');
+    genTreeLink('RTop', 'cognitive', xl('Cognitive Status')); 
+   
+   
+    if (acl_check('patients', 'demo')) {
+        genMiscLink('RTop', 'rep', '0', xl('Employee List'), 'reports/patient_list.php');
+    } 
+     if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
+        genMiscLink('RTop', 'rep', '0', xl('Prescriptions'), 'reports/prescriptions_report.php');
+    } 
+     if (acl_check('patients', 'med')) {
+        genMiscLink('RTop', 'rep', '0', xl('Employee List Creation'), 'reports/patient_list_creation.php');
+    } 
+    if (acl_check('patients', 'med')) {
+        genMiscLink('RTop', 'rep', '0', xl('Clinical Report'), 'reports/clinical_reports.php');
+    } 
+     if (acl_check('patients', 'med')) {
+        genMiscLink('RTop', 'rep', '0', xl('Referrals'), 'reports/referrals_report.php');
+    } 
+     if (acl_check('patients', 'med')) {
+        genMiscLink('RTop', 'rep', '0', xl('Immunization Registry'), 'reports/immunization_report.php');
+    } 
+
+    genMiscLink('RTop', 'rep', '0', xl('Encounters'), 'reports/encounters_report.php');
+    // <?php if (!$GLOBALS['disable_calendar'] && acl_check('patients', 'appt')) {
+        genMiscLink('RTop', 'rep', '0', xl('Appointments'), 'reports/appointments_report.php');
+        genMiscLink('RTop', 'rep', '0', xl('Daily Report'), 'reports/daily_summary_report.php');
+
+    // } 
+    genMiscLink('RTop', 'rep', '0', xl('Sales'), 'reports/sales_by_item.php');
+
     ?>
 
-    <li ><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
+    <li style="display:none;"><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
     <ul>
         <!-- <?php
             $moduleMenuContainer = genModuleMenuObject('Reports', 'repimg');
