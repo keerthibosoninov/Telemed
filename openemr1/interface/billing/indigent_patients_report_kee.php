@@ -31,24 +31,17 @@ function bucks($amount)
     return "";
 }
 
-// Prepare a string for CSV export.
-function qescape($str)
-{
-    $str = str_replace('\\', '\\\\', $str);
-    return str_replace('"', '\\"', $str);
-}
-
 $form_start_date = (!empty($_POST['form_start_date'])) ?  DateToYYYYMMDD($_POST['form_start_date']) : date('Y-01-01');
 $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['form_end_date']) : date('Y-m-d');
 
-// indigent_employees
+
 // In the case of CSV export only, a download will be forced.
 if ($_POST['form_csvexport']) {
     header("Pragma: public");
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Content-Type: application/force-download");
-    header("Content-Disposition: attachment; filename=indigent_employees.csv");
+    header("Content-Disposition: attachment; filename=patient_list.csv");
     header("Content-Description: File Transfer");
 } else {
     ?>
@@ -90,11 +83,6 @@ if ($_POST['form_csvexport']) {
     background-color: transparent !important;
     margin-top: 10px;
 }
-
-button:hover, input[type=button]:hover, input[type=submit]:hover {
-    background: #3C9DC5;
-    text-decoration: none;
-}
 </style>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -113,7 +101,7 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
 
-    <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
+<?php Header::setupHeader('datetime-picker'); ?>
 
 <title><?php echo xlt('Indigent Patients Report')?></title>
 
@@ -159,7 +147,6 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                             <form method='post' action='indigent_patients_report.php' id='theform' onsubmit='return top.restoreSession()'>
                                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
                                 <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
-                                <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
 
                                 <div class="container-fluid">
                                     <div class="pt-4 pb-4">
@@ -189,8 +176,8 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                             <div class="pt-4 pb-5">
                                                 <div class="row">
                                                     <div class="col-md-3"></div>
-                                                    <div class="col-md-2"> <button class="form-save"  onclick='$("#form_csvexport").val("");$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
-                                                    <div class="col-md-2"> <button class="form-save"  id='printbutton'>PRINT</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").val("");$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();'>Export to CSV</button></div>
 
                                                 </div>
@@ -229,7 +216,18 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                     </tr>
 
                                                 </thead>
-                                              
+                                                <!-- <tbody>
+                                                    <tr>
+                                                        <td>systco</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>5000</td>
+                                                        <td>4000</td>
+                                                        <td>1000</td>
+
+                                                    </tr>
+                                                </tbody> -->
                                                 <tbody>
 
                                                     <?php
@@ -290,11 +288,11 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                             ?>
                                                             <?php
                                                             if ($_POST['form_csvexport']) {
-                                                                echo '"' . qescape($row['lname']) .'",';
+                                                                echo '"' . text($row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname']) .'",';
                                                                 echo '"' . qescape($row['ss']) . '",';
                                                                 echo '"' . qescape(text($invnumber)) . '",';
-                                                                echo '"' . oeFormatShortDate(substr($row['date'], 0, 10)) . '",';
-                                                                echo '"' . oeFormatShortDate($inv_duedate) . '",';
+                                                                echo '"' . text(oeFormatShortDate(substr($row['date'], 0, 10))) . '",';
+                                                                echo '"' . text(oeFormatShortDate($inv_duedate)) . '",';
                                                                 echo '"' . qescape(bucks($inv_amount)) . '",';
                                                                 echo '"' . qescape(bucks($inv_paid)) . '",';
                                                                 echo '"' . qescape(bucks($inv_amount - $inv_paid)) . '"' . "\n";
@@ -360,7 +358,6 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                     <?php
                                                     }
                                                 }
-                                            }
                                                    
                                                 if (!$_POST['form_csvexport']) {
 

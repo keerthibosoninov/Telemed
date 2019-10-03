@@ -1362,6 +1362,12 @@ $(function (){
 
     // } 
     genMiscLink('RTop', 'rep', '0', xl('Sales'), 'reports/sales_by_item.php');
+    genMiscLink('RTop', 'rep', '0', xl('Distribution'), 'reports/insurance_allocation_report.php');
+    genMiscLink('RTop', 'rep', '0', xl('Indigents'), 'billing/indigent_patients_report.php');
+
+/*****************BY AKHIL A.P 03/10/2019************************ */
+    genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=1');
+
 
     ?>
 
