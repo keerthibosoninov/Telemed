@@ -1366,7 +1366,9 @@ $(function (){
     genMiscLink('RTop', 'rep', '0', xl('Indigents'), 'billing/indigent_patients_report.php');
 
 /*****************BY AKHIL A.P 03/10/2019************************ */
-    genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=1');
+    genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=00');
+    genMiscLink('RTop', 'rep', '0', xl('Pharmacy & ins'), '../controller.php?practice_settings&pharmacy&action=list');
+    genMiscLink('RTop', 'rep', '0', xl('Facilities'), 'usergroup/facilities_add.php');
 
 
     ?>

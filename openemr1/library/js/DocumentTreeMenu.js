@@ -94,9 +94,14 @@ function arrayCopy(input)
 */
 	TreeMenu.prototype.preloadImages = function ()
 	{
-		var plustop    = new Image; plustop.src    = this.iconpath + '/plustop.gif';
-		var plusbottom = new Image; plusbottom.src = this.iconpath + '/plusbottom.gif';
-		var plus       = new Image; plus.src       = this.iconpath + '/plus.gif';
+		// var plustop    = new Image; plustop.src    = this.iconpath + '/plustop.gif';
+		// var plusbottom = new Image; plusbottom.src = this.iconpath + '/plusbottom.gif';
+		// var plus       = new Image; plus.src       = this.iconpath + '/plus.gif';
+
+		var plustop    = new Image; plustop.src    = this.iconpath + '/folder-plus.svg';
+		var plusbottom = new Image; plusbottom.src = this.iconpath + '/folder-plus.svg';
+		var plus       = new Image; plus.src       = this.iconpath + '/folder-plus.svg';
+
 	
 		var minustop    = new Image; minustop.src    = this.iconpath + '/minustop.gif';
 		var minusbottom = new Image; minusbottom.src = this.iconpath + '/minusbottom.gif';
@@ -202,7 +207,7 @@ function arrayCopy(input)
 	        */
 			var gifname  = nodes[i].n.length && this.doesMenu() && nodes[i].isDynamic ? (expanded ? 'minus' : 'plus') : 'branch';
 			var iconName = expanded && nodes[i].expandedIcon ? nodes[i].expandedIcon : nodes[i].icon;
-			var iconimg  = nodes[i].icon ? this.stringFormat('<img src="{0}/{1}" width="20" height="20" align="top" id="icon_{2}">', this.iconpath, iconName, layerID) : '';
+			var iconimg  = nodes[i].icon ? this.stringFormat('<img src="{0}/{1}" width="28" height="22" align="top" id="icon_{2}">', this.iconpath, iconName, layerID) : '';
 			
 			/**
 			* Add event handlers

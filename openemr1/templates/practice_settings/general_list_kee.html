@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>{xlt t='Practice Settings'}</title>
+
+    <!-- {headerTemplate assets='bootstrap-sidebar|common'} -->
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/style.css">
+    
+        <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/employee_dashboard_style.css">
+        <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/emp_info_css.css">
+    
+        <script src="{$GLOBALS.webroot}/public/assets/js/vue.js"></script>
+    
+
+</head>
+<body class="body_top">
+
+<!-- <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle visible-xs" data-toggle="sidebar" data-target=".sidebar">
+                <span class="sr-only">{xlt t='Toggle navigation'}</span>
+                <i class="fa fa-bars fa-inverted"></i>
+            </button>
+            <a class="navbar-brand" href="#">{xlt t='Practice Settings'}</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="practice-setting-nav">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+    </div>
+</nav> -->
+    <section>
+        <div class="body-content body-content2">
+            <div class="container-fluid pb-4 pt-4">
+                <window-dashboard title="Vitals" class="icon-hide">
+                    <div class="head-component">
+                        <div class="row">
+                            <div class="col-6"></div>
+                                <div class="col-6">
+                                    <p class="text-white head-p">{xlt t="Pharmacies and Insurance"} </p>
+                                </div>
+                        </div>
+                    </div>
+                   
+                    <div class="body-compo">
+                        <div class="container-fluid">
+                            <ul class="nav  nav-justified compo-info" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home">Pharmacy</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#menu1">Insurance</a>
+                                </li>
+        
+                            </ul>
+                            <div class="tab-content">
+                                <div id="home" class="container tab-pane active">
+                                    <div class="pt-4 pb-4">
+                                        <div class="">
+                                            <table class="table table-form">
+                                                <thead id="TextBoxContainer14" class="repeat-row ">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Address</th>
+                                                        <th>Phone</th>
+                                                        <th></th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    {foreach from=$pharmacies item=pharmacy}
+                                                    <tr>
+                                                        <td>
+                                                            <a href="{$CURRENT_ACTION}action=edit&id={$pharmacy->id|attr_url}" onclick="top.restoreSession()">
+                                                                {$pharmacy->name|text}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                        {if $pharmacy->address->line1 != ''}{$pharmacy->address->line1|text}, {/if}
+                                                        {if $pharmacy->address->city != ''}{$pharmacy->address->city|text}, {/if}
+                                                            {$pharmacy->address->state|upper|text} {$pharmacy->address->zip|text}&nbsp;</td>
+                                                        <td>{$pharmacy->get_transmit_method_display()|text}&nbsp;
+                                                    {foreachelse}</td>
+                                                    <td></td>
+                                                    </tr>
+                                                
+                                                    <tr>
+                                                        <td colspan="3"><b>{xlt t='No Pharmacies Found'}<b></td>
+                                                    </tr>
+                                                    {/foreach}
+                                                    </tbody>
+
+                                                    <!-- <tr></tr>
+                                                        <td><input type="text" class="form-control active-text1" value="imaging"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="ICD456"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="WH"></td>
+
+
+
+                                                        <td>
+                                                            <img src="{$GLOBALS.webroot}/public/assets/img/edit-text.svg" alt="" class="xxx pr-2">
+                                                            <img src="{$GLOBALS.webroot}/public/assets/img/delete.svg" class="remove14" alt=""></td>
+
+                                                     </tr> 
+
+
+                                                </tbody> -->
+                                            </table>
+                                        </div>
+                                       
+                                        <div>
+
+                                        </div>
+                                    </div>
+                                    <form name="pharmacy" method="post" action="{$FORM_ACTION}"  class='form-horizontal' onsubmit="return top.restoreSession()">
+                                            <input type="hidden" name="form_id" value="{$pharmacy->id|attr}" />
+
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input" value="">Deactivate
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <p>Name</p>
+                                                <input type="text" id="name" name="name" class="form-control pr-1 pl-1" aria-describedby="nameHelpBox"  onKeyDown="PreventIt(event)">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <p>Address</p>
+                                                <textarea id="" class="form-control pt-3" rows="3" id="address_line1" name="address_line1" class="form-control" value="{$pharmacy->address->line1|attr}" onKeyDown="PreventIt(event)"></textarea>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row pt-4">
+                                            <div class="col-md-4">
+                                                <p>City</p>
+                                                <input type="text" id="city" name="city" class="form-control  pr-1 pl-1"  onKeyDown="PreventIt(event)">
+
+                                               
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>State</p>
+                                                
+                                                <select name="" id="" class="form-control mt-2">
+                                                    <option value="">value</option> 
+                                                    <option value="">value</option>
+                                                    <option value="">value</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>Zip</p>
+                                                <input type="text" id="zip" name="zip" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+
+                                            </div>
+                                            <!-- <div class="col-md-3">
+                                                <p>E-Mail</p>
+                                                <input type="text" id="email" name="email" class="form-control pr-1 pl-1" value="{$pharmacy->email|attr}" onKeyDown="PreventIt(event)">
+                                            </div> -->
+
+                                        </div>
+                                        <div class="row pt-4">
+                                            <div class="col-md-4">
+                                                <p>Email</p>
+                                                <input type="text" id="email" name="email" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+
+                                                <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                            </div> 
+                                            <div class="col-md-4">
+                                                <p>Phone</p>
+                                                <input type="text" id="phone" name="phone" class="form-control"  onKeyDown="PreventIt(event)">
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>Fax</p>
+                                                <input type="text" placeholder=""  id="fax" name="fax" class="form-control pr-1 pl-1">
+                                            </div>
+    
+                                        </div> 
+                                        <div class="row pt-4">
+                                            <div class="col-md-4">
+                                                <p>NPI</p>
+                                                    <input type="text" placeholder="" id="npi" name="npi"  class="form-control pr-1 pl-1">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>NCPDP</p>
+                                                    <input type="text" placeholder="" id="ncpdp" name="ncpdp" class="form-control pr-1 pl-1">
+                                            </div>
+        
+        
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <p>Notes</p>
+                                                <textarea id="" class="form-control pt-3" rows="3"></textarea>
+                                            </div>
+    
+    
+                                        </div>
+
+                                        <input type="hidden" name="id" value="{$pharmacy->id|attr}">
+                                        <input type="hidden" name="process" value="{$PROCESS|attr}">
+                                        
+                                        <div class="pt-4 pb-2"><button class="form-save" href="javascript:submit_pharmacy();" onclick="top.restoreSession()">Save</button></div>
+                                    </form>
+                                </div>
+                                <div id="menu1" class="container tab-pane fade">
+                                    <div class="pt-4 pb-4">
+                                        <div class="">
+                                            <table class="table table-form">
+                                                <tbody id="TextBoxContainer15" class="repeat-row ">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Billing Address</th>
+                                                        <th>Mailing Address</th>
+                                                        <th>Phone</th>
+
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr class="tablerow bodypart15">
+                                                        <td><input type="text" class="form-control active-text1" value="imaging"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="ICD456"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="WH"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="imaging"></td>
+
+
+                                                        <td>
+                                                            <img src="img/edit-text.svg" alt="" class="xxx pr-2"><img src="img/delete.svg" class="remove15" alt=""></td>
+
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <div class="text-center">
+                                                <img src="img/addmore.svg" id="insertrow5" alt="">
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="fs-14">Add New</p>
+                                            </div>
+                                        </div>
+                                        <div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>Name</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row pt-3">
+                                        <div class="col-md-12">
+                                            <p>Attn.</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row pt-3">
+                                        <div class="col-md-12">
+                                            <p>Address</p>
+                                            <textarea id="" class="form-control pt-3" rows="3"></textarea>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row pt-4">
+                                        <div class="col-md-3">
+                                            <p>City</p>
+                                            <select name="" id="" class="form-control mt-2">
+                                                <option value="">value</option> 
+                                                <option value="">value</option>
+                                                <option value="">value</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>State</p>
+                                            <select name="" id="" class="form-control mt-2">
+                                                <option value="">value</option> 
+                                                <option value="">value</option>
+                                                <option value="">value</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>Zip</p>
+                                            <select name="" id="" class="form-control mt-2">
+                                                <option value="">value</option> 
+                                                <option value="">value</option>
+                                                <option value="">value</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>E-Mail</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+
+                                    </div>
+                                    <div class="row pt-4">
+                                        <div class="col-md-4">
+                                            <p>Email</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Phone</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Fax</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+
+                                    </div>
+                                    <div class="row pt-4">
+                                        <div class="col-md-3">
+                                            <p>Payer ID</p>
+                                            <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>Payer Type</p>
+                                            <select name="" id="" class="form-control mt-2">
+                                                <option value="">value</option> 
+                                                <option value="">value</option>
+                                                <option value="">value</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>ZX12 Partnerip</p>
+                                            <select name="" id="" class="form-control mt-2">
+                                                <option value="">value</option> 
+                                                <option value="">value</option>
+                                                <option value="">value</option>
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row pt-3">
+                                        <div class="col-md-12">
+                                            <p>Notes</p>
+                                            <textarea id="" class="form-control pt-3" rows="3"></textarea>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="pt-4 pb-2"><button class="form-save">Save</button></div>
+                                </div>
+
+                            </div>
+                          
+                        </div>
+                    </div>
+                </window-dashboard>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+</html>
