@@ -1,32 +1,204 @@
-<a href="controller.php?practice_settings&{$TOP_ACTION}insurance_company&action=edit" onclick="top.restoreSession()"
-   class="btn btn-default btn-add">
-    {xlt t='Add a Company'}</a>
-    <br><br>
-<table class="table table-responsive table-striped">
-    <thead>
-        <tr>
-            <th>{xlt t='Name'}</th>
-            <th>{xlt t='City, State'}</th>
-            <th>{xlt t='Default X12 Partner'}</th>
-            <th>{xlt t='Deactivated'}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {foreach from=$icompanies item=insurancecompany}
-        <tr>
-            <td>
-                <a href="{$CURRENT_ACTION}action=edit&id={$insurancecompany->id|attr_url}" onclick="top.restoreSession()">
-                    {$insurancecompany->name|text}
-                </a>
-            </td>
-            <td>{$insurancecompany->address->city|text} {$insurancecompany->address->state|upper|text}&nbsp;</td>
-            <td>{$insurancecompany->get_x12_default_partner_name()|text}&nbsp;</td>
-            <td>{if $insurancecompany->get_inactive() eq 1}{xlt t='Yes'}{/if}&nbsp;</td>
-        </tr>
-        {foreachelse}
-        <tr>
-            <td colspan="4">{xlt t='No Insurance Companies Found'}</td>
-        </tr>
-        {/foreach}
-    </tbody>
-</table>
+
+ 
+
+                                <div class="pt-4 pb-4">
+									<div class="">
+										<table class="table table-form">
+											<thead id="TextBoxContainer15" class="repeat-row ">
+												<tr>
+													<th>Name</th>
+													<th>Billing Address</th>
+													<th>Mailing Address</th>
+													<th>Phone</th>
+
+													<th></th>
+												</tr>
+												</thead>
+												<tbody>
+														{foreach from=$icompanies item=insurancecompany}
+														<tr class="tablerow bodypart15">
+															<td>{$insurancecompany->name|text}</td>
+															<td>{$insurancecompany->address->city|text} {$insurancecompany->address->state|upper|text}&nbsp;</td>
+															<td>{$insurancecompany->get_phone()|attr}</td>
+                                                            <td>{$insurancecompany->get_phone()|attr}</td>
+                                                            <td><a href="#" id="insurance_edit" onclick='insurance_edit("{$insurancecompany->id|attr_url}");' insid='{$insurancecompany->id|attr_url}'>
+																	<img src="{$GLOBALS.webroot}/public/assets/img/edit-text.svg" alt="" class="xxx pr-2">
+																</a>
+																<img src="{$GLOBALS.webroot}/public/assets/img/delete.svg" class="remove15" alt=""  ph_id="{$insurancecompany->id|attr_url}" url="{$GLOBALS.webroot}/templates/delete_details.php">
+															</td>
+                                                           
+														</tr>
+														{foreachelse}
+														<tr>
+															<td colspan="4">{xlt t='No Insurance Companies Found'}</td>
+														</tr>
+														{/foreach}
+													</tbody>
+										</table>
+									</div>
+									
+									
+								</div>
+								<form name="insurancecompany" method="post" action="{$FORM_ACTION_ADD}" class='form-horizontal' onsubmit="return top.restoreSession()">
+									<input type="hidden" name="form_id" value="">
+									{if $insurancecompany->get_inactive() eq 1 }
+									<div class="form-group">
+										<label for="inactive" class="control-label col-sm-2">{xlt t='Reactivate'}</label>
+										<div class="col-sm-8">
+											<input type="checkbox" id="inactive" name="inactive" class="checkbox" value="0" />
+										</div>
+									</div>
+									{/if}
+									{if $insurancecompany->get_inactive() eq 0 }
+									<div class="form-group">
+										<label for="inactive" class="control-label col-sm-2">{xlt t='Deactivate'}</label>
+										<div class="col-sm-8">
+											<input type="checkbox" id="inactive" name="inactive" class="checkbox" value="1" />
+										</div>
+									</div>
+									{/if}
+									<div class="row">
+										<div class="col-md-12">
+											<p>Name</p>
+											<input type="text" id="name" name="name" class="form-control pr-1 pl-1" aria-describedby="nameHelpBox" onKeyDown="PreventIt(event)">
+
+											<!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+										</div>
+
+
+									</div>
+									<div class="row pt-3">
+										<div class="col-md-12">
+											<p>Attn.</p>
+											<input type="text" id="attn" name="attn" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+
+											<!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+										</div>
+
+
+									</div>
+									<div class="row pt-3">
+										<div class="col-md-12">
+											<p>Address</p>
+											<!-- <input type="text" id="address_line1" name="address_line1" class="form-control" value="{$insurancecompany->address->line1|attr}" onKeyDown="PreventIt(event)"> -->
+
+											<textarea id="" id="address_line1" name="address_line1"   onKeyDown="PreventIt(event)" class="form-control pt-3" rows="3"></textarea>
+										</div>
+
+
+									</div>
+									<div class="row pt-4">
+										<div class="col-md-4">
+											<p>City</p>
+											<input type="text" id="city" name="city" class="form-control pr-1 pl-1"  onKeyDown="PreventIt(event)">
+										</div>
+										<div class="col-md-4">
+											<p>State</p>
+
+											<select class="form-control mt-2" id="state" name="state">
+													{$insurancecompany->state_list()}
+											</select>
+										</div>
+										<div class="col-md-4">
+											<p>Zip</p>
+											<input type="text" id="zip" name="zip" class="form-control" onKeyDown="PreventIt(event)">
+
+											
+										</div>
+										<!-- <div class="col-md-3">
+											<p>E-Mail</p>
+											<input type="text" placeholder="" class="form-control pr-1 pl-1">
+										</div> -->
+
+									</div>
+									<div class="row pt-4">
+										<div class="col-md-4">
+											<p>Email</p>
+											<input type="text" placeholder=""  id="email" name="email" onKeyDown="PreventIt(event)" class="form-control pr-1 pl-1">
+										</div>
+										<div class="col-md-4">
+											<p>Phone</p>
+											<input type="text" id="phone" name="phone" class="form-control pr-1 pl-1"  onKeyDown="PreventIt(event)">
+
+											<!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+										</div>
+										<div class="col-md-4">
+											<p>Fax</p>
+											<input type="text" id="fax" name="fax" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+										</div>
+
+									</div>
+									<div class="row pt-4">
+										<div class="col-md-3">
+											<p>Payer ID</p>
+											<input type="text" id="cms_id" name="cms_id" class="form-control" onKeyDown="PreventIt(event)">
+
+											<!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+										</div>
+										{if $SUPPORT_ENCOUNTER_CLAIMS}
+											<div class="form-group">
+												<label for="alt_cms_id" class="control-label col-sm-2">{xlt t='Payer ID For Encounter Claims'}</label>
+												<div class="col-sm-8">
+													<input type="text" id="alt_cms_id" name="alt_cms_id" class="form-control"  onKeyDown="PreventIt(event)">
+												</div>
+											</div>
+										{/if}
+										{if $SUPPORT_ELIGIBILITY_REQUESTS}
+										<div class="form-group">
+											<label for="eligibility_id" class="control-label col-sm-2">{xlt t='Payer Id For Eligibility'}</label>
+											<div class="col-sm-8">
+												<input type="text" id="eligibility_id" name="eligibility_id" class="form-control"  onKeyDown="PreventIt(event)">
+											</div>
+										</div>
+										{/if}
+										<div class="col-md-3">
+											<p>Payer Type</p>
+											<select id="ins_type_code" name="ins_type_code" class="form-control">
+													{html_options options=$insurancecompany->ins_type_code_array selected=$insurancecompany->get_ins_type_code()}
+												</select>
+											<!-- <select name="" id="" class="form-control mt-2">
+												<option value="">value</option> 
+												<option value="">value</option>
+												<option value="">value</option>
+											</select> -->
+										</div>
+										<div class="col-md-3">
+											<p>ZX12 Partnerip</p>
+											<select id="x12_default_partner_id" name="x12_default_partner_id" class="form-control">
+													{html_options options=$x12_partners selected=$insurancecompany->get_x12_default_partner_id()}
+											</select>
+											<!-- <select name="" id="" class="form-control mt-2">
+												<option value="">value</option> 
+												<option value="">value</option>
+												<option value="">value</option>
+											</select> -->
+										</div>
+										{if $SUPPORT_ELIGIBILITY_REQUESTS}
+										<div class="form-group">
+											<label for="x12_default_eligibility_id" class="control-label col-sm-2">{xlt t='Default Eligibility X12 Partner'}</label>
+											<div class="col-sm-8">
+												<select id="x12_default_eligibility_id" name="x12_default_eligibility_id" class="form-control">
+													{html_options options=$x12_partners selected=$insurancecompany->get_x12_default_eligibility_id()}
+												</select>
+											</div>
+										</div>
+										{/if}
+
+
+									</div>
+									<div class="row pt-3">
+										<div class="col-md-12">
+											<p>Notes</p>
+											<textarea id="note" name="note" class="form-control pt-3" rows="3"></textarea>
+										</div>
+
+
+									</div>
+
+									<input type="hidden" name="id" value="" />
+									<input type="hidden" name="process" value="{$PROCESS|attr}" />
+
+									<div class="pt-4 pb-2"><button class="form-save" href="javascript:submit_insurancecompany();"  onclick="top.restoreSession()">Save</button></div>
+                                </form>
+                        
+            

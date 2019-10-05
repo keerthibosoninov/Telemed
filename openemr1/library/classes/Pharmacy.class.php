@@ -25,6 +25,8 @@ class Pharmacy extends ORDataObject
     var $address;
     var $transmit_method;
     var $email;
+    var $note;
+    var $faxno;
     var $transmit_method_array; //set in constructor
 
     /**
@@ -35,6 +37,8 @@ class Pharmacy extends ORDataObject
         $this->id = $id;
         $this->name = "";
         $this->email = "";
+        $this->note = "";
+        $this->faxno = "";
         $this->transmit_method = 1;
         $this->transmit_method_array = array(xl("None Selected"), xl("Print"), xl("Email"), xl("Fax"));
         $this->_table = "pharmacies";
@@ -126,6 +130,27 @@ class Pharmacy extends ORDataObject
     {
         return $this->email;
     }
+    //  custom km
+    function set_note($note)
+    {
+        $this->note = $note;
+    }
+    function get_note()
+    {
+        return $this->note;
+    }
+
+    function set_faxno($faxno)
+    {
+        $this->faxno = $faxno;
+    }
+    function get_faxno()
+    {
+        return $this->faxno;
+    }
+
+
+    //  custom ends
     function set_transmit_method($tm)
     {
         $this->transmit_method = $tm;
@@ -189,7 +214,7 @@ class Pharmacy extends ORDataObject
             }
         }
 
-        return "";
+        // return "";
     }
     function populate()
     {
@@ -198,6 +223,7 @@ class Pharmacy extends ORDataObject
         $this->phone_numbers = PhoneNumber::factory_phone_numbers($this->id);
     }
 
+    
     function persist()
     {
         parent::persist();
@@ -267,6 +293,34 @@ class Pharmacy extends ORDataObject
             return $string;
         }
     }
+
+
+    function state_list($state = "")
+    {
+        
+        $sql = "SELECT option_id, title FROM list_options " .
+        "WHERE list_id = 'state' AND activity = 1 ORDER BY seq";
+
+        //echo $sql . "<bR />";
+        $results = sqlQ($sql);
+        
+        $options='';
+        while ($orow = sqlFetchArray($results)) {
+            $options.= "    <option value='" . attr($orow['option_id']) . "'";
+            if ($orow['option_id'] == $state) {
+                $options.= " selected";
+            }
+
+            $options.= ">" . text($orow['title']) . "</option>\n";
+        }
+
+
+
+        return $options;
+    }
+
+
+
 } // end of Pharmacy
 /*$p = new Pharmacy("1");
 echo $p->toString(true);

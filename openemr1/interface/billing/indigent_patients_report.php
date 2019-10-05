@@ -82,7 +82,7 @@ if ($_POST['form_csvexport']) {
 
 
 .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-    background: #3C9DC5;
+    background: #3C9DC5 !important;
     text-decoration: none;
 }
 
@@ -92,7 +92,7 @@ if ($_POST['form_csvexport']) {
 }
 
 button:hover, input[type=button]:hover, input[type=submit]:hover {
-    background: #3C9DC5;
+    background: #3C9DC5!important;
     text-decoration: none;
 }
 </style>
@@ -211,6 +211,8 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                 echo '"' . xl('Amount') . '",';
                                                 echo '"' . xl('Paid') . '",';
                                                 echo '"' . xl('Balance') . '"' . "\n";
+
+                                               
                                             } else {
                                                 ?>
                                         <div class="table-div ">
@@ -234,7 +236,8 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
 
                                                     <?php
                                                 } // end not export
-                                                    if ($_POST['form_refresh']) {
+                                                    if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
+                                                        
                                                         if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
                                                             CsrfUtils::csrfNotVerified();
                                                         }
@@ -289,11 +292,12 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                             $bgcolor = (($irow & 1) ? "#ffdddd" : "#ddddff");
                                                             ?>
                                                             <?php
+
                                                             if ($_POST['form_csvexport']) {
-                                                                echo '"' . qescape($row['lname']) .'",';
-                                                                echo '"' . qescape($row['ss']) . '",';
+                                                                echo '"' . $row['lname'] . ' ' . $row['fname'] . ' ' . $row['mname'] .'",';
+                                                                echo '"' . qescape(text($row['ss'])) . '",';
                                                                 echo '"' . qescape(text($invnumber)) . '",';
-                                                                echo '"' . oeFormatShortDate(substr($row['date'], 0, 10)) . '",';
+                                                                echo '"' . text(oeFormatShortDate(substr($row['date'], 0, 10))) . '",';
                                                                 echo '"' . oeFormatShortDate($inv_duedate) . '",';
                                                                 echo '"' . qescape(bucks($inv_amount)) . '",';
                                                                 echo '"' . qescape(bucks($inv_paid)) . '",';

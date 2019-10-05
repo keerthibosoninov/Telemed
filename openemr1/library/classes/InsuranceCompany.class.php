@@ -54,6 +54,9 @@ class InsuranceCompany extends ORDataObject
     var $x12_receiver_id;
     var $x12_default_partner_id;
     var $x12_default_eligibility_id;
+    var $email;
+    var $fax;
+    var $note;
     /*
     *   OpenEMR used this value to determine special formatting for the specified type of payer.
     *   This value is a mutually exclusive choice answering the FB.Payer.isX API calls
@@ -155,7 +158,33 @@ class InsuranceCompany extends ORDataObject
     {
         return $this->id;
     }
+//  custom km
+    function set_note($note)
+    {
+        $this->note = $note;
+    }
+    function get_note()
+    {
+        return $this->note;
+    }
+    function set_email($email)
+    {
+        $this->email = $email;
+    }
+    function get_email()
+    {
+        return $this->email;
+    }
+    function set_fax($fax)
+    {
+        $this->fax = $fax;
+    }
+    function get_fax()
+    {
+        return $this->fax;
+    }
 
+//  custom ends*************************
     //special function the the html forms use to prepopulate which allows for partial edits and wizard functionality
     function set_form_id($id = "")
     {
@@ -393,6 +422,30 @@ class InsuranceCompany extends ORDataObject
         }
 
         return $icompanies;
+    }
+
+    function state_list($state = "")
+    {
+        
+        $sql = "SELECT option_id, title FROM list_options " .
+        "WHERE list_id = 'state' AND activity = 1 ORDER BY seq";
+
+        //echo $sql . "<bR />";
+        $results = sqlQ($sql);
+        
+        $options='';
+        while ($orow = sqlFetchArray($results)) {
+            $options.= "    <option value='" . attr($orow['option_id']) . "'";
+            if ($orow['option_id'] == $state) {
+                $options.= " selected";
+            }
+
+            $options.= ">" . text($orow['title']) . "</option>\n";
+        }
+
+
+
+        return $options;
     }
 
     function toString($html = false)

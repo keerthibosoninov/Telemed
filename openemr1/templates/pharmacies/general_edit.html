@@ -7,103 +7,17 @@
  * @copyright Copyright (c) 2017 Brady Miller <brady.g.miller@gmail.com>
  * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
  *}
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+ <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/style.css">
 
-        
+ <script src="{$GLOBALS.webroot}/public/assets/js/vue.js"></script>
 
-
-<form name="pharmacy" method="post" action="{$FORM_ACTION}"  class='form-horizontal' onsubmit="return top.restoreSession()">
-<!-- it is important that the hidden form_id field be listed first, when it is called is populates any old information attached with the id, this allows for partial edits
-        if it were called last, the settings from the form would be overwritten with the old information-->
-    <input type="hidden" name="form_id" value="{$pharmacy->id|attr}" />
-    <div class="form-group">
-        <label for="name" class="control-label col-sm-2">{xlt t='Name'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="name" name="name" class="form-control" aria-describedby="nameHelpBox" value="{$pharmacy->name|attr}" onKeyDown="PreventIt(event)">
-            <span id="nameHelpBox" class="help-block">({xlt t='Required'})</span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="address_line1" class="control-label col-sm-2">{xlt t='Address'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="address_line1" name="address_line1" class="form-control" value="{$pharmacy->address->line1|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="address_line2" class="control-label col-sm-2">{xlt t='Address'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="address_line2" name="address_line2" class="form-control" value="{$pharmacy->address->line2|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="city" class="control-label col-sm-2">{xlt t='City'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="city" name="city" class="form-control" value="{$pharmacy->address->city|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="state" class="control-label col-sm-2">{xlt t='State'}</label>
-        <div class="col-sm-8">
-            <input type="text" maxlength="2" id="state" name="state" class="form-control" value="{$pharmacy->address->state|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="city" class="control-label col-sm-2">{xlt t='Zip Code'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="zip" name="zip" class="form-control" value="{$pharmacy->address->zip|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="email" class="control-label col-sm-2">{xlt t='Email'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="email" name="email" class="form-control" value="{$pharmacy->email|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="phone" class="control-label col-sm-2">{xlt t='Phone'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="phone" name="phone" class="form-control" value="{$pharmacy->get_phone()|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="fax" class="control-label col-sm-2">{xlt t='Fax'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="fax" name="fax" class="form-control" value="{$pharmacy->get_fax()|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="npi" class="control-label col-sm-2">{xlt t='NPI'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="npi" name="npi" class="form-control" value="{$pharmacy->get_npi()|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="ncpdp" class="control-label col-sm-2">{xlt t='NCPDP'}</label>
-        <div class="col-sm-8">
-            <input type="text" id="ncpdp" name="ncpdp" class="form-control" value="{$pharmacy->get_ncpdp()|attr}" onKeyDown="PreventIt(event)">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="transmit_method" class="control-label col-sm-2">{xlt t='Default Method'}</label>
-        <div class="col-sm-8">
-            <select id="transmit_method" name="transmit_method" class="form-control">
-                {html_options options=$pharmacy->transmit_method_array selected=$pharmacy->transmit_method}
-            </select>
-        </div>
-    </div>
-    <div class="btn-group col-sm-offset-2">
-        <a href="javascript:submit_pharmacy();" class="btn btn-default btn-save" onclick="top.restoreSession()">
-            {xlt t='Save'}
-        </a>
-        <a href="controller.php?practice_settings&pharmacy&action=list" class="btn btn-link btn-cancel" onclick="top.restoreSession()">
-            {xlt t='Cancel'}
-        </a>
-    </div>
-    <input type="hidden" name="id" value="{$pharmacy->id|attr}">
-    <input type="hidden" name="process" value="{$PROCESS|attr}">
-</form>
-
-{literal}
+ {literal}
 <script language="javascript">
+
 function submit_pharmacy()
 {
     if(document.pharmacy.name.value.length>0)
@@ -126,5 +40,519 @@ function submit_pharmacy()
      et = new Date();
      } while ((et - st) < delaymsec);
  }
+
+
+
+ function tabToggle(){
+       
+    $("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=list"); 
+    $('#cleardata').empty();
+    }
+
+    function insurance_edit($insid){
+	
+    $("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=edit&id="+$insid);
+}
+
+$("body").on("click", ".remove14", function() {
+    
+        thisss=$(this);
+
+        if(confirm("Are You Sure want to delete?")){
+           $fid= $(this).attr('ph_id');
+		   $url=$(this).attr('url');
+         
+           $.post($url,
+            {
+                mode:"pharmacy_delete",
+                action: "Delete",
+                id:  $fid,
+            },
+            function(data, status){
+			
+                thisss.closest(".bodypart14").remove();
+            });
+           
+        }
+      
+        
+    });
+
+</script>
+{/literal}
+
+
+ <section>
+    <div class="body-content body-content2">
+        <div class="container-fluid pb-4 pt-4">
+            <window-dashboard  class="icon-hide">
+                <div class="head-component">
+                    <div class="row">
+                        <div class="col-6"></div>
+                            <div class="col-6">
+                                <p class="text-white head-p">{xlt t="Pharmacies and Insurance"} </p>
+                            </div>
+                    </div>
+                </div>
+               
+                <div class="body-compo">
+                    <div class="container-fluid">
+                        <ul class="nav  nav-justified compo-info" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home">Pharmacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu1" id="menu_insurance" onclick="tabToggle();">Insurance</a>
+                            </li>
+    
+                        </ul>
+                        <div class="tab-content">
+                            <div id="home" class="container tab-pane active">
+                                <div class="pt-4 pb-4">
+                                    <div class="">
+                                        <table class="table table-form">
+                                            <thead id="TextBoxContainer14" class="repeat-row ">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Address</th>
+                                                    <th>Phone</th>
+                                                    <th></th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                {foreach from=$pharmacies_all item=pharmacy_all}
+                                                <tr class="tablerow bodypart14">
+                                                    <td>{$pharmacy_all->name|text}</td>
+                                                    <td>
+                                                        {if $pharmacy_all->address->line1 != ''}{$pharmacy_all->address->line1|text}, {/if}
+                                                        {if $pharmacy_all->address->city != ''}{$pharmacy_all->address->city|text}, {/if}
+                                                        {$pharmacy_all->address->state|upper|text} {$pharmacy_all->address->zip|text}&nbsp;
+                                                    </td>
+                                                    <td>{$pharmacy_all->get_phone()|text}&nbsp;</td>
+                                                    <td><a href="{$CURRENT_ACTION}action=edit&id={$pharmacy_all->id|attr_url}" onclick="top.restoreSession()">
+                                                            <img src="{$GLOBALS.webroot}/public/assets/img/edit-text.svg" alt="" class="xxx pr-2">
+                                                        </a>
+                                                        <img src="{$GLOBALS.webroot}/public/assets/img/delete.svg" class="remove14" ph_id="{$pharmacy->id|attr_url}" url="{$GLOBALS.webroot}/templates/delete_details.php" alt=""></td>
+                                                    {foreachelse}
+                                               
+                                                </tr>
+                                            
+                                                <tr>
+                                                    <td colspan="3"><b>{xlt t='No Pharmacies Found'}<b></td>
+                                                </tr>
+                                                {/foreach}
+                                                </tbody>
+
+                                            
+                                        </table>
+                                    </div>
+                                   
+                                    <div>
+
+                                    </div>
+                                </div>
+                                <form name="pharmacy" method="post" action="{$FORM_ACTION}"  class='form-horizontal' onsubmit="return top.restoreSession()">
+                                        <input type="hidden" name="form_id" value="{$pharmacy->id|attr}" />
+
+                                    <!-- <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" value="">Deactivate
+                                                </label>
+                                            </div>
+                                        </div> -->
+
+
+                                    <!-- </div> -->
+                                    <div class="row pt-3">
+                                        <div class="col-md-12">
+                                            <p>Name</p>
+                                            <input type="text" id="name" name="name" class="form-control pr-1 pl-1" aria-describedby="nameHelpBox"  value="{$pharmacy->name|attr}"   onKeyDown="PreventIt(event)">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row pt-3">
+                                        <div class="col-md-12">
+                                            <p>Address</p>
+                                            <textarea id="" class="form-control pt-3" rows="3" id="address_line1" value="{$pharmacy->address->line1|attr}" name="address_line1" class="form-control" onKeyDown="PreventIt(event)">{$pharmacy->address->line1|attr}</textarea>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row pt-4">
+                                        <div class="col-md-4">
+                                            <p>City</p>
+                                            <input type="text" id="city" name="city" class="form-control  pr-1 pl-1" value="{$pharmacy->address->city|attr}"  onKeyDown="PreventIt(event)">
+
+                                           
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>State</p>
+                                            <select id="state" name="state" class="form-control mt-2">
+                                                    {$pharmacy->state_list($pharmacy->address->state)}
+                                                   
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Zip</p>
+                                            <input type="text" id="zip" name="zip"  value="{$pharmacy->address->zip|attr}" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+
+                                        </div>
+                                        <!-- <div class="col-md-3">
+                                            <p>E-Mail</p>
+                                            <input type="text" id="email" name="email" class="form-control pr-1 pl-1" value="{$pharmacy->email|attr}" onKeyDown="PreventIt(event)">
+                                        </div> -->
+
+                                    </div>
+                                    <div class="row pt-4">
+                                        <div class="col-md-4">
+                                            <p>Email</p>
+                                            <input type="text" id="email" name="email" value="{$pharmacy->email|attr}" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+
+                                            <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        </div> 
+                                        <div class="col-md-4">
+                                            <p>Phone</p>
+                                            <input type="text" id="phone" name="phone" class="form-control pr-1 pl-1" value="{$pharmacy->get_phone()|attr}"  onKeyDown="PreventIt(event)">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Fax</p>
+                                            <input type="text" placeholder=""  id="faxno" name="faxno" value="{$pharmacy->faxno|attr}" onKeyDown="PreventIt(event)" class="form-control pr-1 pl-1">
+                                        </div>
+
+                                    </div> 
+                                    <div class="row pt-4">
+                                        <div class="col-md-4">
+                                            <p>NPI</p>
+                                                <input type="text" placeholder="" id="npi" name="npi" value="{$pharmacy->get_npi()|attr}" onKeyDown="PreventIt(event)" class="form-control pr-1 pl-1">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>NCPDP</p>
+                                                <input type="text" placeholder="" id="ncpdp" name="ncpdp" value="{$pharmacy->get_ncpdp()|attr}" onKeyDown="PreventIt(event)" class="form-control pr-1 pl-1">
+                                        </div>
+    
+    
+                                    </div>
+                                    <div class="row pt-3">
+                                        <div class="col-md-12">
+                                            <p>Notes</p>
+                                            <textarea id="note" name="note" class="form-control pt-3" rows="3">{$pharmacy->get_note()|attr}</textarea>
+                                        </div>
+
+
+                                    </div>
+
+                                    <input type="hidden" name="id" value="{$pharmacy->id|attr}">
+                                    <input type="hidden" name="process" value="{$PROCESS|attr}">
+                                    
+                                    <div class="pt-4 pb-2"><button class="form-save"  href="javascript:submit_pharmacy();" onclick="top.restoreSession()">Save</button></div>
+                                </form>
+                            </div>
+                            <div id="menu1" class="container tab-pane fade">
+                                <div id="ins_list_data"></div>
+                                <div id="cleardata">
+                                    <div class="pt-4 pb-4">
+                                        <div class="">
+                                            <table class="table table-form">
+                                                <thead id="TextBoxContainer15" class="repeat-row ">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Billing Address</th>
+                                                        <th>Mailing Address</th>
+                                                        <th>Phone</th>
+
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                            {foreach from=$icompanies item=insurancecompany}
+                                                            <tr>
+                                                                <td>{$insurancecompany->name|text}</td>
+                                                                <td>{$insurancecompany->address->city|text} {$insurancecompany->address->state|upper|text}&nbsp;</td>
+                                                                <td>{$insurancecompany->get_x12_default_partner_name()|text}&nbsp;</td>
+                                                                <td>{if $insurancecompany->get_inactive() eq 1}{xlt t='Yes'}{/if}&nbsp;</td>
+                                                                <td><a href="{$CURRENT_ACTION}action=edit&id={$insurancecompany->id|attr_url}" onclick="top.restoreSession()">
+                                                                        <img src="{$GLOBALS.webroot}/public/assets/img/edit-text.svg" alt="" class="xxx pr-2">
+                                                                    </a>
+                                                                    <img src="{$GLOBALS.webroot}/public/assets/img/delete.svg" class="remove15" alt="">
+                                                                </td>
+                                                            </tr>
+                                                            {foreachelse}
+                                                            <tr>
+                                                                <td colspan="4">{xlt t='No Insurance Companies Found'}</td>
+                                                            </tr>
+                                                            {/foreach}
+                                                        </tbody>
+                                                    <!-- <tr class="tablerow bodypart15">
+                                                        <td><input type="text" class="form-control active-text1" value="imaging"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="ICD456"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="WH"></td>
+                                                        <td><input type="text" class="form-control active-text1" value="imaging"></td>
+
+
+                                                        <td>
+                                                            <img src="img/edit-text.svg" alt="" class="xxx pr-2"><img src="img/delete.svg" class="remove15" alt=""></td>
+
+                                                    </tr> -->
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <div class="text-center">
+                                                <img src="img/addmore.svg" id="insertrow5" alt="">
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="fs-14">Add New</p>
+                                            </div>
+                                        </div>
+                                        <div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <form name="insurancecompany" method="post" action="{$FORM_ACTION}" class='form-horizontal' onsubmit="return top.restoreSession()">
+                                        <input type="hidden" name="form_id" value="{$insurancecompany->id|attr}">
+                                        {if $insurancecompany->get_inactive() eq 1 }
+                                        <div class="form-group">
+                                            <label for="inactive" class="control-label col-sm-2">{xlt t='Reactivate'}</label>
+                                            <div class="col-sm-8">
+                                                <input type="checkbox" id="inactive" name="inactive" class="checkbox" value="0" />
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        {if $insurancecompany->get_inactive() eq 0 }
+                                        <div class="form-group">
+                                            <label for="inactive" class="control-label col-sm-2">{xlt t='Deactivate'}</label>
+                                            <div class="col-sm-8">
+                                                <input type="checkbox" id="inactive" name="inactive" class="checkbox" value="1" />
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p>Name</p>
+                                                <input type="text" id="name" name="name" class="form-control pr-1 pl-1" aria-describedby="nameHelpBox" value="{$insurancecompany->get_name()|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <p>Attn.</p>
+                                                <input type="text" id="attn" name="attn" class="form-control pr-1 pl-1" value="{$insurancecompany->get_attn()|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <p>Address</p>
+                                                <!-- <input type="text" id="address_line1" name="address_line1" class="form-control" value="{$insurancecompany->address->line1|attr}" onKeyDown="PreventIt(event)"> -->
+
+                                                <textarea id="" id="address_line1" name="address_line1"  value="{$insurancecompany->address->line1|attr}" onKeyDown="PreventIt(event)" class="form-control pt-3" rows="3">{$insurancecompany->address->line1|attr}</textarea>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row pt-4">
+                                            <div class="col-md-3">
+                                                <p>City</p>
+                                                <input type="text" id="city" name="city" class="form-control pr-1 pl-1" value="{$insurancecompany->address->city|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">value</option> 
+                                                    <option value="">value</option>
+                                                    <option value="">value</option>
+                                                </select> -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>State</p>
+                                                <input type="text" maxlength="2" id="state" name="state" class="form-control" value="{$insurancecompany->address->state|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">value</option> 
+                                                    <option value="">value</option>
+                                                    <option value="">value</option>
+                                                </select> -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>Zip</p>
+                                                <input type="text" id="zip" name="zip" class="form-control" value="{$insurancecompany->address->zip|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">value</option> 
+                                                    <option value="">value</option>
+                                                    <option value="">value</option>
+                                                </select> -->
+                                            </div>
+                                            <!-- <div class="col-md-3">
+                                                <p>E-Mail</p>
+                                                <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                            </div> -->
+
+                                        </div>
+                                        <div class="row pt-4">
+                                            <div class="col-md-4">
+                                                <p>Email</p>
+                                                <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>Phone</p>
+                                                <input type="text" id="phone" name="phone" class="form-control" value="{$insurancecompany->get_phone()|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>Fax</p>
+                                                <input type="text" placeholder="" class="form-control pr-1 pl-1">
+                                            </div>
+
+                                        </div>
+                                        <div class="row pt-4">
+                                            <div class="col-md-3">
+                                                <p>Payer ID</p>
+                                                <input type="text" id="cms_id" name="cms_id" class="form-control" value="{$insurancecompany->get_cms_id()|attr}" onKeyDown="PreventIt(event)">
+
+                                                <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                            </div>
+                                            {if $SUPPORT_ENCOUNTER_CLAIMS}
+                                                <div class="form-group">
+                                                    <label for="alt_cms_id" class="control-label col-sm-2">{xlt t='Payer ID For Encounter Claims'}</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="alt_cms_id" name="alt_cms_id" class="form-control" value="{$insurancecompany->get_alt_cms_id()|attr}" onKeyDown="PreventIt(event)">
+                                                    </div>
+                                                </div>
+                                            {/if}
+                                            {if $SUPPORT_ELIGIBILITY_REQUESTS}
+                                            <div class="form-group">
+                                                <label for="eligibility_id" class="control-label col-sm-2">{xlt t='Payer Id For Eligibility'}</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="eligibility_id" name="eligibility_id" class="form-control" value="{$insurancecompany->get_eligibility_id()|attr}" onKeyDown="PreventIt(event)">
+                                                </div>
+                                            </div>
+                                            {/if}
+                                            <div class="col-md-3">
+                                                <p>Payer Type</p>
+                                                <select id="ins_type_code" name="ins_type_code" class="form-control">
+                                                        {html_options options=$insurancecompany->ins_type_code_array selected=$insurancecompany->get_ins_type_code()}
+                                                    </select>
+                                                <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">value</option> 
+                                                    <option value="">value</option>
+                                                    <option value="">value</option>
+                                                </select> -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>ZX12 Partnerip</p>
+                                                <select id="x12_default_partner_id" name="x12_default_partner_id" class="form-control">
+                                                        {html_options options=$x12_partners selected=$insurancecompany->get_x12_default_partner_id()}
+                                                </select>
+                                                <!-- <select name="" id="" class="form-control mt-2">
+                                                    <option value="">value</option> 
+                                                    <option value="">value</option>
+                                                    <option value="">value</option>
+                                                </select> -->
+                                            </div>
+                                            {if $SUPPORT_ELIGIBILITY_REQUESTS}
+                                            <div class="form-group">
+                                                <label for="x12_default_eligibility_id" class="control-label col-sm-2">{xlt t='Default Eligibility X12 Partner'}</label>
+                                                <div class="col-sm-8">
+                                                    <select id="x12_default_eligibility_id" name="x12_default_eligibility_id" class="form-control">
+                                                        {html_options options=$x12_partners selected=$insurancecompany->get_x12_default_eligibility_id()}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {/if}
+
+
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <p>Notes</p>
+                                                <textarea id="" class="form-control pt-3" rows="3"></textarea>
+                                            </div>
+
+
+                                        </div>
+
+                                        <input type="hidden" name="id" value="{$insurancecompany->id|attr}" />
+                                        <input type="hidden" name="process" value="{$PROCESS|attr}" />
+
+                                        <div class="pt-4 pb-2"><button class="form-save" href="javascript:submit_insurancecompany();"  onclick="top.restoreSession()">Save</button></div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                      
+                    </div>
+                </div>
+            </window-dashboard>
+        </div>
+    </div>
+</section>
+
+
+{literal}
+<script language="javascript">
+// function submit_pharmacy()
+// {
+//     if(document.pharmacy.name.value.length>0)
+//     {
+//         top.restoreSession();
+//         document.pharmacy.submit();
+//         //Z&H Removed redirection
+//     }
+//     else
+//     {
+//         document.pharmacy.name.style.backgroundColor="red";
+//         document.pharmacy.name.focus();
+//     }
+// }
+
+//  function Waittoredirect(delaymsec) {
+//      var st = new Date();
+//      var et = null;
+//      do {
+//      et = new Date();
+//      } while ((et - st) < delaymsec);
+//  }
+
+
+//  $("#menu_insurance").click(function() {
+
+// 	alert();
+//     $("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=list");
+
+//     });
+
+//    function tabToggle(){
+//         alert();
+//     $("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=list"); 
+//     }
+
+    // $('#insurance_edit').click(function(e) {
+    // e.preventDefault();
+
+        
+    // $("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=list");
+
+    // });
+
+    // function insurance_edit($insid){
+
+    // $("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=edit&id="+$insid);
+    // }
 </script>
 {/literal}
