@@ -91,7 +91,8 @@ if ($GLOBALS['date_display_format'] == 1) {
 
 
 // for test
-$pid=1;
+$pid=8;
+
 
 if($pid){
     $history_data = getHistoryData($pid);
@@ -114,6 +115,101 @@ $condition_str = '';
         $currvalue = $result_history[$field_id];
  }
 
+
+
+//   new function for medical submit
+
+   
+    if(isset($_POST['medical_submit']) && $_POST['medical_submit']=="1"){
+
+        $pid=$_POST['pid'];
+        $date=date("Y-m-d H:i:s");
+      
+        foreach ($_POST['medical_condition'] as $key => $value) {
+
+            $condition = $_POST["medical_condition"][$key];
+            $medical_des = $_POST["medical_des"][$key];
+            $medical_id =$_POST["medical_id"][$key];
+            $pid=$_POST["pid"];
+            if($medical_id){
+
+                $query = ("update medical_history  set
+                            pid='" . add_escape_custom($pid) . "',
+                            condition_name='" . add_escape_custom($condition) . "',
+                            description='" . add_escape_custom($medical_des) . "',
+                            edited_date='".$date."' where id=$medical_id
+                            ");
+
+                    sqlStatement($query);
+
+            }else{
+
+                $query = ("insert into medical_history  set
+                            pid='" . add_escape_custom($pid) . "',
+                            condition_name='" . add_escape_custom($condition) . "',
+                            description='" . add_escape_custom($medical_des) . "',
+                            created_date='".$date."',
+                            edited_date='".$date."'
+                            ");
+
+                sqlInsert($query);
+
+            }
+        }
+       
+
+
+    }
+
+    if(isset($_POST['surgical_submit']) && $_POST['surgical_submit']=="1"){
+        $date=date("Y-m-d H:i:s");
+        $pid=$_POST['pid'];
+      
+        foreach ($_POST['surgical_condition'] as $key => $value) {
+
+            $condition = $_POST["surgical_condition"][$key];
+            $surgical_des = $_POST["surgical_desc"][$key];
+            $surgical_id =$_POST["surgical_id"][$key];
+            $date =$_POST["surgical_date"][$key];
+            $pid=$_POST["pid"];
+            if($surgical_id){
+
+                $query = ("update surgical_history  set
+                            pid='" . add_escape_custom($pid) . "',
+                            date='" . add_escape_custom($date) . "',
+                            condition_name='" . add_escape_custom($condition) . "',
+                            description='" . add_escape_custom($surgical_des) . "',
+                            edited_date='".$date."' where id=$surgical_id
+                            ");
+
+                    sqlStatement($query);
+
+            }else{
+
+                $query = ("insert into surgical_history  set
+                            pid='" . add_escape_custom($pid) . "',
+                            date='" . add_escape_custom($date) . "',
+                            condition_name='" . add_escape_custom($condition) . "',
+                            description='" . add_escape_custom($surgical_des) . "',
+                            created_date='".$date."',
+                            edited_date='".$date."'
+                            ");
+
+                sqlInsert($query);
+
+            }
+        }
+       
+
+
+    }
+
+    
+    $rez = sqlStatement("SELECT *  FROM medical_history WHERE pid = '" . add_escape_custom($pid) . "'");
+    $surgical_data = sqlStatement("SELECT *  FROM surgical_history WHERE pid = '" . add_escape_custom($pid) . "'");
+       
+        
+   
 
 
 
@@ -261,7 +357,13 @@ if (!empty($_REQUEST['go'])) { ?>
                             <div class="container-fluid">
                                 <ul class="nav  nav-justified compo-info mw-100" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#home">Risk Factors</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#medical">Medical History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#surgical">Surgical History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#home">Risk Factors</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu1">Exams</a>
@@ -277,7 +379,156 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="home" class="container tab-pane active">
+                                    <div id="medical" class="container tab-pane active">
+                                        <form action="<?php echo $GLOBALS['webroot']?>/interface/main/health_history.php" id="HIS" name='history_form' method='post'>
+
+                                            <?php
+                                                if($rez){
+                                                    print_r($rez);
+                                            //    echo   $rez->connectionParameters:protected['_numOfRows'];
+                                                   $i=1;
+
+                                               
+                                                    while ($idrow = sqlFetchArray($rez)){
+                                                        
+                                                    
+                                            ?>
+                                            <div>
+                                                <div class="row bodypart17">
+                                                    <div class="col-sm-12 pt-2 delete-row">
+                                                        <p>Name of Condition</p>
+                                                        <input type="text" name="medical_condition[]" id=" " class="form-control active-text" value="<?php echo $idrow['condition_name'];?>">
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx">
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2 delete-row">
+                                                        <p>Description</p>
+                                                        <textarea name="medical_des[]" id="" rows="4 " class="form-control active-text pt-3"><?php echo $idrow['description'];?></textarea>
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove17 removeicon" ids="<?php echo $idrow['id'];?>"  alt="">
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="medical_id[]" value="<?php echo $idrow['id'];?>">
+
+                                        
+                                                <?php
+
+                                                // echo $count;
+                                                // echo "<br>";
+                                                // echo $i;
+                                                // if($count !=$i ){
+                                                    ?>
+
+                                                    <br>
+                                                    <hr>
+                                                <?php
+                                                // }
+                                                ?>
+                                               
+                                            </div>
+
+                                            <?php
+                                                    $i++;
+                                                }
+                                            }else{
+                                                ?>
+                                                <div>
+                                                <div class="row bodypart17">
+                                                    <div class="col-sm-12 pt-2 delete-row">
+                                                        <p>Name of Condition</p>
+                                                        <input type="text" name="medical_condition[]" id=" " class="form-control active-text" >
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx">
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2 delete-row">
+                                                        <p>Description</p>
+                                                        <textarea name="medical_des[]" id="" rows="4 " class="form-control active-text pt-3"></textarea>
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove17 removeicon" alt="">
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="medical_id" value="">
+
+                                                
+                                            </div>
+                                            <?php
+                                            }
+                                            ?>
+                                            <div id="TextBoxContainer17"></div>
+                                            <div>
+                                                <div class="text-center p-3"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="btnadmit17" alt=""></div>
+                                            </div>
+
+                                            <input type="hidden" name="pid" value="<?php echo $pid?>">
+                                            <input type="hidden" name="medical_submit" value="1">
+                                            
+                                            <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div>
+                                        </form>
+                                    </div>
+                                    <div id="surgical" class="container tab-pane">
+                                        <form action="<?php echo $GLOBALS['webroot']?>/interface/main/health_history.php" id="HIS" name='history_form' method='post'>
+                                        <?php
+                                            if($surgical_data){
+                                                $i=1;
+                                                while ($sidrow = sqlFetchArray($surgical_data)){
+                                                    
+                                            ?>
+                                        <div>
+                                            <div class="row bodypart18">
+                                                <div class="col-sm-8 pt-2 ">
+                                                    <p>Name of Condition</p>
+                                                    <input type="text" name="surgical_condition[]" id="" value="<?php echo $sidrow['condition_name']?>" class="form-control active-text">
+
+                                                </div>
+                                                <div class="col-sm-4 pt-2 delete-row">
+                                                    <p> Date</p>
+                                                    <input type="date" name="surgical_date[]" id=" "  value="<?php echo $sidrow['date']?>" class="form-control active-text">
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx">
+                                                </div>
+                                                <div class="col-sm-12 pt-2 delete-row">
+                                                    <p>Description</p>
+                                                    <textarea name="surgical_desc[]" id="" rows="4 " class="form-control active-text pt-3"><?php echo $sidrow['description']?></textarea>
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove18 removeicon" alt=""  ids="<?php echo $sidrow['id'];?>">
+                                                </div>
+                                                <input type="hidden" name="surgical_id[]" value="<?php echo $sidrow['id'];?>">
+                                            </div>
+
+                                            
+                                        </div>
+                                        <?php
+                                            }
+                                        }else{
+                                        ?>
+                                            <div class="row bodypart18">
+                                                <div class="col-sm-8 pt-2 ">
+                                                    <p>Name of Condition</p>
+                                                    <input type="text" name="surgical_condition[]" id="" value="<?php echo $sidrow['condition_name']?>" class="form-control active-text">
+
+                                                </div>
+                                                <div class="col-sm-4 pt-2 delete-row">
+                                                    <p> Date</p>
+                                                    <input type="date" name="surgical_date[]" id=" "  value="<?php echo $sidrow['date']?>" class="form-control active-text">
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx">
+                                                </div>
+                                                <div class="col-sm-12 pt-2 delete-row">
+                                                    <p>Description</p>
+                                                    <textarea name="surgical_desc[]" id="" rows="4 " class="form-control active-text pt-3"><?php echo $sidrow['description']?></textarea>
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove18 removeicon" alt="">
+                                                </div>
+                                                <input type="hidden" name="surgical_id[]" value="<?php echo $sidrow['id'];?>">
+                                            </div>
+                                            <?php
+                                            }
+                                            ?>
+                                            
+                                            <div id="TextBoxContainer18"></div>
+                                            <div>
+                                                <div class="text-center p-3"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="btnadmit18" alt=""></div>
+                                            </div>
+
+                                            <input type="hidden" name="pid" value="<?php echo $pid?>">
+                                            <input type="hidden" name="surgical_submit" value="1">
+
+                                        <div class="pt-4 pb-5"><button class="form-save">Save</button></div>
+                                        </form>
+                                    </div>
+                                    <div id="home" class="container tab-pane">
                                         <form action="../patient_file/history/history_save.php" id="HIS" name='history_form' method='post' onsubmit="submitme(<?php echo $GLOBALS['new_validate'] ? 1 : 0;?>,event,'HIS',constraints)">
 
                                             <div class="form-inputs pt-5 pb-5">
@@ -982,6 +1233,105 @@ function submit_relatives(){
  }
 
  </script>
+
+ <script>
+     $(function() {
+    $("#btnadmit17").bind("click", function() {
+        var div = $("<div class='bodypart17' />");
+        div.html(GetDynamicTextBox17(""));
+        $("#TextBoxContainer17").append(div);
+    });
+    $("body").on("click", ".remove17", function() {
+        if(confirm("Are you sure?")){
+            thiss=$(this);
+            $id=thiss.attr('ids');
+            // alert($id);
+            $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+            $.ajax({
+                type: 'POST',
+                url: $webroot+"/interface/main/delete_details.php",
+                data: { id : $id, action : 'delete' , form: 'medical_history'},  
+                success: function(data){
+                // alert(data);
+                // console.log(data);
+                    thiss.closest(".bodypart17").remove();
+                }
+            });
+
+
+           
+        }
+
+    });
+});
+
+function GetDynamicTextBox17(value) {
+    return `<br> <hr>  <div class="row">
+    <div class="col-sm-12 pt-2 delete-row">
+        <p>Name of Condition</p>
+        <input type="text" name="medical_condition[]" id=" " class="form-control">
+        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx">
+    </div>
+    <div class="col-sm-12 pt-2 delete-row">
+        <p>Description</p>
+        <textarea name="medical_des[]" id="" rows="4 " class="form-control  pt-3"></textarea>
+        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove17" alt="">
+    </div>
+</div>`
+}
+
+$(function() {
+    $("#btnadmit18").bind("click", function() {
+        var div = $("<div class='bodypart18' />");
+        div.html(GetDynamicTextBox18(""));
+        $("#TextBoxContainer18").append(div);
+    });
+    $("body").on("click", ".remove18", function() {
+        if(confirm("Are you sure?")){
+            thiss=$(this);
+            $id=thiss.attr('ids');
+          
+            $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+            $.ajax({
+                type: 'POST',
+                url: $webroot+"/interface/main/delete_details.php",
+                data: { id : $id, action : 'delete' , form: 'surgical_history'},  
+                success: function(data){
+              
+                    thiss.closest(".bodypart18").remove();
+                }
+            });
+
+
+           
+        }
+     
+    });
+});
+
+function GetDynamicTextBox18(value) {
+
+    
+    return `<br> <hr>  <div class="row activatetextarea">
+                <div class="col-sm-8 pt-2">
+                    <p>Name of Condition</p>
+                    <input type="text" name="surgical_condition[]" id=" " class="form-control active-text">
+                </div>
+                <div class="col-sm-4 pt-2 delete-row">
+                    <p> Date</p>
+                    <input type="date" name="surgical_date[]" id=" " class="form-control active-text">
+                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx">
+                </div>
+                <div class="col-sm-12 pt-2 delete-row">
+                    <p>Description</p>
+                    <textarea name="surgical_desc[]" id="" rows="4 " class="form-control active-text pt-3"></textarea>
+                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove18 removeicon" alt="">
+                </div>
+</div>`
+}
+
+
+</script>
 
 
 

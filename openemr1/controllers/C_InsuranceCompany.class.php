@@ -13,6 +13,8 @@ class C_InsuranceCompany extends Controller
         $this->icompanies = array();
         $this->template_mod = $template_mod;
         $this->assign("FORM_ACTION", $GLOBALS['webroot']."/controller.php?" . attr($_SERVER['QUERY_STRING']));
+        $this->assign("FORM_ACTION_ADD", $GLOBALS['webroot']."/controller.php?" . "practice_settings&insurance_company&action=edit");
+
         $this->assign("CURRENT_ACTION", $GLOBALS['webroot']."/controller.php?" . "practice_settings&insurance_company&");
         $this->assign("STYLE", $GLOBALS['style']);
         $this->assign("SUPPORT_ENCOUNTER_CLAIMS", $GLOBALS['support_encounter_claims']);
@@ -37,6 +39,17 @@ class C_InsuranceCompany extends Controller
         $this->assign("x12_partners", $x->_utility_array($x->x12_partner_factory()));
 
         $this->assign("insurancecompany", $this->icompanies[0]);
+
+
+        //  custom by km
+        if (!empty($sort)) {
+            $this->assign("icompanies_all", $this->InsuranceCompany->insurance_companies_factory("", $sort));
+        } else {
+            $this->assign("icompanies_all", $this->InsuranceCompany->insurance_companies_factory());
+        }
+
+
+        
         return $this->fetch($GLOBALS['template_dir'] . "insurance_companies/" . $this->template_mod . "_edit.html");
     }
 
@@ -73,6 +86,11 @@ class C_InsuranceCompany extends Controller
 
         //echo "action processeed";
         $_POST['process'] = "";
-        header('Location:'.$GLOBALS['webroot']."/controller.php?" . "practice_settings&insurance_company&action=list");//Z&H
+        // 
+
+        // custom edited by km redirectig to pharmancy page
+        header('Location:'.$GLOBALS['webroot']."/controller.php?" . "practice_settings&pharmacy&action=list");//Z&H
+
+        // header('Location:'.$GLOBALS['webroot']."/controller.php?" . "practice_settings&insurance_company&action=list");//Z&H
     }
 }

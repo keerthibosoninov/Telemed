@@ -79,7 +79,9 @@ nobr{
 
 }
 .treeMenuDefault{
-    margin:20px;
+    /* margin:20px; */
+    margin-bottom:5px;
+    /* display: initial !important; */
 }
 
 #documents_list{
@@ -98,6 +100,40 @@ nobr{
 .dropzone{
     border:none !important;
 }
+
+
+.dz-default{
+    background-color: #3C9DC5;
+    padding: 4px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: white !important;
+    pointer-events:none;
+    width: 20%;
+    margin: auto;
+    margin-top: 19px;
+
+
+}
+.dz-message span{
+    color: white !important;
+}
+.dropzone .dz-message {
+    text-align: center;
+    margin: auto !important; 
+     margin-top: 20px !important;
+}
+
+.float_contents{
+    float:right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.css_button{
+    background:#3C9DC5 !important;
+}
+
 </style>
 {/literal}
 
@@ -120,7 +156,9 @@ nobr{
 
 <script type="text/javascript">
     // dropzone javascript asset translation(s)
-    Dropzone.prototype.defaultOptions.dictDefaultMessage = {xlj t='Drop files here to upload'};
+    // Dropzone.prototype.defaultOptions.dictDefaultMessage = {xlj t='Drop files here to upload'};
+    Dropzone.prototype.defaultOptions.dictDefaultMessage = {xlj t='BROWSE'};
+
 </script>
 <!-- <title>{xlt t='Documents'}</title> -->
 </head>
@@ -136,7 +174,7 @@ nobr{
     <section>
         <div class="body-content body-content2">
             <div class="container-fluid pb-4 pt-4">
-                <window-dashboard title="Vitals" class="icon-hide">
+                <window-dashboard class="icon-hide">
                     <div class="head-component">
                         <div class="row">
                             <div class="col-6"></div>
@@ -167,29 +205,31 @@ nobr{
                                     </div>
                                     <div class="col-8">
                                         <div class="dragableAra">
-                                            <!-- <input type="file" class="dragAndDrop" id="uploadFile">
-                                            <label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label>
-                                            <div>
-                                                <img src="img/cloud-upload.svg" alt="">
-                                            </div>
-                                            <div class="pt-4">
-                                                <p>Drag & Drop files here</p>
-                                            </div>
-                                            <div class="pt-4">
+                                                {if !$activity}
+                                                <p>	<label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label></p>
+                                                <div>
+                                                    <img src="{$GLOBALS.webroot}/public/images/cloud-upload.svg" alt="">
+                                                </div>
+                                                <div class="pt-4">
+                                                    <p>Drag & Drop files here</p>
+                                                </div>
+                                                {/if}
+
+                                            <!-- <input type="file" class="dragAndDrop" id="uploadFile"> -->
+                                            
+                                            <!-- <div class="pt-4">
     
                                                 <div class="some-30">
                                                     <button class="form-save point-none">BROWSE</button>
                                                 </div>
     
-                                            </div> -->
+                                            </div>
 
-                                            <!-- <label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label> -->
+                                            <label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label> -->
 
                                             <div id="documents_actions">
 
-                                                  
-                                    
-                                                <!-- <legend>{xlt t='Document Uploader/Viewer'}</legend> -->
+                                
                                                 <div style="padding: 0 10px">
                                                     {if $message}
                                                         <div class='text' style="margin-bottom:-10px; margin-top:-8px; padding:10px;"><i>{$message|text}</i></div><br>

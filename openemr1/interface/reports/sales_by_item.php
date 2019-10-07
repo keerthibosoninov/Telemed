@@ -454,11 +454,11 @@ if ($_POST['form_csvexport']) {
 
                                             <div class="pt-4 pb-5">
                                                 <div class="row">
-                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-3"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#form_csvexport").attr("value",""); $("#theform").submit();'>SEARCH</button></div>
                                                     <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value",""); $("#form_csvexport").attr("value","true"); $("#theform").submit();'>CSV Export</button></div>
-
+                                                    <div class="col-md-3"></div>
                                                 </div>
 
                                             </div>

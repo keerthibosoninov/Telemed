@@ -191,7 +191,7 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-2"> <button class="form-save"  onclick='$("#form_csvexport").val("");$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
                                                     <div class="col-md-2"> <button class="form-save"  id='printbutton'>PRINT</button></div>
-                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();'>Export to CSV</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();$("#form_refresh").attr("value","true");'>Export to CSV</button></div>
 
                                                 </div>
 
@@ -236,12 +236,10 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
 
                                                     <?php
                                                 } // end not export
-                                                    if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
-                                                        
+                                                    if ($_POST['form_refresh']) { 
                                                         if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
                                                             CsrfUtils::csrfNotVerified();
                                                         }
-
                                                         $where = "";
                                                         $sqlBindArray = array();
 
@@ -254,7 +252,6 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                             $where .= " AND e.date <= ?";
                                                             array_push($sqlBindArray, $form_end_date);
                                                         }
-
                                                         $rez = sqlStatement("SELECT " .
                                                         "e.date, e.encounter, p.pid, p.lname, p.fname, p.mname, p.ss " .
                                                         "FROM form_encounter AS e, patient_data AS p, insurance_data AS i " .
@@ -290,11 +287,9 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                             $total_paid   += $inv_paid;
 
                                                             $bgcolor = (($irow & 1) ? "#ffdddd" : "#ddddff");
-                                                            ?>
-                                                            <?php
-
-                                                            if ($_POST['form_csvexport']) {
-                                                                echo '"' . $row['lname'] . ' ' . $row['fname'] . ' ' . $row['mname'] .'",';
+                                                           
+                                                            if ($_POST['form_csvexport']) { 
+                                                                echo ''. qescape(text($row['lname'] . ' ' . $row['fname'] . ' ' . $row['mname'])) .',';
                                                                 echo '"' . qescape(text($row['ss'])) . '",';
                                                                 echo '"' . qescape(text($invnumber)) . '",';
                                                                 echo '"' . text(oeFormatShortDate(substr($row['date'], 0, 10))) . '",';
@@ -305,33 +300,31 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                             } else {
                                                             ?>
                                                             <tr>
-                                                                <td>&nbsp;<?php echo text($row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname']); ?></td>
+                                                                <td><?php echo text($row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname']); ?></td>
                                                                 <td>
-                                                                    &nbsp;<?php echo text($row['ss']); ?>
+                                                                    <?php echo text($row['ss']); ?>
                                                                 </td>
                                                                 <td>
-                                                                    &nbsp;<?php echo text($invnumber); ?></a>
+                                                                    <?php echo text($invnumber); ?></a>
                                                                 </td>
                                                                 <td>
-                                                                    &nbsp;<?php echo text(oeFormatShortDate(substr($row['date'], 0, 10))); ?>
+                                                                   <?php echo text(oeFormatShortDate(substr($row['date'], 0, 10))); ?>
                                                                 </td>
                                                                 <td>
-                                                                    &nbsp;<?php echo text(oeFormatShortDate($inv_duedate)); ?>
+                                                                    <?php echo text(oeFormatShortDate($inv_duedate)); ?>
                                                                 </td>
                                                                 <td >
-                                                                        <?php echo bucks($inv_amount); ?>&nbsp;
+                                                                        <?php echo bucks($inv_amount); ?>
                                                                 </td>
                                                                 <td >
-                                                                        <?php echo bucks($inv_paid); ?>&nbsp;
+                                                                        <?php echo bucks($inv_paid); ?>
                                                                 </td>
                                                                 <td >
-                                                                        <?php echo bucks($inv_amount - $inv_paid); ?>&nbsp;
+                                                                        <?php echo bucks($inv_amount - $inv_paid); ?>
                                                                 </td>
                                                             </tr>
                                                             <?php
                                                             }
-                                                            ?>
-                                                        <?php
                                                         }
                                                         if (!$_POST['form_csvexport']) {
                                                         ?>

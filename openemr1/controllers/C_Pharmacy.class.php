@@ -22,9 +22,19 @@ class C_Pharmacy extends Controller
         $this->pharmacies = array();
         $this->template_mod = $template_mod;
         $this->assign("FORM_ACTION", $GLOBALS['webroot']."/controller.php?" . attr($_SERVER['QUERY_STRING']));
+        //  CUSTOM BY KM
+        $this->assign("FORM_ACTION2", $GLOBALS['webroot'] . "/controller.php?practice_settings&pharmacy&action=edit");
+        $this->assign("FORM_ACTION_INSU", $GLOBALS['webroot'] . "/controller.php?practice_settings&insurance_company&action=edit");
+        //  CUSTOM ENDS
+        
         $this->assign("CURRENT_ACTION", $GLOBALS['webroot']."/controller.php?" . "practice_settings&pharmacy&");
         $this->assign("STYLE", $GLOBALS['style']);
         $this->Pharmacy = new Pharmacy();
+
+        //  custom by km for insurance
+        $this->assign("SUPPORT_ENCOUNTER_CLAIMS", $GLOBALS['support_encounter_claims']);
+        $this->assign("SUPPORT_ELIGIBILITY_REQUESTS", $GLOBALS['enable_oa']);
+        $this->InsuranceCompany = new InsuranceCompany();
     }
 
     function default_action()
@@ -34,6 +44,22 @@ class C_Pharmacy extends Controller
 
     function edit_action($id = "", $patient_id = "", $p_obj = null)
     {
+
+
+        // *********************************************************************************
+         //  custom by km
+        //  list of all pharmacy
+        $sort="";
+        if (!empty($sort)) {
+            $this->assign("pharmacies_all", $this->Pharmacy->pharmacies_factory("", $sort));
+        } else {
+            $this->assign("pharmacies_all", $this->Pharmacy->pharmacies_factory());
+        }      
+      
+
+        // ********************************//  custom ends ******************************************************8
+
+
         if ($p_obj != null && get_class($p_obj) == "pharmacy") {
             $this->pharmacies[0] = $p_obj;
         } elseif (!is_object($this->pharmacies[0]) || get_class($this->pharmacies[0]) != "pharmacy") {
@@ -46,6 +72,7 @@ class C_Pharmacy extends Controller
         }
 
         $this->assign("pharmacy", $this->pharmacies[0]);
+
         return $this->fetch($GLOBALS['template_dir'] . "pharmacies/" . $this->template_mod . "_edit.html");
     }
 
@@ -57,6 +84,8 @@ class C_Pharmacy extends Controller
         } else {
             $this->assign("pharmacies", $this->Pharmacy->pharmacies_factory());
         }
+
+        
 
         //print_r(Prescription::prescriptions_factory($id));
         return $this->fetch($GLOBALS['template_dir'] . "pharmacies/" . $this->template_mod . "_list.html");
