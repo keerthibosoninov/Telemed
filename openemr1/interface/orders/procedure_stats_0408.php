@@ -298,29 +298,12 @@ if ($form_output == 3) {
 <head>
 <title><?php echo text($report_title); ?></title>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-
-
-
 <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 
 <style type="text/css">
-/* body       { font-family:sans-serif; font-size:10pt; font-weight:normal }
+body       { font-family:sans-serif; font-size:10pt; font-weight:normal }
 .dehead    { color:#000000; font-family:sans-serif; font-size:10pt; font-weight:bold }
-.detail    { color:#000000; font-family:sans-serif; font-size:10pt; font-weight:normal } */
+.detail    { color:#000000; font-family:sans-serif; font-size:10pt; font-weight:normal }
 </style>
 <script type="text/javascript" src="../../library/textformat.js?v=<?php echo $v_js_includes; ?>"></script>
 <script type="text/javascript" src="<?php echo $GLOBALS['assets_static_relative']; ?>/jquery/dist/jquery.min.js"></script>
@@ -344,204 +327,10 @@ $(function() {
 
 <center>
 
-    <section>
-        <div class="body-content body-content2">
-            <div class="container-fluid pb-4 pt-4">
-                <window-dashboard title="" class="icon-hide">
-                    <div class="head-component">
-                        <div class="row">
-                            <div class="col-6"></div>
-                            <div class="col-6">
-                                <p class="text-white head-p"> </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="body-compo">
-                        <div class="container-fluid">
-                            <form name='theform' method='post' action='procedure_stats.php' onsubmit='return top.restoreSession()'>
-                                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-                            
-                                <div class="pt-4 pb-4">
-                                    <div class="row">
+<h2><?php echo text($report_title); ?></h2>
 
-                                        <div class="col-md-3">
-                                            <p>Rows</p>
-                                            <select name='form_by'class="form-control mt-2"  title='Left column of report'>
-                                                <?php
-                                                foreach ($arr_by as $key => $value) {
-                                                    echo "    <option value='" . attr($key) . "'";
-                                                    if ($key == $form_by) {
-                                                        echo " selected";
-                                                    }
-
-                                                    echo ">" . text($value) . "</option>\n";
-                                                }
-                                                ?>
-                                            </select>
-                                            
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p>Columns</p>
-                                            <select name='form_show[]' size='4' multiple class="form-control mt-2"
-                                                title='<?php echo xla('Hold down Ctrl to select multiple items'); ?>'>
-                                                    <?php
-                                                    foreach ($arr_show as $key => $value) {
-                                                        $title = $value['title'];
-                                                        if (empty($title) || $key == 'title') {
-                                                            $title = $value['description'];
-                                                        }
-
-                                                        echo "    <option value='" . attr($key) . "'";
-                                                        if (is_array($form_show) && in_array($key, $form_show)) {
-                                                            echo " selected";
-                                                        }
-
-                                                        echo ">" . text($title) . "</option>\n";
-                                                    }
-                                                    ?>
-                                            </select>
-                                            
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Filters</p>
-                                            <div class="form-border">
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <p>Sex</p>
-                                                    </div>
-                                                    <div class="col-sm-8">
-                                                        <select name='form_sexes'  class="form-control mt-2" title='<?php echo xla('To filter by sex'); ?>'>
-                                                        <?php
-                                                        foreach (array(3 => xl('Men and Women'), 1 => xl('Women Only'), 2 => xl('Men Only')) as $key => $value) {
-                                                            echo "       <option value='" . attr($key) . "'";
-                                                            if ($key == $form_sexes) {
-                                                                echo " selected";
-                                                            }
-
-                                                            echo ">" . text($value) . "</option>\n";
-                                                        }
-                                                        ?>
-                                                        </select>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <p>Facility</p>
-                                                    </div>
-                                                    <div class="col-sm-8">
-                                                        <?php dropdown_facility($form_facility, 'form_facility', false); ?>
-
-                                                        <!-- <select name="" id="" class="form-control mt-2">
-                                                            <option value="">value</option> 
-                                                            <option value="">value</option> 
-                                                            <option value="">value</option>
-                                                        </select> -->
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <p>From</p>
-                                                    </div>
-                                                    <div class="col-sm-8">
-                                                        <input type='text' class='form-control datepicker' name='form_from_date' id='form_from_date' size='10' value='<?php echo attr(oeFormatShortDate($from_date)); ?>'>
-
-                                                      
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <p>To</p>
-                                                    </div>
-                                                    <div class="col-sm-8">
-                                                        <input type='text' class='form-control datepicker' name='form_to_date' id='form_to_date' size='10' value='<?php echo attr(oeFormatShortDate($to_date)); ?>'>
-
-                                                        <!-- <input type="date" class="form-control"> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-
-                                    </div>
-                                    <div class="pt-4 ">
-                                        <div class="row">
-                                            <div class="col-md-3"></div>
-                                            <div class="col-md-6 text-center">
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                    <input type="checkbox" name='form_output'  class="form-check-input" value="1">Screen
-                                                    </label>
-                                                </div>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                    <input type="checkbox" name='form_output'  class="form-check-input" value="2">Printer
-                                                    </label>
-                                                </div>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                    <input type="checkbox" name='form_output'  class="form-check-input" value="3" >Export File
-                                                    </label>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-                                    </div>
-                                    <div class="pt-4 pb-5">
-                                        <div class="row">
-                                            <div class="col-md-5"></div>
-                                            <div class="col-md-2"> <button class="form-save">SEARCH</button></div>
-
-
-                                        </div>
-
-                                    </div>
-                                    <div class="table-div ">
-                                        <table class="table table-form">
-                                            <thead>
-
-                                                <tr>
-                                                    <th>Employee</th>
-                                                    <th>ID</th>
-                                                    <th>Ordered</th>
-                                                    <th>From</th>
-                                                    <th>Provider</th>
-                                                    <th>Priority</th>
-                                                    <th>Status</th>
-                                                </tr>
-
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>systco</td>
-                                                    <td>55</td>
-                                                    <td>finachi</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-
-                                </div>
-
-                           
-                            </form>
-                        </div>
-                    </div>
-                </window-dashboard>
-            </div>
-        </div>
-    </section>
-
+<form name='theform' method='post' action='procedure_stats.php' onsubmit='return top.restoreSession()'>
+<input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
 <table border='0' cellspacing='5' cellpadding='1'>
 

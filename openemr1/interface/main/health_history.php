@@ -383,11 +383,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <form action="<?php echo $GLOBALS['webroot']?>/interface/main/health_history.php" id="HIS" name='history_form' method='post'>
 
                                             <?php
-                                                if($rez){
-                                                    print_r($rez);
-                                            //    echo   $rez->connectionParameters:protected['_numOfRows'];
+                                               
+                                                    // print_r($rez);
+                                                    // print_r($rez->_queryID);
+                                                   $count=$rez->_queryID->num_rows;
                                                    $i=1;
-
+                                                   if($count){
                                                
                                                     while ($idrow = sqlFetchArray($rez)){
                                                         
@@ -411,16 +412,13 @@ if (!empty($_REQUEST['go'])) { ?>
                                         
                                                 <?php
 
-                                                // echo $count;
-                                                // echo "<br>";
-                                                // echo $i;
-                                                // if($count !=$i ){
+                                                if($count !=$i ){
                                                     ?>
 
                                                     <br>
                                                     <hr>
                                                 <?php
-                                                // }
+                                                }
                                                 ?>
                                                
                                             </div>
@@ -464,9 +462,14 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <div id="surgical" class="container tab-pane">
                                         <form action="<?php echo $GLOBALS['webroot']?>/interface/main/health_history.php" id="HIS" name='history_form' method='post'>
                                         <?php
-                                            if($surgical_data){
-                                                $i=1;
+                                            
+                                                $j=1;
+
+                                                $count1=$surgical_data->_queryID->num_rows;
+                                                if($count1){
+
                                                 while ($sidrow = sqlFetchArray($surgical_data)){
+                                                    
                                                     
                                             ?>
                                         <div>
@@ -487,11 +490,26 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove18 removeicon" alt=""  ids="<?php echo $sidrow['id'];?>">
                                                 </div>
                                                 <input type="hidden" name="surgical_id[]" value="<?php echo $sidrow['id'];?>">
+
+                                                <?php
+
+
+                                                if($count1 !=$j ){
+                                                    echo "<br>
+                                                    <hr>";
+                                                    ?>
+
+                                                
+                                                <?php
+                                                }
+                                                ?>
+                                               
                                             </div>
 
                                             
                                         </div>
                                         <?php
+                                         $j++;
                                             }
                                         }else{
                                         ?>

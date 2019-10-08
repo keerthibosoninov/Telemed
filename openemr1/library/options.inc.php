@@ -137,7 +137,7 @@ function generate_select_list(
         $class_esc = attr($class);
         $s .= " class='form-control $class_esc'";
     } else {
-        $s .= " class='form-control'";
+        $s .= " class='form-control mt-2'";
     }
 
     if ($onchange) {
