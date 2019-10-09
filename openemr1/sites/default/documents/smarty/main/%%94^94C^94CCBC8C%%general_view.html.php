@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.31, created on 2019-10-04 06:55:22
+<?php /* Smarty version 2.6.31, created on 2019-10-07 07:35:47
          compiled from D:/xampp/htdocs/openemr_test/templates/documents/general_view.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'js_url', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 24, false),array('modifier', 'js_escape', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 31, false),array('modifier', 'text', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 137, false),array('modifier', 'attr', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 145, false),array('modifier', 'attr_js', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 146, false),array('modifier', 'attr_url', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 233, false),array('function', 'xlj', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 38, false),array('function', 'xlt', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 139, false),array('function', 'xla', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 143, false),array('function', 'user_info', 'D:/xampp/htdocs/openemr_test/templates/documents/general_view.html', 319, false),)), $this); ?>
@@ -182,7 +182,7 @@ function ImgProcedure() <?php echo '{'; ?>
                 <button class="btn btn-xs btn-primary active"><?php echo smarty_function_xlt(array('t' => 'Contents'), $this);?>
 </button>
               </div>
-            <span style="float:right;">
+            <span  class="float_contents">
             <a class="css_button" href='' onclick='return popoutcontent(this)' title="<?php echo smarty_function_xla(array('t' => 'Pop Out Full Screen.'), $this);?>
 ">
                 <span class="glyphicon glyphicon-fullscreen"></span></a>

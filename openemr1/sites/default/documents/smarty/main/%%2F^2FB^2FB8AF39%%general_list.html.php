@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.31, created on 2019-10-04 07:19:24
+<?php /* Smarty version 2.6.31, created on 2019-10-07 07:37:27
          compiled from D:/xampp/htdocs/openemr_test/templates/documents/general_list.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'headerTemplate', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 13, false),array('function', 'xlj', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 123, false),array('function', 'xlt', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 125, false),array('function', 'datetimepickerSupport', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 309, false),array('modifier', 'attr', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 160, false),array('modifier', 'text', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 195, false),array('modifier', 'js_escape', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 223, false),array('modifier', 'js_url', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 236, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'headerTemplate', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 13, false),array('function', 'xlj', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 158, false),array('function', 'xlt', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 162, false),array('function', 'datetimepickerSupport', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 348, false),array('modifier', 'attr', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 197, false),array('modifier', 'text', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 234, false),array('modifier', 'js_escape', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 262, false),array('modifier', 'js_url', 'D:/xampp/htdocs/openemr_test/templates/documents/general_list.html', 275, false),)), $this); ?>
 <html>
 <head>
 
@@ -76,7 +76,9 @@ nobr{
 
 }
 .treeMenuDefault{
-    margin:20px;
+    /* margin:20px; */
+    margin-bottom:5px;
+    /* display: initial !important; */
 }
 
 #documents_list{
@@ -95,6 +97,39 @@ nobr{
 .dropzone{
     border:none !important;
 }
+
+
+.dz-default{
+    background-color: #3C9DC5;
+    padding: 4px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: white !important;
+    pointer-events:none;
+    width: 20%;
+    margin: auto;
+    margin-top: 19px;
+
+
+}
+.dz-message span{
+    color: white !important;
+}
+.dropzone .dz-message {
+    text-align: center;
+    margin: auto !important; 
+     margin-top: 20px !important;
+}
+
+.float_contents{
+    float:right;
+    margin-top: 20px;
+}
+.css_button{
+    background:#3C9DC5 !important;
+}
+
 </style>
 '; ?>
 
@@ -124,8 +159,11 @@ nobr{
 
 <script type="text/javascript">
     // dropzone javascript asset translation(s)
-    Dropzone.prototype.defaultOptions.dictDefaultMessage = <?php echo smarty_function_xlj(array('t' => 'Drop files here to upload'), $this);?>
+    // Dropzone.prototype.defaultOptions.dictDefaultMessage = <?php echo smarty_function_xlj(array('t' => 'Drop files here to upload'), $this);?>
 ;
+    Dropzone.prototype.defaultOptions.dictDefaultMessage = <?php echo smarty_function_xlj(array('t' => 'BROWSE'), $this);?>
+;
+
 </script>
 <!-- <title><?php echo smarty_function_xlt(array('t' => 'Documents'), $this);?>
 </title> -->
@@ -142,7 +180,7 @@ nobr{
     <section>
         <div class="body-content body-content2">
             <div class="container-fluid pb-4 pt-4">
-                <window-dashboard title="Vitals" class="icon-hide">
+                <window-dashboard class="icon-hide">
                     <div class="head-component">
                         <div class="row">
                             <div class="col-6"></div>
@@ -178,30 +216,32 @@ nobr{
                                     </div>
                                     <div class="col-8">
                                         <div class="dragableAra">
-                                            <!-- <input type="file" class="dragAndDrop" id="uploadFile">
-                                            <label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label>
-                                            <div>
-                                                <img src="img/cloud-upload.svg" alt="">
-                                            </div>
-                                            <div class="pt-4">
-                                                <p>Drag & Drop files here</p>
-                                            </div>
-                                            <div class="pt-4">
+                                                <?php if (! $this->_tpl_vars['activity']): ?>
+                                                <p>	<label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label></p>
+                                                <div>
+                                                    <img src="<?php echo $this->_tpl_vars['GLOBALS']['webroot']; ?>
+/public/images/cloud-upload.svg" alt="">
+                                                </div>
+                                                <div class="pt-4">
+                                                    <p>Drag & Drop files here</p>
+                                                </div>
+                                                <?php endif; ?>
+
+                                            <!-- <input type="file" class="dragAndDrop" id="uploadFile"> -->
+                                            
+                                            <!-- <div class="pt-4">
     
                                                 <div class="some-30">
                                                     <button class="form-save point-none">BROWSE</button>
                                                 </div>
     
-                                            </div> -->
+                                            </div>
 
-                                            <!-- <label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label> -->
+                                            <label for="uploadFile" class="pt-4 pb-3">Upload Document to Categories</label> -->
 
                                             <div id="documents_actions">
 
-                                                  
-                                    
-                                                <!-- <legend><?php echo smarty_function_xlt(array('t' => 'Document Uploader/Viewer'), $this);?>
-</legend> -->
+                                
                                                 <div style="padding: 0 10px">
                                                     <?php if ($this->_tpl_vars['message']): ?>
                                                         <div class='text' style="margin-bottom:-10px; margin-top:-8px; padding:10px;"><i><?php echo ((is_array($_tmp=$this->_tpl_vars['message'])) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>

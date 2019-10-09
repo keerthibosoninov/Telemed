@@ -246,6 +246,8 @@ $condition_str = '';
     <meta name="author" content="OpenEMR: MedExBank">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -362,20 +364,23 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#surgical">Surgical History</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#home">Risk Factors</a>
-                                    </li>
-                                    <li class="nav-item">
+                                    </li> -->
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu1">Exams</a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu2">Family History</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu3">Relatives</a>
-                                    </li>
-                                    <li class="nav-item">
+                                    </li> -->
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu4">Life Style</a>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#menu5" id="allergyData">Allergies</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
@@ -1183,6 +1188,91 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="menu5" class="container tab-pane fade ">
+                                        <div class="pt-4 pb-4">
+                                            <!-- <div>
+                                                <table class="table table-form">
+                                                    <tbody class="repeat-row ">
+                                                        <tr>
+                                                            <th>Substance</th>
+                                                            <th>Severity </th>
+                                                            <th>Reaction</th>
+                                                            <th>Comments</th>
+                                                            <th></th>
+
+
+                                                        </tr>
+                                                        <tr class="tablerow ">
+
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+
+                                                            <td><img src="img/edit-text.svg" alt="" class="pr-2 hide-parent-open1"><img src="img/delete.svg" alt="" class="remove16"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div> -->
+                                            <div id="allergy_list"></div>
+                                            <div>
+                                                <div class="text-center" id="addmore_btn">
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" alt="">
+                                                </div>
+                                                <div class="text-center">
+                                                    <p class="fs-14">Add New</p>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                        <div id="allergy_data"></div>
+                                        <div class="tableform1" style="display:none">
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Allergy</p>
+                                                        <textarea name="" id="" class="form-control pt-3" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Reaction</p>
+                                                        <textarea name="" id="" class="form-control pt-3" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p>Substance</p>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <p>Severity</p>
+                                                        <select name="" class="form-control">
+                                                        <option value=""></option>
+                                                        <option value=""></option>
+                                                    </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <p>Reaction</p>
+                                                        <select name="" class="form-control">
+                                                        <option value=""></option>
+                                                        <option value=""></option>
+                                                    </select>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p>Comments</p>
+                                                        <textarea name="" id="" class="form-control pt-3" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- <div class="pt-4 pb-5"><button class="form-save">Save</button></div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1299,6 +1389,8 @@ function GetDynamicTextBox17(value) {
 }
 
 $(function() {
+
+    
     $("#btnadmit18").bind("click", function() {
         var div = $("<div class='bodypart18' />");
         div.html(GetDynamicTextBox18(""));
@@ -1347,8 +1439,39 @@ function GetDynamicTextBox18(value) {
                 </div>
 </div>`
 }
+ 
 
 
+
+</script>
+<script>
+$(function() {
+        
+    $("#allergyData").click(function() {
+        // alert();
+        $webroot="<?php echo $GLOBALS['webroot']?>";
+        $("#allergy_list").removeClass('hidedata');
+        $("#allergy_data").addClass('hidedata');
+        $('#allergy_list').load($webroot+"/interface/patient_file/summary/stats_full.php?active=all&category=allergy");
+    });
+
+    $('#addmore_btn').click(function(){
+        // alert();
+        $webroot="<?php echo $GLOBALS['webroot']?>";
+        $("#allergy_list").addClass('hidedata');
+        $("#allergy_data").removeClass('hidedata');
+        // setTimeout(() => {
+        //     $("#allergy_data").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue=0&thistype=medication");
+   
+        // }, 50000);
+        
+        //  
+        $("#allergy_data").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue=0&thistype=medication", function(){
+
+            // alert();
+        });
+    });
+});
 </script>
 
 
