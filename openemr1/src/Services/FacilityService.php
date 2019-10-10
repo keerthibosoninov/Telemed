@@ -197,7 +197,9 @@ class FacilityService
             mail_city=?,
             mail_state=?,
             mail_zip=?,
-            oid=? WHERE id=?";
+            oid=?,
+            hourly_rate=?
+             WHERE id=?";
 
         return sqlStatement(
             $sql,
@@ -231,6 +233,7 @@ class FacilityService
                 $data["mail_state"],
                 $data["mail_zip"],
                 $data['oid'],
+                $data['hourly_rate'],
                 $data["fid"]
             )
         );
@@ -267,7 +270,8 @@ class FacilityService
              mail_city=?,
              mail_state=?,
              mail_zip=?,
-             oid=? ";
+             oid=?,
+             hourly_rate=? ";
         return sqlInsert(
             $sql,
             array(
@@ -299,7 +303,8 @@ class FacilityService
                 $data["mail_city"],
                 $data["mail_state"],
                 $data["mail_zip"],
-                $data["oid"]
+                $data["oid"],
+                $data['hourly_rate']
             )
         );
     }
@@ -352,6 +357,7 @@ class FacilityService
         $sql .= "        FAC.mail_city,";
         $sql .= "        FAC.mail_state,";
         $sql .= "        FAC.mail_zip,";
+        $sql .= "        FAC.hourly_rate,";
         $sql .= "        FAC.oid";
         $sql .= " FROM facility FAC";
 

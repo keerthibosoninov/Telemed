@@ -25,7 +25,7 @@ use OpenEMR\Core\Header;
 
 // TBD - Resolve functional issues if opener is included in Header
 ?>
-<!-- <script type="text/javascript" src="<?php echo $webroot ?>/interface/main/tabs/js/include_opener.js?v=<?php echo $v_js_includes; ?>"></script> -->
+<script type="text/javascript" src="<?php echo $webroot ?>/interface/main/tabs/js/include_opener.js?v=<?php echo $v_js_includes; ?>"></script>
 <?php
 
 if ($_POST['form_save']) {
@@ -358,7 +358,7 @@ if (!empty($irow['type'])) {
 ?>
 <html>
 <head>
-<?php //Header::setupHeader(['common', 'jquery-ui', 'datetime-picker', 'select2']); ?>
+<?php Header::setupHeader(['common', 'jquery-ui', 'datetime-picker', 'select2']); ?>
 <title><?php echo ($issue) ? xlt('Edit Issue') : xlt('Add New Issue'); ?></title>
 
 <style>
@@ -409,7 +409,10 @@ ActiveIssueCodeRecycleFn($thispid, $ISSUE_TYPES);
 
  ///////////////////////////
  function codeBoxFunction2() {
-  var f = document.forms[0];
+    $thistype="<?php echo $thistype;?>";
+    var f = document.forms["theform_"+$thistype];
+
+//   var f = document.forms[0];
   var x2 = f.form_codeSelect2.options[f.form_codeSelect2.selectedIndex].value;
   f.form_codeSelect2.selectedIndex = -1;
   var x6 = f.form_diagnosis.value;
@@ -423,8 +426,13 @@ ActiveIssueCodeRecycleFn($thispid, $ISSUE_TYPES);
  // shortcuts into the selection list of titles, and determines which
  // rows are displayed or hidden.
  function newtype(index) {
-  var f = document.forms[0];
+    $thistype="<?php echo $thistype;?>";
+    // console.log("theform_"+$thistype);
+  var f = document.forms["theform_"+$thistype];
+  console.log(f);
   var theopts = f.form_titles.options;
+
+ 
   theopts.length = 0;
   var i = 0;
   for (i = 0; i < aopts[index].length; ++i) {
@@ -486,7 +494,10 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
  // If a clickoption title is selected, copy it to the title field.
  // If it has a code, add that too.
  function set_text() {
-  var f = document.forms[0];
+    $thistype="<?php echo $thistype;?>";
+    var f = document.forms["theform_"+$thistype];
+
+//   var f = document.forms[0];
   f.form_title.value = f.form_titles.options[f.form_titles.selectedIndex].text;
   f.form_title_id.value = f.form_titles.options[f.form_titles.selectedIndex].value;
   f.form_diagnosis.value = f.form_titles.options[f.form_titles.selectedIndex].getAttribute('data-code');
@@ -512,7 +523,9 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
  // use the existence of an end date to indicate inactivity, even
  // though the simple verion of the form does not show an end date.
  function activeClicked(cb) {
-  var f = document.forms[0];
+    $thistype="<?php echo $thistype;?>";
+    var f = document.forms["theform_"+$thistype];
+//   var f = document.forms[0];
   if (cb.checked) {
    f.form_end.value = '';
   } else {
@@ -524,7 +537,9 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
 
  // Called when resolved outcome is chosen and the end date is entered.
  function outcomeClicked(cb) {
-  var f = document.forms[0];
+    $thistype="<?php echo $thistype;?>";
+    var f = document.forms["theform_"+$thistype];
+//   var f = document.forms[0];
   if (cb.value == '1'){
    var today = new Date();
    f.form_end.value = '' + (today.getYear() + 1900) + '-' +
@@ -536,7 +551,9 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
 // This is for callback by the find-code popup.
 // Appends to or erases the current list of diagnoses.
 function set_related(codetype, code, selector, codedesc) {
- var f = document.forms[0];
+    $thistype="<?php echo $thistype;?>";
+    var f = document.forms["theform_"+$thistype];
+//  var f = document.forms[0];
  var s = f.form_diagnosis.value;
  var title = f.form_title.value;
  if (code) {
@@ -555,13 +572,22 @@ function set_related(codetype, code, selector, codedesc) {
 // This is for callback by the find-code popup.
 // Returns the array of currently selected codes with each element in codetype:code format.
 function get_related() {
-    return document.forms[0].form_diagnosis.value.split(';');
+
+    $thistype="<?php echo $thistype;?>";
+    // var f = document.forms["theform_"+$thistype];
+    return document.forms["theform_"+$thistype].form_diagnosis.value.split(';');
+
+    // return document.forms[0].form_diagnosis.value.split(';');
 }
 
 // This is for callback by the find-code popup.
 // Deletes the specified codetype:code from the currently selected list.
 function del_related(s) {
-    my_del_related(s, document.forms[0].form_diagnosis, false);
+    $thistype="<?php echo $thistype;?>";
+    // var f = document.forms["theform_"+$thistype];
+
+    my_del_related(s, document.forms["theform_"+$thistype].form_diagnosis, false);
+    // my_del_related(s, document.forms[0].form_diagnosis, false);
 }
 
 // This invokes the find-code popup.
@@ -589,7 +615,11 @@ dlgopen(<?php echo js_escape($url); ?>, '_blank', 985, 800, '', <?php echo xlj("
 
 // Check for errors when the form is submitted.
 function validate() {
- var f = document.forms[0];
+
+    $thistype="<?php echo $thistype;?>";
+    var f = document.forms["theform_"+$thistype];
+
+//  var f = document.forms[0];
  if(f.form_begin.value > f.form_end.value && (f.form_end.value)) {
   alert(<?php echo xlj('Please Enter End Date greater than Begin Date!'); ?>);
   return false;
@@ -656,15 +686,27 @@ if ($issue) {
         $tabcontents .= "</div>\n";
     }
 }
+
+
+//  custom by km
+$form_name='';
+if($thistype=='allergy'){
+    $form_name='theform_allergy';
+}elseif($thistype=='medication'){
+    $form_name='theform_medication';
+}
 ?>
+
+
 </ul>
 
 
 <div class="tabContainer">
     <div class='tab current' style='height:auto;width:97%;'>
         <div class='col-sm-12'>
-            <form class="form-horizontal" name='theform' method="post" onsubmit='return validate()'>
+            <form class="form-horizontal" name="<?php echo $form_name;?>" id="<?php echo $form_name;?>" method="post" >
                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                <input type="hidden" name="submit_form" value="1">
                 <?php
                 // action setting not required in html5.  By default form will submit to itself.
                 // Provide key values previously passed as part of action string.
@@ -818,6 +860,8 @@ if ($issue) {
                       <textarea class="form-control" name='form_comments' id='form_comments' rows="4" id='form_comments'><?php echo text($irow['comments']) ?></textarea>
                     </div>
                 </div>
+
+              
                 <div class="form-group"
                 <?php
                 if ($GLOBALS['ippf_specific']) {
@@ -889,6 +933,29 @@ if ($issue) {
 $(function() {
     // Include bs3 / bs4 classes here.  Keep html tags functional.
     $('table').addClass('table table-sm');
+
+
+
+    $('#theform_allergy').submit(function(e){
+        e.preventDefault();
+        // alert();
+        $webroot="<?php echo $GLOBALS['webroot']?>";
+        $.ajax({
+            type: 'POST',
+            url: $webroot+"/interface/patient_file/summary/add_edit_issue.php",
+            data: $('#theform_allergy').serialize(),   
+            success: function(data){
+                alert();
+               
+            }
+        });
+    });
+
+
+
+
+
+
 });
 </script>
 

@@ -1188,6 +1188,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- allergy -->
                                     <div id="menu5" class="container tab-pane fade ">
                                         <div class="pt-4 pb-4">
                                             <!-- <div>
@@ -1226,7 +1227,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div></div>
                                         </div>
                                         <div id="allergy_data"></div>
-                                        <div class="tableform1" style="display:none">
+                                        <!-- <div class="tableform1" style="display:none">
                                             <div>
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -1270,7 +1271,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
 
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- <div class="pt-4 pb-5"><button class="form-save">Save</button></div> -->
                                     </div>
                                 </div>
@@ -1448,7 +1449,7 @@ function GetDynamicTextBox18(value) {
 $(function() {
         
     $("#allergyData").click(function() {
-        // alert();
+        $form_name='theform_allergy';
         $webroot="<?php echo $GLOBALS['webroot']?>";
         $("#allergy_list").removeClass('hidedata');
         $("#allergy_data").addClass('hidedata');
@@ -1466,11 +1467,28 @@ $(function() {
         // }, 50000);
         
         //  
-        $("#allergy_data").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue=0&thistype=medication", function(){
-
+        $("#allergy_data").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue=0&thistype=allergy", function(){
             // alert();
         });
     });
+
+
+    $(".edit_data").click(function() { clickEdit(this.id,0); });
+
+    // function editData(id){
+    //     clickEdit(id,0); 
+    // }
+
+    // function clickEdit(id,category){
+    //     alert();
+    //     top.restoreSession();
+    //     if (category == 0) category = '';
+    // }
+
+
+
+
+  
 });
 </script>
 

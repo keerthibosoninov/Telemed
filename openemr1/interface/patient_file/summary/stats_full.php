@@ -87,6 +87,16 @@ function dopclick(id,category) {
     //dlgopen('add_edit_issue.php?issue=' + encodeURIComponent(id) + '&thistype=' + encodeURIComponent(category), '_blank', 650, 600);
 }
 
+ function clickEdit(id,category){
+       alert(id);
+        top.restoreSession();
+        if (category == 0) category = '';
+        $("#allergy_data_new").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue="+ encodeURIComponent(id) +"&thistype="+ encodeURIComponent(category), function(){
+        alert('S');
+        });
+    }
+
+
 // Process click on number of encounters.
 function doeclick(id) {
     top.restoreSession();
@@ -190,6 +200,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                 <!-- <th  ><?php echo xlt('Referred By'); ?></th>
                 <th  ><?php echo xlt('Modify Date'); ?></th> -->
                 <th  ><?php echo xlt('Comments'); ?></th>
+                <th></th>
                 </tr>
                 <?php
 
@@ -271,8 +282,9 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                     }
 
                     echo " <tr class='tablerow'>\n";
-                    echo "  <td   class='" . attr($click_class) . "' id='" . attr($rowid) . "'>" . text($disptitle) . "</td>\n";
-                    echo "  <td>" . text($row['begdate']) . "&nbsp;</td>\n";
+                    echo "  <td>" . text($row['substance_al']) . "&nbsp;</td>\n";
+                    // echo "  <td   class='" . attr($click_class) . "' id='" . attr($rowid) . "'>" . text($disptitle) . "</td>\n";
+                    echo "  <td>" . text($row['severity_al']) . "&nbsp;</td>\n";
                     // echo "  <td>" . text($row['enddate']) . "&nbsp;</td>\n";
                     // both codetext and statusCompute have already been escaped above with htmlspecialchars)
                     // echo "  <td>" . $codetext . "</td>\n";
@@ -292,6 +304,10 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                     // echo "  <td id='e_" . attr($rowid) . "' class='noclick center' title='" . xla('View related encounters') . "'>";
                     // echo "  <input type='button' value='" . attr($ierow['count']) . "' class='editenc' id='" . attr($rowid) . "' />";
                     // echo "  </td>";
+                    echo "<td>
+                        <img src='".$GLOBALS['assets_static_relative']."/img/edit-text.svg'  id='" . attr($rowid) . "' alt='' class='pr-2 hide-parent-open1 edit_data'>
+                        <img src='".$GLOBALS['assets_static_relative']."/img/delete.svg' alt='' class='remove16'></td>
+                    ";
                     echo " </tr>\n";
                 }
             }
@@ -308,6 +324,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
         </div> <!-- end patient_stats -->
         
     </div><!--end of container div -->
+    <div id="allergy_data_new"></div>
     <?php //$oemr_ui->oeBelowContainerDiv();?>
     
 </body>
@@ -336,6 +353,11 @@ $(document).ready(function(){
       );
       $(this).hide();
     });
+
+
+    //  custom km for edit
+    
+    $(".edit_data").click(function() { clickEdit(this.id,0); });
 });
 
 var GotoHistory = function() {
