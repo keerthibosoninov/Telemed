@@ -201,19 +201,27 @@ if ($result3['provider']) {   // Use provider in case there is an ins record w/ 
 
     // Called by the deleteme.php window on a successful delete.
     function imdeleted() {
-        <?php
+        <
+        ?
+        php
         if ($GLOBALS['new_tabs_layout']) {
-            ?>
-            top.clearPatient(); <?php
+            ?
+            >
+            top.clearPatient(); <
+            ?
+            php
         } else {
-            ?>
-            parent.left_nav.clearPatient(); <?php
-        } ?>
+            ?
+            >
+            parent.left_nav.clearPatient(); <
+            ?
+            php
+        } ? >
     }
 
     function newEvt() {
-        let title = <?php echo xlj('Appointments'); ?> ;
-        let url = '../../main/calendar/add_edit_event.php?patientid=' + <?php echo js_url($pid); ?> ;
+        let title = < ? php echo xlj('Appointments'); ? > ;
+        let url = '../../main/calendar/add_edit_event.php?patientid=' + < ? php echo js_url($pid); ? > ;
         dlgopen(url, '_blank', 725, 500, '', title);
         return false;
     }
@@ -897,7 +905,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         <!-- start left column div -->
                         <div style='float:left; margin-right:20px'>
 
-                            <table cellspacing="0" cellpadding="0">
+                            <table cellspacing=0 cellpadding=0>
                                 <?php
                                 if (!$GLOBALS['hide_billing_widget']) { ?>
                                 <tr>
@@ -978,8 +986,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                     echo "</table></td></tr></td></tr></table><br>";
 
                                     ?>
-                        </div>
-                         <!-- required for expand_collapse_widget -->
+                        </div> <!-- required for expand_collapse_widget -->
                     </td>
                 </tr>
                 <?php } ?>

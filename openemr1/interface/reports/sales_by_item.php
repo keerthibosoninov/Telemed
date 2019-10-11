@@ -295,21 +295,6 @@ if ($_POST['form_csvexport']) {
 <html>
 <head>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-
     <title><?php echo xlt('Sales by Item'); ?></title>
 
     <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
@@ -345,16 +330,6 @@ if ($_POST['form_csvexport']) {
         table.mymaintable td {
             padding: 1pt 4pt 1pt 4pt;
         }
-
-        .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-            background: #3C9DC5;
-            text-decoration: none;
-        }
-
-        #report_parameters {
-            background-color: transparent !important;
-            margin-top: 10px;
-        }
     </style>
 
     <script language="JavaScript">
@@ -376,327 +351,385 @@ if ($_POST['form_csvexport']) {
 
 <title><?php echo xlt('Sales by Item') ?></title>
 
-<body  class="body_top">
-        <section>
-            <div class="body-content body-content2">
-                <div class="container-fluid pb-4 pt-4">
-                    <window-dashboard title="" class="icon-hide">
-                        <div class="head-component">
-                            <div class="row">
-                                <div class="col-6"></div>
-                                <div class="col-6">
-                                    <p class="text-white head-p">Sales by Item </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="body-compo">
-                            <div id="report_parameters_daterange">
-                                <span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Sales by Item'); ?></span>
-                                <?php echo text(oeFormatShortDate($form_from_date)) ." &nbsp; " . xlt('to') . " &nbsp; ". text(oeFormatShortDate($form_to_date)); ?>
-                            </div>
-                            <form method='post' action='sales_by_item.php' id='theform' onsubmit='return top.restoreSession()'>
-                                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-                                <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
-                                <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
-                                <div class="container-fluid">
+<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' class="body_top">
 
-                                    <div class="pt-4 pb-4">
-                                        <div id="report_parameters">
-                                            <div class="row">
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-3">
-                                                    <p>Facility</p>
-                                                    <?php dropdown_facility($form_facility, 'form_facility', true); ?>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <p>From</p>
-                                                    <input type='date' class='datepicker form-control pr-1 pl-1' name='form_from_date' id="form_from_date"  value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>'>
+<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Sales by Item'); ?></span>
 
-                                                    <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <p>To</p>
-                                                    <input type='date' class='datepicker form-control  pr-1 pl-1' name='form_to_date' id="form_to_date"  value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>'>
+<form method='post' action='sales_by_item.php' id='theform' onsubmit='return top.restoreSession()'>
+<input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-                                                     <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
-                                                    </div>
-                                                <div class="col-md-3">
-                                                    <p>Provider</p>
-                                                    <?php
-                                                    if (acl_check('acct', 'rep_a')) {
-                                                    // Build a drop-down list of providers.
-                                                        $query = "select id, lname, fname from users where " .
-                                                        "authorized = 1 order by lname, fname";
-                                                        $res = sqlStatement($query);
-                                                        echo "<select name='form_provider' class='form-control mt-2'>\n";
-                                                        echo "<option value=''>-- " . xlt('All Providers') . " --\n";
-                                                        while ($row = sqlFetchArray($res)) {
-                                                            $provid = $row['id'];
-                                                            echo "    <option value='". attr($provid) ."'";
-                                                            if ($provid == $_REQUEST['form_provider']) {
-                                                                echo " selected";
-                                                            }
+<div id="report_parameters">
+<input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+<input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
+<table>
+<tr>
+<td width='630px'>
+  <div style='float:left'>
+  <table class='text'>
+      <tr>
+          <td class='control-label'>
+            <?php echo xlt('Facility'); ?>:
+          </td>
+          <td>
+        <?php dropdown_facility($form_facility, 'form_facility', true); ?>
+          </td>
+          <td class='control-label'>
+            <?php echo xlt('From'); ?>:
+          </td>
+          <td>
+            <input type='text' class='datepicker form-control' name='form_from_date' id="form_from_date" size='10' value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>'>
+          </td>
+          <td class='control-label'>
+            <?php echo xlt('To'); ?>:
+          </td>
+          <td>
+            <input type='text' class='datepicker form-control' name='form_to_date' id="form_to_date" size='10' value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>'>
+          </td>
+      </tr>
+  </table>
+  <table class='text'>
+      <tr>
+        <td class='control-label'>
+        <?php echo xlt('Provider'); ?>:
+        </td>
+        <td>
+        <?php
+        if (acl_check('acct', 'rep_a')) {
+          // Build a drop-down list of providers.
+            $query = "select id, lname, fname from users where " .
+              "authorized = 1 order by lname, fname";
+            $res = sqlStatement($query);
+            echo "   &nbsp;<select name='form_provider' class='form-control'>\n";
+            echo "    <option value=''>-- " . xlt('All Providers') . " --\n";
+            while ($row = sqlFetchArray($res)) {
+                $provid = $row['id'];
+                echo "    <option value='". attr($provid) ."'";
+                if ($provid == $_REQUEST['form_provider']) {
+                    echo " selected";
+                }
 
-                                                            echo ">" . text($row['lname']) . ", " . text($row['fname']) . "\n";
-                                                        }
+                echo ">" . text($row['lname']) . ", " . text($row['fname']) . "\n";
+            }
 
-                                                        echo "   </select>\n";
-                                                    } else {
-                                                        echo "<input type='hidden' name='form_provider' value='" . attr($_SESSION['authUserID']) . "'>";
-                                                    }
-                                                    ?>
-                                                   
-                                                </div>
-
-
-
-                                            </div>
-
-                                            <div class="pt-4 pb-5">
-                                                <div class="row">
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#form_csvexport").attr("value",""); $("#theform").submit();'>SEARCH</button></div>
-                                                    <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
-                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value",""); $("#form_csvexport").attr("value","true"); $("#theform").submit();'>CSV Export</button></div>
-                                                    <div class="col-md-3"></div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="table-div ">
-                                            <table class="table table-form">
-                                                <thead>
-
-                                                    <tr>
-                                                        <th>Category</th>
-                                                        <th>Item</th>
-                                                        <th>Quantity</th>
-                                                        <th>Amount</th>
-
-                                                    </tr>
-
-                                                </thead>
-                                                <?php
-                                                }
-                                                ?>
-                                               
-                                                <?php
-                                                
-                                                if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
-                                                    $from_date = $form_from_date . ' 00:00:00';
-                                                    $to_date = $form_to_date . ' 23:59:59';
-                                                    $category = "";
-                                                    $catleft = "";
-                                                    $cattotal = 0;
-                                                    $catqty = 0;
-                                                    $product = "";
-                                                    $productleft = "";
-                                                    $producttotal = 0;
-                                                    $productqty = 0;
-                                                    $grandtotal = 0;
-                                                    $grandqty = 0;
-
-                                                    $sqlBindArray = array();
-                                                    $query = "SELECT b.fee, b.pid, b.encounter, b.code_type, b.code, b.units, " .
-                                                    "b.code_text, fe.date, fe.facility_id, fe.provider_id, fe.invoice_refno, lo.title " .
-                                                    "FROM billing AS b " .
-                                                    "JOIN code_types AS ct ON ct.ct_key = b.code_type " .
-                                                    "JOIN form_encounter AS fe ON fe.pid = b.pid AND fe.encounter = b.encounter " .
-                                                    "LEFT JOIN codes AS c ON c.code_type = ct.ct_id AND c.code = b.code AND c.modifier = b.modifier " .
-                                                    "LEFT JOIN list_options AS lo ON lo.list_id = 'superbill' AND lo.option_id = c.superbill AND lo.activity = 1 " .
-                                                    "WHERE b.code_type != 'COPAY' AND b.activity = 1 AND b.fee != 0 AND " .
-                                                    "fe.date >= ? AND fe.date <= ?";
-                                                    array_push($sqlBindArray, $from_date, $to_date);
-                                                    // If a facility was specified.
-                                                    if ($form_facility) {
-                                                        $query .= " AND fe.facility_id = ?";
-                                                        array_push($sqlBindArray, $form_facility);
-                                                    }
-
-                                                    if ($form_provider) {
-                                                        $query .= " AND fe.provider_id = ?";
-                                                        array_push($sqlBindArray, $form_provider);
-                                                    }
-
-                                                    $query .= " ORDER BY lo.title, b.code, fe.date, fe.id";
-                                                    //
-                                                    $res = sqlStatement($query, $sqlBindArray);
-                                                    while ($row = sqlFetchArray($res)) {
-                                                        thisLineItem(
-                                                            $row['pid'],
-                                                            $row['encounter'],
-                                                            $row['title'],
-                                                            $row['code'] . ' ' . $row['code_text'],
-                                                            substr($row['date'], 0, 10),
-                                                            $row['units'],
-                                                            $row['fee'],
-                                                            $row['invoice_refno']
-                                                        );
-                                                    }
-
-                                                    //
-                                                    $sqlBindArray = array();
-                                                    $query = "SELECT s.sale_date, s.fee, s.quantity, s.pid, s.encounter, " .
-                                                    "d.name, fe.date, fe.facility_id, fe.provider_id, fe.invoice_refno " .
-                                                    "FROM drug_sales AS s " .
-                                                    "JOIN drugs AS d ON d.drug_id = s.drug_id " .
-                                                    "JOIN form_encounter AS fe ON " .
-                                                    "fe.pid = s.pid AND fe.encounter = s.encounter AND " .
-                                                    "fe.date >= ? AND fe.date <= ? " .
-                                                    "WHERE s.fee != 0";
-                                                    array_push($sqlBindArray, $from_date, $to_date);
-                                                    // If a facility was specified.
-                                                    if ($form_facility) {
-                                                        $query .= " AND fe.facility_id = ?";
-                                                        array_push($sqlBindArray, $form_facility);
-                                                    }
-
-                                                    if ($form_provider) {
-                                                        $query .= " AND fe.provider_id = ?";
-                                                        array_push($sqlBindArray, $form_provider);
-                                                    }
-
-                                                    $query .= " ORDER BY d.name, fe.date, fe.id";
-                                                    //
-                                                    $res = sqlStatement($query, $sqlBindArray);
-                                                    while ($row = sqlFetchArray($res)) {
-                                                        thisLineItem(
-                                                            $row['pid'],
-                                                            $row['encounter'],
-                                                            xl('Products'),
-                                                            $row['name'],
-                                                            substr($row['date'], 0, 10),
-                                                            $row['quantity'],
-                                                            $row['fee'],
-                                                            $row['invoice_refno']
-                                                        );
-                                                    }
-
-                                                    if ($_POST['form_csvexport']) {
-                                                        if (! $_POST['form_details']) {
-                                                            echo '"' . display_desc($product) . '",';
-                                                            echo '"' . $productqty            . '",';
-                                                            echo '"';
-                                                            echo bucks($producttotal);
-                                                            echo '"' . "\n";
-                                                        }
-                                                    } else {
-                                                    ?>
-
-                                                    <!-- <tr>
-                                                        <td><?php echo xlt('Category'); ?></td>
-                                                        <td>Item 1</td>
-                                                        <td>3</td>
-                                                        <td>578</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Category</td>
-                                                        <td>Item 2</td>
-                                                        <td>4</td>
-                                                        <td>5748</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td colspan="2">Total for Category</td>
-
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td colspan="2">
-                                                             Total</td>
-
-                                                        <td>57483</td>
-                                                    </tr> -->
-                                                    <tbody>                                      
-                                                        <tr >
-                                                            <td >
-                                                                    <?php echo text(display_desc($catleft));
-                                                                    $catleft = " "; ?>
-                                                            </td>
-                                                            <td colspan="3">
-                                                                    <?php
-                                                                    if ($_POST['form_details']) {
-                                                                        echo xlt('Total for') . ' ';
-                                                                    }
-
-                                                                    echo text(display_desc($product)); ?>
-                                                            </td>
-                                                            <?php if ($GLOBALS['sales_report_invoice'] == 0 || $GLOBALS['sales_report_invoice'] == 2) {?>
-                                                            <td>&nbsp;</td>
-                                                            <?php } ?>
-                                                            <td> &nbsp;</td>
-                                                            <td><?php echo text($productqty); ?></td>
-                                                            <td><?php echo text(bucks($producttotal)); ?></td>
-                                                        </tr>
-
-                                                        <tr >
-                                                            <td> &nbsp;</td>
-                                                            <td colspan="3"><b><?php echo xlt('Total for category') . ' ';
-                                                                echo text(display_desc($category)); ?>
-                                                                </b>
-                                                            </td>
-                                                            <?php if ($GLOBALS['sales_report_invoice'] == 0 || $GLOBALS['sales_report_invoice'] == 2) {?>
-                                                            <td>&nbsp;</td>
-                                                            <?php } ?>
-                                                            <td>&nbsp;</td>
-                                                            <td ><b><?php echo text($catqty); ?></b></td>
-                                                            <td><b><?php echo text(bucks($cattotal)); ?></b></td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td> &nbsp;</td>
-                                                            <td colspan="4"><b><?php echo xlt('Grand Total'); ?></b></td>
-                                                            <?php if ($GLOBALS['sales_report_invoice'] == 0 || $GLOBALS['sales_report_invoice'] == 2) {?>
-                                                            <td>&nbsp;</td>
-                                                            <?php } ?>
-                                                            <!-- <td>&nbsp;</td> -->
-                                                            <td><b><?php echo text($grandqty); ?> </b></td>
-                                                            <td><b><?php echo text(bucks($grandtotal)); ?> </b></td>
-                                                        </tr>
-                                                        <?php $report_from_date = oeFormatShortDate($form_from_date)  ;
-                                                        $report_to_date = oeFormatShortDate($form_to_date)  ;
-                                                        ?>
-                                                        <div align='right'><span class='title' ><?php echo xlt('Report Date'). ' '; ?><?php echo text($report_from_date);?> - <?php echo text($report_to_date);?></span></div>
-                                                        <?php
-                                                    } // End not csv export
-                                                }
-
-                                                if (! $_POST['form_csvexport']) {
-                                                    if ($_POST['form_refresh']) {
-                                                ?>
-
-                                                </tbody>
-                                            </table>
-                                        </div> <!-- report results -->
-                                        <?php
-                                        } else { ?>
-                                        <div class='text'></div>
-                                        <?php
-                                        } ?>
-             
-                                    </div>
-                                </div>
-
-                             
-                            </form>
-                        </div>
-                    </window-dashboard>
-                </div>
+            echo "   </select>\n";
+        } else {
+            echo "<input type='hidden' name='form_provider' value='" . attr($_SESSION['authUserID']) . "'>";
+        }
+        ?>
+            &nbsp;
+          </td>
+          <td>
+            <div class='checkbox'>
+           <label><input type='checkbox' name='form_details'<?php echo ($form_details) ? ' checked' : ''; ?>>
+            <?php echo xlt('Details'); ?></label>
             </div>
-    </section>
+          </td>
+        </tr>
+    </table>
+  </div>
+
+  </td>
+  <td align='left' valign='middle' height="100%">
+    <table style='border-left:1px solid; width:100%; height:100%' >
+         <tr>
+            <td>
+              <div class="text-center">
+                  <div class="btn-group" role="group">
+                      <a href='#' class='btn btn-default btn-save' onclick='$("#form_refresh").attr("value","true"); $("#form_csvexport").attr("value",""); $("#theform").submit();'>
+                        <?php echo xlt('Submit'); ?>
+                      </a>
+                    <?php if ($_POST['form_refresh'] || $_POST['form_csvexport']) { ?>
+                            <a href='#' class='btn btn-default btn-print' id='printbutton'>
+                                <?php echo xlt('Print'); ?>
+                            </a>
+                            <a href='#' class='btn btn-default btn-transmit' onclick='$("#form_refresh").attr("value",""); $("#form_csvexport").attr("value","true"); $("#theform").submit();'>
+                                <?php echo xlt('CSV Export'); ?>
+                            </a>
+                    <?php } ?>
+                  </div>
+              </div>
+           </td>
+        </tr>
+    </table>
+  </td>
+ </tr>
+</table>
+
+</div> <!-- end of parameters -->
+
+    <?php
+    if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
+        ?>
+
+<div id="report_results">
+<table width='98%' id='mymaintable' class='mymaintable'>
+<thead>
+ <th>
+        <?php echo xlt('Category'); ?>
+ </th>
+ <th>
+        <?php echo xlt('Item'); ?>
+ </th>
+ <th>
+        <?php
+        if ($form_details) {
+            echo xlt('Date');
+        } ?>
+ </th>
+        <?php if ($GLOBALS['sales_report_invoice'] == 2) {?>
+  <th>
+   &nbsp;
+  </th>
+    <?php } ?>
+ <th>
+        <?php
+        if ($GLOBALS['sales_report_invoice'] == 0) {
+            if ($form_details) {
+                echo ' ';
+            }
+            ?>
+   </th>
+   <th>
+            <?php
+            if ($form_details) {
+                echo xlt('Invoice');
+            }
+        }
+
+        if ($GLOBALS['sales_report_invoice'] == 1 || $GLOBALS['sales_report_invoice'] == 2) {
+            if ($form_details) {
+                echo xlt('Name');
+            }
+        } ?>
+  </th>
+  <th>
+        <?php
+        if ($GLOBALS['sales_report_invoice'] == 2) {
+            if ($form_details) {
+                echo xlt('Invoice');
+            }
+        }
+
+        if ($GLOBALS['sales_report_invoice'] == 1) {
+            if ($form_details) {
+                echo xlt('ID');
+            }
+        }
+        ?>
+  </th>
+  <th align="right">
+        <?php echo xlt('Qty'); ?>
+  </th>
+  <th align="right">
+        <?php echo xlt('Amount'); ?>
+  </th>
+ </thead>
+ <tbody>
+        <?php
+    } // end not export
+}
+
+if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
+    $from_date = $form_from_date . ' 00:00:00';
+    $to_date = $form_to_date . ' 23:59:59';
+    $category = "";
+    $catleft = "";
+    $cattotal = 0;
+    $catqty = 0;
+    $product = "";
+    $productleft = "";
+    $producttotal = 0;
+    $productqty = 0;
+    $grandtotal = 0;
+    $grandqty = 0;
+
+    $sqlBindArray = array();
+    $query = "SELECT b.fee, b.pid, b.encounter, b.code_type, b.code, b.units, " .
+    "b.code_text, fe.date, fe.facility_id, fe.provider_id, fe.invoice_refno, lo.title " .
+    "FROM billing AS b " .
+    "JOIN code_types AS ct ON ct.ct_key = b.code_type " .
+    "JOIN form_encounter AS fe ON fe.pid = b.pid AND fe.encounter = b.encounter " .
+    "LEFT JOIN codes AS c ON c.code_type = ct.ct_id AND c.code = b.code AND c.modifier = b.modifier " .
+    "LEFT JOIN list_options AS lo ON lo.list_id = 'superbill' AND lo.option_id = c.superbill AND lo.activity = 1 " .
+    "WHERE b.code_type != 'COPAY' AND b.activity = 1 AND b.fee != 0 AND " .
+    "fe.date >= ? AND fe.date <= ?";
+    array_push($sqlBindArray, $from_date, $to_date);
+    // If a facility was specified.
+    if ($form_facility) {
+        $query .= " AND fe.facility_id = ?";
+        array_push($sqlBindArray, $form_facility);
+    }
+
+    if ($form_provider) {
+        $query .= " AND fe.provider_id = ?";
+        array_push($sqlBindArray, $form_provider);
+    }
+
+    $query .= " ORDER BY lo.title, b.code, fe.date, fe.id";
+    //
+    $res = sqlStatement($query, $sqlBindArray);
+    while ($row = sqlFetchArray($res)) {
+        thisLineItem(
+            $row['pid'],
+            $row['encounter'],
+            $row['title'],
+            $row['code'] . ' ' . $row['code_text'],
+            substr($row['date'], 0, 10),
+            $row['units'],
+            $row['fee'],
+            $row['invoice_refno']
+        );
+    }
+
+    //
+    $sqlBindArray = array();
+    $query = "SELECT s.sale_date, s.fee, s.quantity, s.pid, s.encounter, " .
+    "d.name, fe.date, fe.facility_id, fe.provider_id, fe.invoice_refno " .
+    "FROM drug_sales AS s " .
+    "JOIN drugs AS d ON d.drug_id = s.drug_id " .
+    "JOIN form_encounter AS fe ON " .
+    "fe.pid = s.pid AND fe.encounter = s.encounter AND " .
+    "fe.date >= ? AND fe.date <= ? " .
+    "WHERE s.fee != 0";
+    array_push($sqlBindArray, $from_date, $to_date);
+    // If a facility was specified.
+    if ($form_facility) {
+        $query .= " AND fe.facility_id = ?";
+        array_push($sqlBindArray, $form_facility);
+    }
+
+    if ($form_provider) {
+        $query .= " AND fe.provider_id = ?";
+        array_push($sqlBindArray, $form_provider);
+    }
+
+    $query .= " ORDER BY d.name, fe.date, fe.id";
+    //
+    $res = sqlStatement($query, $sqlBindArray);
+    while ($row = sqlFetchArray($res)) {
+        thisLineItem(
+            $row['pid'],
+            $row['encounter'],
+            xl('Products'),
+            $row['name'],
+            substr($row['date'], 0, 10),
+            $row['quantity'],
+            $row['fee'],
+            $row['invoice_refno']
+        );
+    }
+
+    if ($_POST['form_csvexport']) {
+        if (! $_POST['form_details']) {
+            echo '"' . display_desc($product) . '",';
+            echo '"' . $productqty            . '",';
+            echo '"';
+            echo bucks($producttotal);
+            echo '"' . "\n";
+        }
+    } else {
+        ?>
+
+ <tr bgcolor="#ddddff">
+  <td class="detail">
+        <?php echo text(display_desc($catleft));
+        $catleft = " "; ?>
+  </td>
+  <td class="detail" colspan="3">
+        <?php
+        if ($_POST['form_details']) {
+            echo xlt('Total for') . ' ';
+        }
+
+        echo text(display_desc($product)); ?>
+  </td>
+        <?php if ($GLOBALS['sales_report_invoice'] == 0 || $GLOBALS['sales_report_invoice'] == 2) {?>
+  <td>
+   &nbsp;
+  </td>
+    <?php } ?>
+  <td align="right">
+   &nbsp;
+  </td>
+  <td align="right">
+        <?php echo text($productqty); ?>
+  </td>
+  <td align="right">
+        <?php echo text(bucks($producttotal)); ?>
+  </td>
+ </tr>
+
+ <tr bgcolor="#ffdddd">
+  <td class="detail">
+   &nbsp;
+  </td>
+  <td class="detail" colspan="3"><b>
+        <?php echo xlt('Total for category') . ' ';
+        echo text(display_desc($category)); ?>
+  </b></td>
+        <?php if ($GLOBALS['sales_report_invoice'] == 0 || $GLOBALS['sales_report_invoice'] == 2) {?>
+  <td>
+   &nbsp;
+  </td>
+    <?php } ?>
+  <td align="right">
+   &nbsp;
+  </td>
+  <td align="right"><b>
+        <?php echo text($catqty); ?>
+  </b></td>
+  <td align="right"><b>
+        <?php echo text(bucks($cattotal)); ?>
+  </b></td>
+ </tr>
+
+ <tr>
+  <td class="detail" colspan="4"><b>
+        <?php echo xlt('Grand Total'); ?>
+  </b></td>
+        <?php if ($GLOBALS['sales_report_invoice'] == 0 || $GLOBALS['sales_report_invoice'] == 2) {?>
+  <td>
+   &nbsp;
+  </td>
+    <?php } ?>
+  <td align="right">
+   &nbsp;
+  </td>
+  <td align="right"><b>
+        <?php echo text($grandqty); ?>
+  </b></td>
+  <td align="right"><b>
+        <?php echo text(bucks($grandtotal)); ?>
+  </b></td>
+ </tr>
+        <?php $report_from_date = oeFormatShortDate($form_from_date)  ;
+        $report_to_date = oeFormatShortDate($form_to_date)  ;
+        ?>
+<div align='right'><span class='title' ><?php echo xlt('Report Date'). ' '; ?><?php echo text($report_from_date);?> - <?php echo text($report_to_date);?></span></div>
+        <?php
+    } // End not csv export
+}
+
+if (! $_POST['form_csvexport']) {
+    if ($_POST['form_refresh']) {
+        ?>
+
+</tbody>
+</table>
+</div> <!-- report results -->
+        <?php
+    } else { ?>
+<div class='text'>
+        <?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?>
+</div>
+        <?php
+    } ?>
+
+</form>
+
 </body>
 
 </html>
     <?php
 } // End not csv export
 ?>
-                                  
-                        
-                        

@@ -117,22 +117,8 @@ function fetch_reminders($pid, $appt_date)
 
 <head>
     <title><?php echo xlt('Appointments Report'); ?></title>
-    
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
-    <?php //Header::setupHeader(["datetime-picker","report-helper"]); ?>
+
+    <?php Header::setupHeader(["datetime-picker","report-helper"]); ?>
 
     <script type="text/javascript">
         $(function() {
@@ -167,28 +153,6 @@ function fetch_reminders($pid, $appt_date)
         </script>
 
         <style type="text/css">
-
-
-        /* css_PA */
-        .form-save {
-    background-color: #3C9DC5;
-    padding: 4px;
-    width: 100%;
-    border: none;
-    outline: none;
-    color: white;
-}
-input[type=date]{
-            margin-top:0px;
-        }
-        input[type=text]{
-            margin-top:0px;
-        }
-
-.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-        background: #3C9DC5;
-        text-decoration: none;
-    }
         /* specifically include & exclude from printing */
         @media print {
             #report_parameters {
@@ -217,136 +181,20 @@ input[type=date]{
 <body class="body_top">
 
 <!-- Required for the popup date selectors -->
-<!-- <div id="overDiv"
+<div id="overDiv"
     style="position: absolute; visibility: hidden; z-index: 1000;"></div>
 
-<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Appointments'); ?></span> -->
+<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Appointments'); ?></span>
 
 <div id="report_parameters_daterange"><?php echo text(oeFormatShortDate($from_date)) ." &nbsp; " . xlt('to') . " &nbsp; ". text(oeFormatShortDate($to_date)); ?>
 </div>
-<section>
-            <div class="body-content body-content2">
-                <div class="container-fluid pb-4 pt-4">
-                    <window-dashboard title="" class="icon-hide">
-                    <div class="head-component">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="compo-head">
-                                               
-                                                <span>
-                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg"
-                                                        alt="">
-                                                </span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <p class="text-white head-p">Appointments</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body-compo" style="height:auto;">
-                            <div class="container-fluid">
+
 <form method='post' name='theform' id='theform' action='appointments_report.php' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-<!-- <div id="report_parameters"> -->
-<div id="report_parameters" class="pt-4 pb-4">
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-3">
-                                        <p>Facility</p>
-                                        <?php dropdown_facility($facility, 'form_facility'); ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p>From</p>
-                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
-                                        <input type='date' name='form_from_date' id="form_from_date" class='datepicker form-control pr-1 pl-1'
-                                         size='10' value='<?php echo attr(oeFormatShortDate($from_date)); ?>'>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p>To</p> 
-                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
-                                        <input type='date' name='form_to_date' id="form_to_date" class='datepicker form-control pr-1 pl-1'
-                                        size='10' value='<?php echo attr(oeFormatShortDate($to_date)); ?>'>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p>Provider</p>
-                                        <?php               
-                                        $query = "SELECT id, lname, fname FROM users WHERE ".
-                                                 "authorized = 1 $provider_facility_filter ORDER BY lname, fname"; 
-                                        $ures = sqlStatement($query);
-                                        echo "   <select name='form_provider' class='form-control'>\n";
-                                        echo "    <option value=''>-- " . xlt('All') . " --\n";
+<div id="report_parameters">
 
-                                        while ($urow = sqlFetchArray($ures)) {
-                                        $provid = $urow['id'];
-                                        echo "    <option value='" . attr($provid) . "'";
-                                        if ($provid == $_POST['form_provider']) {
-                                        echo " selected";
-                                        }
-                                        echo ">" . text($urow['lname']) . ", " . text($urow['fname']) . "\n";
-                                        }
-                                        echo "   </select>\n";
-                                        ?>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-3"></div>
-                                    <div class="col-md-3">
-                                        <p>Status</p>
-                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
-                                        <?php generate_form_field(array('data_type'=>1,'field_id'=>'apptstatus','list_id'=>'apptstat','empty_title'=>'All'), $_POST['form_apptstatus']);?>
-
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p>Category</p>
-                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
-                                        <select id="form_apptcat" name="form_apptcat" class="form-control">
-                                        <?php
-                                            $categories=fetchAppointmentCategories();
-                                            echo "<option value='ALL'>".xlt("All")."</option>";
-                                        while ($cat=sqlFetchArray($categories)) {
-                                            echo "<option value='".attr($cat['id'])."'";
-                                            if ($cat['id']==$_POST['form_apptcat']) {
-                                                echo " selected='true' ";
-                                            }
-
-                                            echo    ">".text(xl_appt_category($cat['category']))."</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                    </div>
-
-                                </div>
-
-                                <div class="pt-4 pb-5">
-                                    <div class="row">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-2">
-                                             <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button>
-                                        </div>
-                                        <?php //if ($_POST['form_refresh'] || $_POST['form_orderby']) { ?>
-                                        <div class="col-md-2"> 
-                                            <button class="form-save" id='printbutton'>PRINT</button>
-                                        </div>
-                                        <div class="col-md-2"> 
-                                            <button class="form-save" onclick='window.open("../patient_file/printed_fee_sheet.php?fill=2", "_blank").opener = null'>SUPER BILLS</button>
-                                        </div>
-                                        <div class="col-md-2">
-                                             <button class="form-save" onclick='window.open("../patient_file/addr_appt_label.php", "_blank").opener = null'>ADDRESS LABELS</button>
-                                        </div>
-                                        <?php //} ?>
-                                    </div>
-
-                                </div>
-
-                               
-                                </div>
-<!--original table  -->
-<!-- <table>
+<table>
     <tr>
         <td width='650px'>
         <div style='float: left'>
@@ -359,10 +207,11 @@ input[type=date]{
                 <td class='control-label'><?php echo xlt('Provider'); ?>:</td>
                 <td><?php
 
-               
+                // Build a drop-down list of providers.
+                //
 
                 $query = "SELECT id, lname, fname FROM users WHERE ".
-                  "authorized = 1 $provider_facility_filter ORDER BY lname, fname"; 
+                  "authorized = 1 $provider_facility_filter ORDER BY lname, fname"; //(CHEMED) facility filter
 
                 $ures = sqlStatement($query);
 
@@ -398,9 +247,7 @@ input[type=date]{
 
             <tr>
                 <td class='control-label'><?php echo xlt('Status'); # status code drop down creation ?>:</td>
-                <td>
-                    <?php generate_form_field(array('data_type'=>1,'field_id'=>'apptstatus','list_id'=>'apptstat','empty_title'=>'All'), $_POST['form_apptstatus']);?>
-            </td>
+                <td><?php generate_form_field(array('data_type'=>1,'field_id'=>'apptstatus','list_id'=>'apptstat','empty_title'=>'All'), $_POST['form_apptstatus']);?></td>
                 <td><?php echo xlt('Category') #category drop down creation ?>:</td>
                 <td>
                                     <select id="form_apptcat" name="form_apptcat" class="form-control">
@@ -489,52 +336,48 @@ input[type=date]{
         </table>
         </td>
     </tr>
-</table> -->
-<!-- //original table -->
+</table>
 
 </div>
 <!-- end of search parameters --> <?php
 if ($_POST['form_refresh'] || $_POST['form_orderby']) {
     $showDate = ($from_date != $to_date) || (!$to_date);
     ?>
-
-<div id="report_results" class="table-div ">
-    <table class="table table-form">
+<div id="report_results">
+<table>
 
     <thead>
-        <tr>
         <th><a href="nojs.php" onclick="return dosort('doctor')"
-    <?php echo ($form_orderby == "doctor") ? " " : ""; ?>><?php echo xlt('Provider'); ?>
+    <?php echo ($form_orderby == "doctor") ? " style=\"color:#00cc00\"" : ""; ?>><?php echo xlt('Provider'); ?>
         </a></th>
 
         <th <?php echo $showDate ? '' : 'style="display:none;"' ?>><a href="nojs.php" onclick="return dosort('date')"
-    <?php echo ($form_orderby == "date") ? " " : ""; ?>><?php echo xlt('Date'); ?></a>
+    <?php echo ($form_orderby == "date") ? " style=\"color:#00cc00\"" : ""; ?>><?php echo xlt('Date'); ?></a>
         </th>
 
         <th><a href="nojs.php" onclick="return dosort('time')"
-    <?php echo ($form_orderby == "time") ? " " : ""; ?>><?php echo xlt('Time'); ?></a>
+    <?php echo ($form_orderby == "time") ? " style=\"color:#00cc00\"" : ""; ?>><?php echo xlt('Time'); ?></a>
         </th>
 
         <th><a href="nojs.php" onclick="return dosort('patient')"
-    <?php echo ($form_orderby == "patient") ? "" : ""; ?>><?php echo xlt('Employee'); ?></a>
+    <?php echo ($form_orderby == "patient") ? " style=\"color:#00cc00\"" : ""; ?>><?php echo xlt('Patient'); ?></a>
         </th>
 
         <th><a href="nojs.php" onclick="return dosort('pubpid')"
-    <?php echo ($form_orderby == "pubpid") ? " " : ""; ?>><?php echo xlt('ID'); ?></a>
+    <?php echo ($form_orderby == "pubpid") ? " style=\"color:#00cc00\"" : ""; ?>><?php echo xlt('ID'); ?></a>
         </th>
 
-            <!-- <th><?php echo xlt('Home'); //Sorting by phone# not really useful ?></th> -->
+            <th><?php echo xlt('Home'); //Sorting by phone# not really useful ?></th>
 
-                <th><?php echo xlt('Contact'); //Sorting by phone# not really useful ?></th>
+                <th><?php echo xlt('Cell'); //Sorting by phone# not really useful ?></th>
 
         <th><a href="nojs.php" onclick="return dosort('type')"
-    <?php echo ($form_orderby == "type") ? " " : ""; ?>><?php echo xlt('Type'); ?></a>
+    <?php echo ($form_orderby == "type") ? " style=\"color:#00cc00\"" : ""; ?>><?php echo xlt('Type'); ?></a>
         </th>
 
         <th><a href="nojs.php" onclick="return dosort('status')"
-            <?php echo ($form_orderby == "status") ? " " : ""; ?>><?php  echo xlt('Status'); ?></a>
+            <?php echo ($form_orderby == "status") ? " style=\"color:#00cc00\"" : ""; ?>><?php  echo xlt('Status'); ?></a>
         </th>
-</tr>
     </thead>
     <tbody>
         <!-- added for better print-ability -->
@@ -585,28 +428,28 @@ if ($_POST['form_refresh'] || $_POST['form_orderby']) {
 
         ?>
 
-        <tr id='p1.<?php echo attr($patient_id) ?>' >
-        <td >&nbsp;<?php echo ($docname == $lastdocname) ? "" : text($docname) ?>
+        <tr valign='top' id='p1.<?php echo attr($patient_id) ?>' bgcolor='<?php echo attr($bgcolor); ?>'>
+        <td class="detail">&nbsp;<?php echo ($docname == $lastdocname) ? "" : text($docname) ?>
         </td>
 
-        <td  <?php echo $showDate ? '' : 'style="display:none;"' ?>><?php echo text(oeFormatShortDate($appointment['pc_eventDate'])) ?>
+        <td class="detail" <?php echo $showDate ? '' : 'style="display:none;"' ?>><?php echo text(oeFormatShortDate($appointment['pc_eventDate'])) ?>
         </td>
 
-        <td ><?php echo text(oeFormatTime($appointment['pc_startTime'])) ?>
+        <td class="detail"><?php echo text(oeFormatTime($appointment['pc_startTime'])) ?>
         </td>
 
-        <td >&nbsp;<?php echo text($appointment['fname'] . " " . $appointment['lname']) ?>
+        <td class="detail">&nbsp;<?php echo text($appointment['fname'] . " " . $appointment['lname']) ?>
         </td>
 
-        <td >&nbsp;<?php echo text($appointment['pubpid']) ?></td>
+        <td class="detail">&nbsp;<?php echo text($appointment['pubpid']) ?></td>
 
-        <!-- <td class="detail">&nbsp;<?php echo text($appointment['phone_home']) ?></td> -->
+        <td class="detail">&nbsp;<?php echo text($appointment['phone_home']) ?></td>
 
-        <td >&nbsp;<?php echo text($appointment['phone_cell']) ?></td>
+        <td class="detail">&nbsp;<?php echo text($appointment['phone_cell']) ?></td>
 
-        <td >&nbsp;<?php echo text(xl_appt_category($appointment['pc_catname'])) ?></td>
+        <td class="detail">&nbsp;<?php echo text(xl_appt_category($appointment['pc_catname'])) ?></td>
 
-        <td >&nbsp;
+        <td class="detail">&nbsp;
             <?php
                 //Appointment Status
             if ($pc_apptstatus != "") {
@@ -655,29 +498,20 @@ if ($_POST['form_refresh'] || $_POST['form_orderby']) {
         $_SESSION['pidList'] = $pid_list;
         $_SESSION['apptdateList'] = $apptdate_list;
     ?>
-    <!-- <tr>
+    <tr>
         <td colspan="10" align="left"><?php echo xlt('Total number of appointments'); ?>:&nbsp;<?php echo text($totalAppontments);?></td>
-    </tr> -->
+    </tr>
     </tbody>
 </table>
 </div>
 <!-- end of search results -->
 <?php } else { ?>
-<!-- <div class='text'><?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?>
-</div> -->
+<div class='text'><?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?>
+</div>
 <?php } ?> <input type="hidden" name="form_orderby"
     value="<?php echo attr($form_orderby) ?>" /> <input type="hidden"
     name="patient" value="<?php echo attr($patient) ?>" /> <input type='hidden'
-    name='form_refresh' id='form_refresh' value='' />
-</form>
-
-</div>
-</div>
-
-</window-dashboard>
-</div>
-</div>
-</section>
+    name='form_refresh' id='form_refresh' value='' /></form>
 
 <script type="text/javascript">
 

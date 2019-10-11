@@ -319,19 +319,19 @@ if ($_POST['form_save']) {
 
   // Close this window and redisplay the updated list of issues.
   //
-    // echo "<html><body><script language='JavaScript'>\n";
-    // if ($info_msg) {
-    //     echo " alert(" . js_escape($info_msg) . ");\n";
-    // }
+    echo "<html><body><script language='JavaScript'>\n";
+    if ($info_msg) {
+        echo " alert(" . js_escape($info_msg) . ");\n";
+    }
 
-    // echo " var myboss = opener ? opener : parent;\n";
-    // echo " if (myboss.refreshIssue) myboss.refreshIssue(" . js_escape($issue) . "," . js_escape($tmp_title) . ");\n";
-    // echo " else if (myboss.reloadIssues) myboss.reloadIssues();\n";
-    // echo " else myboss.location.reload();\n";
-    // echo " dlgclose();\n";
+    echo " var myboss = opener ? opener : parent;\n";
+    echo " if (myboss.refreshIssue) myboss.refreshIssue(" . js_escape($issue) . "," . js_escape($tmp_title) . ");\n";
+    echo " else if (myboss.reloadIssues) myboss.reloadIssues();\n";
+    echo " else myboss.location.reload();\n";
+    echo " dlgclose();\n";
 
-    // echo "</script></body></html>\n";
-    // exit();
+    echo "</script></body></html>\n";
+    exit();
 }
 
 $irow = array();
@@ -358,21 +358,9 @@ if (!empty($irow['type'])) {
 ?>
 <html>
 <head>
-<?php //Header::setupHeader(['common', 'jquery-ui', 'datetime-picker', 'select2']); ?>
+<?php Header::setupHeader(['common', 'jquery-ui', 'datetime-picker', 'select2']); ?>
 <title><?php echo ($issue) ? xlt('Edit Issue') : xlt('Add New Issue'); ?></title>
-<link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-<!-- PA -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
 <style>
 
 td, input, select, textarea {
@@ -386,10 +374,6 @@ div.section {
  border-color: #0000ff;
  margin: 0 0 0 10pt;
  padding: 5pt;
-}
-
-.hidedata{
-    display:none;
 }
 
 /* Override theme's selected tab top color so it matches tab contents. */
@@ -425,10 +409,7 @@ ActiveIssueCodeRecycleFn($thispid, $ISSUE_TYPES);
 
  ///////////////////////////
  function codeBoxFunction2() {
-    $thistype="<?php echo $thistype;?>";
-    var f = document.forms["theform_"+$thistype];
-
-//   var f = document.forms[0];
+  var f = document.forms[0];
   var x2 = f.form_codeSelect2.options[f.form_codeSelect2.selectedIndex].value;
   f.form_codeSelect2.selectedIndex = -1;
   var x6 = f.form_diagnosis.value;
@@ -442,13 +423,8 @@ ActiveIssueCodeRecycleFn($thispid, $ISSUE_TYPES);
  // shortcuts into the selection list of titles, and determines which
  // rows are displayed or hidden.
  function newtype(index) {
-    $thistype="<?php echo $thistype;?>";
-    // console.log("theform_"+$thistype);
-  var f = document.forms["theform_"+$thistype];
-  console.log(f);
+  var f = document.forms[0];
   var theopts = f.form_titles.options;
-
- 
   theopts.length = 0;
   var i = 0;
   for (i = 0; i < aopts[index].length; ++i) {
@@ -510,10 +486,7 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
  // If a clickoption title is selected, copy it to the title field.
  // If it has a code, add that too.
  function set_text() {
-    $thistype="<?php echo $thistype;?>";
-    var f = document.forms["theform_"+$thistype];
-
-//   var f = document.forms[0];
+  var f = document.forms[0];
   f.form_title.value = f.form_titles.options[f.form_titles.selectedIndex].text;
   f.form_title_id.value = f.form_titles.options[f.form_titles.selectedIndex].value;
   f.form_diagnosis.value = f.form_titles.options[f.form_titles.selectedIndex].getAttribute('data-code');
@@ -539,9 +512,7 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
  // use the existence of an end date to indicate inactivity, even
  // though the simple verion of the form does not show an end date.
  function activeClicked(cb) {
-    $thistype="<?php echo $thistype;?>";
-    var f = document.forms["theform_"+$thistype];
-//   var f = document.forms[0];
+  var f = document.forms[0];
   if (cb.checked) {
    f.form_end.value = '';
   } else {
@@ -553,9 +524,7 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
 
  // Called when resolved outcome is chosen and the end date is entered.
  function outcomeClicked(cb) {
-    $thistype="<?php echo $thistype;?>";
-    var f = document.forms["theform_"+$thistype];
-//   var f = document.forms[0];
+  var f = document.forms[0];
   if (cb.value == '1'){
    var today = new Date();
    f.form_end.value = '' + (today.getYear() + 1900) + '-' +
@@ -567,9 +536,7 @@ if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
 // This is for callback by the find-code popup.
 // Appends to or erases the current list of diagnoses.
 function set_related(codetype, code, selector, codedesc) {
-    $thistype="<?php echo $thistype;?>";
-    var f = document.forms["theform_"+$thistype];
-//  var f = document.forms[0];
+ var f = document.forms[0];
  var s = f.form_diagnosis.value;
  var title = f.form_title.value;
  if (code) {
@@ -588,22 +555,13 @@ function set_related(codetype, code, selector, codedesc) {
 // This is for callback by the find-code popup.
 // Returns the array of currently selected codes with each element in codetype:code format.
 function get_related() {
-
-    $thistype="<?php echo $thistype;?>";
-    // var f = document.forms["theform_"+$thistype];
-    return document.forms["theform_"+$thistype].form_diagnosis.value.split(';');
-
-    // return document.forms[0].form_diagnosis.value.split(';');
+    return document.forms[0].form_diagnosis.value.split(';');
 }
 
 // This is for callback by the find-code popup.
 // Deletes the specified codetype:code from the currently selected list.
 function del_related(s) {
-    $thistype="<?php echo $thistype;?>";
-    // var f = document.forms["theform_"+$thistype];
-
-    my_del_related(s, document.forms["theform_"+$thistype].form_diagnosis, false);
-    // my_del_related(s, document.forms[0].form_diagnosis, false);
+    my_del_related(s, document.forms[0].form_diagnosis, false);
 }
 
 // This invokes the find-code popup.
@@ -631,11 +589,7 @@ dlgopen(<?php echo js_escape($url); ?>, '_blank', 985, 800, '', <?php echo xlj("
 
 // Check for errors when the form is submitted.
 function validate() {
-
-    $thistype="<?php echo $thistype;?>";
-    var f = document.forms["theform_"+$thistype];
-
-//  var f = document.forms[0];
+ var f = document.forms[0];
  if(f.form_begin.value > f.form_end.value && (f.form_end.value)) {
   alert(<?php echo xlj('Please Enter End Date greater than Begin Date!'); ?>);
   return false;
@@ -668,15 +622,15 @@ $(function() {
         <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
     });
 });
-// $('div').hide();
+$('div').hide();
 </script>
 
 </head>
 
 <body class="body_top" style="padding-right:0.5em">
-<!-- <div class="container"> -->
-<!-- <ul class="tabNav"> -->
- <!-- <li class='current'><a href='#'><?php echo xlt('Issue'); ?></a></li> -->
+<div class="container">
+<ul class="tabNav">
+ <li class='current'><a href='#'><?php echo xlt('Issue'); ?></a></li>
 <?php
 // Build html tab data for each visit form linked to this issue.
 $tabcontents = '';
@@ -702,27 +656,15 @@ if ($issue) {
         $tabcontents .= "</div>\n";
     }
 }
-
-
-//  custom by km
-$form_name='';
-if($thistype=='allergy'){
-    $form_name='theform_allergy';
-}elseif($thistype=='medication'){
-    $form_name='theform_medication';
-}
 ?>
-
-
-<!-- </ul> -->
+</ul>
 
 
 <div class="tabContainer">
     <div class='tab current' style='height:auto;width:97%;'>
         <div class='col-sm-12'>
-            <form class="form-horizontal" name="<?php echo $form_name;?>" id="<?php echo $form_name;?>" method="post" >
+            <form class="form-horizontal" name='theform' method="post" onsubmit='return validate()'>
                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-                <input type="hidden" name="submit_form" value="1">
                 <?php
                 // action setting not required in html5.  By default form will submit to itself.
                 // Provide key values previously passed as part of action string.
@@ -731,7 +673,7 @@ if($thistype=='allergy'){
                 }
                 ?>
                 <div class="form-group">
-                    <!-- <label for="" class="control-label col-xs-2"><?php echo xlt('Type'); ?>:</label> -->
+                    <label for="" class="control-label col-xs-2"><?php echo xlt('Type'); ?>:</label>
                     <div class="col-xs-10">
                         <?php
                          $index = 0;
@@ -759,41 +701,27 @@ if($thistype=='allergy'){
                         ?>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="" id='row_titles'>
-                            <label for="form_titles" class="control-label col-xs-2"> </label>
-                        
-                                <select name='form_titles' id='form_titles'  class= "form-control pt-3" multiple size='3' onchange='set_text()'></select>
-                            <!-- <p><?php echo xlt('(Select one of these, or type your own title)'); ?></p> -->
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <p>Reaction</p>
-                        <textarea name="" id="" class="form-control pt-3" rows="3"></textarea>
+                <div class="form-group" id='row_titles'>
+                    <label for="form_titles" class="control-label col-xs-2"> </label>
+                    <div class="col-xs-10">
+                        <select name='form_titles' id='form_titles'  class= "form-control" multiple size='4' onchange='set_text()'></select>
+                        <p><?php echo xlt('(Select one of these, or type your own title)'); ?></p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p>Substance</p>
-                        <input type="text" class="form-control" name='substance' value='<?php echo attr($irow['substance_al']) ?>'>
-                    </div>
-                </div>
-               
-                <div class="form-group hidedata">
+                <div class="form-group">
                     <label class="control-label col-xs-2" for="title_diagnosis"><?php echo xlt('Title'); ?>:</label>
                     <div class="col-xs-10">
                         <input type='text' class="form-control" name='form_title' id='form_title' value='<?php echo attr($irow['title']) ?>'>
                         <input type='hidden' name='form_title_id' value='<?php echo attr($irow['list_option_id']) ?>'>
                     </div>
                 </div>
-                <div class="form-group hidedata" id='row_codeSelect2'>
+                <div class="form-group" id='row_codeSelect2'>
                     <label for="form_codeSelect2" class="control-label col-xs-2"><?php echo xlt('Active Issue Codes'); ?>:</label>
                     <div class="col-xs-10">
                         <select name='form_codeSelect2' id='form_codeSelect2' class= "form-control" multiple size='4' onchange="codeBoxFunction2()" style="width:100%;"></select>
                     </div>
                 </div>
-                <div class="form-group hidedata" id='row_diagnosis'>
+                <div class="form-group" id='row_diagnosis'>
                     <label class="control-label col-xs-2" for="form_diagnosis"><?php echo xlt('Coding'); ?>:</label>
                     <div class="col-xs-10">
                         <input type='text' class="form-control" name='form_diagnosis' id='form_diagnosis'
@@ -801,7 +729,7 @@ if($thistype=='allergy'){
                         title='<?php echo xla('Click to select or change coding'); ?>' readonly >
                     </div>
                 </div>
-                <div class="form-group hidedata">
+                <div class="form-group">
                     <label class="control-label col-xs-2" for="form_begin"><?php echo xlt('Begin Date'); ?>:</label>
                     <div class="col-xs-10">
                         <input type='text' class='datepicker form-control' style="width:50%" name='form_begin' id='form_begin'
@@ -809,7 +737,7 @@ if($thistype=='allergy'){
                         title='<?php echo xla('yyyy-mm-dd date of onset, surgery or start of medication'); ?>'>
                     </div>
                 </div>
-                <div class="form-group hidedata" id='row_enddate'>
+                <div class="form-group" id='row_enddate'>
                     <label class="control-label col-xs-2" for="form_begin"><?php echo xlt('End Date'); ?>:</label>
                     <div class="col-xs-10">
                         <input type='text' class='datepicker form-control' style="width:50%" name='form_end' id='form_end'
@@ -818,11 +746,11 @@ if($thistype=='allergy'){
                         &nbsp;(<?php echo xlt('leave blank if still active'); ?>)
                     </div>
                 </div>
-                <div class="form-group hidedata" id='row_active'>
+                <div class="form-group" id='row_active'>
                     <label class="control-label col-xs-2" for="form_active"><?php echo xlt('Active'); ?>: </label>
                     <div class="col-xs-10">
                         <div class="checkbox">
-                            <label><input type='checkbox' name='form_active' id='form_active' value='1' <?php echo ($irow['enddate']) ? "" : "checked"; ?>
+                            <label><input type='checkbox' name='form_active' id=='form_active' value='1' <?php echo ($irow['enddate']) ? "" : "checked"; ?>
                             onclick='activeClicked(this);'
                             title='<?php echo xla('Indicates if this issue is currently active'); ?>'></label>
                         </div>
@@ -833,7 +761,7 @@ if($thistype=='allergy'){
                     <input type='hidden'  name='row_reinjury_id' id='row_reinjury_id' />
                     <img id='img_return'/>
                 </div>
-                <div class="form-group hidedata" id='row_occurrence'>
+                <div class="form-group"id='row_occurrence'>
                     <label class="control-label col-xs-2" for="form_occur"><?php echo xlt('Occurrence'); ?>:</label>
                     <div class="col-xs-10">
                         <?php
@@ -842,7 +770,7 @@ if($thistype=='allergy'){
                         ?>
                     </div>
                 </div>
-                <div class="form-group hidedata" id='row_classification'>
+                <div class="form-group" id='row_classification'>
                     <label class="control-label col-xs-2" for="form_classification"><?php echo xlt('Classification'); ?>:</label>
                     <div class="col-xs-10">
                        <select name='form_classification' id='form_classification' class='form-control'>
@@ -859,48 +787,38 @@ if($thistype=='allergy'){
                     </div>
                 </div>
                 <!-- Reaction For Medication Allergy -->
-                <div class="row">
-                    <div class="col-md-4" id='row_severity'>
-                        <label class="control-label" for="form_severity_id"><?php echo xlt('Severity'); ?>:</label>
-                        <div class="">
-                            <?php
-                                $severity=$irow['severity_al'];
-                                generate_form_field(array('data_type'=>1,'field_id'=>'severity_id','list_id'=>'severity_ccda','empty_title'=>'SKIP'), $severity);
-                            ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4" id='row_reaction'>
-                        <label class="control-label" for="form_reaction"><?php echo xlt('Reaction'); ?>:</label>
-                        <div class="">
-                            <?php
-                                echo generate_select_list('form_reaction', 'reaction', $irow['reaction'], '', '', '', '');
-                            ?>
-                        </div>
+                <div class="form-group" id='row_severity'>
+                    <label class="control-label col-xs-2" for="form_severity_id"><?php echo xlt('Severity'); ?>:</label>
+                    <div class="col-xs-10">
+                        <?php
+                            $severity=$irow['severity_al'];
+                            generate_form_field(array('data_type'=>1,'field_id'=>'severity_id','list_id'=>'severity_ccda','empty_title'=>'SKIP'), $severity);
+                        ?>
                     </div>
                 </div>
-               
+                <div class="form-group" id='row_reaction'>
+                    <label class="control-label col-xs-2" for="form_reaction"><?php echo xlt('Reaction'); ?>:</label>
+                    <div class="col-xs-10">
+                        <?php
+                            echo generate_select_list('form_reaction', 'reaction', $irow['reaction'], '', '', '', '');
+                        ?>
+                    </div>
+                </div>
                 <!-- End of reaction -->
-                <div class="form-group hidedata" id='row_referredby'>
+                <div class="form-group"id='row_referredby'>
                     <label class="control-label col-xs-2" for="form_referredby"><?php echo xlt('Referred by'); ?>:</label>
                     <div class="col-xs-10">
                         <input type='text' name='form_referredby' id='form_referredby' class='form-control' value='<?php echo attr($irow['referredby']) ?>'
                         title='<?php echo xla('Referring physician and practice'); ?>' />
                     </div>
                 </div>
-
-
-                <div class="row">
-                    <div class="col-md-12" id='row_comments'>
-                        <label class="control-label col-xs-2" for="form_comments"><?php echo xlt('Comments'); ?>:</label>
-                        <div class="col-xs-10">
-                        <textarea class="form-control pt-3" name='form_comments' id='form_comments' rows="3" id='form_comments'><?php echo text($irow['comments']) ?></textarea>
-                        </div>
+                <div class="form-group" id='row_comments'>
+                    <label class="control-label col-xs-2" for="form_comments"><?php echo xlt('Comments'); ?>:</label>
+                    <div class="col-xs-10">
+                      <textarea class="form-control" name='form_comments' id='form_comments' rows="4" id='form_comments'><?php echo text($irow['comments']) ?></textarea>
                     </div>
                 </div>
-                
-
-              
-                <div class="form-group hidedata"
+                <div class="form-group"
                 <?php
                 if ($GLOBALS['ippf_specific']) {
                         echo " style='display:none;'";
@@ -912,7 +830,7 @@ if($thistype=='allergy'){
                         ?>
                     </div>
                 </div>
-                <div class="form-group hidedata"
+                <div class="form-group"
                 <?php
                 if ($GLOBALS['ippf_specific']) {
                         echo " style='display:none;'";
@@ -935,9 +853,8 @@ if($thistype=='allergy'){
                     <div class="form-group clearfix" id="button-container">
                         <div class="col-sm-12 text-left position-override">
                             <div class="btn-group btn-group-pinch" role="group">
-                                <div class="pt-4 pb-5"><button class="form-save" name='form_save' value='<?php echo xla('Save'); ?>'>Save</button></div>
-                                <!-- <button type='submit' name='form_save'  class="btn btn-default btn-save"  value='<?php echo xla('Save'); ?>'><?php echo xlt('Save'); ?></button> -->
-                                <!-- <button type="button" class="btn btn-link btn-cancel btn-separate-left" onclick='closeme();'><?php echo xlt('Cancel');?></button> -->
+                                <button type='submit' name='form_save'  class="btn btn-default btn-save"  value='<?php echo xla('Save'); ?>'><?php echo xlt('Save'); ?></button>
+                                <button type="button" class="btn btn-link btn-cancel btn-separate-left" onclick='closeme();'><?php echo xlt('Cancel');?></button>
                                 <?php
                                 if ($issue && acl_check('admin', 'super')) { ?>
                                     <button type='submit' name='form_delete'  class="btn btn-default btn-cancel btn-delete btn-separate-left" onclick='deleteme()' value='<?php echo xla('Delete'); ?>'><?php echo xlt('Delete'); ?></button>
@@ -962,41 +879,16 @@ if($thistype=='allergy'){
     </div>
     <?php echo $tabcontents; ?>
 </div>
-<!-- </div> -->
+</div>
 
 <script language='JavaScript'>
  newtype(<?php echo js_escape($type_index); ?>);
  // Set up the tabbed UI.
-//  tabbify();
+ tabbify();
 
 $(function() {
     // Include bs3 / bs4 classes here.  Keep html tags functional.
-    // $('table').addClass('table table-sm');
-
-
-
-    $('#theform_allergy').submit(function(e){
-        e.preventDefault();
-        // alert();
-        $webroot="<?php echo $GLOBALS['webroot']?>";
-        $.ajax({
-            type: 'POST',
-            url: $webroot+"/interface/patient_file/summary/add_issues_new.php",
-            data: $('#theform_allergy').serialize(),   
-            success: function(data){
-                // alert(data);
-                console.log(data);
-                location.reload();
-               
-            }
-        });
-    });
-
-
-
-
-
-
+    $('table').addClass('table table-sm');
 });
 </script>
 

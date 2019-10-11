@@ -267,6 +267,20 @@ if ($_POST['form_get_hl7']==='true') {
 <head>
     <title><?php echo xlt('Immunization Registry'); ?></title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+
     <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
     <script language="JavaScript">
@@ -317,11 +331,117 @@ if ($_POST['form_get_hl7']==='true') {
 
 <body class="body_top">
 
-<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Immunization Registry'); ?></span>
+        <section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="" class="icon-hide">
+                        <div class="head-component">
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-6">
+                                    <p class="text-white head-p">Immunization Registry </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body-compo">
+                            <div class="container-fluid">
+                                <form name='theform' id='theform' method='post' action='immunization_report.php' onsubmit='return top.restoreSession()'>
+                                    <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                                    <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+                                    <input type='hidden' name='form_get_hl7' id='form_get_hl7' value=''/>
+                                    <div class="pt-4 pb-4">
+                                        <div id="report_parameters">
+                                            <div class="row">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-4">
+                                                    <p>Codes</p>
+                                                   
+                                                    <?php
+                                                    // Build a drop-down list of codes.
+                                                    //
+                                                    $query1 = "select id, concat('CVX:',code) as name from codes ".
+                                                    " left join code_types ct on codes.code_type = ct.ct_id ".
+                                                    " where ct.ct_key='CVX' ORDER BY name";
+                                                    $cres = sqlStatement($query1);
+                                                    echo "   <select multiple='multiple' size='3' name='form_code[]' class='form-control mt-2'>\n";
+                                                   
+                                                    while ($crow = sqlFetchArray($cres)) {
+                                                        $codeid = $crow['id'];
+                                                        echo "    <option value='" . attr($codeid) . "'";
+                                                        if (in_array($codeid, $form_code)) {
+                                                            echo " selected";
+                                                        }
 
-<div id="report_parameters_daterange">
-    <?php echo text(oeFormatShortDate($form_from_date)) ." &nbsp; " . xlt('to') . " &nbsp; ". text(oeFormatShortDate($form_to_date)); ?>
-</div>
+                                                        echo ">" . text($crow['name']) . "\n";
+                                                    }
+
+                                                    echo "   </select>\n";
+                                                    ?>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <p>From</p>
+                                                    <input type='text' name='form_from_date' id="form_from_date"class='datepicker form-control pr-1 pl-1'
+                                                         value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>'>
+                                                   
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <p>To</p> 
+                                                    <input type='text' name='form_to_date' id="form_to_date"class='datepicker form-control pr-1 pl-1'
+                                                             value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>'>
+                                                   
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="pt-4 pb-5">
+                                                <div class="row">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-2"> <button class="form-save">SEARCH</button></div>
+                                                    <div class="col-md-2"> <button class="form-save">PRINT</button></div>
+                                                </div>
+
+                                            </div>
+                                        </div >
+                                        <div class="table-div ">
+                                            <table class="table table-form">
+                                                <thead>
+
+                                                    <tr>
+                                                        <th>Employee ID</th>
+                                                        <th>Employee</th>
+                                                        <th>Immunization Code</th>
+                                                        <th>Immunization Title</th>
+                                                        <th>Date</th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>34DF</td>
+                                                        <td>smoye</td>
+                                                        <td>ID334</td>
+                                                        <td>Immunization Title</td>
+                                                        <td>2019-03-31</td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </window-dashboard>
+                </div>
+            </div>
+        </section>
+
+
+
 
 <form name='theform' id='theform' method='post' action='immunization_report.php' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />

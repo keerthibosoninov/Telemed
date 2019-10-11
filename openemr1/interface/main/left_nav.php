@@ -118,25 +118,19 @@ $primary_docs = array(
 'funct_abi'=> array(xl('Functional Abilities')  , 0, '#'),
 'health_his'=> array(xl('Health History')  , 0, 'main/health_history.php'),
 'review'=> array(xl('Review')  , 0, 'main/review_system.php'),
+// 'care_ob'=> array(xl('Care Observation')  , 0, 'main/care_observation.php'),
 'care_ob'=> array(xl('Care Observation')  , 0, 'forms/observation/new.php'),
+
 'visit_his'=> array(xl('Visit History')  , 0, 'main/visit_history.php'),
 'vitals'=> array(xl('Vitals')  , 0, 'patient_file/encounter/load_form.php?formname=vitals'),
 'tr_plan'=> array(xl('Treatment Plan')  , 0, 'patient_file/encounter/load_form.php?formname=treatment_plan'),
 'cognitive'=> array(xl('Functional and Cognitive Status Form')  , 0, 'patient_file/encounter/load_form.php?formname=functional_cognitive_status'),
+
+
+
 'injury_det' => array(xl('Injury Details')  , 0, 'main/injury_details.php'),
+
 'appoint' => array(xl('Appointments')  , 0, 'main/appointments.php'),
-
-// parvathy
-
-'proc_res' => array(xl('Procedure Results')  , 1, 'orders/orders_results.php'),
-'clinic_rep' => array(xl('Clinical Reports')  , 1, 'reports/clinical_reports.php'),
-'pat_list' => array(xl('Employee List Creation')  , 1, 'reports/patient_list_creation.php'),
-'pend_ord' => array(xl('Pending Orders')  , 0, 'orders/pending_orders.php'),
-'ues' => array(xl('Unique Seen Employees')  , 0, 'reports/unique_seen_patients_report.php'),
-'code' => array(xl('Codes') , 0, 'patient_file/encounter/superbill_custom_full.php'),
-'emp_book' => array(xl('Proc Employee')   , 0, 'usergroup/addrbook_list.php'),
-'statics' => array(xl('Statistics')  , 0, 'orders/procedure_stats.php'),
-    // 
 
 'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
 'pfb' => array(xl('Patient Flow Board')  , 0, '../interface/patient_tracker/patient_tracker.php?skip_timeout_reset=1'),
@@ -250,7 +244,7 @@ function genTreeLink($frame, $name, $title, $mono = false)
     global $primary_docs, $disallowed;
     if (empty($disallowed[$name])) {
         $id = $name . $primary_docs[$name][1];
-        echo "<li $active><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" ";
+        echo "<li $active><a  class='menu-link' href='' id='" . attr($id) . "' onclick=\" AddActiveClass();";
         if ($mono) {
             if ($frame == 'RTop') {
                 echo "forceSpec(true,false);";
@@ -552,13 +546,6 @@ function genModuleMenuFromMenuItems($navMenuItems, $disallowed)
 
     #menu {
     padding-left: 0px !important;
-    }
-
-    .menu-icon{
-        float:left;
-    }
-    #menu ul li a{
-        padding: 10px 10px !important;
     }
 </style>
 <link rel="stylesheet" href="../../library/js/jquery.treeview-1.4.1/jquery.treeview.css" />
@@ -1224,13 +1211,6 @@ $(function (){
     $("#navigation-slide > li  > a#review0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-5.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#visit_his0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#care_ob0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-8.svg" alt="" class="menu-icon"> </span>&nbsp;');
-    
-    $("#navigation-slide > li  > a#vitals0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
-    $("#navigation-slide > li  > a#tr_plan0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
-    $("#navigation-slide > li  > a#ore0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
-    
-    $("#navigation-slide > li  > a#cognitive0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-4.svg" alt="" class="menu-icon"> </span>&nbsp;');
-    $("#navigation-slide > li  > a#rep0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-8.svg" alt="" class="menu-icon"> </span>&nbsp;&nbsp;');
 
     $("#navigation-slide > li  > a#injury_det0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#appoint0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
@@ -1328,64 +1308,25 @@ $(function (){
 
 <?php
 
-    genTreeLink('RTop', 'dash', xl('Dashboard'));
-    genTreeLink('RTop', 'emp_info', xl('Employee'));
-    genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
-    genTreeLink('RTop', 'injury_det', xl('Injury Details'));
-    genTreeLink('RTop', 'visit_his', xl('Visit History'));
-    genTreeLink('RTop', 'health_his', xl('Health History'));
-    genTreeLink('RTop', 'review', xl('Review of System'));
-    genTreeLink('RTop', 'care_ob', xl('Care Observation'));
-    genTreeLink('RTop', 'vitals', xl('Vitals'));
-    genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
+   genTreeLink('RTop', 'dash', xl('Dashboard'));
+   genTreeLink('RTop', 'emp_info', xl('Employee'));
+   genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
+   genTreeLink('RTop', 'injury_det', xl('Injury Details'));
+//    genTreeLink('RTop', 'funct_abi', xl('Functional Abilities'));
+genTreeLink('RTop', 'visit_his', xl('Visit History'));
+   genTreeLink('RTop', 'health_his', xl('Health History'));
+   genTreeLink('RTop', 'review', xl('Review of System'));
+   genTreeLink('RTop', 'care_ob', xl('Care Observation'));
+   genTreeLink('RTop', 'vitals', xl('Vitals'));
+   genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
-    genTreeLink('RTop', 'cognitive', xl('Cognitive Status')); 
-   
-   
-    if (acl_check('patients', 'demo')) {
-        genMiscLink('RTop', 'rep', '0', xl('Employee List'), 'reports/patient_list.php');
-    } 
-     if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
-        genMiscLink('RTop', 'rep', '0', xl('Prescriptions'), 'reports/prescriptions_report.php');
-    } 
-     if (acl_check('patients', 'med')) {
-        genMiscLink('RTop', 'rep', '0', xl('Employee List Creation'), 'reports/patient_list_creation.php');
-    } 
-    if (acl_check('patients', 'med')) {
-        genMiscLink('RTop', 'rep', '0', xl('Clinical Report'), 'reports/clinical_reports.php');
-    } 
-     if (acl_check('patients', 'med')) {
-        genMiscLink('RTop', 'rep', '0', xl('Referrals'), 'reports/referrals_report.php');
-    } 
-     if (acl_check('patients', 'med')) {
-        genMiscLink('RTop', 'rep', '0', xl('Immunization Registry'), 'reports/immunization_report.php');
-    } 
-
-    genMiscLink('RTop', 'rep', '0', xl('Encounters'), 'reports/encounters_report.php');
-    genMiscLink('RTop', 'rep', '0', xl('Appointments'), 'reports/appointments_report.php');
-    genMiscLink('RTop', 'rep', '0', xl('Daily Report'), 'reports/daily_summary_report.php');
-    genMiscLink('RTop', 'rep', '0', xl('Sales'), 'reports/sales_by_item.php');
-    genMiscLink('RTop', 'rep', '0', xl('Distribution'), 'reports/insurance_allocation_report.php');
-    genMiscLink('RTop', 'rep', '0', xl('Indigents'), 'billing/indigent_patients_report.php');
-
-/*****************BY AKHIL A.P 03/10/2019************************ */
-    genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=00');
-    genMiscLink('RTop', 'rep', '0', xl('Pharmacy & ins'), '../controller.php?practice_settings&pharmacy&action=list');
-    genMiscLink('RTop', 'rep', '0', xl('Facilities'), 'usergroup/facilities_add.php');
-// parvathy
-
-    genTreeLink('RTop', 'proc_res', xl('Procedure Results')); 
-    genTreeLink('RTop', 'clinic_rep', xl('Clinical Reports')); 
-    genTreeLink('RTop', 'pat_list', xl('Employee List Creation')); 
-    genTreeLink('RTop', 'pend_ord', xl('Pending Orders')); 
-    genTreeLink('RTop', 'ues', xl('Unique Seen Employees')); 
-    genTreeLink('RTop', 'code', xl('Codes')); 
-    genTreeLink('RTop', 'emp_book', xl('Proc Employee')); 
-    genTreeLink('RTop', 'statics', xl('Statics')); 
-    
+    genTreeLink('RTop', 'cognitive', xl('Functional and Cognitive Status Form')); 
+    // genTreeLink('RTop', 'emp', xl('Employee List')); 
+    // genMiscLink('RTop', 'rep', '0', xl('Rx'), 'reports/prescriptions_report.php');
+    // genMiscLink('RTop', 'rep', '0', xl('Referrals'), 'reports/referrals_report.php');
     ?>
 
-    <li style="display:none;"><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
+    <li ><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>
     <ul>
         <!-- <?php
             $moduleMenuContainer = genModuleMenuObject('Reports', 'repimg');

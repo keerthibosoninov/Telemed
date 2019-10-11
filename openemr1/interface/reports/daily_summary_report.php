@@ -42,72 +42,9 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         <title><?php echo xlt('Daily Summary Report'); ?></title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+        <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
-
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
-        <?php //Header::setupHeader(['datetime-picker', 'report-helper']); ?>
-<style type="text/css">
-     input[type=date]{
-            margin-top:0px;
-        }
-        input[type=text]{
-            margin-top:0px;
-        }
-
-.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-        background: #3C9DC5;
-        text-decoration: none;
-    }
-        /* specifically include & exclude from printing */
-        @media print {
-        #report_parameters {
-            visibility: hidden;
-            display: none;
-        }
-        #report_parameters_daterange {
-            visibility: visible;
-            display: inline;
-        }
-        #report_results table {
-            margin-top: 0px;
-        }
-        }
-
-        /* specifically exclude some from the screen */
-        @media screen {
-        #report_parameters_daterange {
-            visibility: hidden;
-            display: none;
-        }
-        }
-        .optional_area_service_codes {
-            <?php
-            if ($type != 'Service Codes' || $type == '') {
-                ?>
-            display: none;
-                <?php
-            }
-            ?>
-        }
-    </style>
         <script type="text/javascript">
-        $(function() {
-            var win = top.printLogSetup ? top : opener.top;
-            win.printLogSetup(document.getElementById('printbutton'));
-        });
             function submitForm() {
                 var fromDate = $("#form_from_date").val();
                 var toDate = $("#form_to_date").val();
@@ -146,36 +83,11 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
     <body class="body_top">
 
-        <!-- <span class='title'><?php echo xlt('Daily Summary Report'); ?></span> -->
+        <span class='title'><?php echo xlt('Daily Summary Report'); ?></span>
         <!-- start of search parameters -->
-        <section>
-            <div class="body-content body-content2">
-                <div class="container-fluid pb-4 pt-4">
-                    <window-dashboard title="" class="icon-hide">
-                    <div class="head-component">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="compo-head">
-                                               
-                                                <span>
-                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg"
-                                                        alt="">
-                                                </span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <p class="text-white head-p">Daily Reports</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body-compo" style="height:auto;">
-                            <div class="container-fluid">
         <form method='post' name='report_form' id='report_form' action='' onsubmit='return top.restoreSession()'>
             <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-            <!-- <div id="report_parameters">
+            <div id="report_parameters">
                 <table class="tableonly">
                     <tr>
                         <td width='745px'>
@@ -227,48 +139,9 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                     </tr>
                 </table>
                 <input type='hidden' name='form_refresh' id='form_refresh' value='' />
-            </div> -->
-            <div  class="pt-4 pb-4">
-                                <div id="report_parameters" class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-3">
-                                        <p>Facility</p>
-                                        <?php dropdown_facility($selectedFacility, 'form_facility', false); ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p>From</p>                                        
-                                        <input type='date' name='form_from_date' id="form_from_date"
-                                                   class='datepicker form-control pr-1 pl-1'
-                                                   size='10' value='<?php echo attr(oeFormatShortDate($from_date)); ?>'>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p>To</p> 
-                                        <input type='date' name='form_to_date' id="form_to_date"
-                                                   class='datepicker form-control'
-                                                   size='10' value='<?php echo attr(oeFormatShortDate($to_date)); ?>'>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p>Provider</p>
-                                        <?php
-                                            generate_form_field(array('data_type' => 10, 'field_id' => 'provider',
-                                            'empty_title' => '-- All Providers --'), $selectedProvider);
-                                            ?>
-                                    </div>
-
-
-
-                                </div>
-                                <div id="report_parameters" class="pt-4 pb-5">
-                                    <div class="row">
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-2"> <button onclick='return submitForm();' class="form-save">SEARCH</button></div>
-                                        <div class="col-md-2"> <button id='printbutton' class="form-save">PRINT</button></div>
-                                    </div>
-
-                                </div>
-        
-
-        <!-- form end of search parameters -->
+            </div>
+        </form>
+        <!-- end of search parameters -->
 
         <?php
         $dateSet = $facilitySet = 0;
@@ -445,22 +318,21 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         $dailySummaryReport = array_merge_recursive($totalAppointment, $totalNewPatient, $totalVisit, $totalPayment, $totalPaid);
         ?>
 
-        <div class="table-div " id="report_results">
-        
-            <?php //echo '<b>' . xlt('From') . '</b> ' . text(oeFormatShortDate($from_date)) . ' <b>' . xlt('To') . '</b> ' . text(oeFormatShortDate($to_date)); ?>
+        <div id="report_results" style="font-size: 12px">
+            <?php echo '<b>' . xlt('From') . '</b> ' . text(oeFormatShortDate($from_date)) . ' <b>' . xlt('To') . '</b> ' . text(oeFormatShortDate($to_date)); ?>
 
-            <table  id="ds_report" class="table table-form">
-                <tr>
+            <table class="flowboard" cellpadding='5' cellspacing='2' id="ds_report">
+                <tr class="head">
 
-                    <th><?php echo xlt('Date'); ?></th>
-                    <th><?php echo xlt('Facility'); ?></th>
-                    <th><?php echo xlt('Provider'); ?></th>
-                    <th><?php echo xlt('Appointments'); ?></th>
-                    <th><?php echo xlt('New Employee'); ?></th>
-                    <th><?php echo xlt('Visited Employee'); ?></th>
-                    <th><?php echo xlt('Total Charges'); ?></th>
-                    <th><?php echo xlt('Total Co-Pay'); ?></th>
-                    <th><?php echo xlt('Balance Payment'); ?></th>
+                    <td><?php echo xlt('Date'); ?></td>
+                    <td><?php echo xlt('Facility'); ?></td>
+                    <td><?php echo xlt('Provider'); ?></td>
+                    <td><?php echo xlt('Appointments'); ?></td>
+                    <td><?php echo xlt('New Patients'); ?></td>
+                    <td><?php echo xlt('Visited Patients'); ?></td>
+                    <td><?php echo xlt('Total Charges'); ?></td>
+                    <td><?php echo xlt('Total Co-Pay'); ?></td>
+                    <td><?php echo xlt('Balance Payment'); ?></td>
                 </tr>
                 <?php
                 if (count($dailySummaryReport) > 0) { // check if daily summary array has value
@@ -476,9 +348,9 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                                         <td><?php echo isset($information['appointments']) ? text($information['appointments']) : 0; ?></td>
                                         <td><?php echo isset($information['newPatient']) ? text($information['newPatient']) : 0; ?></td>
                                         <td><?php echo isset($information['visits']) ? text($information['visits']) : 0; ?></td>
-                                        <td ><?php echo isset($information['payments']) ? text(number_format($information['payments'], 2)) : number_format(0, 2); ?></td>
-                                        <td ><?php echo isset($information['paidAmount']) ? text(number_format($information['paidAmount'], 2)) : number_format(0, 2); ?></td>
-                                        <td >
+                                        <td align="right"><?php echo isset($information['payments']) ? text(number_format($information['payments'], 2)) : number_format(0, 2); ?></td>
+                                        <td align="right"><?php echo isset($information['paidAmount']) ? text(number_format($information['paidAmount'], 2)) : number_format(0, 2); ?></td>
+                                        <td align="right">
                                             <?php
                                             if (isset($information['payments']) || isset($information['paidAmount'])) {
                                                 $dueAmount = number_format(floatval(str_replace(",", "", $information['payments'])) - floatval(str_replace(",", "", $information['paidAmount'])), 2);
@@ -505,17 +377,17 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                     }
                     ?>
                     <!--display total count-->
-                    <!-- <tr class="totalrow">
+                    <tr class="totalrow">
                         <td><?php echo xlt("Total"); ?></td>
                         <td>-</td>
                         <td>-</td>
                         <td><?php echo text($totalAppointments); ?></td>
                         <td><?php echo text($totalNewRegisterPatient); ?></td>
                         <td><?php echo text($totalVisits); ?></td>
-                        <td ><?php echo text(number_format($totalPayments, 2)); ?></td>
-                        <td ><?php echo text(number_format($totalPaidAmount, 2)); ?></td>
-                        <td ><?php echo text(number_format($totalDueAmount, 2)); ?></td>
-                    </tr> -->
+                        <td align="right"><?php echo text(number_format($totalPayments, 2)); ?></td>
+                        <td align="right"><?php echo text(number_format($totalPaidAmount, 2)); ?></td>
+                        <td align="right"><?php echo text(number_format($totalDueAmount, 2)); ?></td>
+                    </tr>
                     <?php
                 } else { // if there are no records then display message
                     ?>
@@ -526,13 +398,5 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
             </table>
         </div>
-            </div>
-            </form>
-        </div>
-</div>
-</window-dashboard>
-</div>
-</div>
-</section>
     </body>
 </html>

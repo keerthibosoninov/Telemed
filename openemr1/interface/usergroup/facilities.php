@@ -18,11 +18,11 @@ use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Core\Header;
 use OpenEMR\Services\FacilityService;
 
-// if (!empty($_POST)) {
-//     if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
-//         CsrfUtils::csrfNotVerified();
-//     }
-// }
+if (!empty($_POST)) {
+    if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
+        CsrfUtils::csrfNotVerified();
+    }
+}
 
 $facilityService = new FacilityService();
 
@@ -59,13 +59,10 @@ if (isset($_POST["mode"]) && $_POST["mode"] == "facility" && $_POST["newmode"] !
         "mail_city" => trim(isset($_POST["mail_city"]) ? $_POST["mail_city"] : ''),
         "mail_state" => trim(isset($_POST["mail_state"]) ? $_POST["mail_state"] : ''),
         "mail_zip" => trim(isset($_POST["mail_zip"]) ? $_POST["mail_zip"] : ''),
-        "oid" => trim(isset($_POST["oid"]) ? $_POST["oid"] : ''),
-        "hourly_rate" => trim(isset($_POST["rate"]) ? $_POST["rate"] : '')
+        "oid" => trim(isset($_POST["oid"]) ? $_POST["oid"] : '')
     );
 
     $insert_id = $facilityService->insert($newFacility);
-    header('Location:facilities_add.php');
-
     exit(); // sjp 12/20/17 for ajax save
 }
 
@@ -101,8 +98,7 @@ if (isset($_POST["mode"]) && $_POST["mode"] == "facility" && $_POST["newmode"] =
         "mail_city" => trim(isset($_POST["mail_city"]) ? $_POST["mail_city"] : ''),
         "mail_state" => trim(isset($_POST["mail_state"]) ? $_POST["mail_state"] : ''),
         "mail_zip" => trim(isset($_POST["mail_zip"]) ? $_POST["mail_zip"] : ''),
-        "oid" => trim(isset($_POST["oid"]) ? $_POST["oid"] : ''),
-        "hourly_rate" => trim(isset($_POST["rate"]) ? $_POST["rate"] : '')
+        "oid" => trim(isset($_POST["oid"]) ? $_POST["oid"] : '')
     );
 
     $facilityService->update($newFacility);
@@ -111,21 +107,8 @@ if (isset($_POST["mode"]) && $_POST["mode"] == "facility" && $_POST["newmode"] =
     // This is necassary because some provider based code uses facility name for lookups instead of facility id.
     //
     $facilityService->updateUsersFacility($newFacility['name'], $newFacility['fid']);
-    header('Location:facilities_add.php');
-
     exit(); // sjp 12/20/17 for ajax save
 }
-
-if (isset($_POST["mode"]) && $_POST["mode"] == "facility_delete" && $_POST["action"] == "Delete") {
-
-$fid=$_POST['fid'];
-    $query = "delete from facility where id=$fid";
-    $res = sqlStatement($query);
-    // header('Location:facilities_add.php');
-    // exit();
-}
-
-
 
 ?>
 <!DOCTYPE html >
