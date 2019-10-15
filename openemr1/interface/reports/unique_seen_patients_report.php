@@ -32,17 +32,25 @@ if ($_POST['form_labels']) {
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Content-Type: application/force-download");
-    header("Content-Disposition: attachment; filename=labels.txt");
+    header("Content-Disposition: attachment; filename=unique_seen_emp.csv");
     header("Content-Description: File Transfer");
+
+    echo '"' . xl('Visit Date') . '",';
+    echo '"' . xl('Employee') . '",';
+    echo '"' . xl('Visits') . '",';
+    echo '"' . xl('Age') . '",';
+    echo '"' . xl('Gender') . '",';
+    echo '"' . xl('Race') . '",';
+    echo '"' . xl('Primary Insurance') . '",';
+    echo '"' . xl('Secondary Insurance') . '"' . "\n";
 } else {
     ?>
 <html>
 <head>
-
 <style type="text/css">
 /* specifically include & exclude from printing */
 @media print {
-   #report_parameters {
+   #report_parameter {
        visibility: hidden;
        display: none;
    }
@@ -50,7 +58,7 @@ if ($_POST['form_labels']) {
        visibility: visible;
        display: inline;
    }
-   #report_results {
+   #report_result {
       margin-top: 30px;
    }
 }
@@ -62,11 +70,27 @@ if ($_POST['form_labels']) {
        display: none;
    }
 }
+
 </style>
+
 <title><?php echo xlt('Front Office Receipts'); ?></title>
-
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
+   
     <?php Header::setupHeader('datetime-picker'); ?>
-
+    
 <script language="JavaScript">
 
 $(function() {
@@ -88,7 +112,8 @@ $(function() {
 
 /* specifically include & exclude from printing */
 @media print {
-   #report_parameters {
+
+   #report_parameter {
        visibility: hidden;
        display: none;
    }
@@ -106,28 +131,69 @@ $(function() {
    }
 }
 
+input[type=date]{
+            margin-top:0px;
+        }
+        input[type=text]{
+            margin-top:0px;
+        }
+
+.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+        background: #3C9DC5;
+        text-decoration: none;
+    }
+    .form-save{
+        padding: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    }
+
 </style>
 </head>
 
-<body class="body_top">
+<body class="body_top" style="font-family: 'Open Sans', sans-serif;">
 
 <!-- Required for the popup date selectors -->
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
-<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Unique Seen Patients'); ?></span>
+<!-- <span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Unique Seen Patients'); ?></span> -->
 
 <div id="report_parameters_daterange">
     <?php echo text(oeFormatShortDate($form_from_date)) ." &nbsp; " . xlt("to") . " &nbsp; ". text(oeFormatShortDate($form_to_date)); ?>
 </div>
-
+<section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="" class="icon-hide">
+                    <div class="head-component">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="compo-head">
+                                               
+                                                <span>
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg"
+                                                        alt="">
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-white head-p">Unique Seen Employees</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body-compo" style="height:auto;">
+                            <div class="container-fluid">
 <form name='theform' method='post' action='unique_seen_patients_report.php' id='theform' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-<div id="report_parameters">
-<input type='hidden' name='form_refresh' id='form_refresh' value=''/>
-<input type='hidden' name='form_labels' id='form_labels' value=''/>
+<!-- <div id="report_parameters"> -->
+<!-- <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+<input type='hidden' name='form_labels' id='form_labels' value=''/> -->
 
-<table>
+<!-- <table>
 <tr>
  <td width='410px'>
    <div style='float:left'>
@@ -176,18 +242,61 @@ $(function() {
    </table>
  </td>
 </tr>
-</table>
-</div> <!-- end of parameters -->
+</table> -->
+<div class="pt-4 pb-4" >
+<input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+<input type='hidden' name='form_labels' id='form_labels' value=''/>
+                                <div class="row" id="report_parameter">
+                                    <div class="col-md-4"></div>
 
-<div id="report_results">
-<table>
+                                    <div class="col-md-2">
+
+                                        <p class="">Visits</p>
+                                    </div>
+                                </div>
+                                <div class="row" id="report_parameter">
+                                    <div class="col-md-4"></div>
+
+                                    <div class="col-md-2">
+                                        <p>From</p>
+                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input type='text' class='datepicker form-control' name='form_from_date' id="form_from_date" size='10' value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>'>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>To</p> 
+                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input type='text' class='datepicker form-control' name='form_to_date' id="form_to_date" size='10' value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>'>
+
+                                    </div>
+
+
+
+
+                                </div>
+
+                                <div id="report_parameter" class="pt-4 pb-5">
+                                    <div class="row">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2"> <button onclick='$("#form_refresh").attr("value","true"); $("#form_labels").val(""); $("#theform").submit();' class="form-save">SEARCH</button></div>
+                                        <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
+                                        <div class="col-md-2"> <button class="form-save" onclick='$("#form_labels").attr("value","true"); $("#theform").submit();'>Export to CSV</button></div>
+
+                                    </div>
+
+                                </div>
+
+<!-- end of parameters -->
+
+<!-- <div id="report_results"> -->
+<div id="report_result" class="table-div ">
+<table class="table table-form">
 
 <thead>
-<th> <?php echo xlt('Last Visit'); ?> </th>
-<th> <?php echo xlt('Patient'); ?> </th>
-<th align='right'> <?php echo xlt('Visits'); ?> </th>
-<th align='right'> <?php echo xlt('Age'); ?> </th>
-<th> <?php echo xlt('Sex'); ?> </th>
+<th> <?php echo xlt('Visit Date'); ?> </th>
+<th> <?php echo xlt('Employee'); ?> </th>
+<th > <?php echo xlt('Visits'); ?> </th>
+<th > <?php echo xlt('Age'); ?> </th>
+<th> <?php echo xlt('Gender'); ?> </th>
 <th> <?php echo xlt('Race'); ?> </th>
 <th> <?php echo xlt('Primary Insurance'); ?> </th>
 <th> <?php echo xlt('Secondary Insurance'); ?> </th>
@@ -245,9 +354,17 @@ if ($_POST['form_refresh'] || $_POST['form_labels']) {
         }
 
         if ($_POST['form_labels']) {
-            echo '"' . $row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname'] . '","' .
-             $row['street'] . '","' . $row['city'] . '","' . $row['state'] . '","' .
-             $row['postal_code'] . '"' . "\n";
+            // echo '"' . $row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname'] . '","' .
+            //  $row['street'] . '","' . $row['city'] . '","' . $row['state'] . '","' .
+            //  $row['postal_code'] . '"' . "\n";
+            echo '"' . addslashes(oeFormatShortDate(substr($row['edate'], 0, 10))) . '",';
+        echo '"' . addslashes(($row['lname']) . ', ' . text($row['fname']) . ' ' . text($row['mname'])) . '",';
+        echo '"' . addslashes($row['ecount'  ]) . '",';
+        echo '"' . addslashes($age) . '",';
+        echo '"' . addslashes($row['sex']) . '",';
+        echo '"' . addslashes($row['ethnoracial' ]) . '",';
+        echo '"' . addslashes($row['cname1' ]) . '",';
+        echo '"' . addslashes($row['cname2'   ]) . '"' . "\n";
         } else { // not labels
             ?>
        <tr>
@@ -257,7 +374,7 @@ if ($_POST['form_refresh'] || $_POST['form_labels']) {
    <td>
             <?php echo text($row['lname']) . ', ' . text($row['fname']) . ' ' . text($row['mname']); ?>
    </td>
-   <td style="text-align:center">
+   <td >
             <?php echo text($row['ecount']); ?>
    </td>
    <td>
@@ -283,7 +400,7 @@ if ($_POST['form_refresh'] || $_POST['form_labels']) {
 
     if (!$_POST['form_labels']) {
         ?>
-   <tr class='report_totals'>
+   <!-- <tr class='report_totals'>
     <td colspan='2'>
         <?php echo xlt('Total Number of Patients'); ?>
   </td>
@@ -291,7 +408,7 @@ if ($_POST['form_refresh'] || $_POST['form_labels']) {
         <?php echo text($totalpts); ?>
   </td>
   <td colspan='5'>&nbsp;</td>
- </tr>
+ </tr> -->
 
         <?php
     } // end not labels
@@ -302,7 +419,16 @@ if (!$_POST['form_labels']) {
 </tbody>
 </table>
 </div>
+</div> 
 </form>
+</div>
+</div>
+
+</window-dashboard>
+</div>
+</div>
+</section>
+
 </body>
 
 </html>

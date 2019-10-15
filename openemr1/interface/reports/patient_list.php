@@ -80,7 +80,7 @@ if ($_POST['form_csvexport']) {
 <script language="JavaScript">
 
 $(function() {
-    oeFixedHeaderSetup(document.getElementById('mymaintable'));
+  //  oeFixedHeaderSetup(document.getElementById('mymaintable'));
     top.printLogSetup(document.getElementById('printbutton'));
 
     $('.datepicker').datetimepicker({
@@ -91,6 +91,29 @@ $(function() {
         <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
     });
 });
+
+function printForm(e)
+{
+var win = top.printLogPrint ? top : opener.top;
+win.printLogPrint(window);
+e.preventDefault();
+/*var html=$("#print_content").html();
+console.log(html);
+//  html=parseHTML(html);
+var myKeyVals = { sessionval : html  }
+$.ajax({
+     type: 'POST',
+     url: "set_print_data.php",
+     data: myKeyVals,
+     dataType: "",
+     success: function(result) {
+       //alert(result);
+       window.open("print_data.php?val="+result, '_blank');
+       e.preventDefault();
+      
+       }
+});*/
+}
 
 </script>
 
@@ -125,7 +148,10 @@ $(function() {
         width: 100%;
     }
 }
-
+.table-div {
+    height: auto;
+    overflow: auto;
+}
 
 .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
     background: #3C9DC5;
@@ -148,11 +174,17 @@ $(function() {
                             <div class="row">
                                 <div class="col-6"></div>
                                 <div class="col-6">
-                                    <p class="text-white head-p">Employee List </p>
+                                    <p class="text-white head-p">Employee List  </p>
                                 </div>
                             </div>
                         </div>
                         <div class="body-compo">
+                            <div id="report_parameters_daterange">
+                                <span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Patient List'); ?></span>
+                                <?php if (!(empty($to_date) && empty($from_date))) { ?>
+                                <?php echo text(oeFormatShortDate($from_date)) ." &nbsp; " . xlt('to') . " &nbsp; " . text(oeFormatShortDate($to_date)); ?>
+                                <?php } ?>
+                            </div>
                             <form name='theform' id='theform' method='post' action='patient_list.php' onsubmit='return top.restoreSession()'>
                                 <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
                                 <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
@@ -185,7 +217,7 @@ $(function() {
                                                 <div class="row">
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").val(""); $("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
-                                                    <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" onclick="printForm(event)">PRINT</button></div>
                                                     <div class="col-md-2"> <button class="form-save"  onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();'>Export to CSV</button></div>
                                                 </div>
 
@@ -210,7 +242,7 @@ $(function() {
                                                 echo '"' . xl('Work Phone') . '"' . "\n";
                                             } else {
                                                 ?>
-                                                <div class="table-div"  id="">
+                                                <div class="table-div"  id="print_content">
                                                     <table class="table table-form" >
                                                         <thead>
 
@@ -225,9 +257,9 @@ $(function() {
                                                             </tr>
 
                                                         </thead>
-                                                
+
                                                 <tbody>
-                                             
+
                                             <?php
                                             } // end not export
                                             $totalpts = 0;
@@ -329,9 +361,9 @@ $(function() {
                                             }
                                         }
                                         ?>
-                                            
 
-                                    <?php         
+
+                                    <?php
                                     if (!$_POST['form_csvexport']) {
                                     ?>
 
@@ -348,9 +380,3 @@ $(function() {
         <?php
         }
         ?>
-
-
-
-       
-    
-    

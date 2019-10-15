@@ -210,7 +210,7 @@ $condition_str = '';
        
         
    
-    
+
 
 
 ?>
@@ -268,9 +268,6 @@ $condition_str = '';
     <style>
         .hidedata{
             display:none;
-        }
-        table{
-            width:100%;
         }
     </style>
 
@@ -380,7 +377,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <a class="nav-link" data-toggle="tab" href="#menu3">Relatives</a>
                                     </li> -->
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab_Lifestyle">Life Style</a>
+                                        <a class="nav-link" data-toggle="tab" href="#menu4">Life Style</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu6">Medication</a>
@@ -388,7 +385,6 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu5" id="allergyData">Allergies</a>
                                     </li>
-                                    
                                 </ul>
                                 <div class="tab-content">
                                     <div id="medical" class="tab-pane active">
@@ -1281,7 +1277,6 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div> -->
                                         <!-- <div class="pt-4 pb-5"><button class="form-save">Save</button></div> -->
                                     </div>
-                                    <?php display_layout_tabs_data_editable_history('HIS', $result_history, $result2); ?>
                                 </div>
                             </div>
                         </div>

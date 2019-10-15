@@ -35,6 +35,11 @@ function QuotedOrNull($fld)
 }
 
 
+
+
+
+
+
 if ($_POST['submit_form']) {
 
 
@@ -85,6 +90,7 @@ if ($_POST['submit_form']) {
         "severity_al ='"     . add_escape_custom($_POST['form_severity_id'])     . "', " .
         "list_option_id ='"     . add_escape_custom($_POST['form_title_id'])     . "', " .
         "substance_al ='"     . add_escape_custom($_POST['substance'])     . "', " .
+        "reaction_al ='"     . add_escape_custom($_POST['reaction_al'])     . "', " .
         "erx_uploaded = '0', " .
         "modifydate = NOW() " .
         "WHERE id = '" . add_escape_custom($issue) . "'";
@@ -102,7 +108,7 @@ if ($_POST['submit_form']) {
         "date, pid, type, title, activity, comments, begdate, enddate, returndate, " .
         "diagnosis, occurrence, classification, referredby, user, groupname, " .
         "outcome, destination, reinjury_id, injury_grade, injury_part, injury_type, " .
-        "reaction, severity_al, substance_al,list_option_id " .
+        "reaction, severity_al, substance_al,reaction_al,list_option_id " .
         ") VALUES ( " .
         "NOW(), " .
         "'" . add_escape_custom($thispid) . "', " .
@@ -128,10 +134,35 @@ if ($_POST['submit_form']) {
         "'" . add_escape_custom($_POST['form_reaction'])         . "', " .
         "'" . add_escape_custom($_POST['form_severity_id'])         . "', " .
         "'" . add_escape_custom($_POST['substance'])         . "', " .
+        "'" . add_escape_custom($_POST['reaction_al'])         . "', " .
         "'" . add_escape_custom($_POST['form_title_id'])         . "' " .
         ")");
     }
 
+
+    //  inserting reaction
+    if($_POST['reaction_al']){
+        $reaction_al=$_POST['reaction_al'];
+        $title=ucwords($reaction_al);
+        $pres = sqlStatement("SELECT * FROM list_options WHERE list_id = ? AND option_id = ? ", array('reaction',$reaction_al));
+        if (sqlNumRows($pres) == 0) {
+           
+            $maxseq = sqlStatement("SELECT max(seq) as seq FROM list_options WHERE list_id = ? ", array('reaction'));
+            $maxseq_m = sqlFetchArray($maxseq);
+            // print_r( $maxseq_m);
+            $date=date('Y-m-d H:i:s');
+    
+            $maxseq_max= $maxseq_m['seq']+ 10;
+    
+    
+          echo  sqlInsert("INSERT INTO list_options (list_id, option_id, title, seq, edit_options, timestamp) VALUES ('reaction','$reaction_al','$title',$maxseq_max,1,'$date')"); 
+        }
+    }
+
+    
+
+
+   
   // For record/reporting purposes, place entry in lists_touch table.
     setListTouch($thispid, $text_type);
 

@@ -134,9 +134,13 @@ if (!empty($allowed_codes)) {
         <?php
         foreach ($allowed_codes as $code) {
             $selected_attr = ($default == $code) ? " selected='selected'" : '';
+            $text=xlt($code_types[$code]['label']);
+              if($text)
+              {
             ?>
-<option value='<?php echo attr($code) ?>'<?php echo $selected_attr ?>><?php echo xlt($code_types[$code]['label']) ?></option>
+<option value='<?php echo attr($code) ?>'<?php echo $selected_attr ?>><?php echo $text ?></option>
             <?php
+           }
         }
         ?>
    </select>

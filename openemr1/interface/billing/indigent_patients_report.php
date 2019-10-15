@@ -31,10 +31,27 @@ function bucks($amount)
     return "";
 }
 
+// Prepare a string for CSV export.
+function qescape($str)
+{
+    $str = str_replace('\\', '\\\\', $str);
+    return str_replace('"', '\\"', $str);
+}
+
 $form_start_date = (!empty($_POST['form_start_date'])) ?  DateToYYYYMMDD($_POST['form_start_date']) : date('Y-01-01');
 $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['form_end_date']) : date('Y-m-d');
 
-?>
+// indigent_employees
+// In the case of CSV export only, a download will be forced.
+if ($_POST['form_csvexport']) {
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Type: application/force-download");
+    header("Content-Disposition: attachment; filename=indigent_employees.csv");
+    header("Content-Description: File Transfer");
+} else {
+    ?>
 <html>
 <head>
 
@@ -63,9 +80,40 @@ $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['for
     }
 }
 
+
+.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+    background: #3C9DC5 !important;
+    text-decoration: none;
+}
+
+#report_parameters {
+    background-color: transparent !important;
+    margin-top: 10px;
+}
+
+button:hover, input[type=button]:hover, input[type=submit]:hover {
+    background: #3C9DC5!important;
+    text-decoration: none;
+}
 </style>
 
-<?php Header::setupHeader('datetime-picker'); ?>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+
+
+    <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
 <title><?php echo xlt('Indigent Patients Report')?></title>
 
@@ -90,219 +138,248 @@ $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['for
 
 <body class="body_top">
 
-<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Indigent Patients'); ?></span>
+        <section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="" class="icon-hide">
+                        <div class="head-component">
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-6">
+                                    <p class="text-white head-p">Indigent Employees </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body-compo">
+                            <div id="report_parameters_daterange">
+                                <span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Indigent Patients'); ?></span>
+                                <?php echo text(oeFormatShortDate($form_start_date)) . " &nbsp; " . xlt("to") . " &nbsp; ". text(oeFormatShortDate($form_end_date)); ?>
+                          
+                            </div>
+                            <form method='post' action='indigent_patients_report.php' id='theform' onsubmit='return top.restoreSession()'>
+                                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                                <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+                                <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
 
-<form method='post' action='indigent_patients_report.php' id='theform' onsubmit='return top.restoreSession()'>
-<input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                                <div class="container-fluid">
+                                    <div class="pt-4 pb-4">
 
-<div id="report_parameters">
+                                        <div id="report_parameters">
+                                            <div class="row">
+                                                <div class="col-md-4"></div>
 
-<input type='hidden' name='form_refresh' id='form_refresh' value=''/>
+                                                <div class="col-md-2">
 
-<table>
- <tr>
-  <td width='410px'>
-    <div style='float:left'>
+                                                    <p class="">Visits</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4"></div>
 
-    <table class='text'>
-        <tr>
-            <td class='control-label'>
-                <?php echo xlt('Visits From'); ?>:
-            </td>
-            <td>
-               <input type='text' class='datepicker form-control' name='form_start_date' id="form_start_date" size='10' value='<?php echo attr(oeFormatShortDate($form_start_date)); ?>'>
-            </td>
-            <td class='control-label'>
-                <?php echo xlt('To'); ?>:
-            </td>
-            <td>
-               <input type='text' class='datepicker form-control' name='form_end_date' id="form_end_date" size='10' value='<?php echo attr(oeFormatShortDate($form_end_date)); ?>'>
-            </td>
-        </tr>
-    </table>
+                                                <div class="col-md-2">
+                                                    <p>From</p>
+                                                    <input type='date' class='datepicker form-control pr-1 pl-1' name='form_start_date' id="form_start_date"  value='<?php echo attr(oeFormatShortDate($form_start_date)); ?>'>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <p>To</p> 
+                                                    <input type='date' class='datepicker form-control pr-1 pl-1' name='form_end_date' id="form_end_date"  value='<?php echo attr(oeFormatShortDate($form_end_date)); ?>'>
+                                                </div>
+                                            </div>
 
-    </div>
+                                            <div class="pt-4 pb-5">
+                                                <div class="row">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-2"> <button class="form-save"  onclick='$("#form_csvexport").val("");$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
+                                                    <div class="col-md-2"> <button class="form-save"  id='printbutton'>PRINT</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();$("#form_refresh").attr("value","true");'>Export to CSV</button></div>
 
-  </td>
-  <td align='left' valign='middle' height="100%">
-    <table style='border-left:1px solid; width:100%; height:100%' >
-        <tr>
-            <td>
-                <div class="text-center">
-          <div class="btn-group" role="group">
-                      <a href='#' class='btn btn-default btn-save' onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>
-                            <?php echo xlt('Submit'); ?>
-                      </a>
-                        <?php if ($_POST['form_refresh']) { ?>
-                        <a href='#' class='btn btn-default btn-print' id='printbutton'>
-                                <?php echo xlt('Print'); ?>
-                        </a>
-                        <?php } ?>
-          </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <?php
+                                        } // end not form_csvexport
+
+                                        if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
+                                            if ($_POST['form_csvexport']) {
+                                                // CSV headers:
+                                                echo '"' . xl('Employee') . '",';
+                                                echo '"' . xl('SSN') . '",';
+                                                echo '"' . xl('Invoice') . '",';
+                                                echo '"' . xl('SVC Date') . '",';
+                                                echo '"' . xl('Due Date') . '",';
+                                                echo '"' . xl('Amount') . '",';
+                                                echo '"' . xl('Paid') . '",';
+                                                echo '"' . xl('Balance') . '"' . "\n";
+
+                                               
+                                            } else {
+                                                ?>
+                                        <div class="table-div ">
+                                            <table class="table table-form">
+                                                <thead>
+
+                                                    <tr>
+                                                        <th>Employee</th>
+                                                        <th>SSN</th>
+                                                        <th>Invoice</th>
+                                                        <th>SVC Date</th>
+                                                        <th>Due Date</th>
+                                                        <th>Amount</th>
+                                                        <th>Paid</th>
+                                                        <th>Balance</th>
+                                                    </tr>
+
+                                                </thead>
+                                              
+                                                <tbody>
+
+                                                    <?php
+                                                } // end not export
+                                                    if ($_POST['form_refresh']) { 
+                                                        if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
+                                                            CsrfUtils::csrfNotVerified();
+                                                        }
+                                                        $where = "";
+                                                        $sqlBindArray = array();
+
+                                                        if ($form_start_date) {
+                                                            $where .= " AND e.date >= ?";
+                                                            array_push($sqlBindArray, $form_start_date);
+                                                        }
+
+                                                        if ($form_end_date) {
+                                                            $where .= " AND e.date <= ?";
+                                                            array_push($sqlBindArray, $form_end_date);
+                                                        }
+                                                        $rez = sqlStatement("SELECT " .
+                                                        "e.date, e.encounter, p.pid, p.lname, p.fname, p.mname, p.ss " .
+                                                        "FROM form_encounter AS e, patient_data AS p, insurance_data AS i " .
+                                                        "WHERE p.pid = e.pid AND i.pid = e.pid AND i.type = 'primary' " .
+                                                        "AND i.provider = ''$where " .
+                                                        "ORDER BY p.lname, p.fname, p.mname, p.pid, e.date", $sqlBindArray);
+
+                                                        $total_amount = 0;
+                                                        $total_paid   = 0;
+
+                                                        for ($irow = 0; $row = sqlFetchArray($rez); ++$irow) {
+                                                            $patient_id = $row['pid'];
+                                                            $encounter_id = $row['encounter'];
+                                                            $invnumber = $row['pid'] . "." . $row['encounter'];
+                                                            $inv_duedate = '';
+                                                            $arow = sqlQuery("SELECT SUM(fee) AS amount FROM drug_sales WHERE " .
+                                                            "pid = ? AND encounter = ?", array($patient_id, $encounter_id));
+                                                            $inv_amount = $arow['amount'];
+                                                            $arow = sqlQuery("SELECT SUM(fee) AS amount FROM billing WHERE " .
+                                                            "pid = ? AND encounter = ? AND " .
+                                                            "activity = 1 AND code_type != 'COPAY'", array($patient_id, $encounter_id));
+                                                            $inv_amount += $arow['amount'];
+                                                            $arow = sqlQuery("SELECT SUM(fee) AS amount FROM billing WHERE " .
+                                                            "pid = ? AND encounter = ? AND " .
+                                                            "activity = 1 AND code_type = 'COPAY'", array($patient_id, $encounter_id));
+                                                            $inv_paid = 0 - $arow['amount'];
+                                                            $arow = sqlQuery("SELECT SUM(pay_amount) AS pay, " .
+                                                            "sum(adj_amount) AS adj FROM ar_activity WHERE " .
+                                                            "pid = ? AND encounter = ?", array($patient_id, $encounter_id));
+                                                            $inv_paid   += floatval($arow['pay']);
+                                                            $inv_amount -= floatval($arow['adj']);
+                                                            $total_amount += $inv_amount;
+                                                            $total_paid   += $inv_paid;
+
+                                                            $bgcolor = (($irow & 1) ? "#ffdddd" : "#ddddff");
+                                                           
+                                                            if ($_POST['form_csvexport']) { 
+                                                                echo ''. qescape(text($row['lname'] . ' ' . $row['fname'] . ' ' . $row['mname'])) .',';
+                                                                echo '"' . qescape(text($row['ss'])) . '",';
+                                                                echo '"' . qescape(text($invnumber)) . '",';
+                                                                echo '"' . text(oeFormatShortDate(substr($row['date'], 0, 10))) . '",';
+                                                                echo '"' . oeFormatShortDate($inv_duedate) . '",';
+                                                                echo '"' . qescape(bucks($inv_amount)) . '",';
+                                                                echo '"' . qescape(bucks($inv_paid)) . '",';
+                                                                echo '"' . qescape(bucks($inv_amount - $inv_paid)) . '"' . "\n";
+                                                            } else {
+                                                            ?>
+                                                            <tr>
+                                                                <td><?php echo text($row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname']); ?></td>
+                                                                <td>
+                                                                    <?php echo text($row['ss']); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo text($invnumber); ?></a>
+                                                                </td>
+                                                                <td>
+                                                                   <?php echo text(oeFormatShortDate(substr($row['date'], 0, 10))); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo text(oeFormatShortDate($inv_duedate)); ?>
+                                                                </td>
+                                                                <td >
+                                                                        <?php echo bucks($inv_amount); ?>
+                                                                </td>
+                                                                <td >
+                                                                        <?php echo bucks($inv_paid); ?>
+                                                                </td>
+                                                                <td >
+                                                                        <?php echo bucks($inv_amount - $inv_paid); ?>
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                            }
+                                                        }
+                                                        if (!$_POST['form_csvexport']) {
+                                                        ?>
+                                                        <tr>
+                                                            <td>
+                                                                &nbsp;<?php echo xlt('Totals'); ?>
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                            <td >
+                                                                <?php echo bucks($total_amount); ?>&nbsp;
+                                                            </td>
+                                                            <td >
+                                                                <?php echo bucks($total_paid); ?>&nbsp;
+                                                            </td>
+                                                            <td >
+                                                                <?php echo bucks($total_amount - $total_paid); ?>&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    <?php
+                                                    }
+                                                }
+                                            }
+                                                   
+                                                if (!$_POST['form_csvexport']) {
+
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </window-dashboard>
                 </div>
-            </td>
-        </tr>
-    </table>
-  </td>
- </tr>
-</table>
-</div> <!-- end of parameters -->
-
-<div id="report_results">
-<table>
-
- <thead bgcolor="#dddddd">
-  <th>
-   &nbsp;<?php echo xlt('Patient'); ?>
-  </th>
-  <th>
-   &nbsp;<?php echo xlt('SSN'); ?>
-  </th>
-  <th>
-   &nbsp;<?php echo xlt('Invoice'); ?>
-  </th>
-  <th>
-   &nbsp;<?php echo xlt('Svc Date'); ?>
-  </th>
-  <th>
-   &nbsp;<?php echo xlt('Due Date'); ?>
-  </th>
-  <th align="right">
-    <?php echo xlt('Amount'); ?>&nbsp;
-  </th>
-  <th align="right">
-    <?php echo xlt('Paid'); ?>&nbsp;
-  </th>
-  <th align="right">
-    <?php echo xlt('Balance'); ?>&nbsp;
-  </th>
- </thead>
-
-<?php
-if ($_POST['form_refresh']) {
-    if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
-        CsrfUtils::csrfNotVerified();
-    }
-
-    $where = "";
-    $sqlBindArray = array();
-
-    if ($form_start_date) {
-        $where .= " AND e.date >= ?";
-        array_push($sqlBindArray, $form_start_date);
-    }
-
-    if ($form_end_date) {
-        $where .= " AND e.date <= ?";
-        array_push($sqlBindArray, $form_end_date);
-    }
-
-    $rez = sqlStatement("SELECT " .
-    "e.date, e.encounter, p.pid, p.lname, p.fname, p.mname, p.ss " .
-    "FROM form_encounter AS e, patient_data AS p, insurance_data AS i " .
-    "WHERE p.pid = e.pid AND i.pid = e.pid AND i.type = 'primary' " .
-    "AND i.provider = ''$where " .
-    "ORDER BY p.lname, p.fname, p.mname, p.pid, e.date", $sqlBindArray);
-
-    $total_amount = 0;
-    $total_paid   = 0;
-
-    for ($irow = 0; $row = sqlFetchArray($rez); ++$irow) {
-        $patient_id = $row['pid'];
-        $encounter_id = $row['encounter'];
-        $invnumber = $row['pid'] . "." . $row['encounter'];
-        $inv_duedate = '';
-        $arow = sqlQuery("SELECT SUM(fee) AS amount FROM drug_sales WHERE " .
-        "pid = ? AND encounter = ?", array($patient_id, $encounter_id));
-        $inv_amount = $arow['amount'];
-        $arow = sqlQuery("SELECT SUM(fee) AS amount FROM billing WHERE " .
-          "pid = ? AND encounter = ? AND " .
-          "activity = 1 AND code_type != 'COPAY'", array($patient_id, $encounter_id));
-        $inv_amount += $arow['amount'];
-        $arow = sqlQuery("SELECT SUM(fee) AS amount FROM billing WHERE " .
-          "pid = ? AND encounter = ? AND " .
-          "activity = 1 AND code_type = 'COPAY'", array($patient_id, $encounter_id));
-        $inv_paid = 0 - $arow['amount'];
-        $arow = sqlQuery("SELECT SUM(pay_amount) AS pay, " .
-          "sum(adj_amount) AS adj FROM ar_activity WHERE " .
-          "pid = ? AND encounter = ?", array($patient_id, $encounter_id));
-        $inv_paid   += floatval($arow['pay']);
-        $inv_amount -= floatval($arow['adj']);
-        $total_amount += $inv_amount;
-        $total_paid   += $inv_paid;
-
-        $bgcolor = (($irow & 1) ? "#ffdddd" : "#ddddff");
-        ?>
-  <tr bgcolor='<?php  echo $bgcolor ?>'>
-<td class="detail">
- &nbsp;<?php echo text($row['lname'] . ', ' . $row['fname'] . ' ' . $row['mname']); ?>
-</td>
-<td class="detail">
- &nbsp;<?php echo text($row['ss']); ?>
-</td>
-<td class="detail">
- &nbsp;<?php echo text($invnumber); ?></a>
-</td>
-<td class="detail">
- &nbsp;<?php echo text(oeFormatShortDate(substr($row['date'], 0, 10))); ?>
-</td>
-<td class="detail">
- &nbsp;<?php echo text(oeFormatShortDate($inv_duedate)); ?>
-</td>
-<td class="detail" align="right">
-        <?php echo bucks($inv_amount); ?>&nbsp;
-</td>
-<td class="detail" align="right">
-        <?php echo bucks($inv_paid); ?>&nbsp;
-</td>
-<td class="detail" align="right">
-        <?php echo bucks($inv_amount - $inv_paid); ?>&nbsp;
-</td>
-</tr>
-        <?php
-    }
-    ?>
-<tr bgcolor='#dddddd'>
-<td class="detail">
-&nbsp;<?php echo xlt('Totals'); ?>
-</td>
-<td class="detail">
- &nbsp;
-</td>
-<td class="detail">
- &nbsp;
-</td>
-<td class="detail">
- &nbsp;
-</td>
-<td class="detail">
- &nbsp;
-</td>
-<td class="detail" align="right">
-    <?php echo bucks($total_amount); ?>&nbsp;
-</td>
-<td class="detail" align="right">
-    <?php echo bucks($total_paid); ?>&nbsp;
-</td>
-<td class="detail" align="right">
-    <?php echo bucks($total_amount - $total_paid); ?>&nbsp;
-</td>
-</tr>
-    <?php
-}
-?>
-
-</table>
-</div>
-
-</form>
-<script>
-<?php
-if ($alertmsg) {
-    echo "alert(" . js_escape($alertmsg) . ");\n";
-}
-?>
-</script>
-</body>
-
+            </div>
+        </section>
+    </body>
 </html>
+
+    <?php
+        }
+        ?>

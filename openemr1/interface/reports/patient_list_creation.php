@@ -25,6 +25,12 @@ if (!empty($_POST)) {
         CsrfUtils::csrfNotVerified();
     }
 }
+// String for csv_PA
+function qescape($str)
+{
+    $str = str_replace('\\', '\\\\', $str);
+    return str_replace('"', '\\"', $str);
+}
 
 $search_options = array("Demographics"=>xl("Demographics"),"Problems"=>xl("Problems"),"Medications"=>xl("Medications"),"Allergies"=>xl("Allergies"),"Lab results"=>xl("Lab Results"),"Communication"=>xl("Communication"));
 $comarr = array("allow_sms"=>xl("Allow SMS"),"allow_voice"=>xl("Allow Voice Message"),"allow_mail"=>xl("Allow Mail Message"),"allow_email"=>xl("Allow Email"));
@@ -45,6 +51,21 @@ $form_lab_results = trim($_POST["form_lab_results"]);
 $form_service_codes = trim($_POST["form_service_codes"]);
 $form_immunization = trim($_POST["form_immunization"]);
 $communication = trim($_POST["communication"]);
+// export_CSV_PA
+if ($_POST['form_csvexport']) {
+
+
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Type: application/force-download");
+    header("Content-Disposition: attachment; filename=patient_list_creation.csv");
+    header("Content-Description: File Transfer");
+}
+else
+{
+
+
 ?>
 <html>
     <head>
@@ -53,28 +74,57 @@ $communication = trim($_POST["communication"]);
             <?php echo xlt('Patient List Creation'); ?>
         </title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css"> -->
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css"> -->
+    <!-- <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script> -->
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script> -->
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script> -->
+    <!-- <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script> -->
+
+
+
         <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
         <script language="JavaScript">
-            function Form_Validate() {
-                var d = document.forms[0];
-                FromDate = d.date_from.value;
-                ToDate = d.date_to.value;
-                if ( (FromDate.length > 0) && (ToDate.length > 0) ) {
-                    if ( FromDate > ToDate ){
-                        alert(<?php echo xlj('To date must be later than From date!'); ?>);
-                        return false;
-                    }
-                }
-                $("#processing").show();
-                return true;
-            }
+            // function Form_Validate() {
+            //     var d = document.forms[0];
+            //     FromDate = d.date_from.value;
+            //     ToDate = d.date_to.value;
+            //     if ( (FromDate.length > 0) && (ToDate.length > 0) ) {
+            //         if ( FromDate > ToDate ){
+            //             alert(<?php echo xlj('To date must be later than From date!'); ?>);
+            //             return false;
+            //         }
+            //     }
+            //     $("#processing").show();
+            //     return true;
+            // }
         </script>
 
         <style type="text/css">
+         input[type=date]{
+            margin-top:0px;
+        }
+        input[type=text]{
+            margin-top:0px;
+        }
+        .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+        background: #3C9DC5;
+        text-decoration: none;
+    }
+    .form-save{
+        padding: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    }
             /* specifically include & exclude from printing */
             @media print {
-                #report_parameters {
+                #report_parameter {
                     visibility: hidden;
                     display: none;
                 }
@@ -82,7 +132,7 @@ $communication = trim($_POST["communication"]);
                     visibility: visible;
                     display: inline;
                 }
-                #report_results table {
+                #report_result table {
                     margin-top: 0px;
                 }
                 #report_image {
@@ -164,19 +214,49 @@ $communication = trim($_POST["communication"]);
                 });
             });
 
-            function printForm(){
+            function printForm(e){
                  var win = top.printLogPrint ? top : opener.top;
                  win.printLogPrint(window);
+                  e.preventDefault();
+              //var html=$("#table-div").html();
+            //  window.open("patient_list_print.php?content="+html, '_blank');
             }
         </script>
+
     </head>
 
-    <body class="body_top">
+    <body class="body_top" style="font-family: 'Open Sans', sans-serif">
         <!-- Required for the popup date selectors -->
+
+        <section>
+            <div class="body-content body-content2">
+                <div class="container-fluid pb-4 pt-4">
+                    <window-dashboard title="" class="icon-hide">
+                    <div class="head-component">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="compo-head">
+
+                                                <span>
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/min.svg"
+                                                        alt="">
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-white head-p">Patient List Creation</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body-compo" style="height:auto;">
+                            <div class="container-fluid">
         <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-        <span class='title'>
+        <!-- <span class='title'>
         <?php echo xlt('Report - Patient List Creation');?>
-        </span>
+        </span> -->
         <!-- Search can be done using age range, gender, and ethnicity filters.
         Search options include diagnosis, procedure, prescription, medical history, and lab results.
         -->
@@ -195,109 +275,94 @@ $communication = trim($_POST["communication"]);
             }  ?></span>
             </p>
         </div>
-        <form name='theform' id='theform' method='post' action='patient_list_creation.php' onSubmit="return Form_Validate();">
+        <form name='theform' id='theform' method='POST' action='patient_list_creation.php' >
             <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-            <div id="report_parameters">
+            <!-- <div id="report_parameters"> -->
                 <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
-                <table>
-                    <tr>
-                    <td width='640px'>
-                        <div class="cancel-float" style='float:left'>
-                        <table class='text'>
-                            <tr>
-                                <td class='control-label' ><?php echo xlt('From'); ?>: </td>
-                                <td><input type='text' class='datetimepicker form-control' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'>
-                                </td>
-                                <td class='control-label'><?php echo xlt('To{{range}}'); ?>: </td>
-                                <td><input type='text' class='datetimepicker form-control' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'>
-                                </td>
-                                <td class='control-label'><?php echo xlt('Option'); ?>: </td>
-                                <td class='control-label'>
-                                    <select class="form-control" name="srch_option" id="srch_option" onchange="javascript:$('#sortby').val('');$('#sortorder').val('');if(this.value == 'Communication'){ $('#communication').val('');$('#com_pref').show();}else{ $('#communication').val('');$('#com_pref').hide();}">
+                <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
+
+
+                        <div id="report_parameter" class="pt-4 pb-4">
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <p>From</p>
+
+                                        <input type='text' class='datetimepicker form-control pr-1 pl-1' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>to</p>
+
+                                        <input type='text' class='datetimepicker form-control pr-1 pl-1' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>Option</p>
+
+                                            <select class="form-control mt-2" name="srch_option" id="srch_option" onchange="javascript:$('#sortby').val('');$('#sortorder').val('');if(this.value == 'Communication'){ $('#communication').val('');$('#com_pref').show();}else{ $('#communication').val('');$('#com_pref').hide();}">
                                         <?php foreach ($search_options as $skey => $svalue) { ?>
                                             <option <?php echo ($_POST['srch_option'] == $skey) ? 'selected' : ''; ?> value="<?php echo attr($skey); ?>"><?php echo text($svalue); ?></option>
                                         <?php } ?>
                                     </select>
-                                    <?php ?>
-                                </td>
-
-                                <td >
-                                    <span id="com_pref" style="display:none">
-                                    <select class="form-control" name="communication" id="communication" title="<?php echo xlt('Select Communication Preferences'); ?>">
-                                        <option> <?php echo xlt('All'); ?></option>
-                                        <option value="allow_sms" <?php echo ($communication == "allow_sms") ? "selected" : ""; ?>><?php echo xlt('Allow SMS'); ?></option>
-                                        <option value="allow_voice" <?php echo ($communication == "allow_voice") ? "selected" : ""; ?>><?php echo xlt('Allow Voice Message'); ?></option>
-                                        <option value="allow_mail" <?php echo ($communication == "allow_mail") ? "selected" : ""; ?>><?php echo xlt('Allow Mail Message'); ?></option>
-                                        <option value="allow_email" <?php echo ($communication == "allow_email") ? "selected" : ""; ?>><?php echo xlt('Allow Email'); ?></option>
-                                    </select>
-                                    </span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class='control-label'><?php echo xlt('Patient ID'); ?>:</td>
-                                <td><input name='patient_id' class="numeric_only form-control" type='text' id="patient_id" title='<?php echo xla('Optional numeric patient ID'); ?>' value='<?php echo attr($patient_id); ?>' size='10' maxlength='20' /></td>
-                                <td class='control-label'><?php echo xlt('Age Range'); ?>:</td>
-
-                                <td>
-                                <table>
-                                <tr>
-                                <td class='control-label'>
-                                <?php echo xlt('From'); ?>:
-                                </td>
-                                <td>
-                                <input name='age_from' class="numeric_only form-control" type='text' id="age_from" value="<?php echo attr($age_from); ?>" size='3' maxlength='3' />
-                                </td>
-                                <td class='control-label'>
-                                <?php echo xlt('To{{range}}'); ?>:
-                                </td>
-                                <td>
-                                <input name='age_to' class="numeric_only form-control" type='text' id="age_to" value="<?php echo attr($age_to); ?>" size='3' maxlength='3' />
-                                </td>
-                                </tr>
-                                </table>
-                                </td>
-
-                                <td class='control-label'><?php echo xlt('Gender'); ?>:</td>
-                                <td colspan="2"><?php echo generate_select_list('gender', 'sex', $sql_gender, 'Select Gender', 'Unassigned', '', ''); ?></td>
-                            </tr>
-
-                        </table>
-
-                        </div></td>
-                        <td height="100%" valign='middle' width="175"><table style='border-left:1px solid; width:100%; height:100%'>
-                            <tr>
-                                <td>
-                                    <div class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <a href='#' class='btn btn-default btn-save' onclick='submitForm();'>
-                                                <?php echo xlt('Submit'); ?>
-                                            </a>
-                                            <?php if (isset($_POST['form_refresh'])) {?>
-                                                <a href='#' class='btn btn-default btn-print' onclick="printForm()">
-                                                    <?php echo xlt('Print'); ?>
-                                                </a>
-                                            <?php }?>
-                                        </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <div id='processing' style='display:none;' ><img src='../pic/ajax-loader.gif'/></div>
-                                </td>
+                                    <div class="col-md-3">
+                                        <p>Employee ID</p>
+                                        <!-- <input type="text" placeholder="" class="form-control pr-1 pl-1"> -->
+                                        <input name='patient_id' class="numeric_only form-control" type='text' id="patient_id" title='<?php echo xla('Optional numeric patient ID'); ?>' value='<?php echo attr($patient_id); ?>' size='10' maxlength='20' />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>gender</p>
 
-                            </tr>
-                        </table></td>
-                    </tr>
-                </table>
-            </div>
+                                            <?php echo generate_select_list('gender', 'sex', $sql_gender, 'Select Gender', 'Unassigned', '', ''); ?>
+                                        </div>
+
+
+                                </div>
+                                <div class="pt-4 pb-5">
+                                    <div class="row">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">
+                                            <button class="form-save" onclick='$("#form_csvexport").val(""); $("#form_refresh").attr("value","true");submitForm();'>SEARCH</button>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="form-save" onclick="printForm(event)">PRINT</button>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                             <button onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();' class="form-save">Export to CSV</button>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                        </div>
+
+
         <!-- end of parameters -->
         <?php
-
+    } //end not export csv
         // SQL scripts for the various searches
         $sqlBindArray = array();
-        if ($_POST['form_refresh']) {
+        if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
+            if ($_POST['form_csvexport']) {
+                // CSV headers:
+                echo '"' . xl('Date') . '",';
+                echo '"' . xl('Employee') . '",';
+                echo '"' . xl('ID') . '",';
+                echo '"' . xl('Age') . '",';
+                echo '"' . xl('Gender') . '",';
+                echo '"' . xl('Address') . '",';
+                echo '"' . xl('Provider') . '",';
+                echo '"' . xl('Contact') . '"' . "\n";
+            }
+            else
+            {
+
             $sqlstmt = "select
-						pd.date as patient_date,
+						pd.date as patient_date,pd.street as p_address,pd.phone_contact as p_contact,
 						concat(pd.lname, ', ', pd.fname) AS patient_name,
 						pd.pid AS patient_id,
 						DATE_FORMAT(FROM_DAYS(DATEDIFF('".date('Y-m-d H:i:s')."',pd.dob)), '%Y')+0 AS patient_age,
@@ -353,6 +418,8 @@ $communication = trim($_POST["communication"]);
 
             //WHERE Conditions started
             $whr_stmt="where 1=1";
+            //adding date search
+          $whr_stmt.=" and pd.date>='$sql_date_from' AND pd.date<='$sql_date_to'";
             switch ($srch_option) {
                 case "Medications":
                 case "Allergies":
@@ -498,6 +565,8 @@ $communication = trim($_POST["communication"]);
             $k=1.3;
 
             if (sqlNumRows($result) > 0) {
+                //echo $sqlstmt;
+                //pd.date>='2019-09-16 07:41:16' AND pd.date<='2019-09-16 12:45:50'
                 $patArr = array();
 
                 $patDataArr = array();
@@ -517,6 +586,8 @@ $communication = trim($_POST["communication"]);
                         $patInfoArr['patient_race'] = $row['patient_race'];
                         $patInfoArr['patient_ethinic'] = $row['patient_ethinic'];
                         $patInfoArr['users_provider'] = $row['users_provider'];
+                        $patInfoArr['p_address'] = $row['p_address'];
+                        $patInfoArr['p_contact'] = $row['p_contact'];
                     } elseif ($srch_option == "Lab results") {
                         $patInfoArr['procedure_result_date'] = $row['procedure_result_date'];
                         $patInfoArr['procedure_result_facility'] = $row['procedure_result_facility'];
@@ -526,6 +597,8 @@ $communication = trim($_POST["communication"]);
                         $patInfoArr['procedure_result_abnormal'] = $row['procedure_result_abnormal'];
                         $patInfoArr['procedure_result_comments'] = $row['procedure_result_comments'];
                         $patInfoArr['procedure_result_document_id'] = $row['procedure_result_document_id'];
+                        $patInfoArr['p_address'] = $row['p_address'];
+                        $patInfoArr['p_contact'] = $row['p_contact'];
                     } elseif ($srch_option == "Communication") {
                         $patInfoArr['patient_date'] = $row['patient_date'];
                         $patInfoArr['patient_name'] = $row['patient_name'];
@@ -533,6 +606,8 @@ $communication = trim($_POST["communication"]);
                         $patInfoArr['patient_sex'] = $row['patient_sex'];
                         $patInfoArr['users_provider'] = $row['users_provider'];
                         $patInfoArr['communications'] = $row['communications'];
+                        $patInfoArr['p_address'] = $row['p_address'];
+                        $patInfoArr['p_contact'] = $row['p_contact'];
                     } elseif ($srch_option == "Demographics") {
                         $patInfoArr['patient_date'] = $row['patient_date'];
                         $patInfoArr['patient_name'] = $row['patient_name'];
@@ -541,8 +616,12 @@ $communication = trim($_POST["communication"]);
                         $patInfoArr['patient_race'] = $row['patient_race'];
                         $patInfoArr['patient_ethinic'] = $row['patient_ethinic'];
                         $patInfoArr['users_provider'] = $row['users_provider'];
+                        $patInfoArr['p_address'] = $row['p_address'];
+                        $patInfoArr['p_contact'] = $row['p_contact'];
                     }
                     $patFinalDataArr[] = $patInfoArr;
+
+
                 }
                 ?>
 
@@ -550,29 +629,33 @@ $communication = trim($_POST["communication"]);
 
                 <input type="hidden" name="sortby" id="sortby" value="<?php echo attr($sortby); ?>" />
                 <input type="hidden" name="sortorder" id="sortorder" value="<?php echo attr($sortorder); ?>" />
-                <div id = "report_results">
-                    <table>
+                <div id = "report_result">
+                    <!-- <table>
                         <tr>
                             <td class="text"><strong><?php echo xlt('Total Number of Patients')?>:</strong>&nbsp;<span id="total_patients"><?php echo text(count(array_unique($patArr))); ?></span></td>
                         </tr>
-                    </table>
+                    </table> -->
+                    <div class="table-div ">
 
-                    <table width=90% align="center" cellpadding="5" cellspacing="0" style="font-family:tahoma;color:black;" border="0">
+                    <table class="table table-form">
 
                     <?php
                     if ($srch_option == "Medications" || $srch_option == "Allergies" || $srch_option == "Problems") { ?>
-                        <tr style="font-size:15px;">
-                            <td width="15%"><b><?php echo xlt('Diagnosis Date'); ?><?php echo $sortlink[0]; ?></b></td>
-                            <td width="15%"><b><?php echo xlt('Diagnosis'); ?><?php echo $sortlink[1]; ?></b></td>
-                            <td width="15%"><b><?php echo xlt('Diagnosis Name');?><?php echo $sortlink[2]; ?></b></td>
-                            <td width="15%"><b><?php echo xlt('Patient Name'); ?></b></td>
-                            <td width="5%"><b><?php echo xlt('PID');?></b></td>
-                            <td width="5%"><b><?php echo xlt('Age');?></b></td>
-                            <td width="10%"><b><?php echo xlt('Gender');?></b></td>
-                            <td colspan=4><b><?php echo xlt('Provider');?></b></td>
+                        <thead>
+                        <tr class="bg-transparent">
+                            <th><?php echo xlt('Diagnosis Date'); ?></th>
+                            <th><?php echo xlt('Diagnosis'); ?></th>
+                            <th><?php echo xlt('Diagnosis Name');?></th>
+                            <th><?php echo xlt('Employee'); ?></th>
+                            <th><?php echo xlt('ID');?></th>
+                            <th><?php echo xlt('Age');?></th>
+                            <th><?php echo xlt('Gender');?></th>
+                            <th><?php echo xlt('Provider');?></th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <?php foreach ($patFinalDataArr as $patKey => $patDetailVal) { ?>
-                                <tr bgcolor = "#CCCCCC" style="font-size:15px;">
+                                <tr>
                                     <td ><?php echo text(oeFormatDateTime($patDetailVal['lists_date'], "global", true)); ?></td>
                                     <td ><?php echo text($patDetailVal['lists_diagnosis']); ?></td>
                                     <td ><?php echo text($patDetailVal['lists_title']); ?></td>
@@ -580,24 +663,31 @@ $communication = trim($_POST["communication"]);
                                     <td ><?php echo text($patDetailVal['patient_id']); ?></td>
                                     <td ><?php echo text($patDetailVal['patient_age']);?></td>
                                     <td ><?php echo text($patDetailVal['patient_sex']);?></td>
-                                    <td colspan=4><?php echo text($patDetailVal['users_provider']);?></td>
+                                    <td ><?php echo text($patDetailVal['users_provider']);?></td>
                                 </tr>
                         <?php	}
-                    } elseif ($srch_option == "Lab results") { ?>
-                        <tr bgcolor="#C3FDB8" align= "left" >
-                            <td width="15%"><b><?php echo xlt('Date'); ?><?php echo $sortlink[0]; ?></b></td>
-                            <td width="15%"><b><?php echo xlt('Facility');?><?php echo $sortlink[1]; ?></b></td>
-                            <td width="10%"><b><?php echo xlt('Unit');?></b><?php echo $sortlink[2]; ?></td>
-                            <td width="10%"><b><?php echo xlt('Result');?></b><?php echo $sortlink[3]; ?></td>
-                            <td width="10%"><b><?php echo xlt('Range');?></b><?php echo $sortlink[4]; ?></td>
-                            <td width="10%"><b><?php echo xlt('Abnormal');?><?php echo $sortlink[5]; ?></b></td>
-                            <td><b><?php echo xlt('Comments');?></b></td>
-                            <td width="5%"><b><?php echo xlt('Document ID');?></b></td>
-                            <td width="5%"><b><?php echo xlt('PID');?></b></td>
+                        ?>
+                        </tbody>
+                        <?php
+                    }
+                     elseif ($srch_option == "Lab results") { ?>
+                        <thead>
+                       <tr class="bg-transparent">
+                            <th><?php echo xlt('Date'); ?></th>
+                            <th><?php echo xlt('Facility');?></th>
+                            <th><?php echo xlt('Unit');?></th>
+                            <th><?php echo xlt('Result');?></th>
+                            <th><?php echo xlt('Range');?></th>
+                            <th><?php echo xlt('Abnormal');?></th>
+                            <th><?php echo xlt('Comments');?></th>
+                            <th><?php echo xlt('Document ID');?></th>
+                            <th><?php echo xlt('ID');?></th>
                         </tr>
+                     </thead>
+                     <tbody>
                         <?php
                         foreach ($patFinalDataArr as $patKey => $labResInsideArr) {?>
-                                <tr bgcolor = "#CCCCCC" >
+                                <tr>
                                                     <td> <?php echo text(oeFormatDateTime($labResInsideArr['procedure_result_date'], "global", true));?>&nbsp;</td>
                                                     <td> <?php echo text($labResInsideArr['procedure_result_facility'], ENT_NOQUOTES); ?>&nbsp;</td>
                                                     <td> <?php echo generate_display_field(array('data_type'=>'1','list_id'=>'proc_unit'), $labResInsideArr['procedure_result_units']); ?>&nbsp;</td>
@@ -606,22 +696,28 @@ $communication = trim($_POST["communication"]);
                                                     <td> <?php echo text($labResInsideArr['procedure_result_abnormal']); ?>&nbsp;</td>
                                                     <td> <?php echo text($labResInsideArr['procedure_result_comments']); ?>&nbsp;</td>
                                                     <td> <?php echo text($labResInsideArr['procedure_result_document_id']); ?>&nbsp;</td>
-                                                    <td colspan="3"> <?php echo text($labResInsideArr['patient_id']); ?>&nbsp;</td>
+                                                    <td> <?php echo text($labResInsideArr['patient_id']); ?>&nbsp;</td>
                                </tr>
                                         <?php
                         }
+                        ?>
+                        </tbody>
+                        <?php
                     } elseif ($srch_option == "Communication") { ?>
-                        <tr style="font-size:15px;">
-                            <td width="15%"><b><?php echo xlt('Date'); ?></b><?php echo $sortlink[0]; ?></td>
-                            <td width="20%"><b><?php echo xlt('Patient Name'); ?></b><?php echo $sortlink[1]; ?></td>
-                            <td width="5%"><b><?php echo xlt('PID');?></b><?php echo $sortlink[2]; ?></td>
-                            <td width="5%"><b><?php echo xlt('Age');?></b><?php echo $sortlink[3]; ?></td>
-                            <td width="10%"><b><?php echo xlt('Gender');?></b><?php echo $sortlink[4]; ?></td>
-                            <td width="15%"><b><?php echo xlt('Provider');?></b><?php echo $sortlink[5]; ?></td>
-                            <td ><b><?php echo xlt('Communication');?></b><?php echo $sortlink[6]; ?></td>
+                         <thead>
+                        <tr class="bg-transparent">
+                            <th>Date</th>
+                            <th>Employee</th>
+                            <th>ID</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Provider</th>
+                            <th >Communication</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         <?php foreach ($patFinalDataArr as $patKey => $patDetailVal) { ?>
-                                <tr bgcolor = "#CCCCCC" >
+                                <tr >
                                     <td ><?php echo ($patDetailVal['patient_date'] != '') ? text(oeFormatDateTime($patDetailVal['patient_date'], "global", true)) : ""; ?></td>
                                     <td ><?php echo text($patDetailVal['patient_name']); ?></td>
                                     <td ><?php echo text($patDetailVal['patient_id']); ?></td>
@@ -631,49 +727,71 @@ $communication = trim($_POST["communication"]);
                                     <td ><?php echo text($patDetailVal['communications']);?></td>
                                </tr>
                         <?php }
+                        ?>
+                        </tbody>
+                            <?php
+
                     } elseif ($srch_option == "Demographics") { ?>
-                        <tr style="font-size:15px;">
-                            <td width="15%"><b><?php echo xlt('Date'); ?></b><?php echo $sortlink[0]; ?></td>
-                            <td width="20%"><b><?php echo xlt('Patient Name'); ?></b><?php echo $sortlink[1]; ?></td>
-                            <td width="15%"><b><?php echo xlt('PID');?></b><?php echo $sortlink[2]; ?></td>
-                            <td width="5%"><b><?php echo xlt('Age');?></b><?php echo $sortlink[3]; ?></td>
-                            <td width="10%"><b><?php echo xlt('Gender'); ?></b><?php echo $sortlink[4]; ?></td>
-                            <td width="20%"><b><?php echo xlt('Race');?></b><?php echo $sortlink[5]; ?></td>
-                            <td colspan=5><b><?php echo xlt('Provider');?></b><?php echo $sortlink[7]; ?></td>
+                        <thead>
+                       <tr  class="bg-transparent">
+                            <th>Date</th>
+                            <th>Employee</th>
+                            <th>ID</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>Provider</th>
+                            <th>Contact</th>
                         </tr>
+                    </thead>
+                    <tbody>
                             <?php foreach ($patFinalDataArr as $patKey => $patDetailVal) { ?>
-                                <tr bgcolor = "#CCCCCC" style="font-size:15px;">
+                                <tr>
                                     <td ><?php echo ($patDetailVal['patient_date'] != '') ? text(oeFormatDateTime($patDetailVal['patient_date'], "global", true)) : ""; ?></td>
                                     <td ><?php echo text($patDetailVal['patient_name']); ?></td>
                                     <td ><?php echo text($patDetailVal['patient_id']); ?></td>
                                     <td ><?php echo text($patDetailVal['patient_age']);?></td>
                                     <td ><?php echo text($patDetailVal['patient_sex']);?></td>
-                                    <td ><?php echo generate_display_field(array('data_type'=>'36','list_id'=>'race'), $patDetailVal['patient_race']); ?></td>
-                                    <td colspan=5><?php echo text($patDetailVal['users_provider']);?></td>
+                                    <!-- <td ><?php echo generate_display_field(array('data_type'=>'36','list_id'=>'race'), $patDetailVal['patient_race']); ?></td> -->
+                                    <td ><?php echo text($patDetailVal['p_address']);?></td>
+                                    <td><?php echo text($patDetailVal['users_provider']);?></td>
+                                    <td ><?php echo text($patDetailVal['p_contact']);?></td>
                                 </tr>
                             <?php }
+                            ?>
+                            </tbody>
+                            <?php
                     } ?>
 
                     </table>
+                </div>
                      <!-- Main table ends -->
                 <?php
             } else {//End if $result?>
                     <table>
                         <tr>
-                            <td class="text">&nbsp;&nbsp;<?php echo xlt('No records found.')?></td>
+                            <td>&nbsp;&nbsp;<?php echo xlt('No records found.')?></td>
                         </tr>
                     </table>
                 <?php
             }
             ?>
-                </div>
+                <!-- </div> -->
 
             <?php
+            }
         } else {//End if form_refresh
-            ?><div class='text'> <?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?> </div><?php
+            ?>
+            <!-- <div class='text'> <?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?> </div> -->
+            <?php
         }
         ?>
         </form>
-
+</div>
+</div>
+</window-dashboard>
+</div>
+</div>
+</section>
     </body>
 </html>

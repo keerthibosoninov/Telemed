@@ -52,9 +52,25 @@ $language = $tmp['language'];
 
 <head>
 
-    <?php Header::setupHeader(); ?>
+    <?php //Header::setupHeader(); ?>
 
 <title><?php echo xlt('Patient Issues'); ?></title>
+<link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+
+<!-- PA -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <!-- <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script> -->
+    <script src="<?php echo $GLOBALS['webroot']; ?>/library/dialog.js"></script>
+
+<!-- //PA -->
 
 <script language="JavaScript">
 
@@ -70,6 +86,18 @@ function dopclick(id,category) {
     dlgopen('add_edit_issue.php?issue=' + encodeURIComponent(id) + '&thistype=' + encodeURIComponent(category), '_blank', 650, 500, '', <?php echo xlj("Add/Edit Issue"); ?>);
     //dlgopen('add_edit_issue.php?issue=' + encodeURIComponent(id) + '&thistype=' + encodeURIComponent(category), '_blank', 650, 600);
 }
+
+ function clickEdit(id,category){
+       
+    top.restoreSession();
+    if (category == 0) category = '';
+    $('#list_data').empty();
+    $('#addPlus').addClass('hidedata');
+    $("#allergy_data_new").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue="+ encodeURIComponent(id) +"&thistype=allergy", function(){
+       
+    });
+}
+
 
 // Process click on number of encounters.
 function doeclick(id) {
@@ -112,29 +140,18 @@ $arrOeUiSettings = array(
 );
 $oemr_ui = new OemrUI($arrOeUiSettings);
 ?>
+
+ 
 </head>
 
-<body class="body_top patient-medical-issues">
+
+<div id="list_data">
     <div id="container_div" class="<?php echo $oemr_ui->oeContainer();?>">
-        <div class="row">
-            <div class="col-sm-12">
-                <?php require_once("$include_root/patient_file/summary/dashboard_header.php") ?>
-            </div>
-        </div>
-        <div class="row" >
-            <div class="col-sm-12">
-                <?php
-                $list_id = "issues"; // to indicate nav item is active, count and give correct id
-                // Collect the patient menu then build it
-                $menuPatient = new PatientMenuRole();
-                $menuPatient->displayHorizNavBarMenu();
-                ?>
-            </div>
-        </div>
+      
 
         <div id='patient_stats'>
             <form method='post' action='stats_full.php' onsubmit='return top.restoreSession()'>
-
+            
             <table>
 
             <?php
@@ -161,34 +178,34 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 
                 // Show header
                 $disptype = $focustitles[0];
-                if (acl_check_issue($focustype, '', array('write', 'addonly'))) {
-                    if (($focustype=='allergy' || $focustype=='medication') && $GLOBALS['erx_enable']) {
-                        echo "<a href='../../eRx.php?page=medentry' class='css_button_small' onclick='top.restoreSession()' ><span>" .
-                        xlt('Add') . "</span></a>\n";
-                    } else {
-                        echo "<a href='javascript:;' class='css_button_small' onclick='dopclick(0," .
-                        attr_js($focustype)  . ")'><span>" . xlt('Add') . "</span></a>\n";
-                    }
-                }
+                // if (acl_check_issue($focustype, '', array('write', 'addonly'))) {
+                //     if (($focustype=='allergy' || $focustype=='medication') && $GLOBALS['erx_enable']) {
+                //         echo "<a href='../../eRx.php?page=medentry' class='css_button_small' onclick='top.restoreSession()' ><span>" .
+                //         xlt('Add') . "</span></a>\n";
+                //     } else {
+                //         echo "<a href='javascript:;' class='css_button_small' onclick='dopclick(0," .
+                //         attr_js($focustype)  . ")'><span>" . xlt('Add') . "</span></a>\n";
+                //     }
+                // }
 
-                echo "  <span class='title'>" . text($disptype) . "</span>\n";
-                // echo " <table style='margin-bottom:1em;text-align:center'>";
-                echo " <table style='margin-bottom:1em;'>";
+                echo " <div class='pt-4 pb-4 hide-open'><div>";
+                                        
+                echo " <table class='table table-form'>";
                 ?>
-              <tr class='head'>
-                <th style='text-align:left'><?php echo xlt('Title'); ?></th>
-                <th style='text-align:left'><?php echo xlt('Begin'); ?></th>
-                <th style='text-align:left'><?php echo xlt('End'); ?></th>
-                <th style='text-align:left'><?php echo xlt('Coding (click for education)'); ?></th>
-                <th style='text-align:left'><?php echo xlt('Status'); ?></th>
-                <th style='text-align:left'><?php echo xlt('Occurrence'); ?></th>
+              <tr >
+                <th ><?php echo xlt('Substance'); ?></th>
+                <th ><?php echo xlt('Severity'); ?></th>
+                <!-- <th  ><?php echo xlt('End'); ?></th> -->
+                <!-- <th  ><?php echo xlt('Coding'); ?></th> -->
+                <!-- <th  ><?php echo xlt('Status'); ?></th> -->
+                <!-- <th  ><?php echo xlt('Occurrence'); ?></th> -->
                 <?php if ($focustype == "allergy") { ?>
-                  <th style='text-align:left'><?php echo xlt('Reaction'); ?></th>
+                  <th  ><?php echo xlt('Reaction'); ?></th>
                 <?php } ?>
-                <th style='text-align:left'><?php echo xlt('Referred By'); ?></th>
-                <th style='text-align:left'><?php echo xlt('Modify Date'); ?></th>
-                <th style='text-align:left'><?php echo xlt('Comments'); ?></th>
-                <th><?php echo xlt('Enc'); ?></th>
+                <!-- <th  ><?php echo xlt('Referred By'); ?></th>
+                <th  ><?php echo xlt('Modify Date'); ?></th> -->
+                <th  ><?php echo xlt('Comments'); ?></th>
+                <th></th>
                 </tr>
                 <?php
 
@@ -205,16 +222,19 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                 if (sqlNumRows($pres) < 1) {
                     if (getListTouch($pid, $focustype)) {
                         // Data entry has happened to this type, so can display an explicit None.
-                        echo "<tr><td class='text'><b>" . xlt("None") . "</b></td></tr>";
+                        // edited km
+                        // echo "<tr><td class='text'><b>" . xlt("None") . "</b></td></tr>";
                     } else {
                           // Data entry has not happened to this type, so can show the none selection option.
-                          echo "<tr><td class='text'><input type='checkbox' class='noneCheck' name='" .
-                        attr($focustype) . "' value='none'";
-                        if (!acl_check_issue($focustype, '', 'write')) {
-                            echo " disabled";
-                        }
 
-                          echo " /><b>" . xlt("None") . "</b></td></tr>";
+                           // edited km
+                        //   echo "<tr><td class='text'><input type='checkbox' class='noneCheck' name='" .
+                        // attr($focustype) . "' value='none'";
+                        // if (!acl_check_issue($focustype, '', 'write')) {
+                        //     echo " disabled";
+                        // }
+
+                        //   echo " /><b>" . xlt("None") . "</b></td></tr>";
                     }
                 }
 
@@ -266,42 +286,54 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         $click_class='';
                     }
 
-                    echo " <tr class='" . attr($bgclass) . " detail' $colorstyle>\n";
-                    echo "  <td style='text-align:left' class='" . attr($click_class) . "' id='" . attr($rowid) . "'>" . text($disptitle) . "</td>\n";
-                    echo "  <td>" . text($row['begdate']) . "&nbsp;</td>\n";
-                    echo "  <td>" . text($row['enddate']) . "&nbsp;</td>\n";
+                    echo " <tr class='tablerow bodypart19'>\n";
+                    echo "  <td>" . text($row['substance_al']) . "&nbsp;</td>\n";
+                    // echo "  <td   class='" . attr($click_class) . "' id='" . attr($rowid) . "'>" . text($disptitle) . "</td>\n";
+                    echo "  <td>" . text($row['severity_al']) . "&nbsp;</td>\n";
+                    // echo "  <td>" . text($row['enddate']) . "&nbsp;</td>\n";
                     // both codetext and statusCompute have already been escaped above with htmlspecialchars)
-                    echo "  <td>" . $codetext . "</td>\n";
-                    echo "  <td>" . $statusCompute . "&nbsp;</td>\n";
-                    echo "  <td class='nowrap'>";
-                    echo generate_display_field(array('data_type'=>'1','list_id'=>'occurrence'), $row['occurrence']);
-                    echo "</td>\n";
+                    // echo "  <td>" . $codetext . "</td>\n";
+                    // echo "  <td>" . $statusCompute . "&nbsp;</td>\n";
+                    // echo "  <td class='nowrap'>";
+                    // echo generate_display_field(array('data_type'=>'1','list_id'=>'occurrence'), $row['occurrence']);
+                    // echo "</td>\n";
                     if ($focustype == "allergy") {
                           echo "  <td>";
                             echo generate_display_field(array('data_type'=>'1','list_id'=>'reaction'), $row['reaction']);
                           echo "</td>\n";
                     }
 
-                    echo "  <td>" . text($row['referredby']) . "</td>\n";
-                    echo "  <td>" . text($row['modifydate']) . "</td>\n";
+                    // echo "  <td>" . text($row['referredby']) . "</td>\n";
+                    // echo "  <td>" . text($row['modifydate']) . "</td>\n";
                     echo "  <td>" . text($row['comments']) . "</td>\n";
-                    echo "  <td id='e_" . attr($rowid) . "' class='noclick center' title='" . xla('View related encounters') . "'>";
-                    echo "  <input type='button' value='" . attr($ierow['count']) . "' class='editenc' id='" . attr($rowid) . "' />";
-                    echo "  </td>";
+                    // echo "  <td id='e_" . attr($rowid) . "' class='noclick center' title='" . xla('View related encounters') . "'>";
+                    // echo "  <input type='button' value='" . attr($ierow['count']) . "' class='editenc' id='" . attr($rowid) . "' />";
+                    // echo "  </td>";
+                    echo "<td>
+                        <img src='".$GLOBALS['assets_static_relative']."/img/edit-text.svg'  id='" . attr($rowid) . "' alt='' class='pr-2 hide-parent-open1 edit_data removeicon'>
+                        <img src='".$GLOBALS['assets_static_relative']."/img/delete.svg' alt='' class='remove19 removeicon'  ids='" . attr($rowid) . "'></td>
+                    ";
                     echo " </tr>\n";
                 }
             }
 
             echo "</table>";
             ?>
-
-            </table>
+                                </div>
+                                        
+            <div></div>
+            </div>
+      
 
             </form>
         </div> <!-- end patient_stats -->
+        
     </div><!--end of container div -->
-    <?php $oemr_ui->oeBelowContainerDiv();?>
+</div>
 
+    <div id="allergy_data_new"></div>
+    <?php //$oemr_ui->oeBelowContainerDiv();?>
+    
 </body>
 
 <script language="javascript">
@@ -328,6 +360,11 @@ $(document).ready(function(){
       );
       $(this).hide();
     });
+
+
+    //  custom km for edit
+    
+    $(".edit_data").click(function() { clickEdit(this.id,0); });
 });
 
 var GotoHistory = function() {
@@ -346,5 +383,40 @@ $(document).ready(function(){
 });
 </script>
 
+<script>
 
+    $("#add_new_med").click(function() {
+    
+        $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+        $("#patient_stats").load($webroot+"/interface/patient_file/summary/add_edit_issue.php?issue=0&thistype=medication");
+    });
+
+
+
+
+    // Process click on Delete link.
+    $("body").on("click", ".remove19", function() {
+   
+        thiss=$(this);
+       
+        $id=thiss.attr('ids');
+        $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+        // alert();
+        if(confirm("Are you sure?")){
+            $.post( $webroot+'/interface/patient_file/deleter.php',
+            {
+              issue: $id,
+              csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>,
+              form_submit:"1",
+            },
+             function(data,status){
+                thiss.closest(".bodypart19").remove();
+            });
+      
+
+        }
+   
+    });
+
+</script>
 </html>
