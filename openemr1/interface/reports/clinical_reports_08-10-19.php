@@ -92,17 +92,10 @@ else
     <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
     <script language="JavaScript">
-        // $(function(e) {
-           
-        //     var win = top.printLogSetup ? top : opener.top;
-        //     win.printLogSetup(document.getElementById('printbutton'));
-           
-        // });
-        function printForm(e){
-                 var win = top.printLogPrint ? top : opener.top;
-                 win.printLogPrint(window);
-                 e.preventDefault();
-            }
+        $(function() {
+            var win = top.printLogSetup ? top : opener.top;
+            win.printLogSetup(document.getElementById('printbutton'));
+        });
 
         function toggle(id) {
             var tr = document.getElementById(id);
@@ -154,10 +147,6 @@ else
     </script>
 
     <style type="text/css">
-    .table-div {
-        height: auto;
-        overflow: auto;
-        }
      input[type=date]{
             margin-top:0px;
         }
@@ -328,15 +317,13 @@ else
                                                     </div>
                                                     <div class="col-md-2">
                                                         <p>From</p>
-                                                        <!-- <input type='date' class='datetimepicker form-control' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'>                                    -->
-                                                        <input type='text' class='datetimepicker form-control' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'>
-
+                                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1"> -->
+                                                        <input type='date' class='datetimepicker form-control' name='date_from' id="date_from" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_from, 0, true)); ?>'>                                   
                                                     </div>
                                                     <div class="col-md-2">
                                                         <p>to</p>
-                                                        <!-- <input type='date' class='datetimepicker form-control' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'> -->
-                                                        <input type='text' class='datetimepicker form-control' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'>
-
+                                                        <!-- <input type="date" placeholder="" class="form-control pr-1 pl-1">/ -->
+                                                        <input type='date' class='datetimepicker form-control' name='date_to' id="date_to" size='18' value='<?php echo attr(oeFormatDateTime($sql_date_to, 0, true)); ?>'>
                                                     </div>
 
 
@@ -554,7 +541,7 @@ else
                                                             <button  onclick='submitForm();' class="form-save">SEARCH</button>
                                                         </div>
                                                         <div class="col-md-2"> 
-                                                            <button  onclick="printForm(event)" class="form-save">PRINT</button>
+                                                            <button  id='printbutton' class="form-save">PRINT</button>
                                                         </div>
                                                         <div class="col-md-2"> 
                                                         <button onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();' class="form-save">Export to CSV</button>
@@ -584,8 +571,8 @@ else
                                                 echo '"' . xl('Age') . '",';
                                                 echo '"' . xl('Gender') . '",';
                                                 echo '"' . xl('Address') . '",';
-                                                echo '"' . xl('Contact') . '",';
-                                                echo '"' . xl('Provider') . '"' . "\n";
+                                                echo '"' . xl('Provider') . '",';
+                                                echo '"' . xl('Contact') . '"' . "\n";
                                             }
                                             else
                                             {
@@ -724,7 +711,6 @@ else
 
                                             //where
                                             $whr_stmt="where 1=1";
-                                            $whr_stmt.=" and pd.date>='$sql_date_from' AND pd.date<='$sql_date_to'";
                                             if (strlen($form_diagnosis) > 0 || $_POST['form_diagnosis_allergy'] == true || $_POST['form_diagnosis_medprb'] == true) {
                                                 $whr_stmt=$whr_stmt." AND li.date >= ? AND li.date < DATE_ADD(?, INTERVAL 1 DAY) AND DATE(li.date) <= ?";
                                                 array_push($sqlBindArray, $sql_date_from, $sql_date_to, date("Y-m-d"));

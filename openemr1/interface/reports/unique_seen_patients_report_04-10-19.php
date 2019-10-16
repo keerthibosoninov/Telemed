@@ -94,8 +94,8 @@ if ($_POST['form_labels']) {
 <script language="JavaScript">
 
 $(function() {
-    // var win = top.printLogSetup ? top : opener.top;
-    // win.printLogSetup(document.getElementById('printbutton'));
+    var win = top.printLogSetup ? top : opener.top;
+    win.printLogSetup(document.getElementById('printbutton'));
 
     $('.datepicker').datetimepicker({
         <?php $datetimepicker_timepicker = false; ?>
@@ -105,19 +105,11 @@ $(function() {
         <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
      });
 });
-function printForm(e){
-                 var win = top.printLogPrint ? top : opener.top;
-                 win.printLogPrint(window);
-                 e.preventDefault();
-            }
 
 </script>
 
 <style type="text/css">
-.table-div {
-    height: auto;
-    overflow: auto;
-}
+
 /* specifically include & exclude from printing */
 @media print {
 
@@ -286,7 +278,7 @@ input[type=date]{
                                     <div class="row">
                                         <div class="col-md-3"></div>
                                         <div class="col-md-2"> <button onclick='$("#form_refresh").attr("value","true"); $("#form_labels").val(""); $("#theform").submit();' class="form-save">SEARCH</button></div>
-                                        <div class="col-md-2"> <button class="form-save" onclick="printForm(event)" id='printbutton'>PRINT</button></div>
+                                        <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
                                         <div class="col-md-2"> <button class="form-save" onclick='$("#form_labels").attr("value","true"); $("#theform").submit();'>Export to CSV</button></div>
 
                                     </div>

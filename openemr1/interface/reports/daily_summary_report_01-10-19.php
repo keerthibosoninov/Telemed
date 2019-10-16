@@ -60,10 +60,6 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
         <?php //Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 <style type="text/css">
-.table-div {
-    height: auto;
-    overflow: auto;
-}
      input[type=date]{
             margin-top:0px;
         }

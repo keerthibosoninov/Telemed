@@ -44,7 +44,7 @@ require_once("user.inc");
 require_once("patient.inc");
 require_once("lists.inc");
 require_once(dirname(dirname(__FILE__)) . "/custom/code_types.inc.php");
-
+use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Services\FacilityService;
 
 $facilityService = new FacilityService();
@@ -1147,13 +1147,20 @@ function generate_form_field($frow, $currvalue)
         echo "<table cellpadding='0' cellspacing='0'>";
         echo "<tr>";
         if ($data_type == 28) {
-          // input text
-            echo "<td><input type='text'" .
-            " name='form_$field_id_esc'" .
-            " id='form_$field_id_esc'" .
-            " size='$fldlength'" .
-            " $string_maxlength" .
-            " value='$resnote' $disabled />&nbsp;</td>";
+          // km changed input types to text area
+          echo "<td><textarea " .
+          " name='form_$field_id_esc'" .
+          " id='form_$field_id_esc'" .
+          " size='$fldlength'" .
+          " $string_maxlength" .
+          " value='$resnote' $disabled / class='form-control'>$resnote&nbsp;</textarea></td>";
+         
+            // echo "<td><input type='text'" .
+            // " name='form_$field_id_esc'" .
+            // " id='form_$field_id_esc'" .
+            // " size='$fldlength'" .
+            // " $string_maxlength" .
+            // " value='$resnote' $disabled / class='form-control'>&nbsp;</td>";
             echo "<td class='bold'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
             "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
             htmlspecialchars(xl('Status'), ENT_NOQUOTES).":&nbsp;&nbsp;</td>";
@@ -1317,6 +1324,261 @@ function generate_form_field($frow, $currvalue)
         $date_init .= " lbfCanvasSetup('form_$field_id_esc', $canWidth, $canHeight);\n";
     }
 }
+
+function generate_form_field_history($frow, $currvalue)
+{
+    global $rootdir, $date_init, $ISSUE_TYPES, $code_types, $membership_group_number;
+
+    $currescaped = htmlspecialchars($currvalue, ENT_QUOTES);
+
+    $data_type   = $frow['data_type'];
+    $field_id    = $frow['field_id'];
+    $list_id     = $frow['list_id'];
+    $backup_list = $frow['list_backup_id'];
+
+  // escaped variables to use in html
+    $field_id_esc= htmlspecialchars($field_id, ENT_QUOTES);
+    $list_id_esc = htmlspecialchars($list_id, ENT_QUOTES);
+
+  // Added 5-09 by BM - Translate description if applicable
+    $description = (isset($frow['description']) ? htmlspecialchars(xl_layout_label($frow['description']), ENT_QUOTES) : '');
+
+  // Support edit option T which assigns the (possibly very long) description as
+  // the default value.
+    if (isOption($frow['edit_options'], 'T') !== false) {
+        if (strlen($currescaped) == 0) {
+            $currescaped = $description;
+        }
+
+        // Description used in this way is not suitable as a title.
+        $description = '';
+    }
+
+  // added 5-2009 by BM to allow modification of the 'empty' text title field.
+  //  Can pass $frow['empty_title'] with this variable, otherwise
+  //  will default to 'Unassigned'.
+  // modified 6-2009 by BM to allow complete skipping of the 'empty' text title
+  //  if make $frow['empty_title'] equal to 'SKIP'
+    $showEmpty = true;
+    if (isset($frow['empty_title'])) {
+        if ($frow['empty_title'] == "SKIP") {
+            //do not display an 'empty' choice
+            $showEmpty = false;
+            $empty_title = "Unassigned";
+        } else {
+            $empty_title = $frow['empty_title'];
+        }
+    } else {
+        $empty_title = "Unassigned";
+    }
+
+    $disabled = isOption($frow['edit_options'], '0') === false ? '' : 'disabled';
+
+    $lbfchange = (
+        strpos($frow['form_id'], 'LBF') === 0 ||
+        strpos($frow['form_id'], 'LBT') === 0 ||
+        $frow['form_id'] == 'DEM'             ||
+        $frow['form_id'] == 'HIS'
+    ) ? "checkSkipConditions();" : "";
+    $lbfonchange = $lbfchange ? "onchange='$lbfchange'" : "";
+
+  // generic single-selection list or Race and Ethnicity.
+  // These data types support backup lists.
+    if ($data_type == 28 || $data_type == 32) { // special case for history of lifestyle status; 3 radio buttons
+        // and a date text field:
+        // VicarePlus :: A selection list box for smoking status:
+        $tmp = explode('|', $currvalue);
+        switch (count($tmp)) {
+            case "4":
+                $resnote = $tmp[0];
+                $restype = $tmp[1];
+                $resdate = oeFormatShortDate($tmp[2]);
+                $reslist = $tmp[3];
+                break;
+            case "3":
+                $resnote = $tmp[0];
+                $restype = $tmp[1];
+                $resdate = oeFormatShortDate($tmp[2]);
+                break;
+            case "2":
+                $resnote = $tmp[0];
+                $restype = $tmp[1];
+                $resdate = "";
+                break;
+            case "1":
+                $resnote = $tmp[0];
+                $resdate = $restype = "";
+                break;
+            default:
+                $restype = $resdate = $resnote = "";
+                break;
+        }
+
+        $maxlength = $frow['max_length'];
+        $string_maxlength = "";
+        // if max_length is set to zero, then do not set a maxlength
+        if ($maxlength) {
+            $string_maxlength = "maxlength='".attr($maxlength)."'";
+        }
+
+        $fldlength = empty($frow['fld_length']) ?  20 : $frow['fld_length'];
+
+        $fldlength = htmlspecialchars($fldlength, ENT_QUOTES);
+        $resnote = htmlspecialchars($resnote, ENT_QUOTES);
+        $resdate = htmlspecialchars($resdate, ENT_QUOTES);
+
+        
+    //   quit is required for tobacco,Alcohol,Recreational Drugs 
+        // quit
+        if($frow['field_id'] =='alcohol' || $frow['field_id'] =='tobacco' || $frow['field_id'] =='recreational_drugs'){
+            echo "<td class='text'><input type='radio'" .
+            " name='radio_{$field_id_esc}'" .
+            " id='radio_{$field_id_esc}[quit]'" .
+            " class=''" .
+            " value='quit".$field_id_esc."' $lbfonchange";
+            if ($restype == "quit" . $field_id) {
+                echo " checked";
+            }
+    
+            echo " $disabled />" . xlt('Quit') . "&nbsp;</td>";
+        }else{
+            echo "<td>&nbsp;</td>";
+        }
+
+        // quit date
+        if($frow['field_id'] =='alcohol' || $frow['field_id'] =='tobacco' || $frow['field_id'] =='recreational_drugs'){
+
+          
+            echo "<td class='text'><input type='date' style='width:70%' class='datepicker form-control' name='date_$field_id_esc' id='date_$field_id_esc'" .
+            " value='$resdate'" .
+            " title='$description'" .
+            " $disabled />";
+            echo "</td>";
+        }else{
+            echo "<td></td>";
+        }
+
+
+        // never
+        
+        // Not Applicable
+        if($frow['field_id'] =='alcohol' || $frow['field_id'] =='tobacco' || $frow['field_id'] =='recreational_drugs'){
+
+            echo "<td class='text'><input type='radio'" .
+            " class='' " .
+            " name='radio_{$field_id}'" .
+            " id='radio_{$field_id}[not_applicable]'" .
+            " value='not_applicable" . $field_id . "' $lbfonchange";
+            if ($restype == "not_applicable" . $field_id) {
+                echo " checked";
+            }
+
+            if ($data_type == 32) {
+                // echo " onClick='smoking_statusClicked(this)'";
+            }
+
+            echo " $disabled />" . xlt('N/A') . "&nbsp;</td>";
+        }else{
+            echo "<td>&nbsp;</td>";
+        }
+
+          // // current // yes
+        echo "<td class='text' ><input type='radio'" .
+        " name='radio_{$field_id_esc}'" .
+        " id='radio_{$field_id_esc}[current]'" .
+        " class=''" .
+        " value='current" . $field_id_esc . "' $lbfonchange";
+        if ($restype == "current" . $field_id) {
+            echo " checked";
+        }
+
+      
+        echo " />" . xlt('Yes') . "&nbsp;&nbsp;</td>";
+        //
+        // no
+        echo "<td class='text'><input type='radio'" .
+        " name='radio_{$field_id_esc}'" .
+        " class=''" .
+        " id='radio_{$field_id_esc}[never]'" .
+        " value='never" . $field_id_esc . "' $lbfonchange";
+        if ($restype == "never" . $field_id) {
+            echo " checked";
+        }
+
+        if ($data_type == 32) {
+            // echo " onClick='smoking_statusClicked(this)'";
+        }
+
+        echo " />" . xlt('No') . "&nbsp;&nbsp</td>";
+
+
+        //Added on 5-jun-2k14 (regarding 'Smoking Status - display SNOMED code description')
+        echo "<td class='text' ><div id='smoke_code'></div></td>";
+        echo "</tr>";
+      
+        echo "<tr>";
+        if ($data_type == 28 ) {
+          // km changed input types to text area
+          
+          echo "<td colspan='10'><textarea " .
+          " name='form_$field_id_esc'" .
+          " id='form_$field_id_esc'" .
+          " $string_maxlength" .
+          " value='$resnote' $disabled  class='form-control' rows='4' >$resnote&nbsp;</textarea></td>";
+         
+            // echo "<td><input type='text'" .
+            // " name='form_$field_id_esc'" .
+            // " id='form_$field_id_esc'" .
+            // " size='$fldlength'" .
+            // " $string_maxlength" .
+            // " value='$resnote' $disabled / class='form-control'>&nbsp;</td>";
+            // echo "<td class='bold'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
+            // "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
+            // htmlspecialchars(xl('Status'), ENT_NOQUOTES).":&nbsp;&nbsp;</td>";
+        }elseif ($data_type == 32) {
+            // input text
+              echo "<td colspan='10'><textarea" .
+              " name='form_text_$field_id_esc'" .
+              " id='form_text_$field_id_esc'" .
+              " class='form-control'" .
+              " $string_maxlength" .
+              " value='$resnote' $disabled rows='4' >$resnote&nbsp;</textarea></td>";
+             
+            
+              // echo "<td class='bold'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . xlt('Status') . ":&nbsp;&nbsp;</td>";
+          }
+        // }elseif ($data_type == 32) {
+        //   // input text
+        //     echo "<tr><td><input type='text'" .
+        //     " name='form_text_$field_id_esc'" .
+        //     " id='form_text_$field_id_esc'" .
+        //     " size='$fldlength'" .
+        //     " class='form-control'" .
+        //     " $string_maxlength" .
+        //     " value='$resnote' $disabled />&nbsp;</td></tr>";
+        //     echo "<td>";
+        //   //Selection list for smoking status
+        //     $onchange = 'radioChange(this.options[this.selectedIndex].value)';//VicarePlus :: The javascript function for selection list.
+        //     echo generate_select_list(
+        //         "form_$field_id",
+        //         $list_id,
+        //         $reslist,
+        //         $description,
+        //         ($showEmpty ? $empty_title : ''),
+        //         '',
+        //         $onchange,
+        //         '',
+        //         ($disabled ? array('disabled' => 'disabled') : null)
+        //     );
+        //     echo "</td>";
+        //     // echo "<td class='bold'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . xlt('Status') . ":&nbsp;&nbsp;</td>";
+        // }
+
+        
+    } 
+}
+
+// new ends
 
 function generate_print_field($frow, $currvalue)
 {
@@ -3347,6 +3609,179 @@ function display_layout_tabs_data_editable($formtype, $result1, $result2 = '')
         $first = false;
     }
 }
+
+// km customized new function for health history
+function display_layout_tabs_data_editable_history($formtype, $result1, $result2 = '',$pid)
+{
+
+    
+
+
+
+    global $item_count, $cell_count, $last_group, $CPR,$condition_str;
+
+    $grparr = array();
+    getLayoutProperties($formtype, $grparr, '*');
+
+    $TOPCPR = empty($grparr['']['grp_columns']) ? 4 : $grparr['']['grp_columns'];
+
+    $fres = sqlStatement("SELECT distinct group_id FROM layout_options " .
+        "WHERE form_id = ? AND uor > 0 " .
+        "ORDER BY group_id", array($formtype));
+
+    $first = true;
+    $condition_str = '';
+
+    while ($frow = sqlFetchArray($fres)) {
+        $this_group = $frow['group_id'];
+        $group_name = $grparr[$this_group]['grp_title'];
+        $group_name_esc = text($group_name);
+
+        if ($grparr[$this_group]['grp_title'] === 'Employer' && $GLOBALS['omit_employers']) {
+            continue;
+        }
+        $CPR = empty($grparr[$this_group]['grp_columns']) ? $TOPCPR : $grparr[$this_group]['grp_columns'];
+        $subtitle = empty($grparr[$this_group]['grp_subtitle']) ? '' : xl_layout_label($grparr[$this_group]['grp_subtitle']);
+
+        //  custom edit by km to remove Sleep Patterns:	and Seatbelt Use: adding data_type=28 and removing hazardous activities with seq =8
+        $group_fields_query = sqlStatement("SELECT * FROM layout_options " .
+            "WHERE form_id = ? AND uor > 0 AND group_id = ? AND (data_type = ? OR data_type = ?) AND seq != ? " .
+            "ORDER BY seq", array($formtype, $this_group,28,32,8));
+        ?>
+
+        <div class="tab-pane <?php echo $first ? 'current' : '' ?>" id="tab_<?php echo str_replace(' ', '_', $group_name_esc)?>" >
+            <?php $url=$GLOBALS['webroot'].'/interface/patient_file/history/history_save.php'?>
+            <form action="<?php echo $url;?>" id="HIS" name='history_form' method='post' onsubmit="submitme(<?php echo $GLOBALS['new_validate'] ? 1 : 0;?>,event,'HIS',constraints)">
+                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                <input type='hidden' name='form_pid' value='<?php echo $pid;?>'>
+                <input type='hidden' name='mode' value='save'>
+            <table border='0' cellpadding='0'>
+
+            <?php
+            while ($group_fields = sqlFetchArray($group_fields_query)) {
+                $titlecols  = $group_fields['titlecols'];
+                $datacols   = $group_fields['datacols'];
+                $data_type  = $group_fields['data_type'];
+                $field_id   = $group_fields['field_id'];
+                $list_id    = $group_fields['list_id'];
+                $backup_list = $group_fields['list_backup_id'];
+                $currvalue  = '';
+                $action     = 'skip';
+                $jump_new_row = isOption($group_fields['edit_options'], 'J');
+                $prepend_blank_row = isOption($group_fields['edit_options'], 'K');
+
+                // Accumulate action conditions into a JSON expression for the browser side.
+                accumActionConditions($field_id, $condition_str, $group_fields['conditions']);
+
+                if ($formtype == 'DEM') {
+                    if (strpos($field_id, 'em_') === 0) {
+                      // Skip employer related fields, if it's disabled.
+                        if ($GLOBALS['omit_employers']) {
+                            continue;
+                        }
+
+                        $tmp = substr($field_id, 3);
+                        if (isset($result2[$tmp])) {
+                            $currvalue = $result2[$tmp];
+                        }
+                    } else {
+                        if (isset($result1[$field_id])) {
+                            $currvalue = $result1[$field_id];
+                        }
+                    }
+                } else {
+                    if (isset($result1[$field_id])) {
+                        $currvalue = $result1[$field_id];
+                    }
+                }
+
+                // Handle a data category (group) change.
+                if (strcmp($this_group, $last_group) != 0) {
+                    // totally skip generating the employer category, if it's disabled.
+                    if ($group_name === 'Employer' && $GLOBALS['omit_employers']) {
+                        continue;
+                    }
+
+                    $last_group = $this_group;
+                }
+
+                // Handle starting of a new row.
+                if (($titlecols > 0 && $cell_count >= $CPR) || $cell_count == 0 || $prepend_blank_row || $jump_new_row) {
+                    disp_end_row();
+                    if ($subtitle) {
+                        // Group subtitle exists and is not displayed yet.
+                        echo "<tr><td class='label' style='background-color:#dddddd;padding:3pt' colspan='$CPR'>" . text($subtitle) . "</td></tr>\n";
+                        echo "<tr><td class='label' style='height:4pt' colspan='$CPR'></td></tr>\n";
+                        $subtitle = '';
+                    }
+                    if ($prepend_blank_row) {
+                        echo "<tr><td class='label' colspan='$CPR'>&nbsp;</td></tr>\n";
+                    }
+                    echo "<tr class='pb-2'>";
+                }
+
+                if ($item_count == 0 && $titlecols == 0) {
+                    $titlecols = 1;
+                }
+
+                // Handle starting of a new label cell.
+                if ($titlecols > 0) {
+                    disp_end_cell();
+                    $titlecols_esc = htmlspecialchars($titlecols, ENT_QUOTES);
+                    $field_id_label = 'label_'.$group_fields['field_id'];
+                    echo "<td class='label_custom' ";
+                    // This ID is used by skip conditions.
+                    echo " id='label_id_" . attr($field_id) . "'";
+                    echo ">";
+                    $cell_count += $titlecols;
+                }
+
+                ++$item_count;
+
+                if ($group_fields['title']) {
+                    $tmp = xl_layout_label($group_fields['title']);
+                    echo text($tmp);
+                    // Append colon only if label does not end with punctuation.
+                    if (strpos('?!.,:-=', substr($tmp, -1, 1)) === false) {
+                        echo ':';
+                    }
+                } else {
+                    echo "&nbsp;";
+                }
+
+                // Handle starting of a new data cell.
+                if ($datacols > 0) {
+                    disp_end_cell();
+                    $datacols_esc = htmlspecialchars($datacols, ENT_QUOTES);
+                    $field_id = 'text_'.$group_fields['field_id'];
+                    echo "<td class='text data' ";
+                    // This ID is used by action conditions.
+                    echo " id='value_id_" . attr($field_id) . "'";
+                    echo ">";
+                    $cell_count += $datacols;
+                }
+
+                ++$item_count;
+
+                echo generate_form_field_history($group_fields, $currvalue);
+            }
+            ?>
+
+            </table>
+            <div class="pt-4 pb-5">
+                <button class="form-save" type="submit">Save</button>
+                </div>
+
+            <!-- <button type="submit" class="btn btn-default btn-save"><?php echo xlt('Save'); ?></button> -->
+            </form>
+        </div>
+
+        <?php
+
+        $first = false;
+    }
+}
+
 
 // From the currently posted HTML form, this gets the value of the
 // field corresponding to the provided layout_options table row.

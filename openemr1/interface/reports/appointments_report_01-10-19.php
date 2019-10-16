@@ -167,10 +167,7 @@ function fetch_reminders($pid, $appt_date)
         </script>
 
         <style type="text/css">
-.table-div {
-    height: auto;
-    overflow: auto;
-}
+
 
         /* css_PA */
         .form-save {

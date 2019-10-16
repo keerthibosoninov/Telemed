@@ -99,6 +99,7 @@ if (($_POST['setting_bootstrap_submenu']) ||
         href="<?php echo $GLOBALS['web_root']; ?>/library/css/bootstrap_navbar.css?v=<?php echo $v_js_includes; ?>"
         type="text/css">
 
+    <?php //Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
     <script>
     var xljs1 = '<?php echo xla('
     Preferences updated successfully '); ?>';
@@ -117,21 +118,9 @@ if (($_POST['setting_bootstrap_submenu']) ||
     <meta name="description" content="MedEx Bank">
     <meta name="author" content="OpenEMR: MedExBank">
     <meta name="viewport" content="width=device-width, initial-scale=1">
- 
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-
-    <?php Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
 
 
-
-    <!-- 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
@@ -146,129 +135,108 @@ if (($_POST['setting_bootstrap_submenu']) ||
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script> -->
+    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script>
     <!-- <script language="javascript" src="<?php echo $GLOBALS['webroot']; ?>/library/dialog.js?v=<?php echo $v_js_includes; ?>"></script> -->
     <!-- relatives_tab_css -->
 <style>
-.css_pa_iframe
-{
-    border: none;
-    width: 950px;
-    height: auto;
-}
-.active-text {
-    pointer-events: none;
-    border: 0px solid silver !important;
-    background-color: #ececec !important;
-}
     .activatetextarea .active-text {
     pointer-events: all;
-    border: 1px solid silver !important;
-    background-color: #ececec00!important;
+    border: 1px solid silver;
+    background-color: #ececec00
 }
 .xx {
     cursor: pointer;
 }
-/*  */
-
-input[type=text]{
-    border: 1px solid #ced4da !important;
+.active-text {
+    pointer-events: none;
+    border: 0px solid silver;
+    background-color: #ececec;
 }
 </style>
 <!-- //relatives_tab_css -->
 
-<!-- PA_new -->
-<style>
-   
-    input[type=date]{
-            margin-top:0px;
-        }
-        input[type=text]{
-            margin-top:0px;
-        }
-    .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-        background: #3C9DC5;
-        text-decoration: none;
+    <!-- <style>
+        /* .compo-info
+        {
+            font-size: 15px;
+        } */
+    .fs-9 {
+        font-size: 9px;
     }
-    .pa_row{
-        display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    padding: 5px;
+    .map .body-compo {
+        height: 470px
     }
-.pa_md6, .pa_md3, .pa_md12, .pa_md4, .pa_sm9{
-    width: 100%;
-    padding: 0px 15px;
-}
-@media (min-width: 768px)
-{
-.pa_md6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.pa_md3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-.pa_md4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-.pa_md12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-}
-.pa_mt-2, .pa_my-2 {
-    margin-top: .5rem!important;
-}
-.pa_form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.pa_pt-4, .pa_py-4 {
-    padding-top: 1.5rem!important;
-}
 
-.pa_pb-2, .pa_py-2 {
-    padding-bottom: 1.5rem!important;
-}
-.pa_pb-5, .pa_py-5 {
-    padding-bottom: 3rem!important;
-}
-.pa_pt-2, .pa_py-2 {
-    padding-top: 1.5rem!important;
-}
-.form-save {
-    background-color: #3C9DC5;
-    padding: 5px;
-    width: 100%;
-    border: none;
-    outline: none;
-    color: white;
-}
-label {
-    font-weight: normal !important;
-    font-size:16px;
-}
+    .map-width {
+        width: 80%;
+        margin: auto
+    }
 
-</style>
-<!-- //PA_new -->
+    .map-zoom {
+        height: 300px;
+        width: 100%;
+        overflow: hidden
+    }
+
+    @media only screen and (max-width: 768px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: left !important;
+        }
+
+        .navbar-toggle>span.icon-bar {
+            background-color: #68171A ! important;
+        }
+
+        .navbar-default .navbar-toggle {
+            border-color: #4a4a4a;
+        }
+
+        .navbar-default .navbar-toggle:focus,
+        .navbar-default .navbar-toggle:hover {
+            background-color: #f2f2f2 !important;
+            font-weight: 900 !important;
+            color: #000000 !important;
+        }
+
+        .navbar-color {
+            background-color: #E5E5E5;
+        }
+
+        .icon-bar {
+            background-color: #68171A;
+        }
+
+        .navbar-header {
+            float: none;
+        }
+
+        .navbar-toggle {
+            display: block;
+            background-color: #f2f2f2;
+        }
+
+        .navbar-nav {
+            float: none !important;
+        }
+
+        .navbar-nav>li {
+            float: none;
+        }
+
+        .navbar-collapse.collapse.in {
+            z-index: 100;
+            background-color: #dfdfdf;
+            font-weight: 700;
+            color: #000000 !important;
+        }
+
+
+    }
+    </style> -->
+    
+
+
     <?php
 if (($GLOBALS['medex_enable'] == '1') && (empty($_REQUEST['nomenu'])) && ($GLOBALS['disable_rcb'] != '1')) {
     $MedEx->display->navigation($logged_in);
@@ -346,7 +314,7 @@ if (!empty($_REQUEST['go'])) { ?>
                 <div class="container-fluid pb-4 pt-4">
                     <window-dashboard title="Employee Info" class="icon-hide">
                     <div class="head-component">
-                            <div class="row pa_row">
+                            <div class="row">
                                 <div class="col-6"></div>
                                 <div class="col-6">
                                     <p class="text-white head-p">Employee Info </p>
@@ -362,7 +330,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#menu1">Current</a>
                                 </li>
-                                <li id="histry" class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#menu2">History</a>
                                 </li>
                             </ul>
@@ -375,12 +343,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                 <div class="form-inputs">
                                         <div class="pt-5">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-3 pa_md3">
+                                            <div class="row">
+                                                <div class="col-md-3">
                                                     <p>Visit Category</p>
                                                    
 
-                                            <select  name='pc_catid' id='pc_catid' class='form-control col-sm-12 pa_form-control'>
+                                            <select  name='pc_catid' id='pc_catid' class='form-control col-sm-12'>
                                             <option value='_blank'>-- <?php echo xlt('Select One'); ?> --</option>
                                             <?php
                                             //Bring only patient ang group categories
@@ -436,10 +404,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                             ?>
                                         </select>
                                                 </div>
-                                                <div class="col-md-3 pa_md3">
+                                                <div class="col-md-3">
                                                     <p>Sensitivity</p>
                                                   
-                                                        <select name='form_sensitivity' id='form_sensitivity' class='form-control col-sm-12 pa_form-control' >
+                                                        <select name='form_sensitivity' id='form_sensitivity' class='form-control col-sm-12' >
                                             <?php
                                             foreach ($sensitivities as $value) {
                                                 // Omit sensitivities to which this user does not have access.
@@ -462,23 +430,23 @@ if (!empty($_REQUEST['go'])) { ?>
                                             ?>
                                         </select>
                                                 </div>
-                                                <div class="col-md-3 pa_md3">
+                                                <div class="col-md-3">
                                                     <p>Date of Service</p>
-                                                    <input type="date" name='form_date' class="form-control pa_form-control">
+                                                    <input type="date" name='form_date' class="form-control">
                                                 </div>
-                                                <div class="col-md-3 pa_md3">
+                                                <div class="col-md-3">
                                                     <p>On Set/Hosp. Date</p>
-                                                    <input type="date" name='form_onset_date' class="form-control pa_form-control">
+                                                    <input type="date" name='form_onset_date' class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-6 pa_md6">
+                                            <div class="row">
+                                                <div class="col-md-6">
                                                     <p>Facility</p>
                                                    
-                                                    <select name='facility_id' id='facility_id' class='form-control col-sm-9 pa_form-control pa_sm9' onChange="bill_loc()">
+                                                    <select name='facility_id' id='facility_id' class='form-control col-sm-9' onChange="bill_loc()">
                                             <?php
                                             if ($viewmode) {
                                                 $def_facility = $result['facility_id'];
@@ -509,32 +477,27 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 </div>
 
 
-                                                <div class="col-md-6 pa_md6">
+                                                <div class="col-md-6">
                                                     <p>Billing Facility</p>
-                                                    <!-- <select name="" id="" class="form-control mt-2 pa_form-control pa_mt-2">
+                                                    <select name="" id="" class="form-control mt-2">
                                                         <option value="">Value 1</option>
                                                         <option value="">value 2</option>
                                                         <option value="">Value 3</option>
-                                                    </select> -->
-                                                    <!-- <input type="text" name="billing_facility" class="form-control pa_form-control" > -->
-                                                    <?php
-                                            $default_bill_fac = isset($result['billing_facility']) ? $result['billing_facility'] : $def_facility;
-                                            billing_facility('billing_facility', $default_bill_fac);
-                                        ?>
+                                                    </select>
                                                 </div>
 
                                             </div>
                                         </div>
                                         <div class="div pt-3">
-                                            <div class="row pa_row">
+                                            <div class="row">
                                                 <div class="col-12">
                                                     <p> Reason for Visit</p>
-                                                    <textarea name="reason" id="" class="form-control pa_form-control" rows="4"></textarea>
+                                                    <textarea name="reason" id="" class="form-control" rows="4"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="div pt-3">
-                                            <div class="row pa_row">
+                                            <div class="row">
 
                                                 <div class="col-12">
                                                     <p>Type</p>
@@ -562,10 +525,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>Title</p>
-                                                    <input type="text" name="form_title" class="form-control pa_form-control" placeholder="">
+                                                    <input type="text" name="form_title" class="form-control" placeholder="Title">
                                                 </div>
 
 
@@ -573,12 +536,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>ICD Codes</p>
-                                                    <!-- <input type="text" class="form-control" name='form_diagnosis'> -->
-                                                    <input type='text' class="form-control pa_form-control" name='form_diagnosis' id='form_diagnosis'
-                                                    onclick='sel_diagnosis()' title='<?php echo xla('Click to select or change coding'); ?>' readonly >
+                                                    <input type="text" class="form-control" name='form_diagnosis'>
+                                                    <!-- <input type='text' class="form-control" name='form_diagnosis' id='form_diagnosis'
+                                                    onclick='sel_diagnosis()' title='<?php echo xla('Click to select or change coding'); ?>' readonly > -->
                                                    
                                                 </div>
 
@@ -588,10 +551,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                        
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>Occurence</p>
-                                                    <input type="number" name="form_occur" class="form-control pa_form-control">
+                                                    <input type="number" name="form_occur" class="form-control">
                                                 </div>
 
 
@@ -599,10 +562,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>Referred By</p>
-                                                    <input type="text" name='form_referredby' class="form-control pa_form-control">
+                                                    <input type="text" name='form_referredby' class="form-control">
                                                 </div>
 
 
@@ -610,10 +573,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>Comments</p>
-                                                    <textarea name='form_comments' id="" class="form-control pa_form-control" rows="4"></textarea>
+                                                    <textarea name='form_comments' id="" class="form-control" rows="4"></textarea>
                                                 </div>
 
 
@@ -621,10 +584,10 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>Outcome</p>
-                                                    <input type="number" name="form_outcome" class="form-control pa_form-control">
+                                                    <input type="number" name="form_outcome" class="form-control">
                                                 </div>
 
 
@@ -632,17 +595,16 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="pt-3">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <p>Destination</p>
-                                                    <input type="text" name="form_destination" class="form-control pa_form-control">
+                                                    <input type="text" name="form_destination" class="form-control">
                                                 </div>
 
 
                                             </div>
                                         </div>
                                         <div class="pt-4 pb-5">
-                                            <input type="hidden" name="pid" value="<?= $pid ?>">
                                             <input type="hidden" name="mode" value="new">
                                             <button class="form-save" type="submit">Save</button>
                                         </div>
@@ -651,176 +613,218 @@ if (!empty($_REQUEST['go'])) { ?>
                                 </div>
                        
 
-                        <div id="menu1" class="container tab-pane fade">
-                            <form id="current_form" onsubmit="submit_current();">    
+                                <div id="menu1" class="container tab-pane fade">
+                                    <form id="current_form" onsubmit="submit_current();">    
 
-                                    <div>
-                                        <h4>Visit Summary</h4>
-                                        <div class="pt-4 pb-5">
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Facility</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="facility2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Reason</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <h4 class="mt-3">SOAP</h4>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Subjective</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="subjective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Objective</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Assessment</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="assessment" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Plan</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="plan" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                                    <input type="hidden" name="pat_id" value="<?= $pid ?>" >
-                                                    <input type="hidden" name="activity" value="1" >
-                                                    <input type="hidden" name="form_id" value="current_data">
-                                            </div>
-                                            <div class="mt-3">
-                                                <h4>Vitals</h4>
-                                                <div class="row pa_row">
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Blood Pressure</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="bp" class="form-control pa_form-control active-text">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Height</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="height" class="form-control pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Temprature Method</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="temp_method" class=" pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Temprature</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="temp" class="form-control pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Weight</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="weight" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Pulse </p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="pulse" class="form-control pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-
+                                        <div>
+                                            <h4>Visit Summary</h4>
                                             <div class="pt-4 pb-5">
-                                                <button class="form-save">Save</button>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Facility</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="facility2" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Reason</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <h4 class="mt-3">SOAP</h4>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Subjective</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="subjective" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Objective</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Assessment</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="assessment" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-sm-6">
+                                                        <p class="fs-14">Plan</p>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                    </div>
+                                                    <div class="col-sm-12 pt-2">
+                                                        <textarea name="plan" id="" rows="4 " class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                        <input type="hidden" name="pat_id" value="<?= $pid ?>" >
+                                                        <input type="hidden" name="activity" value="1" >
+                                                        <input type="hidden" name="form_id" value="current_data">
+                                                </div>
+                                                <div class="mt-3">
+                                                    <h4>Vitals</h4>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Blood Pressure</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="bp" class="form-control active-text">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Height</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="height" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Temprature Method</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="temp_method" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Temprature</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="temp" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Weight</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="weight" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-6">
+                                                                    <p class="fs-14"> Pulse </p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                </div>
+                                                                <div class="col-sm-12 pt-2">
+                                                                    <input type="text" name="pulse" class="form-control active-text">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="pt-4 pb-5">
+                                                    <button class="form-save">Save</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </form>
                                 </div>
                     
                                 <div id="menu2" class="container tab-pane fade">
-                               
-                               
+                                    <div class="pt-4 pb-5">
+                                        <div class="table-div">
+                                            <table class="table table-form">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Date.</th>
+                                                        <th>Issue</th>
+                                                        <th>Reason/form</th>
+                                                        <th>provider</th>
+                                                        <th>Billing</th>
+                                                        <th>Insurance</th>
+                                                    </tr>
+                                                    <?php
+
+                                                    
+                                                    ?>
+                                                    <tr>
+                                                        <td>9-23-2019</td>
+                                                        <td>Sadness</td>
+                                                        <td>WH</td>
+                                                        <td>(213)999-6666</td>
+                                                        <td></td>
+                                                        <th></th>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td>9-23-2019</td>
+                                                        <td>Sadness</td>
+                                                        <td>WH</td>
+                                                        <td>(213)999-6666</td>
+                                                        <td></td>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>9-23-2019</td>
+                                                        <td>Sadness</td>
+                                                        <td>WH</td>
+                                                        <td>(213)999-6666</td>
+                                                        <td></td>
+                                                        <th></th>
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1185,31 +1189,31 @@ $.ajax({
 
 }
 
-function sel_diagnosis() 
-{
-    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+// function sel_diagnosis() 
+// {
+    // $webroot=  "<?php echo $GLOBALS['webroot'];?>";
 <?php
-$url = $webroot.'/interface/patient_file/encounter/find_code_dynamic.php?codetype=';
+// $url = $webroot+'/interface/patient_file/encounter/find_code_dynamic.php?codetype=';
 
-if ($irow['type'] == 'medical_problem') {
-    $url .= urlencode(collect_codetypes("medical_problem", "csv"));
-} else {
-    $url .= urlencode(collect_codetypes("diagnosis", "csv"));
-    $tmp  = urlencode(collect_codetypes("drug", "csv"));
-    if ($irow['type'] == 'allergy') {
-        if ($tmp) {
-            $url .= ",$tmp";
-        }
-    } elseif ($irow['type'] == 'medication') {
-        if ($tmp) {
-            $url .= ",$tmp&default=$tmp";
-        }
-    }
-}
+// if ($irow['type'] == 'medical_problem') {
+    // $url .= urlencode(collect_codetypes("medical_problem", "csv"));
+// } else {
+//     $url .= urlencode(collect_codetypes("diagnosis", "csv"));
+//     $tmp  = urlencode(collect_codetypes("drug", "csv"));
+//     if ($irow['type'] == 'allergy') {
+//         if ($tmp) {
+//             $url .= ",$tmp";
+//         }
+//     } elseif ($irow['type'] == 'medication') {
+//         if ($tmp) {
+//             $url .= ",$tmp&default=$tmp";
+//         }
+//     }
+// }
 ?>
 
-dlgopen(<?php echo js_escape($url); ?>, '_blank', 985, 800, '', <?php echo xlj("Select Codes"); ?>);
-}
+// dlgopen(<?php echo js_escape($url); ?>, '_blank', 985, 800, '', <?php echo xlj("Select Codes"); ?>);
+// }
 
 
 // function sel_diagnosis() {
@@ -1231,14 +1235,4 @@ $(".xx").click(function() {
 });
 });
 </script>
-
 <!--//textarea_js -->
-
-<script>
-    $("#histry").click(function() {
-// alert();
-$webroot=  "<?php echo $GLOBALS['webroot'];?>";
-$("#menu2").load($webroot+"/interface/patient_file/history/encounters.php");
-
-});
-</script>

@@ -51,7 +51,6 @@ $issue = empty($_GET['issue']) ? 0 : 0 + $_GET['issue'];
  $auth_demo     = acl_check('patients', 'demo');
  $glog_view_write = acl_check("groups", "glog", false, array('view','write'));
 
-$pid=1;
  $tmp = getPatientData($pid, "squad");
 if ($tmp['squad'] && ! acl_check('squads', $tmp['squad'])) {
     $auth_notes_a = $auth_notes = $auth_coding_a = $auth_coding = $auth_med = $auth_demo = $auth_relaxed = 0;
@@ -145,12 +144,10 @@ function showDocument(&$drow)
     echo "</td>\n";
 
   // show document name and category
-    echo "<td>".
+    echo "<td colspan='3'>".
     text(xl('Document') . ": " . basename($drow['url']) . ' (' . xl_document_category($drow['name']) . ')') .
     "</td>\n";
-    echo "<td>&nbsp;</td>";
-    echo "<td>&nbsp;</td>";
-    echo "<td>&nbsp;</td>\n";
+    echo "<td colspan=5>&nbsp;</td>\n";
     echo "</tr>\n";
 }
 
@@ -169,24 +166,10 @@ function generatePageElement($start, $pagesize, $billing, $issue, $text)
 ?>
 <html>
 <head>
-<!-- <link rel="stylesheet" href="<?php echo $GLOBALS['webroot'] ?>/library/css/encounters.css" type="text/css"> -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
-
-    <!-- <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script> -->
-<?php //Header::setupHeader(['no_textformat']); ?>
+<!-- Main style sheet comes after the page-specific stylesheet to facilitate overrides. -->
+<link rel="stylesheet" href="<?php echo $GLOBALS['webroot'] ?>/library/css/encounters.css" type="text/css">
+<!-- Not sure why we don't want this ui to be B.S responsive. -->
+<?php Header::setupHeader(['no_textformat']); ?>
 
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/ajtooltip.js"></script>
 
@@ -263,9 +246,9 @@ function efmouseover(elem, ptid, encid, formname, formid) {
 </head>
 
 <body class="body_bottom">
- <!-- large outer DIV -->
+<div id="encounters"> <!-- large outer DIV -->
 
-<!-- <font class='title'>
+<font class='title'>
 <?php
 if ($issue) {
     echo xlt('Past Encounters for') . ' ';
@@ -276,7 +259,7 @@ if ($issue) {
     echo $attendant_type == 'pid' ? xlt('Past Encounters and Documents') : xlt('Past Therapy Group Encounters');
 }
 ?>
-</font> -->
+</font>
 &nbsp;&nbsp;
 <?php
 // Setup the GET string to append when switching between billing and clinical views.
@@ -308,14 +291,14 @@ $getStringForPage="&pagesize=" . attr_url($pagesize) . "&pagestart=" . attr_url(
 
 ?>
 <?php if ($billing_view) { ?>
-<!-- <a href='encounters.php?billing=0&issue=<?php echo $issue.$getStringForPage; ?>' onclick='top.restoreSession()' style='font-size:8pt'>(<?php echo xlt('To Clinical View'); ?>)</a> -->
+<a href='encounters.php?billing=0&issue=<?php echo $issue.$getStringForPage; ?>' onclick='top.restoreSession()' style='font-size:8pt'>(<?php echo xlt('To Clinical View'); ?>)</a>
 <?php } else { ?>
-<!-- <a href='encounters.php?billing=1&issue=<?php echo $issue.$getStringForPage; ?>' onclick='top.restoreSession()' style='font-size:8pt'>(<?php echo xlt('To Billing View'); ?>)</a> -->
+<a href='encounters.php?billing=1&issue=<?php echo $issue.$getStringForPage; ?>' onclick='top.restoreSession()' style='font-size:8pt'>(<?php echo xlt('To Billing View'); ?>)</a>
 <?php } ?>
 
-<span style="float:right;">
-    <?php //echo xlt('Results per page'); ?>
-    <select style="display:none;" id="selPagesize" billing="<?php echo attr($billing_view); ?>" issue="<?php echo attr($issue); ?>" pagestart="<?php echo attr($pagestart); ?>" >
+<span style="float:right">
+    <?php echo xlt('Results per page'); ?>:
+    <select id="selPagesize" billing="<?php echo attr($billing_view); ?>" issue="<?php echo attr($issue); ?>" pagestart="<?php echo attr($pagestart); ?>" >
 <?php
     $pagesizes=array(5,10,15,20,25,50,0);
 for ($idx=0; $idx<count($pagesizes); $idx++) {
@@ -336,26 +319,21 @@ for ($idx=0; $idx<count($pagesizes); $idx++) {
     </select>
 </span>
 
-<div id="encounters" class="pt-4 pb-5">
-<div class="table-div">
-<table class="table table-form">
- <!-- <tr class='text'>
-  <th><?php echo xlt('Date'); ?></th> -->
+<br>
 
-  <tr>
-<th>Date.</th>
+<table>
+ <tr class='text'>
+  <th><?php echo xlt('Date'); ?></th>
+
 <?php if ($billing_view) { ?>
   <th class='billing_note'><?php echo xlt('Billing Note'); ?></th>
 <?php } else { ?>
     <?php if ($attendant_type == 'pid' && !$issue) { // only for patient encounter and if listing for multiple issues?>
-  <!-- <th><?php echo xlt('Issue'); ?></th> -->
-  <th>Issue</th>
+  <th><?php echo xlt('Issue'); ?></th>
 <?php } ?>
-  <!-- <th><?php echo xlt('Reason/Form'); ?></th> -->
-  <th>Reason/form</th>
+  <th><?php echo xlt('Reason/Form'); ?></th>
     <?php if ($attendant_type == 'pid') { ?>
-  <!-- <th><?php echo xlt('Provider');    ?></th> -->
-  <th>provider</th>
+  <th><?php echo xlt('Provider');    ?></th>
     <?php } else { ?>
         <th><?php echo xlt('Counselors');    ?></th>
     <?php } ?>
@@ -368,13 +346,11 @@ for ($idx=0; $idx<count($pagesizes); $idx++) {
   <th class='right'><?php echo xlt('Adj'); ?></th>
   <th class='right'><?php echo xlt('Bal'); ?></th>
 <?php } elseif ($attendant_type == 'pid') { ?>
-  <!-- <th><?php echo ($GLOBALS['phone_country_code'] == '1') ? xlt('Billing') : xlt('Coding'); ?></th> -->
-  <th>Billing</th>
+  <th colspan='5'><?php echo ($GLOBALS['phone_country_code'] == '1') ? xlt('Billing') : xlt('Coding'); ?></th>
 <?php } ?>
 
 <?php if ($attendant_type == 'pid' && !$GLOBALS['ippf_specific']) { ?>
-  <!-- <th>&nbsp;<?php echo ($GLOBALS['weight_loss_clinic']) ? xlt('Payment') : xlt('Insurance'); ?></th> -->
-  <th>Insurance</th>
+  <th>&nbsp;<?php echo ($GLOBALS['weight_loss_clinic']) ? xlt('Payment') : xlt('Insurance'); ?></th>
 <?php } ?>
 
 <?php if ($GLOBALS['enable_group_therapy'] && !$billing_view && $therapy_group == 0) { ?>
@@ -450,7 +426,7 @@ if (($upper>$numRes) || ($pagesize==0)) {
 if (($pagesize > 0) && ($pagestart>0)) {
     generatePageElement($pagestart-$pagesize, $pagesize, $billing_view, $issue, "&lArr;" . htmlspecialchars(xl("Prev"), ENT_NOQUOTES) . " ");
 }
-// echo ($pagestart + 1)."-".$upper." " . htmlspecialchars(xl('of'), ENT_NOQUOTES) . " " .$numRes;
+echo ($pagestart + 1)."-".$upper." " . htmlspecialchars(xl('of'), ENT_NOQUOTES) . " " .$numRes;
 if (($pagesize>0) && ($pagestart+$pagesize <= $numRes)) {
     generatePageElement($pagestart+$pagesize, $pagesize, $billing_view, $issue, " " . htmlspecialchars(xl("Next"), ENT_NOQUOTES) . "&rArr;");
 }
@@ -772,12 +748,12 @@ while ($result4 = sqlFetchArray($res4)) {
             }
         } // end if there is billing
 
-        echo "<td>" . $binfo[0] . "</td>\n";
-        // for ($i = 1; $i < 5; ++$i) {
-        //     echo "<td class='text right'>". $binfo[$i] . "</td>\n";
-        // }
+        echo "<td class='text'>" . $binfo[0] . "</td>\n";
+        for ($i = 1; $i < 5; ++$i) {
+            echo "<td class='text right'>". $binfo[$i] . "</td>\n";
+        }
     } /* end if authorized */ else {
-        echo "<td  valign='top' rowspan='" . attr($encounter_rows) . "'>(" . xlt("No access") . ")</td>\n";
+        echo "<td class='text' valign='top' colspan='5' rowspan='" . attr($encounter_rows) . "'>(" . xlt("No access") . ")</td>\n";
     }
 
         // show insurance
@@ -836,11 +812,8 @@ while ($drow /* && $count <= $N */) {
 ?>
 
 </table>
-</div>
-</div>
 
-<!-- </div> -->
- <!-- end 'encounters' large outer DIV -->
+</div> <!-- end 'encounters' large outer DIV -->
 
 <div id='tooltipdiv'
  style='position:absolute;width:400pt;border:1px solid black;padding:2px;background-color:#ffffaa;visibility:hidden;z-index:1000;font-size:9pt;'

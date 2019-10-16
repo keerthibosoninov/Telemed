@@ -34,8 +34,7 @@ $row = array(
     'date_ordered' => date('Y-m-d'),
     'date_collected' => date('Y-m-d H:i'),
 );
-$encounter=1;
-$pid=1;
+
 if (!$encounter) { // comes from globals.php
     die("Internal error: we do not seem to be in an encounter!");
 }
@@ -281,11 +280,8 @@ $enrow = sqlQuery(
 <head>
 
     <?php Header::setupHeader(['datetime-picker']); ?>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css"> -->
-    <script type="text/javascript">
+
+<script type="text/javascript">
 var gbl_formseq;
 
 function initCalendars() {
@@ -314,8 +310,8 @@ function initDeletes(){
 function deleteRow(event){
     event.preventDefault();event.stopPropagation();
     let target = $( event.currentTarget ).closest('tr').find("input[name^='form_proc_type_desc']").val();
-    // let yn = confirm(<?php echo xlj("Confirm to remove item") ?> + "\n" + target);
-    // if(yn)
+    let yn = confirm(<?php echo xlj("Confirm to remove item") ?> + "\n" + target);
+    if(yn)
         $( event.currentTarget ).closest(".proc-table").remove();
 }
 // This invokes the find-procedure-type popup.
@@ -327,7 +323,6 @@ function sel_proc_type(formseq) {
 
     let title = <?php echo xlj("Find Procedure Order"); ?>;
     // This replaces the previous search for an easier/faster order picker tool.
-    
     dlgopen('../../orders/find_order_popup.php' +
         '?labid=' + encodeURIComponent(f.form_lab_id.value) +
         '&order=' + encodeURIComponent(f[ptvarname].value) +
@@ -386,14 +381,13 @@ function addProcLine(flag = false) {
     let i = 0;
     for (; f['form_proc_type[' + i + ']']; ++i) ;
     // build new item html.. a hidden html block to clone may be better here.
-    let cell = "<table class='table table-condensed proc-table'><tr>" +
+    let cell = "<table class='table table-condensed proc-table'><tr><td onclick='deleteRow(event)' class='itemDelete'><i class='fa fa-remove'></i></td>" +
         "<td class='procedure-div'><input type='hidden' name='form_proc_order_title[" + i + "]' value='" + prc_name + "'>" +
         "<input type='text' class='form-control' name='form_proc_type_desc[" + i + "]' onclick='sel_proc_type(" + i + ")' " +
         "onfocus='this.blur()' title='<?php echo xla('Click to select the desired procedure'); ?>' style='cursor:pointer;cursor:hand' readonly /> " +
         "<input type='hidden' name='form_proc_type[" + i + "]' value='-1' /></td>" +
         "<td class='diagnosis-div'><input type='text' class='form-control' name='form_proc_type_diag[" + i + "]' onclick='sel_related(this.name)'" +
-        "title='<?php echo xla('Click to add a diagnosis'); ?>' onfocus='this.blur()' style='cursor:pointer;cursor:hand' readonly /></td>" +    
-        "<td ><img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg' alt='' class='xxx pr-2'><img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg' onclick='deleteRow(event)' class='itemDelete' alt=''></td>"+
+        "title='<?php echo xla('Click to add a diagnosis'); ?>' onfocus='this.blur()' style='cursor:pointer;cursor:hand' readonly /></td>" +
         "<td><div id='qoetable[" + i + "]'></div></td></tr></table>";
 
     $(".procedure-order-container").append(cell); // add the new item to procedures list
@@ -493,88 +487,15 @@ $(function () {
     cursor:hand;
 }
 
-</style>
-
-<!-- PA -->
-<style>
-    .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-        background: #3C9DC5;
-        text-decoration: none;
-    }
-    .pa_row{
-        display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    padding: 5px;
-    }
-.pa_md6, .pa_md3, .pa_md12, .pa_md4{
-    width: 100%;
-    padding: 0px 15px;
-}
-@media (min-width: 768px)
-{
-.pa_md6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.pa_md3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-.pa_md4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-.pa_md12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-}
-.pa_mt-2, .pa_my-2 {
-    margin-top: .5rem!important;
-}
-.pa_form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.pa_pt-4, .pa_py-4 {
-    padding-top: 1.5rem!important;
+/* leave below styles. may use future */
+/*.proc-table .procedure-div {
+    min-width: 20%;
 }
 
-.pa_pb-2, .pa_py-2 {
-    padding-bottom: 1.5rem!important;
-}
-.pa_pb-5, .pa_py-5 {
-    padding-bottom: 3rem!important;
-}
-.pa_pt-2, .pa_py-2 {
-    padding-top: 1.5rem!important;
-}
-.form-save {
-    background-color: #3C9DC5;
-    padding: 5px;
-    width: 100%;
-    border: none;
-    outline: none;
-    color: white;
-}
+.proc-table .diagnosis-div{
+    min-width: 20%;
+}*/
 </style>
-<!-- //PA -->
 <?php
 $name = $enrow['fname'] . ' ';
 $name .= (!empty($enrow['mname'])) ? $enrow['mname'] . ' ' . $enrow['lname'] : $enrow['lname'];
@@ -598,47 +519,29 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 ?>
 </head>
 <body class="body_top">
-<section>
-            <div class="body-content body-content2">
-                <div class="container-fluid pb-4 pt-4 pa_pb-4 pa_pt-4">
-                    <window-dashboard title="Procedure Order" class="icon-hide">
-                    <div class="head-component">
-                            <div class="row">
-                                <div class="col-6"></div>
-                                <div class="col-6">
-                                    <p class="text-white head-p">Procedure Order</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="body-compo" style="height:auto;">
-                        <div id="container_div" class="container-fluid">
+<div id="container_div" class="<?php echo attr($oemr_ui->oeContainer()); ?>">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header clearfix">
+                <?php echo  $oemr_ui->pageHeading() . "\r\n"; ?>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <form class="form-horizontal" method="post" action="<?php echo $rootdir ?>/forms/procedure_order/new.php?id=<?php echo attr_url($formid); ?>" onsubmit="return validate(this)">
                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-               
-<!-- PA -->
-                            <div class="row pa_row">
-                                <div class="col-md-6 pa_md6">
-                                    <p>Ordering Provider</p>
-                                    <!-- <select name="" id="" class="form-control mt-2">
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                    </select> -->
-                                    <?php generate_form_field(array('data_type' => 10, 'field_id' => 'provider_id'), $row['provider_id']); ?>
-                                </div>
-                                <div class="col-md-3 pa_md3">
-                                    <p>Order Date</p>
-                                    <!-- <input type="date" placeholder="" class="form-control"> -->
-                                    <input type='text' class='datepicker form-control pa_form-control' name='form_date_ordered' id='form_date_ordered' value="<?php echo attr($row['date_ordered']); ?>" title="<?php echo xla('Date of this order'); ?>"/>
-                                </div>
-                                <div class="col-md-3 pa_md3">
-                                    <p>Send to</p>
-                                    <!-- <select name="" class="form-control mt-2">
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                    </select> -->
-                                    <select name='form_lab_id' onchange='lab_id_changed()' class='form-control mt-2 pa_form-control pa_mt-2'>
+                <fieldset>
+                    <legend><?php echo xlt('Select Options for Current Procedure Order Id ') . (($formid) ? text($formid) : 'New Order')?></legend>
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="provider_id" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Ordering Provider'); ?></label>
+                            <div class="col-sm-2">
+                                <?php generate_form_field(array('data_type' => 10, 'field_id' => 'provider_id'), $row['provider_id']); ?>
+                            </div>
+                            <label for="lab_id" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Sending To'); ?></label>
+                            <div class="col-sm-2">
+                                <select name='form_lab_id' onchange='lab_id_changed()' class='form-control'>
                                     <?php
                                     $ppres = sqlStatement("SELECT ppid, name FROM procedure_providers " .
                                         "ORDER BY name, ppid");
@@ -651,201 +554,80 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                     }
                                     ?>
                                 </select>
-                                </div>
                             </div>
-
-                            <!--  -->
-                            <div class="row pa_row">
-                                <div class="col-md-3 pa_md3">
-                                    <p>Internal Time Collected</p>
-                                    <!-- <input type="time" placeholder="" class="form-control pa_form-control"> -->
-                                    <input class='datetimepicker form-control pa_form-control'
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_data_ordered" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Order Date'); ?></label>
+                            <div class="col-sm-2">
+                                <input type='text'
+                                       class='datepicker form-control'
+                                       name='form_date_ordered'
+                                       id='form_date_ordered'
+                                       value="<?php echo attr($row['date_ordered']); ?>"
+                                       title="<?php echo xla('Date of this order'); ?>"/>
+                            </div>
+                            <label for="form_data_ordered" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Internal Time Collected'); ?></label>
+                            <div class="col-sm-2">
+                                <input class='datetimepicker form-control'
                                        type='text'
                                        name='form_date_collected'
                                        id='form_date_collected'
                                        value="<?php echo attr(substr($row['date_collected'], 0, 16)); ?>"
                                        title="<?php echo xla('Date and time that the sample was collected'); ?>"/>
-                                </div>
-                                <div class="col-md-3 pa_md3">
-                                    <p>Priority</p>
-                                    <!-- <select name="" id="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                    </select> -->
-                                    <?php
-                                    generate_form_field(array('data_type' => 1, 'field_id' => 'order_priority',
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_data_ordered" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Priority'); ?></label>
+                            <div class="col-sm-2">
+                                <?php
+                                generate_form_field(array('data_type' => 1, 'field_id' => 'order_priority',
                                     'list_id' => 'ord_priority'), $row['order_priority']);
-                                    ?>
-                                </div>
-                                <div class="col-md-3 pa_md3">
-                                    <p>Status</p>
-                                    <!-- <select name="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                    </select> -->
-                                    <?php
-                                    generate_form_field(array('data_type' => 1, 'field_id' => 'order_status',
+                                ?>
+                            </div>
+
+                            <label for="form_data_ordered" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Status'); ?></label>
+                            <div class="col-sm-2">
+                                <?php
+                                generate_form_field(array('data_type' => 1, 'field_id' => 'order_status',
                                     'list_id' => 'ord_status'), $row['order_status']);
-                                    ?>
-                                </div>
-                                <div class="col-md-3 pa_md3">
-                                    <p>History Order</p>
-                                    <!-- <select name="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                    </select> -->
-                                    <?php
-                                    $historyOrderOpts = array(
+                                ?>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_data_ordered" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('History Order'); ?></label>
+                            <div class="col-sm-2">
+                                <?php
+                                $historyOrderOpts = array(
                                     'data_type' => 1,
                                     'field_id' => 'history_order',
                                     'list_id' => 'boolean'
-                                    );
-                                    generate_form_field($historyOrderOpts, $row['history_order']); 
-                                    ?>
-                                </div>
+                                );
+                                generate_form_field($historyOrderOpts, $row['history_order']); ?>
                             </div>
-                            <!--  -->
-                            <div class="row pa_row">
-                                <div class="col-md-12 pa_md12">
-                                    <p>Clinical History</p>
-                                    <!-- <textarea name="" class="form-control" rows="4"></textarea> -->
-                                    <textarea name="form_clinical_hx" id="form_clinical_hx" class="form-control pa_form-control" rows="4"><?php echo attr($row['clinical_hx']); ?></textarea>
-                                </div>
-
-                            </div>
-                          
-                            <!-- PA_last_table -->
-                            <div class="procedure-order-container">
-                                <div class="row pa_row">
-                            <div class="col-md-4 pa_md4">
-                                    <p>Procedure Type</p>                                   
-                                    <?php $procedure_order_type = getListOptions('order_type', array('option_id', 'title')); ?>
-                                    <select name="procedure_type_names" id="procedure_type_names" class='form-control pa_form-control'>
-                                    <?php foreach ($procedure_order_type as $ordered_types) { ?>
-                                        <option value="<?php echo attr($ordered_types['option_id']); ?>"><?php echo text(xl_list_label($ordered_types['title'])); ?></option>
-                                    <?php } ?>
-                                </select>
-                                <?php                       
-                        $oparr = array();
-                        if ($formid) {
-                            $opres = sqlStatement(
-                                "SELECT " .
-                                "pc.procedure_order_seq, pc.procedure_code, pc.procedure_name, " .
-                                "pc.diagnoses, pc.procedure_order_title, " .
-                                "(SELECT pt.procedure_type_id FROM procedure_type AS pt WHERE " .
-                                "(pt.procedure_type LIKE 'ord%' OR pt.procedure_type LIKE 'for%') AND pt.lab_id = ? AND " .
-                                "pt.procedure_code = pc.procedure_code ORDER BY " .
-                                "pt.activity DESC, pt.procedure_type_id LIMIT 1) AS procedure_type_id " .
-                                "FROM procedure_order_code AS pc " .
-                                "WHERE pc.procedure_order_id = ? " .
-                                "ORDER BY pc.procedure_order_seq",
-                                array($row['lab_id'], $formid)
-                            );
-                            while ($oprow = sqlFetchArray($opres)) {
-                                $oparr[] = $oprow;
-                            }
-                        }
-                        if (empty($oparr)) {
-                            $oparr[] = array('procedure_name' => '');
-                        }
-                        ?>                       
-                                </div>
-                    </div>
-                        <?php
-                        $i = 0;
-                        foreach ($oparr as $oprow) {
-                            $ptid = -1; 
-                            if (!empty($oprow['procedure_type_id'])) {
-                                $ptid = $oprow['procedure_type_id'];
-                            }
-                            ?>
-                            <div class="pt-4 pb-4 pa_pt-4 pa_pb-4 ">
-                            <!-- <div class="table-div "> -->
-                            <table class="table table-condensed proc-table" id="procedures_item_<?php echo (string) attr($i) ?>">
-                            <tbody id="TextBoxContainer10" class="repeat-row ">
-                                            <tr>
-                                            
-                                                <th>Procedure Test</th>
-                                                <th>Dignostic Codes</th>
-                                                <th>Order Questions</th>
-                                                <th></th>
-
-                                            </tr>
-                            <tr class="tablerow bodypart10">
-                                
-                                <td class="procedure-div">
-                                    <?php if (empty($formid) || empty($oprow['procedure_order_title'])) : ?>
-                                        <input type="hidden" name="form_proc_order_title[<?php echo attr($i); ?>]" value="Procedure">
-                                    <?php else : ?>
-                                        <input type='hidden' name='form_proc_order_title[<?php echo attr($i); ?>]' value='<?php echo attr($oprow['procedure_order_title']) ?>'>
-                                    <?php endif; ?>
-                                    <input type='text' name='form_proc_type_desc[<?php echo attr($i); ?>]'
-                                           value='<?php echo attr($oprow['procedure_name']) ?>'
-                                           onclick="sel_proc_type(<?php echo attr_js($i); ?>)"
-                                           onfocus='this.blur()'
-                                           title='<?php echo xla('Click to select the desired procedure'); ?>'
-                                           placeholder='<?php echo xla('Click to select the desired procedure'); ?>'
-                                           style='cursor:pointer;cursor:hand' class='form-control pa_form-control' readonly/>
-                                    <input type='hidden' name='form_proc_type[<?php echo attr($i); ?>]' value='<?php echo attr($ptid); ?>'/>
-                                </td>
-                                <td class="diagnosis-div">
-                                    <input class='form-control pa_form-control' type='text' name='form_proc_type_diag[<?php echo attr($i); ?>]'
-                                           value='<?php echo attr($oprow['diagnoses']) ?>' onclick='sel_related(this.name)'
-                                           title='<?php echo xla('Click to add a diagnosis'); ?>'
-                                           onfocus='this.blur()'
-                                           style='cursor:pointer;cursor:hand' readonly/>
-                                </td>
-                                <td>
-                                    <div class="table-responsive" id='qoetable[<?php echo attr($i); ?>]'>
-                                        <?php
-                                        $qoe_init_javascript = '';
-                                        echo generate_qoe_html($ptid, $formid, $oprow['procedure_order_seq'], $i);
-                                        if ($qoe_init_javascript) {
-                                            echo "<script language='JavaScript'>$qoe_init_javascript</script>";
-                                        }
-                                        ?>
-                                    </div>
-                                </td>
-                                <td ><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xxx pr-2"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="itemDelete" alt=""></td>
-                            </tr>
-                                </tbody>
-                            </table>
-                                    <!-- </div> -->
-                                    
-                                    </div>
-                            <?php
-                            ++$i;
-                        }
-                        ?>                                            
+                            <div class="clearfix"></div>
                         </div>
-                        <div>
-                                    <div class="text-center">
-                                        <img onclick="addProcLine()" src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="insertrow" alt="">
-                                    </div>
-                                    <div class="text-center">
-                                        <p class="fs-14">Add New</p>
-                                    </div>
-                                </div>
-                            <!-- //PA_last_table -->
-                            <div class="pt-4 pb-2 pa_pt-4 pa_pb-2">
-                                <!-- <button class="form-save" type="submit" name='bn_save' onclick='transmitting = false;'>Save</button> -->
-                                <button type="submit" class="form-save" name='bn_save' value="save" onclick='transmitting = false;'><?php echo xlt('Save'); ?></button>
-                           
-                            </div><br>
-                            <div class="pt-2 pb-5 pa_pt-2 pa_pb-5">
-                                <!-- <button class="form-save" type="submit" name='bn_xmit'  onclick='transmitting = true;'>Save And Send</button> -->
-                                <button type="submit" class="form-save" name='bn_xmit' value="transmit" onclick='transmitting = true;'><?php echo xlt('Save and Send'); ?></button>
-
+                        <div class="form-group">
+                            <label for="form_clinical_hx" class="control-label col-sm-3"><?php echo xlt('Clinical History'); ?></label>
+                            <div class="col-sm-7">
+                                <textarea name="form_clinical_hx" id="form_clinical_hx" class="form-control" rows="2"><?php echo attr($row['clinical_hx']); ?></textarea>
                             </div>
-<!-- //PA -->
-
-
-
-                
-                <!-- <fieldset>
+                        </div>
+                        <?php // Hide this for now with a hidden class as it does not yet do anything ?>
+                        <div class="form-group hidden">
+                            <label for="form_data_ordered" class="control-label col-sm-3 oe-text-to-right"><?php echo xlt('Patient Instructions'); ?></label>
+                            <div class="col-sm-7">
+                                <textarea rows='3' cols='35' name='form_patient_instructions' wrap='virtual' class='form-control inputtext'>
+                                    <?php echo text($row['patient_instructions']); ?>
+                                </textarea>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
                     <legend><?php xl('Procedure Order Details', 'e'); ?></legend>
                     <div class="col-md-12 procedure-order-container table-responsive">
                         <div class="form-group">
@@ -859,14 +641,31 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 </select>
                             </div>
                         </div>
-                    
-                        <?php                       
+                        <?php
+                        // This section merits some explanation. :)
+                        //
+                        // If any procedures have already been saved for this form, then a top-level table row is
+                        // created for each of them, and includes the relevant questions and any existing answers.
+                        // Otherwise a single empty table row is created for entering the first or only procedure.
+                        //
+                        // If a new procedure is selected or changed, the questions for it are (re)generated from
+                        // the dialog window from which the procedure is selected, via JavaScript.  The sel_proc_type
+                        // function and the types.php script that it invokes collaborate to support this feature.
+                        //
+                        // The generate_qoe_html function in qoe.inc.php contains logic to generate the HTML for
+                        // the questions, and can be invoked either from this script or from types.php.
+                        //
+                        // The $i counter that you see below is to resolve the need for unique names for form fields
+                        // that may occur for each of the multiple procedure requests within the same order.
+                        // procedure_order_seq serves a similar need for uniqueness at the database level.
+
                         $oparr = array();
                         if ($formid) {
                             $opres = sqlStatement(
                                 "SELECT " .
                                 "pc.procedure_order_seq, pc.procedure_code, pc.procedure_name, " .
-                                "pc.diagnoses, pc.procedure_order_title, " .                               
+                                "pc.diagnoses, pc.procedure_order_title, " .
+                                // In case of duplicate procedure codes this gets just one.
                                 "(SELECT pt.procedure_type_id FROM procedure_type AS pt WHERE " .
                                 "(pt.procedure_type LIKE 'ord%' OR pt.procedure_type LIKE 'for%') AND pt.lab_id = ? AND " .
                                 "pt.procedure_code = pc.procedure_code ORDER BY " .
@@ -887,7 +686,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         <?php
                         $i = 0;
                         foreach ($oparr as $oprow) {
-                            $ptid = -1; 
+                            $ptid = -1; // -1 means no procedure is selected yet
                             if (!empty($oprow['procedure_type_id'])) {
                                 $ptid = $oprow['procedure_type_id'];
                             }
@@ -927,6 +726,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                            style='cursor:pointer;cursor:hand' readonly/>
                                 </td>
                                 <td>
+                                    <!-- MSIE innerHTML property for a TABLE element is read-only, so using a DIV here. -->
                                     <div class="table-responsive" id='qoetable[<?php echo attr($i); ?>]'>
                                         <?php
                                         $qoe_init_javascript = '';
@@ -944,24 +744,23 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                             ++$i;
                         }
                         ?>
-                        </div>
-                </fieldset> -->
-                <!-- <div class="form-group clearfix">
+                </fieldset>
+                <?php //can change position of buttons by creating a class 'position-override' and adding rule text-alig:center or right as the case may be in individual stylesheets ?>
+                <div class="form-group clearfix">
                     <div class="col-sm-12 text-left position-override">
                         <div class="btn-group btn-group-pinch" role="group">
                             <button type="button" class="btn btn-default btn-add" onclick="addProcLine()"><?php echo xlt('Add Procedure'); ?></button>
                             <button type="submit" class="btn btn-default btn-save" name='bn_save' value="save" onclick='transmitting = false;'><?php echo xlt('Save'); ?></button>
-                            <button type="submit" class="btn btn-default btn-transmit" name='bn_xmit' value="transmit" onclick='transmitting = true;'><?php echo xlt('Save and Send'); ?></button>
-                           </div>
+                            <button type="submit" class="btn btn-default btn-transmit" name='bn_xmit' value="transmit" onclick='transmitting = true;'><?php echo xlt('Save and Transmit'); ?></button>
+                            <button type="button" class="btn btn-link btn-cancel btn-separate-left" onclick="top.restoreSession();location='<?php echo $GLOBALS['form_exit_url']; ?>'"><?php echo xlt('Cancel'); ?></button>
+                        </div>
                     </div>
-                </div> -->
+                </div>
             </form>
+        </div>
+    </div>
+</div>
+</div><!--End of div container -->
 <?php $oemr_ui->oeBelowContainerDiv();?>
-</div>
-</div>
-</window-dashboard>
-</div>
-</div>
-</section>
 </body>
 </html>

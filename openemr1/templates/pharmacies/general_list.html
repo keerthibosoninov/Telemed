@@ -1,7 +1,8 @@
-<a href="controller.php?practice_settings&{$TOP_ACTION}pharmacy&action=edit" onclick="top.restoreSession()" class="btn btn-default btn-add" >
-<span>{xlt t='Add a Pharmacy'}</span></a><br><br>
+<!-- <a href="controller.php?practice_settings&{$TOP_ACTION}pharmacy&action=edit" onclick="top.restoreSession()" class="btn btn-default btn-add" > -->
+<!-- <span>{xlt t='Add a Pharmacy'}</span> -->
+<!-- </a><br><br> -->
 
-<table class="table table-responsive table-striped">
+<!-- <table class="table table-responsive table-striped">
 	<thead>
         <tr>
             <th>{xlt t='Name'}</th>
@@ -30,4 +31,301 @@
 	</tr>
 	{/foreach}
     </tbody>
-</table>
+</table> -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/style.css">
+
+    <!-- <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/employee_dashboard_style.css"> -->
+    <!-- <link rel="stylesheet" href="{$GLOBALS.webroot}/public/assets/css/emp_info_css.css"> -->
+
+    <script src="{$GLOBALS.webroot}/public/assets/js/vue.js"></script>
+
+<section>
+	<div class="body-content body-content2">
+		<div class="container-fluid pb-4 pt-4">
+			<window-dashboard  class="icon-hide">
+				<div class="head-component">
+					<div class="row">
+						<div class="col-6"></div>
+							<div class="col-6">
+								<p class="text-white head-p">{xlt t="Pharmacies and Insurance"} </p>
+							</div>
+					</div>
+				</div>
+			   
+				<div class="body-compo">
+					<div class="container-fluid">
+						<ul class="nav  nav-justified compo-info" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#home">Pharmacy</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" id="menu_insurance" href="#menu1">Insurance</a>
+							</li>
+	
+						</ul>
+						<div class="tab-content">
+							<div id="home" class="container tab-pane active">
+								<div class="pt-4 pb-4">
+									<div class="">
+										<table class="table table-form">
+											<thead id="TextBoxContainer14" class="repeat-row ">
+												<tr>
+													<th>Name</th>
+													<th>Address</th>
+													<th>Phone</th>
+													<th></th>
+												</tr>
+											  </thead>
+											  <tbody>
+												{foreach from=$pharmacies item=pharmacy}
+												<tr class="tablerow bodypart14">
+													<td>{$pharmacy->name|text}</td>
+													
+													<td>
+														{if $pharmacy->address->line1 != ''}{$pharmacy->address->line1|text}, {/if}
+														{if $pharmacy->address->city != ''}{$pharmacy->address->city|text}, {/if}
+														{$pharmacy->address->state|upper|text} {$pharmacy->address->zip|text}&nbsp;
+													</td>
+													<td>{$pharmacy->get_phone()|text}&nbsp;</td>
+													<td><a href="{$CURRENT_ACTION}action=edit&id={$pharmacy->id|attr_url}" onclick="top.restoreSession()">
+															<img src="{$GLOBALS.webroot}/public/assets/img/edit-text.svg" alt="" class="xxx pr-2">
+														</a>
+														<img src="{$GLOBALS.webroot}/public/assets/img/delete.svg" class="remove14" alt="" ph_id="{$pharmacy->id|attr_url}" url="{$GLOBALS.webroot}/templates/delete_details.php"></td>
+														{foreachelse}
+													
+													
+												
+												</tr>
+											
+												<tr>
+													<td colspan="3"><b>{xlt t='No Pharmacies Found'}<b></td>
+												</tr>
+												{/foreach}
+												</tbody>
+
+											
+										</table>
+									</div>
+								   
+									<div>
+
+									</div>
+								</div>
+								
+								<form name="pharmacy" method="post" action="{$FORM_ACTION2}"  class='form-horizontal' onsubmit="return top.restoreSession()">
+										<input type="hidden" name="form_id" value="" />
+
+									<!-- <div class="row">
+										<div class="col-md-3">
+											<div class="form-check">
+												<label class="form-check-label">
+												<input type="checkbox" class="form-check-input" value="">Deactivate
+												</label>
+											</div>
+										</div>
+
+
+									</div> -->
+									<div class="row pt-3">
+										<div class="col-md-12">
+											<p>Name</p>
+											<input type="text" id="name" name="name" class="form-control pr-1 pl-1" aria-describedby="nameHelpBox"  onKeyDown="PreventIt(event)">
+										</div>
+
+
+									</div>
+									<div class="row pt-3">
+										<div class="col-md-12">
+											<p>Address</p>
+											<textarea id="" class="form-control pt-3" rows="3" id="address_line1" name="address_line1" class="form-control" value="{$pharmacy->address->line1|attr}" onKeyDown="PreventIt(event)"></textarea>
+										</div>
+
+
+									</div>
+									<div class="row pt-4">
+										<div class="col-md-4">
+											<p>City</p>
+											<input type="text" id="city" name="city" class="form-control  pr-1 pl-1"  onKeyDown="PreventIt(event)">
+
+										   
+										</div>
+										<div class="col-md-4">
+											<p>State</p>
+											
+											
+
+											<select id="state" name="state" class="form-control mt-2">
+												{$pharmacy->state_list()}
+
+											</select>
+										</div>
+										<div class="col-md-4">
+											<p>Zip</p>
+											<input type="text" id="zip" name="zip" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+
+										</div>
+										<!-- <div class="col-md-3">
+											<p>E-Mail</p>
+											<input type="text" id="email" name="email" class="form-control pr-1 pl-1" value="{$pharmacy->email|attr}" onKeyDown="PreventIt(event)">
+										</div> -->
+
+									</div>
+									<div class="row pt-4">
+										<div class="col-md-4">
+											<p>Email</p>
+											<input type="text" id="email" name="email" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+										</div> 
+										<div class="col-md-4">
+											<p>Phone</p>
+											<input type="text" id="phone" name="phone" class="form-control"  onKeyDown="PreventIt(event)">
+
+										</div>
+										<div class="col-md-4">
+											<p>Fax</p>
+											<input type="text"  id="faxno" name="faxno" class="form-control pr-1 pl-1" onKeyDown="PreventIt(event)">
+										</div>
+
+									</div> 
+									<div class="row pt-4">
+										<div class="col-md-4">
+											<p>NPI</p>
+												<input type="text" placeholder="" id="npi" name="npi"  class="form-control pr-1 pl-1">
+										</div>
+										<div class="col-md-4">
+											<p>NCPDP</p>
+												<input type="text" placeholder="" id="ncpdp" name="ncpdp" class="form-control pr-1 pl-1">
+										</div>
+	
+	
+									</div>
+									<div class="row pt-3">
+										<div class="col-md-12">
+											<p>Notes</p>
+											<textarea id="note" name="note" class="form-control pt-3" rows="3"></textarea>
+										</div>
+
+
+									</div>
+
+									<input type="hidden" name="id" value="">
+									<input type="hidden" name="process" value="{$PROCESS|attr}">
+									
+									<div class="pt-4 pb-2"><button class="form-save" href="javascript:submit_pharmacy();" onclick="top.restoreSession()">Save</button></div>
+								</form>
+							</div>
+							<div id="menu1" class="container tab-pane fade">
+								<div id="ins_list_data"></div>
+							</div>
+
+						</div>
+					  
+					</div>
+				</div>
+			</window-dashboard>
+		</div>
+	</div>
+</section>
+
+
+{literal}
+<script language="javascript">
+    function submit_insurancecompany() {
+        if(document.insurancecompany.name.value.length>0) {
+            top.restoreSession();
+            document.insurancecompany.submit();
+            //Z&H Removed redirection
+        } else{
+            document.insurancecompany.name.style.backgroundColor="red";
+            document.insurancecompany.name.focus();
+        }
+    }
+
+    function jsWaitForDelay(delay) {
+        var startTime = new Date();
+        var endTime = null;
+        do {
+            endTime = new Date();
+        } while ((endTime - startTime) < delay);
+    }
+
+	$("#menu_insurance").click(function() {
+
+	
+		$("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=list");
+		
+  	});
+
+	  $('#insurance_edit').click(function(e) {
+		  e.preventDefault();
+
+			
+		$("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=list");
+
+	});
+
+	function insurance_edit($insid){
+	
+		$("#ins_list_data").load("controller.php?practice_settings&insurance_company&action=edit&id="+$insid);
+	}
+
+
+	
+
+
+
+	$("body").on("click", ".remove14", function() {
+        thisss=$(this);
+
+        if(confirm("Are You Sure want to delete?")){
+           $fid= $(this).attr('ph_id');
+		   $url=$(this).attr('url');
+         
+           $.post($url,
+            {
+                mode:"pharmacy_delete",
+                action: "Delete",
+                id:  $fid,
+            },
+            function(data, status){
+			
+                thisss.closest(".bodypart14").remove();
+            });
+           
+        }
+      
+        
+    });
+
+	$("body").on("click", ".remove15", function() {
+		thisss=$(this);
+						
+		if(confirm("Are You Sure want to delete?")){
+		   $fid= $(this).attr('ph_id');
+		   $url=$(this).attr('url');
+		 
+		   $.post($url,
+			{
+				mode:"insurance_delete",
+				action: "Delete",
+				id:  $fid,
+			},
+			function(data, status){
+		
+				thisss.closest(".bodypart15").remove();
+			});
+		   
+		}
+		
+								
+	});
+
+	
+
+
+</script>
+{/literal}

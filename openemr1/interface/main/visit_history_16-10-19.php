@@ -516,11 +516,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         <option value="">value 2</option>
                                                         <option value="">Value 3</option>
                                                     </select> -->
-                                                    <!-- <input type="text" name="billing_facility" class="form-control pa_form-control" > -->
-                                                    <?php
-                                            $default_bill_fac = isset($result['billing_facility']) ? $result['billing_facility'] : $def_facility;
-                                            billing_facility('billing_facility', $default_bill_fac);
-                                        ?>
+                                                    <input type="text" name="form_billing_fac" class="form-control pa_form-control" >
                                                 </div>
 
                                             </div>

@@ -259,9 +259,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     <div class="col-md-3">
                                                         <p>Type</p>
                                                         <select name="type" id="" class="form-control mt-2">
-                                                                <option value="Value 1">Value 1</option>
-                                                                <option value="Value 2">value 2</option>
-                                                                <option value="Value 3">Value 3</option>
+                                                                <option value="home">Home Phone</option>
+                                                                <option value="mobile">Mobile Phone</option>
+                                                                <option value="office">Office Phone</option>
                                                             </select>
                                                     </div>
                                                     <div class="col-md-3">

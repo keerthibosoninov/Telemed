@@ -1339,7 +1339,7 @@ $(function (){
     genTreeLink('RTop', 'vitals', xl('Vitals'));
     genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
-    genTreeLink('RTop', 'cognitive', xl('Cognitive Status')); 
+    // genTreeLink('RTop', 'cognitive', xl('Cognitive Status')); 
    
    
     if (acl_check('patients', 'demo')) {

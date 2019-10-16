@@ -63,9 +63,9 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
 <script language="JavaScript">
 
     $(function() {
-        // oeFixedHeaderSetup(document.getElementById('mymaintable'));
-        // var win = top.printLogSetup ? top : opener.top;
-        // win.printLogSetup(document.getElementById('printbutton'));
+        oeFixedHeaderSetup(document.getElementById('mymaintable'));
+        var win = top.printLogSetup ? top : opener.top;
+        win.printLogSetup(document.getElementById('printbutton'));
 
         $('.datepicker').datetimepicker({
             <?php $datetimepicker_timepicker = false; ?>
@@ -75,12 +75,6 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
             <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
         });
     });
-    function printForm(e){
-                 oeFixedHeaderSetup(document.getElementById('mymaintable'));
-                 var win = top.printLogPrint ? top : opener.top;
-                 win.printLogPrint(window);
-                 e.preventDefault();
-            }
 
     // The OnClick handler for receipt display.
     function show_receipt(payid) {
@@ -199,7 +193,7 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
                                             <div class="row">
                                                 <div class="col-md-4"></div>
                                                 <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
-                                                <div class="col-md-2"> <button class="form-save" onclick="printForm(event)" id='printbutton'>PRINT</button></div>
+                                                <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
 
                                             </div>
 

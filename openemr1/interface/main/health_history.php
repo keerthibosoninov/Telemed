@@ -91,8 +91,9 @@ if ($GLOBALS['date_display_format'] == 1) {
 
 
 // for test
+// $pid=8;
+$pid=$_SESSION['pid'];
 $pid=8;
-
 
 if($pid){
     $history_data = getHistoryData($pid);
@@ -255,7 +256,7 @@ $condition_str = '';
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css"> -->
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
@@ -271,6 +272,12 @@ $condition_str = '';
         }
         table{
             width:100%;
+        }
+        .label_custom{
+            width:33.33%;
+        }
+        .pb-2{
+            border:10px solid transparent;
         }
     </style>
 
@@ -383,7 +390,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <a class="nav-link" data-toggle="tab" href="#tab_Lifestyle">Life Style</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#menu6">Medication</a>
+                                        <a class="nav-link" data-toggle="tab" href="#menu6"  id="medicationData">Medication</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#menu5" id="allergyData">Allergies</a>
@@ -1195,6 +1202,24 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                         </div>
                                     </div>
+
+                                      <!-- medication -->
+                                    <div id="menu6" class="container tab-pane fade ">
+                                        <div class="pt-4 pb-4">                                           
+                                            <div id="medication_list"></div>
+                                            <div id="addnew">
+                                                <div class="text-center" id="addmore_btn1">
+                                                    <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" alt="">
+                                                </div>
+                                                <div class="text-center">
+                                                    <p class="fs-14">Add New</p>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                        <div id="medication_data"></div>                                        
+                                    </div>
+                                    <!-- //medication -->
                                     <!-- allergy -->
                                     <div id="menu5" class=" tab-pane fade ">
                                         <div class="pt-4 pb-4">
@@ -1281,7 +1306,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div> -->
                                         <!-- <div class="pt-4 pb-5"><button class="form-save">Save</button></div> -->
                                     </div>
-                                    <?php display_layout_tabs_data_editable_history('HIS', $result_history, $result2); ?>
+                                    <?php display_layout_tabs_data_editable_history('HIS', $result_history, $result2,$pid); ?>
                                 </div>
                             </div>
                         </div>
@@ -1461,6 +1486,13 @@ $(function() {
     $('#addPlus').removeClass('hidedata');
     $('#allergy_list').load($webroot+"/interface/patient_file/summary/stats_full.php?active=all&category=allergy");
 
+
+    //  MEDICATION
+    $form_name='theform_medication';
+        $webroot="<?php echo $GLOBALS['webroot']?>";
+        $("#medication_list").removeClass('hidedata');
+        $("#medication_data").addClass('hidedata');
+        $('#medication_list').load($webroot+"/interface/patient_file/summary/stats_full_med.php?active=all&category=medication");
     // $("#menu5").click(function() {
     //     $form_name='theform_allergy';
     //     $("#allergy_list").removeClass('hidedata'); 
@@ -1484,6 +1516,26 @@ $(function() {
     // $(".edit_data").click(function() { clickEdit(this.id,0); 
     
     // });
+
+        // medication
+    // $("#medicationData").click(function() {
+    //     $form_name='theform_medication';
+    //     $webroot="<?php echo $GLOBALS['webroot']?>";
+    //     $("#medication_list").removeClass('hidedata');
+    //     $("#medication_data").addClass('hidedata');
+    //     $('#medication_list').load($webroot+"/interface/patient_file/summary/stats_full_med.php?active=all&category=medication");
+    // });
+
+    $('#addmore_btn1 ').click(function(){
+        // alert();
+        $webroot="<?php echo $GLOBALS['webroot']?>";
+        $("#medication_list").addClass('hidedata');
+        $("#addnew").addClass('hidedata');
+        $("#medication_data").removeClass('hidedata');
+        $("#medication_data").load($webroot+"/interface/patient_file/summary/add_edit_issue_med.php?issue=0&thistype=medication", function(){
+            // alert();
+        });
+    });  
 
 });
 </script>

@@ -202,15 +202,17 @@ $result4 = sqlStatement("SELECT fe.encounter,fe.date,openemr_postcalendar_catego
     var w = window;
     for (; w.parent != top; w = w.parent);
     var my_win_name = w.name;
-    my_left_nav.setPatientEncounter(EncounterIdArray,EncounterDateArray,CalendarCategoryArray);
+    // my_left_nav.setPatientEncounter(EncounterIdArray,EncounterDateArray,CalendarCategoryArray);
     top.restoreSession();
 <?php if ($mode == 'new') { ?>
-    my_left_nav.setEncounter(<?php echo js_escape(oeFormatShortDate($date)) . ", " . js_escape($encounter) . ", window.name"; ?>);
+    // my_left_nav.setEncounter(<?php echo js_escape(oeFormatShortDate($date)) . ", " . js_escape($encounter) . ", window.name"; ?>);
     // Load the tab set for the new encounter, w is usually the RBot frame.
-    w.location.href = '<?php echo "$rootdir/patient_file/encounter/encounter_top.php"; ?>';
+    // w.location.href = '<?php echo "$rootdir/patient_file/encounter/encounter_top.php"; ?>';
+    w.location.href = '<?php echo "$rootdir/main/dashboard_visit_history.php"; ?>';
 <?php } else { // not new encounter ?>
     // Always return to encounter summary page.
-    window.location.href = '<?php echo "$rootdir/patient_file/encounter/forms.php"; ?>';
+    // window.location.href = '<?php echo "$rootdir/patient_file/encounter/forms.php"; ?>';
+    window.location.href = '<?php echo "$rootdir/main/dashboard_visit_history.php"; ?>';
 <?php } // end if not new encounter ?>
 
 </script>

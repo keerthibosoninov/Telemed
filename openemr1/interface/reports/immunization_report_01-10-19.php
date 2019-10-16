@@ -288,8 +288,8 @@ if ($_POST['form_get_hl7']==='true') {
         <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
 
         $(function() {
-            // var win = top.printLogSetup ? top : opener.top;
-            // win.printLogSetup(document.getElementById('printbutton'));
+            var win = top.printLogSetup ? top : opener.top;
+            win.printLogSetup(document.getElementById('printbutton'));
 
             $('.datepicker').datetimepicker({
                 <?php $datetimepicker_timepicker = false; ?>
@@ -299,11 +299,6 @@ if ($_POST['form_get_hl7']==='true') {
                 <?php // can add any additional javascript settings to datetimepicker here; need to prepend first setting with a comma ?>
             });
         });
-        function printForm(e){
-                 var win = top.printLogPrint ? top : opener.top;
-                 win.printLogPrint(window);
-                 e.preventDefault();
-            }
     </script>
 
     <style type="text/css">
@@ -419,7 +414,7 @@ if ($_POST['form_get_hl7']==='true') {
                                                                                                         $("#theform").submit();
                                                                                 '>SEARCH</button>
                                                     </div>
-                                                    <div class="col-md-2"> <button class="form-save" onclick="printForm(event)" id='printbutton'>PRINT</button></div>
+                                                    <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
                                                 </div>
 
                                             </div>
