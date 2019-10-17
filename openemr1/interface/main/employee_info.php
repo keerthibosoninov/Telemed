@@ -1788,8 +1788,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     class="w-100" alt="">
                                             </div>
                                             <div class="col-10">
-                                                <p class="fs-9  font-light text-right">| 23 minutes ago</p>
-                                                <p class="fs-10">Dr. Tom Cruise Purple submitted an Encounter Notes</p>
+                                                <!-- <p class="fs-9  font-light text-right">| 23 minutes ago</p> -->
+                                                <!-- <p class="fs-10">Dr. Tom Cruise Purple submitted an Encounter Notes</p> -->
                                                 <hr>
                                                 <div>
 

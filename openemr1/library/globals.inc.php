@@ -188,6 +188,7 @@ $GLOBALS_METADATA = array(
                 '../new/new.php' => xl('Patient Search/Add Screen'),
                 '../../interface/main/finder/dynamic_finder.php' => xl('Patient Finder Screen'),
                 '../../interface/patient_tracker/patient_tracker.php?skip_timeout_reset=1' => xl('Patient Flow Board'),
+                '../../interface/main/dashboard.php' => xl('Dashboard'),
             ),
             '../../interface/main/messages/messages.php?form_active=1',    // default = messages
             xl('Default Second Tab')

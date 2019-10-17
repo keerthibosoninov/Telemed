@@ -58,6 +58,7 @@ while ($frow = sqlFetchArray($fres)) {
     }
 }
 
+
 // custom km for risk factors
 if(isset($_POST['risk_coc_other'] )){
     $newdata['risk_coc_other']=$_POST['risk_coc_other'];

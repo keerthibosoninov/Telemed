@@ -72,6 +72,13 @@ if (($_POST['setting_bootstrap_submenu']) ||
 
 $provider_id=$_SESSION['authUserID'];
 
+
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,7 +93,7 @@ $provider_id=$_SESSION['authUserID'];
         var format_date_moment_js = '<?php echo attr(DateFormatRead("validateJS")); ?>';
         <?php require_once "$srcdir/restoreSession.php"; ?>
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script type="text/javascript" src="<?php echo $GLOBALS['web_root']; ?>/interface/main/messages/js/reminder_appts.js?v=<?php echo $v_js_includes; ?>"></script>
 
@@ -99,7 +106,7 @@ $provider_id=$_SESSION['authUserID'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
@@ -111,14 +118,6 @@ $provider_id=$_SESSION['authUserID'];
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
     <style>
-    .form-save{
-    background-color: #3C9DC5;
-    padding: 4px;
-    width: 100%;
-    border: none;
-    outline: none;
-    color: white;
-    }
         @media only screen and (max-width: 768px) {
             [class*="col-"] {
                 width: 100%;
@@ -412,9 +411,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         <div class="col-2 task-para">
                                             <div class="task-icon">
                                                 <a href=""><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/ico-users.svg" alt=""></a>
-                                                <!-- delete_appointment -->
-                                                <a href=""><img  name='form_delete' class='form_delete' idd="<?= attr($appointment['pc_recurrtype']) ?>" ids="<?php echo attr($appointment['pc_eid']); ?>" src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/ico-nouser.svg" alt=""></a>                                                                                        
-                                                <!-- //delete_appointment -->
+                                                <a href=""><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/ico-nouser.svg" alt=""></a>
                                             </div>
                                         </div>
                                     </div>
@@ -423,37 +420,14 @@ if (!empty($_REQUEST['go'])) { ?>
                                     }
                                     ?>
                                 </div>
-
-
-
-<!-- popup_reccur -->
-<div id="recurr_popup" style="visibility: hidden; position: absolute; top: 50px; left: 50px; width: 400px;height:135px; border: 3px outset #4da8d1; background-color:#ffff; padding: 5px;">
-<?php echo xlt('Apply the changes to the Current event only, to this and all Future occurrences, or to All occurrences?') ?>
-<br>
-<div class="row">
-<div class="col-md-3">
-<?php if ($GLOBALS['submit_changes_for_all_appts_at_once']) {?>
-    <input type="button" class="form-save" name="all_events" id="all_events" value="  <?php echo xla('All'); ?>  ">
-<?php } ?>
-</div>
-<div class="col-md-3">
-<input type="button" class="form-save" name="recurr_cancel" id="recurr_cancel" value="<?php echo xla('Cancel'); ?>">
-</div>
-<div class="col-md-3">
-<input type="button" class="form-save" name="future_events" id="future_events" value="<?php echo xla('Future'); ?>">
-</div>
-<div class="col-md-3">
-<input type="button" class="form-save" name="current_event" id="current_event" value="<?php echo xla('Current'); ?>">
-</div>
-</div>
-</div>
-<!-- //popup_recurr -->
                                 </div>
 
                                      </div>
-                            </window-dashboard>                                                      
-                        </div>
+                            </window-dashboard>
 
+                           
+                           
+                        </div>
 
                          <div class="col-md-6 droptarget" id="drag-c">
                             <window-dashboard title="Visits history">
@@ -973,85 +947,9 @@ if (!empty($_REQUEST['go'])) { ?>
                 window.open('messages.php?nomenu=1&go=SMS_bot&pid=' + encodeURIComponent(pid) + '&m=' + encodeURIComponent(m), 'SMS_bot', 'width=370,height=600,resizable=0');
             }
         }
-
-
-
     </script>
     <?php
 }
     ?>
-
-    <script>
-    
-    </script>
-    <script>
-        // delete_appointment
-    $("#all_events").click(function() { 
-        $("#recurr_affect").val("all");         
-        delete_app($eid,'all');
-    });
-    $("#future_events").click(function() { 
-        $("#recurr_affect").val("future"); 
-        delete_app($eid,'future');
-        });
-    $("#current_event").click(function() {
-         $("#recurr_affect").val("current"); 
-        delete_app($eid,'current');
-         });
-    $("#recurr_cancel").click(function() {
-         $("#recurr_affect").val("");
-         });
-
-    $(".form_delete").click(function() {
-           thiss=$(this);       
-            $eid=thiss.attr('ids');
-            // alert($eid);
-           
-            $recurr=thiss.attr('idd');
-            // alert($recurr);
-            if ($recurr == 1) {                         
-                $("#recurr_popup").css("visibility", "visible");
-            }else{
-                if (confirm("<?php echo addslashes(xl('Deleting this event cannot be undone. It cannot be recovered once it is gone. Are you sure you wish to delete this event?')); ?>")) {       
-                delete_app($eid,"");
-                }
-            } 
-
-            
-    });
-
-    function delete_app($eid,$recurr_aff){
-                                                        
-        $webroot=  "<?php echo $GLOBALS['webroot'];?>";
-        $.ajax({
-            type: 'POST',        
-            url: $webroot+"/interface/main/calendar/delete_appointment.php",   
-            data: {
-                    form_action: "delete" ,
-                    recurr_affect: $recurr_aff, 
-                    eid :$eid    
-                 },
-            success: function(data){
-                // alert(data);
-                // console.log(data);       
-                        }
-        });                  
-    }
-    
-   
-//---------//delete_appointment
-    </script>
-<!-- <?php //include('dashboard_assets.php');?>
-<script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-  <script>
-          $(function() {
-            $("#sortable").sortable({
-                distance: 1
-
-            });
-            $("#sortable").disableSelection();
-        });
-    </script> -->
 </body>
-
 </html>

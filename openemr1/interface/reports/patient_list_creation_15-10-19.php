@@ -223,7 +223,6 @@ else
             }
         </script>
 
-
     </head>
 
     <body class="body_top" style="font-family: 'Open Sans', sans-serif">
@@ -330,9 +329,8 @@ else
 
                                         </div>
                                         <div class="col-md-2">
-                                          <!--   <button onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();' class="form-save">Export to CSV</button> -->
+                                             <button onclick='$("#form_csvexport").attr("value","true"); $("#theform").submit();' class="form-save">Export to CSV</button>
 
-                                          <button type="button" onclick="printcsv()" class="form-save">Export to CSV</button>
                                         </div>
 
 
@@ -346,18 +344,6 @@ else
         <!-- end of parameters -->
         <?php
     } //end not export csv
-    $exdata="";
-
-    $exdata.=  '"' . xl('Date') . '",';
-    $exdata.=  '"' . xl('Employee') . '",';
-    $exdata.=  '"' . xl('ID') . '",';
-    $exdata.=  '"' . xl('Age') . '",';
-    $exdata.=  '"' . xl('Gender') . '",';
-    $exdata.=  '"' . xl('Address') . '",';
-    $exdata.=  '"' . xl('Provider') . '",';
-    $exdata.=  '"' . xl('Contact') . '"' . "\\n";
-
-
         // SQL scripts for the various searches
         $sqlBindArray = array();
         if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
@@ -371,9 +357,6 @@ else
                 echo '"' . xl('Address') . '",';
                 echo '"' . xl('Provider') . '",';
                 echo '"' . xl('Contact') . '"' . "\n";
-
-
-
             }
             else
             {
@@ -652,7 +635,7 @@ else
                             <td class="text"><strong><?php echo xlt('Total Number of Patients')?>:</strong>&nbsp;<span id="total_patients"><?php echo text(count(array_unique($patArr))); ?></span></td>
                         </tr>
                     </table> -->
-                    <div class="table-div " id="print_content">
+                    <div class="table-div ">
 
                     <table class="table table-form">
 
@@ -758,12 +741,11 @@ else
                             <th>Gender</th>
                             <th>Address</th>
                             <th>Provider</th>
-                            <th>Contact </th>
+                            <th>Contact</th>
                         </tr>
                     </thead>
                     <tbody>
-                            <?php foreach ($patFinalDataArr as $patKey => $patDetailVal) {
-                                ?>
+                            <?php foreach ($patFinalDataArr as $patKey => $patDetailVal) { ?>
                                 <tr>
                                     <td ><?php echo ($patDetailVal['patient_date'] != '') ? text(oeFormatDateTime($patDetailVal['patient_date'], "global", true)) : ""; ?></td>
                                     <td ><?php echo text($patDetailVal['patient_name']); ?></td>
@@ -810,28 +792,6 @@ else
 </window-dashboard>
 </div>
 </div>
-<script>
-
-  function printcsv()
-  {
-    var passedArray =<?php echo json_encode($patFinalDataArr); ?>;
-     var myKeyVals = { sessionval : passedArray  }
-     $.ajax({
-          type: 'POST',
-          url: "set_print_data.php",
-          data: myKeyVals,
-          dataType: "",
-          success: function(result) {
-            //alert(result);
-            console.log(result);
-             window.open("csv.php", '_blank');
-          //  e.preventDefault();
-
-            }
-     });
-
-}
-</script>
 </section>
     </body>
 </html>

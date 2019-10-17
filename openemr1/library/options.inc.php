@@ -1543,7 +1543,23 @@ function generate_form_field_history($frow, $currvalue)
               " class='form-control'" .
               " $string_maxlength" .
               " value='$resnote' $disabled rows='4' >$resnote&nbsp;</textarea></td>";
-             
+                
+          //Selection list for smoking status
+            $onchange = 'radioChange(this.options[this.selectedIndex].value)';//VicarePlus :: The javascript function for selection list.
+            $style="style='display:none'";
+            echo generate_select_list(
+                "form_$field_id",
+                $list_id,
+                $reslist,
+                $description,
+                ($showEmpty ? $empty_title : ''),
+                'hidedata',
+                $onchange,
+                '',
+                ($disabled ? array('disabled' => 'disabled') : null)
+            );
+            
+          
             
               // echo "<td class='bold'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . xlt('Status') . ":&nbsp;&nbsp;</td>";
           }

@@ -136,6 +136,8 @@ $primary_docs = array(
 'code' => array(xl('Codes') , 0, 'patient_file/encounter/superbill_custom_full.php'),
 'emp_book' => array(xl('Proc Employee')   , 0, 'usergroup/addrbook_list.php'),
 'statics' => array(xl('Statistics')  , 0, 'orders/procedure_stats.php'),
+'care_pln' => array(xl('Care Plan')  , 0, 'forms/care_plan/new.php'),
+'soap_notes' => array(xl('Soap Notes')  , 0, 'patient_file/encounter/view_form.php?formname=soap'),
     // 
 
 'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
@@ -1336,6 +1338,8 @@ $(function (){
     genTreeLink('RTop', 'health_his', xl('Health History'));
     genTreeLink('RTop', 'review', xl('Review of System'));
     genTreeLink('RTop', 'care_ob', xl('Care Observation'));
+    genTreeLink('RTop', 'care_pln', xl('Care Plan')); 
+    genTreeLink('RTop', 'soap_notes', xl('Soap Notes'));
     genTreeLink('RTop', 'vitals', xl('Vitals'));
     genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
