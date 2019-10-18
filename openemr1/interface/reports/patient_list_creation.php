@@ -71,7 +71,7 @@ else
     <head>
 
         <title>
-            <?php echo xlt('Patient List Creation'); ?>
+            <?php echo xlt('Employee List Creation'); ?>
         </title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -107,21 +107,21 @@ else
         </script>
 
         <style type="text/css">
-         input[type=date]{
-            margin-top:0px;
-        }
-        input[type=text]{
-            margin-top:0px;
-        }
-        .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-        background: #3C9DC5;
-        text-decoration: none;
-    }
-    .form-save{
-        padding: 5px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    }
+            input[type=date]{
+                margin-top:0px;
+            }
+            input[type=text]{
+                margin-top:0px;
+            }
+            .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+                background: #3C9DC5;
+                text-decoration: none;
+            }
+            .form-save{
+                padding: 5px;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 16px;
+            }
             /* specifically include & exclude from printing */
             @media print {
                 #report_parameter {
@@ -147,6 +147,15 @@ else
                     visibility: hidden;
                     display: none;
                 }
+            }
+
+            .table-div{
+                height:auto!important;
+                overflow:auto;
+            }
+            thead{
+                padding: .75rem;
+                border-top: 1px solid #dee2e6;
             }
         </style>
         <script language="javascript" type="text/javascript">
@@ -247,7 +256,7 @@ else
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="text-white head-p">Patient List Creation</p>
+                                            <p class="text-white head-p">Employee List Creation</p>
                                         </div>
                                     </div>
                                 </div>
@@ -256,7 +265,7 @@ else
                             <div class="container-fluid">
         <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
         <!-- <span class='title'>
-        <?php echo xlt('Report - Patient List Creation');?>
+        <?php echo xlt('Report - Employee List Creation');?>
         </span> -->
         <!-- Search can be done using age range, gender, and ethnicity filters.
         Search options include diagnosis, procedure, prescription, medical history, and lab results.

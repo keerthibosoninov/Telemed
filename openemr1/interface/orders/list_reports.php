@@ -202,7 +202,7 @@ if ($_POST['form_xmit']) {
                         <div class="row">
                             <div class="col-6"></div>
                             <div class="col-6">
-                                <p class="text-white head-p"> </p>
+                                <p class="text-white head-p">Electronic Reports </p>
                             </div>
                         </div>
                     </div>

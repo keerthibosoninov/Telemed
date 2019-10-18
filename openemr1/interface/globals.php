@@ -581,6 +581,7 @@ if (!empty($_GET['pid']) && empty($_SESSION['pid'])) {
     $_SESSION['pid'] = $_POST['pid'];
 }
 
+// $_SESSION['pid'] =8;
 $pid = empty($_SESSION['pid']) ? 0 : $_SESSION['pid'];
 $userauthorized = empty($_SESSION['userauthorized']) ? 0 : $_SESSION['userauthorized'];
 $groupname = empty($_SESSION['authProvider']) ? 0 : $_SESSION['authProvider'];

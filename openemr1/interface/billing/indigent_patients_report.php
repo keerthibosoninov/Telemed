@@ -55,47 +55,73 @@ if ($_POST['form_csvexport']) {
 <html>
 <head>
 
-<style type="text/css">
+    <style type="text/css">
 
-/* specifically include & exclude from printing */
-@media print {
-    #report_parameters {
-        visibility: hidden;
-        display: none;
-    }
-    #report_parameters_daterange {
-        visibility: visible;
-        display: inline;
-    }
-    #report_results table {
-       margin-top: 0px;
-    }
-}
+        /* specifically include & exclude from printing */
+        @media print {
+            #report_parameters {
+                visibility: hidden;
+                display: none;
+            }
+            #report_parameters_daterange {
+                visibility: visible;
+                display: inline;
+            }
+            #report_results table {
+            margin-top: 0px;
+            }
+        }
 
-/* specifically exclude some from the screen */
-@media screen {
-    #report_parameters_daterange {
-        visibility: hidden;
-        display: none;
-    }
-}
+        /* specifically exclude some from the screen */
+        @media screen {
+            #report_parameters_daterange {
+                visibility: hidden;
+                display: none;
+            }
+        }
 
 
-.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-    background: #3C9DC5 !important;
-    text-decoration: none;
-}
+        .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+            background: #3C9DC5 !important;
+            text-decoration: none;
+        }
 
-#report_parameters {
-    background-color: transparent !important;
-    margin-top: 10px;
-}
+        #report_parameters {
+            background-color: transparent !important;
+            margin-top: 10px;
+        }
 
-button:hover, input[type=button]:hover, input[type=submit]:hover {
-    background: #3C9DC5!important;
-    text-decoration: none;
-}
-</style>
+        button:hover, input[type=button]:hover, input[type=submit]:hover {
+            background: #3C9DC5!important;
+            text-decoration: none;
+        }
+
+        .table-div{
+            height:auto!important;
+            overflow:auto;
+        }
+        thead{
+            padding: .75rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .custom-btn{
+            margin-top: 1rem;
+        }
+        .form-save{
+            padding-top: 6px!important;
+            padding-bottom: 6px!important;
+        }
+
+        body{
+            font-size: 16px;
+        }
+
+        .table td, .table th {
+            padding: 1.25rem !important;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -186,7 +212,7 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
                                                 </div>
                                             </div>
 
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn">
                                                 <div class="row">
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-2"> <button class="form-save"  onclick='$("#form_csvexport").val("");$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>

@@ -202,12 +202,12 @@ function displayAlert()
         <section>
             <div class="body-content body-content2">
                 <div class="container-fluid pb-4 pt-4">
-                    <window-dashboard title="Employee Info" class="icon-hide">
+                    <window-dashboard title="Add Facilities" class="icon-hide">
                         <div class="head-component">
                             <div class="row">
                                 <div class="col-6"></div>
                                 <div class="col-6">
-                                    <p class="text-white head-p">Employee Info </p>
+                                    <p class="text-white head-p">Add Facilities </p>
                                 </div>
                             </div>
                         </div>

@@ -123,6 +123,32 @@ if ($_POST['form_csvexport']) {
     background-color: transparent !important;
     margin-top: 10px;
 }
+/* .table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+} */
+thead{
+    padding: .75rem;
+    border-top: 1px solid #dee2e6;
+}
+.form-save{
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.custom-btn{
+    margin-top: 1rem;
+}
+body{
+    font-size: 16px;
+}
+
+.table-div{
+    height:auto!important;
+    overflow:auto;
+}
+
 
 </style>
 </head>
@@ -152,7 +178,7 @@ if ($_POST['form_csvexport']) {
                                 <input type='hidden' name='form_refresh' id='form_refresh' value=''/>
                                 <input type='hidden' name='form_csvexport' id='form_csvexport' value=''/>
                                 <div class="container-fluid">
-                                    <div class="pt-4 pb-4">
+                                    <div class="pt-4 pb-4" >
 
                                         <div id="report_parameters">
                                             <div class="row">
@@ -173,7 +199,7 @@ if ($_POST['form_csvexport']) {
 
                                             </div>
 
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn" >
                                                 <div class="row">
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#form_csvexport").val(""); $("#theform").submit();'>SEARCH</button></div>
@@ -281,5 +307,5 @@ if ($_POST['form_csvexport']) {
     <?php
 } // end not export
 ?>
-<!--  -->
+
  

@@ -192,6 +192,32 @@ $res = sqlStatement($query, $sqlBindArray);
             margin-top: 10px;
         }
 
+        .table-div{
+            height:auto!important;
+            overflow:auto;
+        }
+        thead{
+            padding: .75rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .custom-btn{
+            margin-top: 1rem;
+        }
+        .form-save{
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        body{
+            font-size: 16px;
+        }
+
+        .table td, .table th {
+            padding: 1.25rem !important;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
 
     </style>
 
@@ -305,7 +331,7 @@ $res = sqlStatement($query, $sqlBindArray);
 
                                             </div>
 
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn">
                                                 <div class="row">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>

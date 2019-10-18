@@ -44,7 +44,7 @@ $display_collapse_msg = "display:inline;";
 ?>
 <html>
 <head>
-<?php Header::setupHeader(['no_bootstrap', 'no_fontawesome', 'datetime-picker', 'common']); ?>
+<?php //Header::setupHeader(['no_bootstrap', 'no_fontawesome', 'datetime-picker', 'common']); ?>
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -53,8 +53,8 @@ $display_collapse_msg = "display:inline;";
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/style.css">
 
-<link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/emp_info_css.css">
+<!-- <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['webroot']; ?>/public/assets/css/emp_info_css.css"> -->
 
     <script src="<?php echo $GLOBALS['webroot']; ?>/public/assets/js/vue.js"></script>
 
@@ -174,7 +174,7 @@ $display_collapse_msg = "display:inline;";
 <section>
                 <div class="body-content body-content2">
                     <div class="container-fluid pb-4 pt-4">
-                        <window-dashboard title="Soap Notes" class="icon-hide">
+                        <window-dashboard  class="icon-hide">
         <div class="head-component">
                 <div class="container-fluid">
                     <div class="row">
@@ -243,11 +243,14 @@ $display_collapse_msg = "display:inline;";
                                     <div class="row">
                                         <div class="col-md-5"></div>
                                         <div class="col-md-2"> 
-                                            <!-- <button class="form-save">SEARCH</button> -->
-                                            <span style='float: left;' id="docrefresh">
+                                            <!-- SEARCH</button> -->
+                                            <span id="docrefresh">
+                                            <button class="form-save">
                                                 <a href='#' class='form-save'  onclick='return validateDate("form_from_doc_date","form_to_doc_date")'> 
-                                                <span><?php echo xlt('Search'); ?> </span>
+                                               
                                                 </a>
+                                                SEARCH
+                                            </button>
                                             </span>
                                         </div>
                                     </div>

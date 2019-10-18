@@ -107,7 +107,7 @@ $("body").on("click", ".remove14", function() {
     
                         </ul>
                         <div class="tab-content">
-                            <div id="home" class="container tab-pane active">
+                            <div id="home" class="tab-pane active">
                                 <div class="pt-4 pb-4">
                                     <div class="">
                                         <table class="table table-form">
@@ -252,11 +252,11 @@ $("body").on("click", ".remove14", function() {
                                     <div class="pt-4 pb-2"><button class="form-save"  href="javascript:submit_pharmacy();" onclick="top.restoreSession()">Save</button></div>
                                 </form>
                             </div>
-                            <div id="menu1" class="container tab-pane fade">
+                            <div id="menu1" class="tab-pane fade">
                                 <div id="ins_list_data"></div>
                                 <div id="cleardata">
                                     <div class="pt-4 pb-4">
-                                        <div class="">
+                                        <div class="col-md-12">
                                             <table class="table table-form">
                                                 <thead id="TextBoxContainer15" class="repeat-row ">
                                                     <tr>
@@ -489,7 +489,7 @@ $("body").on("click", ".remove14", function() {
                                         <input type="hidden" name="id" value="{$insurancecompany->id|attr}" />
                                         <input type="hidden" name="process" value="{$PROCESS|attr}" />
 
-                                        <div class="pt-4 pb-2"><button class="form-save" href="javascript:submit_insurancecompany();"  onclick="top.restoreSession()">Save</button></div>
+                                        <div class="pt-4 pb-2 col-md-12"><button class="form-save" href="javascript:submit_insurancecompany();"  onclick="top.restoreSession()">Save</button></div>
                                     </form>
                                 </div>
                             </div>

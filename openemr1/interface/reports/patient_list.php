@@ -118,45 +118,69 @@ $.ajax({
 </script>
 
 <style type="text/css">
-#report_parameters {
-    background-color: transparent !important;
-    margin-top: 10px;
-}
-/* specifically include & exclude from printing */
-@media print {
     #report_parameters {
-        visibility: hidden;
-        display: none;
+        background-color: transparent !important;
+        margin-top: 10px;
     }
-    #report_parameters_daterange {
-        visibility: visible;
-        display: inline;
-        margin-bottom: 10px;
+    /* specifically include & exclude from printing */
+    @media print {
+        #report_parameters {
+            visibility: hidden;
+            display: none;
+        }
+        #report_parameters_daterange {
+            visibility: visible;
+            display: inline;
+            margin-bottom: 10px;
+        }
+        #report_results table {
+        margin-top: 0px;
+        }
     }
-    #report_results table {
-       margin-top: 0px;
-    }
-}
 
-/* specifically exclude some from the screen */
-@media screen {
-    #report_parameters_daterange {
-        visibility: hidden;
-        display: none;
+    /* specifically exclude some from the screen */
+    @media screen {
+        #report_parameters_daterange {
+            visibility: hidden;
+            display: none;
+        }
+        #report_results {
+            width: 100%;
+        }
     }
-    #report_results {
-        width: 100%;
+    .table-div {
+        height: auto!important;
+        overflow: auto;
     }
-}
-.table-div {
-    height: auto;
-    overflow: auto;
-}
 
-.css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-    background: #3C9DC5;
-    text-decoration: none;
-}
+    .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+        background: #3C9DC5;
+        text-decoration: none;
+    }
+
+    .custom-btn{
+        margin-top: 1rem;
+    }
+    
+    thead{
+        padding: .75rem;
+        border-top: 1px solid #dee2e6;
+    }
+    .form-save{
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    body{
+        font-size: 16px;
+    }
+
+    .table-div{
+        height:auto;
+        overflow:auto;
+    }
+
+
 
 </style>
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
@@ -213,7 +237,7 @@ $.ajax({
                                                 </div>
 
                                             </div>
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn">
                                                 <div class="row">
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_csvexport").val(""); $("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>

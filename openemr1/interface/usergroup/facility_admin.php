@@ -230,7 +230,7 @@ if (isset($_GET["fid"])) {
                                                     <td><input type="text" class="form-control active-text1" value="<?php echo text($iter3["phone"]);?>"></td>
                                                     <td>
                                                     <a href="facility_admin.php?fid=<?php echo attr_url($iter3["id"]); ?>" class="medium_modal"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" fac_id="<?php echo attr_url($iter3["id"]); ?>" class="xxx pr-2 edit_data"></a>
-                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="remove13" alt=""></td>
+                                                        <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" fid="<?php echo attr_url($iter3["id"]); ?>" class="remove13" alt=""></td>
                                                 </tr>
                                                 <?php
                                                 }
@@ -461,6 +461,37 @@ if (isset($_GET["fid"])) {
                 </div>
             </div>
         </section>
+        <script language="JavaScript">
 
+$(function() {
+    // $("#insertrow3").bind("click", function() {
+    //     console.log("fgf")
+    //     var div = $("<tr class='bodypart13 tablerow' />");
+    //     div.html(GetDynamicTextBox13(""));
+    //     $("#TextBoxContainer13").append(div);
+    //     makeTextboxEditable1();
+    // });
+    $("body").on("click", ".remove13", function() {
+        thisss=$(this);
+
+        if(confirm("Are You Sure want to delete?")){
+           $fid= $(this).attr('fid');
+         
+           $.post("facilities.php",
+            {
+                mode:"facility_delete",
+                action: "Delete",
+                fid:  $fid,
+            },
+            function(data, status){
+                thisss.closest(".bodypart13").remove();
+            });
+           
+        }
+      
+        
+    });
+});
+</script>
 </body>
 </html>

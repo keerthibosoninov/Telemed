@@ -36,7 +36,8 @@ use OpenEMR\Core\Header;
 use OpenEMR\OeUI\OemrUI;
 
 // test
-$pid=1;
+// $pid=1;
+$pid=$_SESSION['pid'];
 
 if($pid){
     
@@ -194,7 +195,7 @@ if (!empty($_REQUEST['go'])) { ?>
    <section>
             <div class="body-content body-content2">
                 <div class="container-fluid pb-4 pt-4">
-                    <window-dashboard title="Employee Info" class="icon-hide">
+                    <window-dashboard title="" class="icon-hide">
                         <div class="head-component">
                             <div class="row">
                                 <div class="col-6"></div>
@@ -217,7 +218,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="home" class="container tab-pane active">
+                                    <div id="home" class="tab-pane active">
                                         <form id="home_demographics" onsubmit="submit_demographics();">
                                         <div class="form-inputs">
                                             <div class="pt-5">
@@ -393,7 +394,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </div>
 
                                     <!-- //demographics -->
-                                    <div id="menu1" class="container tab-pane fade">
+                                    <div id="menu1" class="tab-pane fade">
                                         <div class="pt-4 pb-4">
                                             <div class="table-div">
                                                 <table class="table table-form">
@@ -412,27 +413,31 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     $pid=$_SESSION["pid"];     
                                                     $i=1;   
                                                     // $pid=1;
-                                                    if(!$pid)  {
-                                                         $pid=1;
-                                                    }                                       
-                                                    $lres=sqlStatement("Select * from patient_authorization where deleted=0 and pid=$pid");
-                                                    // $lrow = sqlFetchArray($lres);
-                                                    if(isset($lres))
-                                                    {
-                                                    while($lrow = sqlFetchArray($lres)){                                                                                                           
-                                                        
-                                                    // var_dump($lrow);
-                                                    ?>
-                                                    <tr>
-                                                        <td><?= $i++ ?></td>
-                                                        <td><?= $lrow['author_name'] ?></td>
-                                                        <td><?= $lrow['relation'] ?></td>
-                                                        <td><?= $lrow['contact_no'] ?></td>
-                                                        <td><?= $lrow['roi'] ?></td>
-                                                        <th><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" alt=""></th>
-                                                    </tr>
-                                                    <?php    
-                                                    }                                                    
+                                                    // if(!$pid)  {
+                                                    //      $pid=1;
+                                                    // }  
+                                                    if($pid){
+
+                                                                                         
+                                                        $lres=sqlStatement("Select * from patient_authorization where deleted=0 and pid=$pid");
+                                                        // $lrow = sqlFetchArray($lres);
+                                                        if(isset($lres))
+                                                        {
+                                                            while($lrow = sqlFetchArray($lres)){                                                                                                           
+                                                                
+                                                            // var_dump($lrow);
+                                                            ?>
+                                                            <tr>
+                                                                <td><?= $i++ ?></td>
+                                                                <td><?= $lrow['author_name'] ?></td>
+                                                                <td><?= $lrow['relation'] ?></td>
+                                                                <td><?= $lrow['contact_no'] ?></td>
+                                                                <td><?= $lrow['roi'] ?></td>
+                                                                <th><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" alt=""></th>
+                                                            </tr>
+                                                            <?php    
+                                                            }                                                    
+                                                        }
                                                     }
                                                     ?>
 
@@ -477,7 +482,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="menu2" class="container tab-pane fade">
+                                    <div id="menu2" class="tab-pane fade">
                                         <!-- <form id="employee_conset" onsubmit="return  submit_conset();"> -->
                                         <form id="employee_conset" action="employee_info2.php" method="POST">
                                         <div class="pt-4 pb-5">

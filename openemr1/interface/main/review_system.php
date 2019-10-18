@@ -36,17 +36,24 @@ use OpenEMR\OeUI\OemrUI;
 
 
 
-// km
-
-// $ros = new FormROS();
-
-
-
-// for test
-$pid=1;
-
 require_once("../forms/ros/FormROS.class.php");
-$form = new FormROS(15);
+
+
+if(isset($_REQUEST['form_id'])){
+    $form_id=$_REQUEST['form_id'];
+}
+// $form_id=107;
+
+ if (is_numeric($form_id)) {
+    $form = new FormROS($form_id);
+} else {
+    $form = new FormROS();
+}
+
+
+$id= $form->get_id();
+$pid= $form->get_pid();
+
 
 $weight_ch=$form->get_weight_change();
 $get_anorexia=$form->get_anorexia();
@@ -2802,7 +2809,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
 
                                         <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>">
-                                        <input type="hidden" name="id" value="" />
+                                        <input type="hidden" name="id" value="<?php echo $id;?>" />
                                         <input type="hidden" name="pid" value="<?php echo $pid;?>">
                                         <input type="hidden" name="process" value="true">
                                      

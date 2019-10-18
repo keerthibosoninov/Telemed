@@ -100,7 +100,7 @@ if ($_POST['form_get_hl7']==='true') {
 }
 
 $query .=
-  "i.id as immunizationid, c.code_text_short as immunizationtitle ".
+  "i.id as immunizationid,i.expiration_date, c.code_text_short as immunizationtitle ".
   "from immunizations i, patient_data p, codes c ".
   "left join code_types ct on c.code_type = ct.ct_id ".
   "where ".
@@ -343,6 +343,32 @@ if ($_POST['form_get_hl7']==='true') {
             background: #3C9DC5;
             text-decoration: none;
         }
+
+        .table-div{
+            height:auto!important;
+            overflow:auto;
+        }
+        thead{
+            padding: .75rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .custom-btn{
+            margin-top: 1rem;
+        }
+        .form-save{
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        body{
+            font-size: 16px;
+        }
+
+        .table td, .table th {
+            padding: 1.25rem !important;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
     </style>
 </head>
 
@@ -397,13 +423,13 @@ if ($_POST['form_get_hl7']==='true') {
                                                 </div>
                                                 <div class="col-md-2">
                                                     <p>From</p>
-                                                    <input type='date' name='form_from_date' id="form_from_date"class='datepicker form-control pr-1 pl-1'
-                                                         value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>'>
+                                                    <input type='text' name='form_from_date' id="form_from_date"class='datepicker form-control pr-1 pl-1'
+                                                         value='<?php echo attr(oeFormatShortDate($form_from_date)); ?>' placeholder="dd-mm-yyyy">
                                                    
                                                 </div>
                                                 <div class="col-md-2">
                                                     <p>To</p> 
-                                                    <input type='date' name='form_to_date' id="form_to_date" class='datepicker form-control pr-1 pl-1'
+                                                    <input type='text' name='form_to_date' id="form_to_date" class='datepicker form-control pr-1 pl-1'
                                                              value='<?php echo attr(oeFormatShortDate($form_to_date)); ?>' placeholder="dd-mm-yyyy">
                                                    
                                                 </div>
@@ -411,7 +437,7 @@ if ($_POST['form_get_hl7']==='true') {
 
 
                                             </div>
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn">
                                                 <div class="row">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true");
@@ -429,11 +455,11 @@ if ($_POST['form_get_hl7']==='true') {
                                                 <thead>
 
                                                     <tr>
-                                                        <th>Employee ID</th>
-                                                        <th>Employee</th>
+                                                        
                                                         <th>Immunization Code</th>
-                                                        <th>Immunization Title</th>
-                                                        <th>Date</th>
+                                                        <th>Immunization Name</th>
+                                                        <th>Date Administered</th>
+                                                        <th>Next Due Date </th>
                                                     </tr>
 
                                                 </thead>
@@ -451,11 +477,12 @@ if ($_POST['form_get_hl7']==='true') {
 
                                                         ?>
                                                         <tr>
-                                                            <td> <?php echo text($row['patientid']); ?></td>
-                                                            <td><?php echo text($row['patientname']); ?></td>
+                                                            <!-- <td> <?php echo text($row['patientid']); ?></td>
+                                                            <td><?php echo text($row['patientname']); ?></td> -->
                                                             <td> <?php echo text($row['cvx_code']); ?></td>
                                                             <td><?php echo text($row['immunizationtitle']); ?></td>
                                                             <td><?php echo text($row['immunizationdate']); ?></td>
+                                                            <td><?php echo text($row['expiration_date']); ?></td>
 
                                                         </tr>
                                                         <?php

@@ -92,33 +92,33 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
 
 <style type="text/css">
 
-#report_parameters {
-    background-color: transparent !important;
-    margin-top: 10px;
-}
-
-/* specifically include & exclude from printing */
-@media print {
     #report_parameters {
-        visibility: hidden;
-        display: none;
+        background-color: transparent !important;
+        margin-top: 10px;
     }
-    #report_parameters_daterange {
-        visibility: visible;
-        display: inline;
-    }
-    #report_results table {
-       margin-top: 0px;
-    }
-}
 
-/* specifically exclude some from the screen */
-@media screen {
-    #report_parameters_daterange {
-        visibility: hidden;
-        display: none;
+    /* specifically include & exclude from printing */
+    @media print {
+        #report_parameters {
+            visibility: hidden;
+            display: none;
+        }
+        #report_parameters_daterange {
+            visibility: visible;
+            display: inline;
+        }
+        #report_results table {
+        margin-top: 0px;
+        }
     }
-}
+
+    /* specifically exclude some from the screen */
+    @media screen {
+        #report_parameters_daterange {
+            visibility: hidden;
+            display: none;
+        }
+    }
 
     input[type=date]{
         margin-top:0px;
@@ -126,6 +126,29 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
     .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
         background: #3C9DC5;
         text-decoration: none;
+    }
+    .table-div{
+            height:auto!important;
+            overflow:auto;
+    }
+    thead{
+        padding: .75rem;
+        border-top: 1px solid #dee2e6;
+    }
+    .custom-btn{
+        margin-top: 1rem;
+    }
+    .form-save{
+        padding-top: 6px!important;
+        padding-bottom: 6px!important;
+    }
+    body{
+        font-size: 16px;
+    }
+    .table td, .table th {
+        padding: 1.25rem !important;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
     }
 
 </style>
@@ -144,7 +167,7 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
                             <div class="row">
                                 <div class="col-6"></div>
                                 <div class="col-6">
-                                    <p class="text-white head-p">Report - Prescriptions and Dispensations </p>
+                                    <p class="text-white head-p">Prescriptions and Dispensations </p>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +218,7 @@ $form_facility   = isset($_POST['form_facility']) ? $_POST['form_facility'] : ''
 
                                         </div>
                                     
-                                        <div class="pt-4 pb-5">
+                                        <div class="pt-4 pb-5 custom-btn">
                                             <div class="row">
                                                 <div class="col-md-4"></div>
                                                 <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>

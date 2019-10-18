@@ -138,6 +138,9 @@ $primary_docs = array(
 'statics' => array(xl('Statistics')  , 0, 'orders/procedure_stats.php'),
 'care_pln' => array(xl('Care Plan')  , 0, 'forms/care_plan/new.php'),
 'soap_notes' => array(xl('Soap Notes')  , 0, 'patient_file/encounter/view_form.php?formname=soap'),
+'flow_brd' => array(xl('Employee Flow Board')  , 0, 'reports/patient_flow_board_report.php'),
+'lab_doc' => array(xl('Lab Documents')  , 0, 'main/display_documents.php'),
+
     // 
 
 'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
@@ -1332,7 +1335,11 @@ $(function (){
 
     genTreeLink('RTop', 'dash', xl('Dashboard'));
     genTreeLink('RTop', 'emp_info', xl('Employee'));
+    if (acl_check('patients', 'demo')) {
+        genMiscLink('RTop', 'rep', '0', xl('Employee List'), 'reports/patient_list.php');
+    } 
     genTreeLink('RTop', 'emp_info2', xl('Employee Info '));
+    genTreeLink('RTop', 'flow_brd', xl('Employee Flow Board'));
     genTreeLink('RTop', 'injury_det', xl('Injury Details'));
     genTreeLink('RTop', 'visit_his', xl('Visit History'));
     genTreeLink('RTop', 'health_his', xl('Health History'));
@@ -1345,10 +1352,11 @@ $(function (){
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
     // genTreeLink('RTop', 'cognitive', xl('Cognitive Status')); 
    
-   
-    if (acl_check('patients', 'demo')) {
-        genMiscLink('RTop', 'rep', '0', xl('Employee List'), 'reports/patient_list.php');
-    } 
+    
+
+
+    
+    
      if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
         genMiscLink('RTop', 'rep', '0', xl('Prescriptions'), 'reports/prescriptions_report.php');
     } 
@@ -1369,12 +1377,13 @@ $(function (){
     genMiscLink('RTop', 'rep', '0', xl('Appointments'), 'reports/appointments_report.php');
     genMiscLink('RTop', 'rep', '0', xl('Daily Report'), 'reports/daily_summary_report.php');
     genMiscLink('RTop', 'rep', '0', xl('Sales'), 'reports/sales_by_item.php');
-    genMiscLink('RTop', 'rep', '0', xl('Distribution'), 'reports/insurance_allocation_report.php');
-    genMiscLink('RTop', 'rep', '0', xl('Indigents'), 'billing/indigent_patients_report.php');
+    genMiscLink('RTop', 'rep', '0', xl('Insurance Distribution'), 'reports/insurance_allocation_report.php');
+    genMiscLink('RTop', 'rep', '0', xl('Indigent Employees'), 'billing/indigent_patients_report.php');
 
 /*****************BY AKHIL A.P 03/10/2019************************ */
+    genTreeLink('RTop', 'lab_doc', xl('Lab Documents')); 
     genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=00');
-    genMiscLink('RTop', 'rep', '0', xl('Pharmacy & ins'), '../controller.php?practice_settings&pharmacy&action=list');
+    genMiscLink('RTop', 'rep', '0', xl('Pharmacy & insurance'), '../controller.php?practice_settings&pharmacy&action=list');
     genMiscLink('RTop', 'rep', '0', xl('Facilities'), 'usergroup/facilities_add.php');
 // parvathy
 

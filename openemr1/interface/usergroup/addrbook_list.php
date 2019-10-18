@@ -123,8 +123,8 @@ $res = sqlStatement($query, $sqlBindArray);
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css"> -->
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
@@ -251,14 +251,14 @@ td { font-size:10pt; }
               onsubmit='return top.restoreSession()'>
               <input type="hidden" name="form_del" id="form_del" value="form_delt">
 <div class="pt-4 pb-4">
-<div class="">
+<div class="col-md-12">
 <table class="table table-form">
 
  <tbody id="TextBoxContainer11" class="repeat-row ">
      <tr>
   <th title='<?php echo xla('Click to view or edit'); ?>'><?php echo xlt('Organization'); ?></th>
   <th><?php echo xlt('Name'); ?></th>
-  <th><?php echo xlt('Local'); ?></th><!-- empty for external -->
+  <th><?php echo xlt('Local'); ?></th>
   <th><?php echo xlt('Type'); ?></th>
   <th><?php echo xlt('Specialty'); ?></th>
   <th><?php echo xlt('Phone'); ?></th>
@@ -266,6 +266,7 @@ td { font-size:10pt; }
   <th><?php echo xlt('Fax'); ?></th> -->
   <th><?php echo xlt('Email'); ?></th>
   <th><?php echo xlt('Address'); ?></th>
+  <th></th>
   <!-- <th><?php echo xlt('City'); ?></th>
   <th><?php echo xlt('State'); ?></th>
   <th><?php echo xlt('Postal'); ?></th> -->
@@ -298,7 +299,7 @@ while ($row = sqlFetchArray($res)) {
     echo "  <td>" . text($row['street'])    . "</td>\n";
    
     // echo " <td><img style='cursor:pointer' onclick='doedclick_edit(" . attr_js($row['id']) . ")' src='". $GLOBALS['assets_static_relative'] ."/img/edit-text.svg' class='link'><br><a class='link' href='javascript:submitDelete(" . attr_js($row['id']) . ")'><img src='". $GLOBALS['assets_static_relative'] ."/img/delete.svg'  class='xxx pr-2'></a></td>";
-        echo " <td><img style='cursor:pointer' idss=".$row['id']." src='". $GLOBALS['assets_static_relative'] ."/img/edit-text.svg' class='link edt'><br>
+        echo " <td><img style='cursor:pointer' idss=".$row['id']." src='". $GLOBALS['assets_static_relative'] ."/img/edit-text.svg' class='link edt'>
         <img style='cursor:pointer' idss=".$row['id']." src='". $GLOBALS['assets_static_relative'] ."/img/delete.svg' class='link dlt'>
         </td>";
         // <a class='link' href='javascript:submitDelete(" . attr_js($row['id']) . ")'><img src='". $GLOBALS['assets_static_relative'] ."/img/delete.svg'  class='xxx pr-2'></a>
@@ -705,10 +706,9 @@ if ($type) { // note this only happens when its new
 
 
 <!-- <input type='submit' name='form_save' value='<?php echo xla('Save'); ?>' /> -->
-<div class="pt-4 pb-2">
-    <!-- <button type='submit' name='form_save' class="form-save">Save</button> -->
-    <input type='submit' name='form_save' style="background: #3C9DC5;color: #fff!important;display: block;float: left;font-weight: 400;margin-right: 3px;text-decoration: none;
-                                padding: 9px 12px;border: 0;width: 96%;margin-left: 19px;" value='<?php echo xla('Save'); ?>' />
+<div class="pt-4 pb-2 col-md-12">
+    <!-- <button type='submit' name='form_save' class="form-save" value='<?php echo xla('Save'); ?>'>Save</button> -->
+    <input type='submit' name='form_save' class="form-save" value='<?php echo xla('Save'); ?>' />
                                
 </div>
 <!-- <?php if ($userid && !$row['username']) { ?>

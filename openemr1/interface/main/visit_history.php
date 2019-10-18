@@ -92,12 +92,12 @@ if (($_POST['setting_bootstrap_submenu']) ||
 <html>
 
 <head>
-    <link rel="stylesheet"
+    <!-- <link rel="stylesheet"
         href="<?php echo $webroot; ?>/interface/main/messages/css/reminder_style.css?v=<?php echo $v_js_includes; ?>"
         type="text/css">
     <link rel="stylesheet"
         href="<?php echo $GLOBALS['web_root']; ?>/library/css/bootstrap_navbar.css?v=<?php echo $v_js_includes; ?>"
-        type="text/css">
+        type="text/css"> -->
 
     <script>
     var xljs1 = '<?php echo xla('
@@ -106,9 +106,9 @@ if (($_POST['setting_bootstrap_submenu']) ||
     <?php require_once "$srcdir/restoreSession.php"; ?>
     </script>
 
-    <script type="text/javascript"
+    <!-- <script type="text/javascript"
         src="<?php echo $GLOBALS['web_root']; ?>/interface/main/messages/js/reminder_appts.js?v=<?php echo $v_js_includes; ?>">
-    </script>
+    </script> -->
 
     <link rel="shortcut icon" href="<?php echo $webroot; ?>/sites/default/favicon.ico" />
 
@@ -118,37 +118,17 @@ if (($_POST['setting_bootstrap_submenu']) ||
     <meta name="author" content="OpenEMR: MedExBank">
     <meta name="viewport" content="width=device-width, initial-scale=1">
  
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-
+   
     <?php Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
-
-
-
-    <!-- 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script> -->
-    <!-- <script language="javascript" src="<?php echo $GLOBALS['webroot']; ?>/library/dialog.js?v=<?php echo $v_js_includes; ?>"></script> -->
-    <!-- relatives_tab_css -->
+
+ 
 <style>
 .css_pa_iframe
 {
@@ -267,6 +247,30 @@ label {
     font-size:16px;
 }
 
+.pt-5, .py-5 {
+    padding-top: 3rem!important;
+}
+
+.pt-3, .py-3 {
+    padding-top: 1rem!important;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    /* font-size: 1rem; */
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
 </style>
 <!-- //PA_new -->
     <?php
@@ -341,11 +345,11 @@ if (!empty($_REQUEST['go'])) { ?>
 
   
     <!-- visit_history -->
-    <section>
+        <section>
             <div class="body-content body-content2">
                 <div class="container-fluid pb-4 pt-4">
                     <window-dashboard title="Employee Info" class="icon-hide">
-                    <div class="head-component">
+                        <div class="head-component">
                             <div class="row pa_row">
                                 <div class="col-6"></div>
                                 <div class="col-6">
@@ -354,477 +358,477 @@ if (!empty($_REQUEST['go'])) { ?>
                             </div>
                         </div>
                         <div class="body-compo" style="height:auto;">
-                        <div class="container-fluid">
-                            <ul class="nav  nav-justified compo-info" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#home">Create Visit</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#menu1">Current</a>
-                                </li>
-                                <li id="histry" class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#menu2">History</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
+                            <div class="container-fluid">
+                                <ul class="nav  nav-justified compo-info" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home">Create Visit</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#menu1">Current</a>
+                                    </li>
+                                    <li id="histry" class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#menu2">History</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    
                                 
-                               
-                                <div id="home" class="container tab-pane active">
-                                <form id="new-encounter-form" method='post' action="<?php echo $GLOBALS['webroot']; ?>/interface/forms/newpatient/save.php" name='new_encounter'>
+                                    <div id="home" class="tab-pane active">
+                                        <form id="new-encounter-form" method='post' action="<?php echo $GLOBALS['webroot']; ?>/interface/forms/newpatient/save.php" name='new_encounter'>
 
-                                <div class="form-inputs">
-                                        <div class="pt-5">
+                                        <div class="form-inputs">
+                                            <div class="pt-5">
 
-                                            <div class="row pa_row">
-                                                <div class="col-md-3 pa_md3">
-                                                    <p>Visit Category</p>
-                                                   
+                                                <div class="row pa_row">
+                                                    <div class="col-md-3 pa_md3">
+                                                        <p>Visit Category</p>
+                                                    
 
-                                            <select  name='pc_catid' id='pc_catid' class='form-control col-sm-12 pa_form-control'>
-                                            <option value='_blank'>-- <?php echo xlt('Select One'); ?> --</option>
-                                            <?php
-                                            //Bring only patient ang group categories
-                                            $visitSQL = "SELECT pc_catid, pc_catname, pc_cattype 
-                                                       FROM openemr_postcalendar_categories
-                                                       WHERE pc_active = 1 and pc_cattype IN (0,3) and pc_constant_id  != 'no_show' ORDER BY pc_seq";
+                                                <select  name='pc_catid' id='pc_catid' class='form-control col-sm-12 pa_form-control'>
+                                                <option value='_blank'>-- <?php echo xlt('Select One'); ?> --</option>
+                                                <?php
+                                                //Bring only patient ang group categories
+                                                $visitSQL = "SELECT pc_catid, pc_catname, pc_cattype 
+                                                        FROM openemr_postcalendar_categories
+                                                        WHERE pc_active = 1 and pc_cattype IN (0,3) and pc_constant_id  != 'no_show' ORDER BY pc_seq";
 
-                                            $visitResult = sqlStatement($visitSQL);
-                                            $therapyGroupCategories = [];
+                                                $visitResult = sqlStatement($visitSQL);
+                                                $therapyGroupCategories = [];
 
-                                            while ($row = sqlFetchArray($visitResult)) {
-                                                $catId = $row['pc_catid'];
-                                                $name = $row['pc_catname'];
+                                                while ($row = sqlFetchArray($visitResult)) {
+                                                    $catId = $row['pc_catid'];
+                                                    $name = $row['pc_catname'];
 
-                                                if ($row['pc_cattype'] == 3) {
-                                                    $therapyGroupCategories[] = $catId;
-                                                }
-
-                                                if ($catId === "_blank") {
-                                                    continue;
-                                                }
-
-                                                if ($row['pc_cattype'] == 3 && !$GLOBALS['enable_group_therapy']) {
-                                                    continue;
-                                                }
-
-                                                // Fetch acl for category of given encounter. Only if has write auth for a category, then can create an encounter of that category.
-                                                $postCalendarCategoryACO = fetchPostCalendarCategoryACO($catId);
-                                                if ($postCalendarCategoryACO) {
-                                                    $postCalendarCategoryACO = explode('|', $postCalendarCategoryACO);
-                                                    $authPostCalendarCategoryWrite = acl_check($postCalendarCategoryACO[0], $postCalendarCategoryACO[1], '', 'write');
-                                                } else { // if no aco is set for category
-                                                    $authPostCalendarCategoryWrite = true;
-                                                }
-
-                                                //if no permission for category write, don't show in drop-down
-                                                if (!$authPostCalendarCategoryWrite) {
-                                                    continue;
-                                                }
-
-                                                $optionStr = '<option value="%pc_catid%" %selected%>%pc_catname%</option>';
-                                                $optionStr = str_replace("%pc_catid%", attr($catId), $optionStr);
-                                                $optionStr = str_replace("%pc_catname%", text(xl_appt_category($name)), $optionStr);
-                                                if ($viewmode) {
-                                                    $selected = ($result['pc_catid'] == $catId) ? " selected" : "";
-                                                } else {
-                                                    $selected = ($GLOBALS['default_visit_category'] == $catId) ? " selected" : "";
-                                                }
-
-                                                  $optionStr = str_replace("%selected%", $selected, $optionStr);
-                                                  echo $optionStr;
-                                            }
-                                            ?>
-                                        </select>
-                                                </div>
-                                                <div class="col-md-3 pa_md3">
-                                                    <p>Sensitivity</p>
-                                                  
-                                                        <select name='form_sensitivity' id='form_sensitivity' class='form-control col-sm-12 pa_form-control' >
-                                            <?php
-                                            foreach ($sensitivities as $value) {
-                                                // Omit sensitivities to which this user does not have access.
-                                                if (acl_check('sensitivities', $value[1])) {
-                                                    echo "       <option value='" . attr($value[1]) . "'";
-                                                    if ($viewmode && $result['sensitivity'] == $value[1]) {
-                                                        echo " selected";
+                                                    if ($row['pc_cattype'] == 3) {
+                                                        $therapyGroupCategories[] = $catId;
                                                     }
 
-                                                    echo ">" . xlt($value[3]) . "</option>\n";
+                                                    if ($catId === "_blank") {
+                                                        continue;
+                                                    }
+
+                                                    if ($row['pc_cattype'] == 3 && !$GLOBALS['enable_group_therapy']) {
+                                                        continue;
+                                                    }
+
+                                                    // Fetch acl for category of given encounter. Only if has write auth for a category, then can create an encounter of that category.
+                                                    $postCalendarCategoryACO = fetchPostCalendarCategoryACO($catId);
+                                                    if ($postCalendarCategoryACO) {
+                                                        $postCalendarCategoryACO = explode('|', $postCalendarCategoryACO);
+                                                        $authPostCalendarCategoryWrite = acl_check($postCalendarCategoryACO[0], $postCalendarCategoryACO[1], '', 'write');
+                                                    } else { // if no aco is set for category
+                                                        $authPostCalendarCategoryWrite = true;
+                                                    }
+
+                                                    //if no permission for category write, don't show in drop-down
+                                                    if (!$authPostCalendarCategoryWrite) {
+                                                        continue;
+                                                    }
+
+                                                    $optionStr = '<option value="%pc_catid%" %selected%>%pc_catname%</option>';
+                                                    $optionStr = str_replace("%pc_catid%", attr($catId), $optionStr);
+                                                    $optionStr = str_replace("%pc_catname%", text(xl_appt_category($name)), $optionStr);
+                                                    if ($viewmode) {
+                                                        $selected = ($result['pc_catid'] == $catId) ? " selected" : "";
+                                                    } else {
+                                                        $selected = ($GLOBALS['default_visit_category'] == $catId) ? " selected" : "";
+                                                    }
+
+                                                    $optionStr = str_replace("%selected%", $selected, $optionStr);
+                                                    echo $optionStr;
                                                 }
-                                            }
-
-                                            echo "       <option value=''";
-                                            if ($viewmode && !$result['sensitivity']) {
-                                                echo " selected";
-                                            }
-
-                                            echo ">" . xlt('None'). "</option>\n";
-                                            ?>
-                                        </select>
-                                                </div>
-                                                <div class="col-md-3 pa_md3">
-                                                    <p>Date of Service</p>
-                                                    <input type="date" name='form_date' class="form-control pa_form-control">
-                                                </div>
-                                                <div class="col-md-3 pa_md3">
-                                                    <p>On Set/Hosp. Date</p>
-                                                    <input type="date" name='form_onset_date' class="form-control pa_form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-6 pa_md6">
-                                                    <p>Facility</p>
-                                                   
-                                                    <select name='facility_id' id='facility_id' class='form-control col-sm-9 pa_form-control pa_sm9' onChange="bill_loc()">
-                                            <?php
-                                            if ($viewmode) {
-                                                $def_facility = $result['facility_id'];
-                                            } else {
-                                                $dres = sqlStatement("select facility_id from users where username = ?", array($_SESSION['authUser']));
-                                                $drow = sqlFetchArray($dres);
-                                                $def_facility = $drow['facility_id'];
-                                            }
-                                            $posCode = '';
-                                            $facilities = $facilityService->getAllServiceLocations();
-                                            if ($facilities) {
-                                                foreach ($facilities as $iter) { ?>
-                                            <option value="<?php echo attr($iter['id']); ?>"
-                                                    <?php
-                                                    if ($def_facility == $iter['id']) {
-                                                        if (!$viewmode) {
-                                                            $posCode = $iter['pos_code'];
-                                                        }
-                                                        echo "selected";
-                                                    }?>>
-                                                    <?php echo text($iter['name']); ?>
-                                            </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                                </div>
-
-
-                                                <div class="col-md-6 pa_md6">
-                                                    <p>Billing Facility</p>
-                                                    <!-- <select name="" id="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                                        <option value="">Value 1</option>
-                                                        <option value="">value 2</option>
-                                                        <option value="">Value 3</option>
-                                                    </select> -->
-                                                    <!-- <input type="text" name="billing_facility" class="form-control pa_form-control" > -->
-                                                    <?php
-                                            $default_bill_fac = isset($result['billing_facility']) ? $result['billing_facility'] : $def_facility;
-                                            billing_facility('billing_facility', $default_bill_fac);
-                                        ?>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="div pt-3">
-                                            <div class="row pa_row">
-                                                <div class="col-12">
-                                                    <p> Reason for Visit</p>
-                                                    <textarea name="reason" id="" class="form-control pa_form-control" rows="4"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="div pt-3">
-                                            <div class="row pa_row">
-
-                                                <div class="col-12">
-                                                    <p>Type</p>
-                                                    <div class="info-update">
-                                                        <div><input type="radio" name="newtype" value="problem"> <label>
-                                                                Problem
-                                                           </label></div>
-                                                        <div><input type="radio" name="newtype" value="allergy"> <label>
-                                                                Allergy
-                                                           </label></div>
-                                                        <div class=" "><input type="radio" name="newtype" value="medication"> <label>
-                                                                Medication
-                                                           </label></div>
-                                                        <div class=" "><input type="radio" name="newtype" name="surgery"> <label>
-                                                                Surgery
-                                                           </label></div>
-                                                        <div class=" "><input type="radio" name="newtype" name="dental"> <label>
-                                                                Dental
-                                                                  </label></div>
-
-                                                                  
+                                                ?>
+                                            </select>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>Title</p>
-                                                    <input type="text" name="form_title" class="form-control pa_form-control" placeholder="">
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>ICD Codes</p>
-                                                    <!-- <input type="text" class="form-control" name='form_diagnosis'> -->
-                                                    <input type='text' class="form-control pa_form-control" name='form_diagnosis' id='form_diagnosis'
-                                                    onclick='sel_diagnosis()' title='<?php echo xla('Click to select or change coding'); ?>' readonly >
-                                                   
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                       
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>Occurence</p>
-                                                    <input type="number" name="form_occur" class="form-control pa_form-control">
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>Referred By</p>
-                                                    <input type="text" name='form_referredby' class="form-control pa_form-control">
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>Comments</p>
-                                                    <textarea name='form_comments' id="" class="form-control pa_form-control" rows="4"></textarea>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>Outcome</p>
-                                                    <input type="number" name="form_outcome" class="form-control pa_form-control">
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="pt-3">
-
-                                            <div class="row pa_row">
-                                                <div class="col-md-12 pa_md12">
-                                                    <p>Destination</p>
-                                                    <input type="text" name="form_destination" class="form-control pa_form-control">
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="pt-4 pb-5">
-                                            <input type="hidden" name="pid" value="<?= $pid ?>">
-                                            <input type="hidden" name="mode" value="new">
-                                            <button class="form-save" type="submit">Save</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                       
-
-                        <div id="menu1" class="container tab-pane fade">
-                            <form id="current_form" onsubmit="submit_current();">    
-
-                                    <div>
-                                        <h4>Visit Summary</h4>
-                                        <div class="pt-4 pb-5">
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Facility</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="facility2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Reason</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <h4 class="mt-3">SOAP</h4>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Subjective</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="subjective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Objective</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Assessment</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="assessment" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <p class="fs-14">Plan</p>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                </div>
-                                                <div class="col-sm-12 pt-2">
-                                                    <textarea name="plan" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
-                                                    <input type="hidden" name="pat_id" value="<?= $pid ?>" >
-                                                    <input type="hidden" name="activity" value="1" >
-                                                    <input type="hidden" name="form_id" value="current_data">
-                                            </div>
-                                            <div class="mt-3">
-                                                <h4>Vitals</h4>
-                                                <div class="row pa_row">
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Blood Pressure</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="bp" class="form-control pa_form-control active-text">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Height</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="height" class="form-control pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Temprature Method</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="temp_method" class=" pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Temprature</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="temp" class="form-control pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Weight</p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="weight" class="form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 pa_md4">
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm-6">
-                                                                <p class="fs-14"> Pulse </p>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
-                                                            </div>
-                                                            <div class="col-sm-12 pt-2">
-                                                                <input type="text" name="pulse" class="form-control pa_form-control active-text">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <div class="col-md-3 pa_md3">
+                                                        <p>Sensitivity</p>
                                                     
+                                                            <select name='form_sensitivity' id='form_sensitivity' class='form-control col-sm-12 pa_form-control' >
+                                                <?php
+                                                foreach ($sensitivities as $value) {
+                                                    // Omit sensitivities to which this user does not have access.
+                                                    if (acl_check('sensitivities', $value[1])) {
+                                                        echo "       <option value='" . attr($value[1]) . "'";
+                                                        if ($viewmode && $result['sensitivity'] == $value[1]) {
+                                                            echo " selected";
+                                                        }
+
+                                                        echo ">" . xlt($value[3]) . "</option>\n";
+                                                    }
+                                                }
+
+                                                echo "       <option value=''";
+                                                if ($viewmode && !$result['sensitivity']) {
+                                                    echo " selected";
+                                                }
+
+                                                echo ">" . xlt('None'). "</option>\n";
+                                                ?>
+                                            </select>
+                                                    </div>
+                                                    <div class="col-md-3 pa_md3">
+                                                        <p>Date of Service</p>
+                                                        <input type="date" name='form_date' class="form-control pa_form-control">
+                                                    </div>
+                                                    <div class="col-md-3 pa_md3">
+                                                        <p>On Set/Hosp. Date</p>
+                                                        <input type="date" name='form_onset_date' class="form-control pa_form-control">
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="pt-3">
 
+                                                <div class="row pa_row">
+                                                    <div class="col-md-6 pa_md6">
+                                                        <p>Facility</p>
+                                                    
+                                                        <select name='facility_id' id='facility_id' class='form-control col-sm-9 pa_form-control pa_sm9' onChange="bill_loc()">
+                                                <?php
+                                                if ($viewmode) {
+                                                    $def_facility = $result['facility_id'];
+                                                } else {
+                                                    $dres = sqlStatement("select facility_id from users where username = ?", array($_SESSION['authUser']));
+                                                    $drow = sqlFetchArray($dres);
+                                                    $def_facility = $drow['facility_id'];
+                                                }
+                                                $posCode = '';
+                                                $facilities = $facilityService->getAllServiceLocations();
+                                                if ($facilities) {
+                                                    foreach ($facilities as $iter) { ?>
+                                                <option value="<?php echo attr($iter['id']); ?>"
+                                                        <?php
+                                                        if ($def_facility == $iter['id']) {
+                                                            if (!$viewmode) {
+                                                                $posCode = $iter['pos_code'];
+                                                            }
+                                                            echo "selected";
+                                                        }?>>
+                                                        <?php echo text($iter['name']); ?>
+                                                </option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                                    </div>
+
+
+                                                    <div class="col-md-6 pa_md6">
+                                                        <p>Billing Facility</p>
+                                                        <!-- <select name="" id="" class="form-control mt-2 pa_form-control pa_mt-2">
+                                                            <option value="">Value 1</option>
+                                                            <option value="">value 2</option>
+                                                            <option value="">Value 3</option>
+                                                        </select> -->
+                                                        <!-- <input type="text" name="billing_facility" class="form-control pa_form-control" > -->
+                                                        <?php
+                                                $default_bill_fac = isset($result['billing_facility']) ? $result['billing_facility'] : $def_facility;
+                                                billing_facility('billing_facility', $default_bill_fac);
+                                            ?>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="div pt-3">
+                                                <div class="row pa_row">
+                                                    <div class="col-12">
+                                                        <p> Reason for Visit</p>
+                                                        <textarea name="reason" id="" class="form-control pa_form-control" rows="4"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="div pt-3">
+                                                <div class="row pa_row">
+
+                                                    <div class="col-12">
+                                                        <p>Type</p>
+                                                        <div class="info-update">
+                                                            <div><input type="radio" name="newtype" value="problem"> <label>
+                                                                    Problem
+                                                            </label></div>
+                                                            <div><input type="radio" name="newtype" value="allergy"> <label>
+                                                                    Allergy
+                                                            </label></div>
+                                                            <div class=" "><input type="radio" name="newtype" value="medication"> <label>
+                                                                    Medication
+                                                            </label></div>
+                                                            <div class=" "><input type="radio" name="newtype" name="surgery"> <label>
+                                                                    Surgery
+                                                            </label></div>
+                                                            <div class=" "><input type="radio" name="newtype" name="dental"> <label>
+                                                                    Dental
+                                                                    </label></div>
+
+                                                                    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>Title</p>
+                                                        <input type="text" name="form_title" class="form-control pa_form-control" placeholder="">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>ICD Codes</p>
+                                                        <!-- <input type="text" class="form-control" name='form_diagnosis'> -->
+                                                        <input type='text' class="form-control pa_form-control" name='form_diagnosis' id='form_diagnosis'
+                                                        onclick='sel_diagnosis()' title='<?php echo xla('Click to select or change coding'); ?>' readonly >
+                                                    
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>Occurence</p>
+                                                        <input type="number" name="form_occur" class="form-control pa_form-control">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>Referred By</p>
+                                                        <input type="text" name='form_referredby' class="form-control pa_form-control">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>Comments</p>
+                                                        <textarea name='form_comments' id="" class="form-control pa_form-control" rows="4"></textarea>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>Outcome</p>
+                                                        <input type="number" name="form_outcome" class="form-control pa_form-control">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="pt-3">
+
+                                                <div class="row pa_row">
+                                                    <div class="col-md-12 pa_md12">
+                                                        <p>Destination</p>
+                                                        <input type="text" name="form_destination" class="form-control pa_form-control">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
                                             <div class="pt-4 pb-5">
-                                                <button class="form-save">Save</button>
+                                                <input type="hidden" name="pid" value="<?= $pid ?>">
+                                                <input type="hidden" name="mode" value="new">
+                                                <button class="form-save" type="submit">Save</button>
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
-                                    </form>
-                                </div>
-                    
-                                <div id="menu2" class="container tab-pane fade">
-                               
-                               
+                        
+
+                                    <div id="menu1" class="tab-pane fade">
+                                        <form id="current_form" onsubmit="submit_current();">    
+
+                                                <div>
+                                                    <h4>Visit Summary</h4>
+                                                    <div class="pt-4 pb-5">
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-14">Facility</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                            </div>
+                                                            <div class="col-sm-12 pt-2">
+                                                                <textarea name="facility2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-14">Reason</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                            </div>
+                                                            <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                        </div>
+                                                        <h4 class="mt-3">SOAP</h4>
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-14">Subjective</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                            </div>
+                                                            <div class="col-sm-12 pt-2">
+                                                                <textarea name="subjective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-14">Objective</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                            </div>
+                                                            <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-14">Assessment</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                            </div>
+                                                            <div class="col-sm-12 pt-2">
+                                                                <textarea name="assessment" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-14">Plan</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                            </div>
+                                                            <div class="col-sm-12 pt-2">
+                                                                <textarea name="plan" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                                <input type="hidden" name="pat_id" value="<?= $pid ?>" >
+                                                                <input type="hidden" name="activity" value="1" >
+                                                                <input type="hidden" name="form_id" value="current_data">
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <h4>Vitals</h4>
+                                                            <div class="row pa_row">
+                                                                <div class="col-md-4 pa_md4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-sm-6">
+                                                                            <p class="fs-14"> Blood Pressure</p>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 pt-2">
+                                                                            <input type="text" name="bp" class="form-control pa_form-control active-text">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 pa_md4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-sm-6">
+                                                                            <p class="fs-14"> Height</p>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 pt-2">
+                                                                            <input type="text" name="height" class="form-control pa_form-control active-text">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 pa_md4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-sm-6">
+                                                                            <p class="fs-14"> Temprature Method</p>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 pt-2">
+                                                                            <input type="text" name="temp_method" class=" pa_form-control active-text">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 pa_md4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-sm-6">
+                                                                            <p class="fs-14"> Temprature</p>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 pt-2">
+                                                                            <input type="text" name="temp" class="form-control pa_form-control active-text">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 pa_md4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-sm-6">
+                                                                            <p class="fs-14"> Weight</p>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 pt-2">
+                                                                            <input type="text" name="weight" class="form-control active-text">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 pa_md4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-sm-6">
+                                                                            <p class="fs-14"> Pulse </p>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 pt-2">
+                                                                            <input type="text" name="pulse" class="form-control pa_form-control active-text">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="pt-4 pb-5">
+                                                            <button class="form-save">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                    </div>
+                                
+                                    <div id="menu2" class="tab-pane fade">
+                                        
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                                                </div>
                     </window-dashboard>
                 </div>
             </div>

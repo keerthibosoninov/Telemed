@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/style.css">
 
     <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/emp_info_css.css">
+    <!-- <link rel="stylesheet" href="{$FORM_ACTION}/public/assets/css/emp_info_css.css"> -->
 
     <script src="{$FORM_ACTION}/public/assets/js/vue.js"></script>
 
@@ -103,7 +103,7 @@
                                 <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
                             </div>
                             <div class="col-sm-12 pt-2">
-                                <textarea name="subjective" rows="4" class="form-control active-text" placeholder="edit here paragraph shown here"></textarea></div>
+                                <textarea name="subjective" rows="4" class="form-control active-text" placeholder="">{$data->get_subjective()|text}</textarea></div>
                         </div>
 
                     <!-- <fieldset>
@@ -122,7 +122,7 @@
                                 <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
                             </div>
                             <div class="col-sm-12 pt-2">
-                                <textarea name="objective" rows="4" class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                <textarea name="objective" rows="4" class="form-control active-text " placeholder="">{$data->get_assessment()|text}</textarea></div>
                         </div>
                     <!-- <fieldset>
                             <legend>{xlt t='Assessment'}</legend>
@@ -140,7 +140,7 @@
                                 <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
                             </div>
                             <div class="col-sm-12 pt-2">
-                                <textarea name="assessment" rows="4" class="form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                <textarea name="assessment" rows="4" class="form-control active-text " placeholder="">{$data->get_assessment()|text}</textarea></div>
                         </div>
                     <!-- <fieldset>
                             <legend>{xlt t='Plan'}</legend>
@@ -158,7 +158,7 @@
                                 <div class="text-right"><img src="{$FORM_ACTION}/public/assets/img/edit-text.svg" alt="" class="xx"></div>
                             </div>
                             <div class="col-sm-12 pt-2">
-                                <textarea name="plan" id="" rows="4" class="form-control active-text " placeholder="edit here paragraph shown here"></textarea>
+                                <textarea name="plan" id="" rows="4" class="form-control active-text " placeholder="">{$data->get_plan()|text}</textarea>
                             </div>
                     </div>
 

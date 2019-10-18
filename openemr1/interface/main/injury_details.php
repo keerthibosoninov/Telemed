@@ -91,8 +91,8 @@ if ($GLOBALS['date_display_format'] == 1) {
 
 
 // for test
-$pid=1;
-
+// $pid=1;
+$pid=$_SESSION['pid'];
 
 
 
