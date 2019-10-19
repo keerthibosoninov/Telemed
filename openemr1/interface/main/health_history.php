@@ -760,7 +760,67 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </div>
                                     <div id="menu2" class="tab-pane fade">
                                         <form id="family_history" name="family_history" onsubmit="family_history_submit();">
-                                            <div class="pt-4 pb-5">
+                                            <?php
+                                            $layout = sqlStatement("SELECT * FROM layout_options 
+                                            WHERE data_type= ?  AND form_id=? AND group_id= ? ORDER BY seq", array(2,'HIS',2));
+                                            while ($frow = sqlFetchArray($layout)) {
+                                                $data_type   = $frow['data_type'];
+                                                $field_id    = $frow['field_id'];
+                                                $list_id     = $frow['list_id'];
+                                                $backup_list = $frow['list_backup_id'];
+
+                                                // escaped variables to use in html
+                                                $field_id_esc= htmlspecialchars($field_id, ENT_QUOTES);
+                                                $list_id_esc = htmlspecialchars($list_id, ENT_QUOTES);
+
+                                                // if (!$list_id) {
+                                                //     echo "<input type='checkbox' name='form_{$field_id_esc}' " .
+                                                //     "id='form_{$field_id_esc}' value='Yes' $lbfonchange";
+                                                //     if ($currvalue) {
+                                                //         echo " checked";
+                                                //     }
+                                                //     echo " $disabled />";
+                                                // } else {
+                                                // // In this special case, fld_length is the number of columns generated.
+                                                //     $cols = max(1, $frow['fld_length']);
+                                                //     $avalue = explode('|', $currvalue);
+                                                //     $lres = sqlStatement("SELECT * FROM list_options " .
+                                                //     "WHERE list_id = ? AND activity = 1 ORDER BY seq, title", array($list_id));
+                                                //     echo "<table cellpadding='0' cellspacing='0' width='100%' title='".attr($description)."'>";
+                                                //     $tdpct = (int) (100 / $cols);
+                                                //     for ($count = 0; $lrow = sqlFetchArray($lres); ++$count) {
+                                                //         $option_id = $lrow['option_id'];
+                                                //         $option_id_esc = htmlspecialchars($option_id, ENT_QUOTES);
+                                                //         // if ($count) echo "<br />";
+                                                //         if ($count % $cols == 0) {
+                                                //             if ($count) {
+                                                //                 echo "</tr>";
+                                                //             }
+                                                //             echo "<tr>";
+                                                //         }
+                                                //         echo "<td width='" . attr($tdpct) . "%' nowrap>";
+                                                //         echo "<input type='checkbox' name='form_{$field_id_esc}[$option_id_esc]'" .
+                                                //         "id='form_{$field_id_esc}[$option_id_esc]' class='form-control' value='1' $lbfonchange";
+                                                //         if (in_array($option_id, $avalue)) {
+                                                //             echo " checked";
+                                                //         }
+                                                //         // Added 5-09 by BM - Translate label if applicable
+                                                //         echo " $disabled />" . htmlspecialchars(xl_list_label($lrow['title']), ENT_NOQUOTES);
+                                                //         echo "</td>";
+                                                //     }
+                                                //     if ($count) {
+                                                //         echo "</tr>";
+                                                //         if ($count > $cols) {
+                                                //             // Add some space after multiple rows of checkboxes.
+                                                //             $cols = htmlspecialchars($cols, ENT_QUOTES);
+                                                //             echo "<tr><td colspan='$cols' style='height:0.7em'></td></tr>";
+                                                //         }
+                                                //     }
+                                                //     echo "</table>";
+                                                // }
+                                            }
+                                            ?>
+                                            <!-- <div class="pt-4 pb-5">
                                                 <div class="row mt-3">
                                                     <div class="col-sm-6">
                                                         <p class="fs-14">Father</p>
@@ -830,7 +890,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             </div>
                                             <input type="hidden" name="pid" value="<?php echo $pid;?>">
                                             <input type="hidden" name="form_id" value="family_data">
-                                            <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div>
+                                            <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div> -->
                                         </form>
                                     </div>
 

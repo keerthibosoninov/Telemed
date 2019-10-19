@@ -140,7 +140,7 @@ $primary_docs = array(
 'soap_notes' => array(xl('Soap Notes')  , 0, 'patient_file/encounter/view_form.php?formname=soap'),
 'flow_brd' => array(xl('Employee Flow Board')  , 0, 'reports/patient_flow_board_report.php'),
 'lab_doc' => array(xl('Lab Documents')  , 0, 'main/display_documents.php'),
-
+'procc' => array(xl('Procedure Order')  , 0, 'patient_file/encounter/load_form.php?formname=procedure_order'),
     // 
 
 'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
@@ -1240,7 +1240,26 @@ $(function (){
     $("#navigation-slide > li  > a#injury_det0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-2.svg" alt="" class="menu-icon"> </span>&nbsp;');
     $("#navigation-slide > li  > a#appoint0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
 
-   
+//    
+
+    $("#navigation-slide > li  > a#flow_brd0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#care_pln0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#soap_notes0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#lab_doc0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    
+    $("#navigation-slide > li  > a#procc0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#proc_res1").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#clinic_rep1").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#pat_list1").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#pend_ord0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#ues0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#code0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#emp_book0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+    $("#navigation-slide > li  > a#statics0").prepend(' <span><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/menu-3.svg" alt="" class="menu-icon"> </span>&nbsp;');
+
+     
+    
+// 
     $("#navigation-slide > li  > a#cal0").prepend('<i class="fa fa-fw fa-calendar fa-2x"></i>&nbsp;');
     $("#navigation-slide > li  > a#pfb0").prepend('<i class="fa fa-fw fa-list-alt fa-2x"></i>&nbsp;');
     $("#navigation-slide > li  > a#rcb0").prepend('<i class="fa fa-fw fa-calendar-minus-o fa-2x"></i>&nbsp;');
@@ -1349,6 +1368,13 @@ $(function (){
     genTreeLink('RTop', 'soap_notes', xl('Soap Notes'));
     genTreeLink('RTop', 'vitals', xl('Vitals'));
     genTreeLink('RTop', 'tr_plan', xl('Treatment Plan'));
+
+    genTreeLink('RTop', 'lab_doc', xl('Lab Documents')); 
+    genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=00');
+    genMiscLink('RTop', 'rep', '0', xl('Pharmacy & insurance'), '../controller.php?practice_settings&pharmacy&action=list');
+    genMiscLink('RTop', 'rep', '0', xl('Facilities'), 'usergroup/facilities_add.php');
+
+
     genTreeLink('RTop', 'ore', xl('Electronic Reports')); 
     // genTreeLink('RTop', 'cognitive', xl('Cognitive Status')); 
    
@@ -1357,7 +1383,7 @@ $(function (){
 
     
     
-     if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
+    if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
         genMiscLink('RTop', 'rep', '0', xl('Prescriptions'), 'reports/prescriptions_report.php');
     } 
      if (acl_check('patients', 'med')) {
@@ -1381,21 +1407,18 @@ $(function (){
     genMiscLink('RTop', 'rep', '0', xl('Indigent Employees'), 'billing/indigent_patients_report.php');
 
 /*****************BY AKHIL A.P 03/10/2019************************ */
-    genTreeLink('RTop', 'lab_doc', xl('Lab Documents')); 
-    genMiscLink('RTop', 'rep', '0', xl('Documents'), '../controller.php?document&list&patient_id=00');
-    genMiscLink('RTop', 'rep', '0', xl('Pharmacy & insurance'), '../controller.php?practice_settings&pharmacy&action=list');
-    genMiscLink('RTop', 'rep', '0', xl('Facilities'), 'usergroup/facilities_add.php');
+   
 // parvathy
-
+    genTreeLink('RTop', 'procc', xl('Procedure Order')); 
     genTreeLink('RTop', 'proc_res', xl('Procedure Results')); 
     genTreeLink('RTop', 'clinic_rep', xl('Clinical Reports')); 
     genTreeLink('RTop', 'pat_list', xl('Employee List Creation')); 
     genTreeLink('RTop', 'pend_ord', xl('Pending Orders')); 
-    genTreeLink('RTop', 'ues', xl('Unique Seen Employees')); 
+    genTreeLink('RTop', 'ues', xl('Unique Employees')); 
     genTreeLink('RTop', 'code', xl('Codes')); 
     genTreeLink('RTop', 'emp_book', xl('Proc Employee')); 
-    genTreeLink('RTop', 'statics', xl('Statics')); 
-    
+    genTreeLink('RTop', 'statics', xl('Statistics')); 
+
     ?>
 
     <li style="display:none;"><a class="collapsed" id="repimg" ><span><?php echo xlt('Reports') ?></span></a>

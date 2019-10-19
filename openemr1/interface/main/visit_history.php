@@ -122,11 +122,11 @@ if (($_POST['setting_bootstrap_submenu']) ||
     <?php Header::setupHeader(['datetime-picker', 'jquery-ui', 'jquery-ui-redmond', 'opener', 'moment']); ?>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
  
 <style>
@@ -162,115 +162,157 @@ input[type=text]{
    
     input[type=date]{
             margin-top:0px;
-        }
+    }
         input[type=text]{
             margin-top:0px;
-        }
+    }
     .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
         background: #3C9DC5;
         text-decoration: none;
     }
     .pa_row{
         display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    padding: 5px;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+        padding: 5px;
     }
-.pa_md6, .pa_md3, .pa_md12, .pa_md4, .pa_sm9{
-    width: 100%;
-    padding: 0px 15px;
-}
-@media (min-width: 768px)
-{
-.pa_md6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.pa_md3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-.pa_md4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-.pa_md12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-}
-.pa_mt-2, .pa_my-2 {
-    margin-top: .5rem!important;
-}
-.pa_form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.pa_pt-4, .pa_py-4 {
-    padding-top: 1.5rem!important;
-}
+    .pa_md6, .pa_md3, .pa_md12, .pa_md4, .pa_sm9{
+        width: 100%;
+        padding: 0px 15px;
+    }
+    @media (min-width: 768px)
+    {
+    .pa_md6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .pa_md3 {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .pa_md4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    .pa_md12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    }
+    .pa_mt-2, .pa_my-2 {
+        margin-top: .5rem!important;
+    }
 
-.pa_pb-2, .pa_py-2 {
-    padding-bottom: 1.5rem!important;
-}
-.pa_pb-5, .pa_py-5 {
-    padding-bottom: 3rem!important;
-}
-.pa_pt-2, .pa_py-2 {
-    padding-top: 1.5rem!important;
-}
-.form-save {
-    background-color: #3C9DC5;
-    padding: 5px;
-    width: 100%;
-    border: none;
-    outline: none;
-    color: white;
-}
-label {
-    font-weight: normal !important;
-    font-size:16px;
-}
+    .mt-2, .my-2 {
+        margin-top: .5rem!important;
+    }
 
-.pt-5, .py-5 {
-    padding-top: 3rem!important;
-}
+    /* .pa_form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    } */
+    /* .pa_pt-4, .pa_py-4 {
+        padding-top: 1.5rem!important;
+    }
 
-.pt-3, .py-3 {
-    padding-top: 1rem!important;
-}
+    .pa_pb-2, .pa_py-2 {
+        padding-bottom: 1.5rem!important;
+    }
+    .pa_pb-5, .pa_py-5 {
+        padding-bottom: 3rem!important;
+    }
+    .pa_pt-2, .pa_py-2 {
+        padding-top: 1.5rem!important;
+    } */
+    .form-save {
+        background-color: #3C9DC5;
+        padding: 5px;
+        width: 100%;
+        border: none;
+        outline: none;
+        color: white;
+    }
+    label {
+        font-weight: normal !important;
+        font-size:16px;
+    }
 
-.form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    /* font-size: 1rem; */
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
+    .pt-5, .py-5 {
+        padding-top: 3rem!important;
+    }
 
+    .pt-3, .py-3 {
+        padding-top: 1rem!important;
+    }
+    .pb-5, .py-5 {
+        padding-bottom: 3rem!important;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        /* height: calc(1.5em + .75rem + 2px); */
+        padding: .375rem .75rem;
+        /* font-size: 1rem; */
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        -webkit-box-shadow: none;
+    }
+
+    .pt-4, .py-4 {
+        padding-top: 1.5rem!important;
+    }
+
+    input[readonly]{
+        background-color:#ffff !important;
+    }
+
+    a{
+        color:black!important;
+    }
+
+    .nav > .active > a, .navbar-nav > .open > a {
+        color: black !important;
+        background-color: #fff !important;
+    }
+    .nav>li>a:focus, .nav>li>a:hover {
+        text-decoration: none;
+        background-color:  transparent !important;
+    }
+
+    .pt-2, .py-2 {
+        padding-top: .5rem!important;
+    }
+
+    .mt-3, .my-3 {
+        margin-top: 1rem!important;
+    }
+    .border-none{
+        border:none!important;    
+    }
+
+    
 </style>
 <!-- //PA_new -->
     <?php
@@ -348,7 +390,7 @@ if (!empty($_REQUEST['go'])) { ?>
         <section>
             <div class="body-content body-content2">
                 <div class="container-fluid pb-4 pt-4">
-                    <window-dashboard title="Employee Info" class="icon-hide">
+                    <window-dashboard title="" class="icon-hide">
                         <div class="head-component">
                             <div class="row pa_row">
                                 <div class="col-6"></div>
@@ -360,10 +402,10 @@ if (!empty($_REQUEST['go'])) { ?>
                         <div class="body-compo" style="height:auto;">
                             <div class="container-fluid">
                                 <ul class="nav  nav-justified compo-info" role="tablist">
-                                    <li class="nav-item">
+                                    <li class="nav-item" id='visit'>
                                         <a class="nav-link active" data-toggle="tab" href="#home">Create Visit</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" id='current'>
                                         <a class="nav-link" data-toggle="tab" href="#menu1">Current</a>
                                     </li>
                                     <li id="histry" class="nav-item">
@@ -384,7 +426,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         <p>Visit Category</p>
                                                     
 
-                                                <select  name='pc_catid' id='pc_catid' class='form-control col-sm-12 pa_form-control'>
+                                                <select  name='pc_catid' id='pc_catid' class='form-control col-sm-12 pa_form-control mt-2'>
                                                 <option value='_blank'>-- <?php echo xlt('Select One'); ?> --</option>
                                                 <?php
                                                 //Bring only patient ang group categories
@@ -443,7 +485,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     <div class="col-md-3 pa_md3">
                                                         <p>Sensitivity</p>
                                                     
-                                                            <select name='form_sensitivity' id='form_sensitivity' class='form-control col-sm-12 pa_form-control' >
+                                                            <select name='form_sensitivity' id='form_sensitivity' class='form-control col-sm-12 pa_form-control mt-2' >
                                                 <?php
                                                 foreach ($sensitivities as $value) {
                                                     // Omit sensitivities to which this user does not have access.
@@ -468,11 +510,11 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
                                                     <div class="col-md-3 pa_md3">
                                                         <p>Date of Service</p>
-                                                        <input type="date" name='form_date' class="form-control pa_form-control">
+                                                        <input type="date" name='form_date' class="form-control pa_form-control mt-2">
                                                     </div>
                                                     <div class="col-md-3 pa_md3">
                                                         <p>On Set/Hosp. Date</p>
-                                                        <input type="date" name='form_onset_date' class="form-control pa_form-control">
+                                                        <input type="date" name='form_onset_date' class="form-control pa_form-control mt-2">
                                                     </div>
                                                 </div>
                                             </div>
@@ -482,7 +524,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     <div class="col-md-6 pa_md6">
                                                         <p>Facility</p>
                                                     
-                                                        <select name='facility_id' id='facility_id' class='form-control col-sm-9 pa_form-control pa_sm9' onChange="bill_loc()">
+                                                        <select name='facility_id' id='facility_id' class='form-control col-sm-9 pa_form-control pa_sm9 mt-2' onChange="bill_loc()">
                                                 <?php
                                                 if ($viewmode) {
                                                     $def_facility = $result['facility_id'];
@@ -533,7 +575,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pa_row">
                                                     <div class="col-12">
                                                         <p> Reason for Visit</p>
-                                                        <textarea name="reason" id="" class="form-control pa_form-control" rows="4"></textarea>
+                                                        <textarea name="reason" id="" class="form-control pa_form-control mt-2" rows="4"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -542,7 +584,7 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                     <div class="col-12">
                                                         <p>Type</p>
-                                                        <div class="info-update">
+                                                        <div class="info-update mt-2">
                                                             <div><input type="radio" name="newtype" value="problem"> <label>
                                                                     Problem
                                                             </label></div>
@@ -567,7 +609,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Title</p>
                                                         <input type="text" name="form_title" class="form-control pa_form-control" placeholder="">
                                                     </div>
@@ -578,7 +620,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 mt-2">
                                                         <p>ICD Codes</p>
                                                         <!-- <input type="text" class="form-control" name='form_diagnosis'> -->
                                                         <input type='text' class="form-control pa_form-control" name='form_diagnosis' id='form_diagnosis'
@@ -593,7 +635,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Occurence</p>
                                                         <input type="number" name="form_occur" class="form-control pa_form-control">
                                                     </div>
@@ -604,7 +646,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Referred By</p>
                                                         <input type="text" name='form_referredby' class="form-control pa_form-control">
                                                     </div>
@@ -615,7 +657,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Comments</p>
                                                         <textarea name='form_comments' id="" class="form-control pa_form-control" rows="4"></textarea>
                                                     </div>
@@ -626,7 +668,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Outcome</p>
                                                         <input type="number" name="form_outcome" class="form-control pa_form-control">
                                                     </div>
@@ -637,7 +679,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                             <div class="pt-3">
 
                                                 <div class="row pa_row">
-                                                    <div class="col-md-12 pa_md12">
+                                                    <div class="col-md-12 pa_md12 ">
                                                         <p>Destination</p>
                                                         <input type="text" name="form_destination" class="form-control pa_form-control">
                                                     </div>
@@ -645,7 +687,7 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                 </div>
                                             </div>
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 col-md-12">
                                                 <input type="hidden" name="pid" value="<?= $pid ?>">
                                                 <input type="hidden" name="mode" value="new">
                                                 <button class="form-save" type="submit">Save</button>
@@ -658,8 +700,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                     <div id="menu1" class="tab-pane fade">
                                         <form id="current_form" onsubmit="submit_current();">    
 
-                                                <div>
-                                                    <h4>Visit Summary</h4>
+                                                <div class="">
+                                                    <div class="col-md-6"><h4>Visit Summary</h4></div><br><br>
                                                     <div class="pt-4 pb-5">
                                                         <div class="row mt-3">
                                                             <div class="col-sm-6">
@@ -669,7 +711,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                 <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                             </div>
                                                             <div class="col-sm-12 pt-2">
-                                                                <textarea name="facility2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                                <textarea name="facility2" id="" rows="5 " class="form-control active-text "></textarea></div>
                                                         </div>
                                                         <div class="row mt-3">
                                                             <div class="col-sm-6">
@@ -678,9 +720,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             <div class="col-sm-6">
                                                                 <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                             </div>
-                                                            <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                            <div class="col-sm-12 pt-2"><textarea name="reason2" id="" rows="5 " class="form-control active-text "></textarea></div>
                                                         </div>
-                                                        <h4 class="mt-3">SOAP</h4>
+                                                        <div class="col-md-6"><h4 class="mt-3">SOAP</h4></div><br><br>
                                                         <div class="row mt-3">
                                                             <div class="col-sm-6">
                                                                 <p class="fs-14">Subjective</p>
@@ -689,7 +731,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                 <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                             </div>
                                                             <div class="col-sm-12 pt-2">
-                                                                <textarea name="subjective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea>
+                                                                <textarea name="subjective" id="" rows="5 " class="form-control active-text "></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row mt-3">
@@ -699,7 +741,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             <div class="col-sm-6">
                                                                 <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                             </div>
-                                                            <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                            <div class="col-sm-12 pt-2"><textarea name="objective" id="" rows="5 " class="form-control active-text "></textarea></div>
                                                         </div>
                                                         <div class="row mt-3">
                                                             <div class="col-sm-6">
@@ -709,7 +751,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                 <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                             </div>
                                                             <div class="col-sm-12 pt-2">
-                                                                <textarea name="assessment" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                                <textarea name="assessment" id="" rows="5 " class="form-control active-text "></textarea></div>
                                                         </div>
                                                         <div class="row mt-3">
                                                             <div class="col-sm-6">
@@ -719,16 +761,16 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                 <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                             </div>
                                                             <div class="col-sm-12 pt-2">
-                                                                <textarea name="plan" id="" rows="4 " class="form-control pa_form-control active-text " placeholder="edit here paragraph shown here"></textarea></div>
+                                                                <textarea name="plan" id="" rows="5 " class="form-control  active-text "></textarea></div>
                                                                 <input type="hidden" name="pat_id" value="<?= $pid ?>" >
                                                                 <input type="hidden" name="activity" value="1" >
                                                                 <input type="hidden" name="form_id" value="current_data">
                                                         </div>
                                                         <div class="mt-3">
-                                                            <h4>Vitals</h4>
-                                                            <div class="row pa_row">
+                                                        <div class="col-md-6"><h4>Vitals</h4></div><br><br>
+                                                            <div class="pa_row">
                                                                 <div class="col-md-4 pa_md4">
-                                                                    <div class="row mt-3">
+                                                                    <div class="mt-3">
                                                                         <div class="col-sm-6">
                                                                             <p class="fs-14"> Blood Pressure</p>
                                                                         </div>
@@ -736,12 +778,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="bp" class="form-control pa_form-control active-text">
+                                                                            <input type="text" name="bp" class="form-control  active-text border-none" style="border:none !important;">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 pa_md4">
-                                                                    <div class="row mt-3">
+                                                                    <div class="mt-3">
                                                                         <div class="col-sm-6">
                                                                             <p class="fs-14"> Height</p>
                                                                         </div>
@@ -749,13 +791,13 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="height" class="form-control pa_form-control active-text">
+                                                                            <input type="text" name="height" class="form-control active-text" style="border:none !important;">
 
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 pa_md4">
-                                                                    <div class="row mt-3">
+                                                                    <div class="mt-3">
                                                                         <div class="col-sm-6">
                                                                             <p class="fs-14"> Temprature Method</p>
                                                                         </div>
@@ -763,7 +805,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="temp_method" class=" pa_form-control active-text">
+                                                                            <input type="text" name="temp_method" class="form-control active-text" style="border:none !important;">
 
                                                                         </div>
                                                                     </div>
@@ -777,7 +819,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="temp" class="form-control pa_form-control active-text">
+                                                                            <input type="text" name="temp" class="form-control active-text" style="border:none !important;">
 
                                                                         </div>
                                                                     </div>
@@ -791,7 +833,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="weight" class="form-control active-text">
+                                                                            <input type="text" name="weight" class="form-control active-text" style="border:none !important;">
 
                                                                         </div>
                                                                     </div>
@@ -805,7 +847,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="pulse" class="form-control pa_form-control active-text">
+                                                                            <input type="text" name="pulse" class="form-control active-text" style="border:none !important;">
 
                                                                         </div>
                                                                     </div>
@@ -814,7 +856,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             </div>
                                                         </div>
 
-                                                        <div class="pt-4 pb-5">
+                                                        <div class="pt-4 pb-5 col-md-12">
                                                             <button class="form-save">Save</button>
                                                         </div>
                                                     </div>
@@ -1240,9 +1282,22 @@ $(".xx").click(function() {
 
 <script>
     $("#histry").click(function() {
-// alert();
-$webroot=  "<?php echo $GLOBALS['webroot'];?>";
-$("#menu2").load($webroot+"/interface/patient_file/history/encounters.php");
+    // alert();
+        thiss=$(this);
+        $('.nav-link').removeClass('active');
+        thiss.children().addClass('active');
+        $webroot=  "<?php echo $GLOBALS['webroot'];?>";
+        $("#menu2").load($webroot+"/interface/patient_file/history/encounters.php");
 
-});
+    });
+    $("#current").click(function() {
+        thiss=$(this);
+        $('.nav-link').removeClass('active');
+        thiss.children().addClass('active');
+    });
+    $("#visit").click(function() {
+        thiss=$(this);
+        $('.nav-link').removeClass('active');
+        thiss.children().addClass('active');
+    });
 </script>

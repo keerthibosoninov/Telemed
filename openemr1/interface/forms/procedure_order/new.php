@@ -254,9 +254,9 @@ if ($_POST['bn_save'] || $_POST['bn_xmit']) {
         echo ")</script>\n";
     }
 
-    formJump();
-    formFooter();
-    exit;
+    // formJump();
+    // formFooter();
+    // exit;
 }
 
 if ($formid) {
@@ -283,7 +283,7 @@ $enrow = sqlQuery(
     <?php Header::setupHeader(['datetime-picker']); ?>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css"> -->
     <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css"> -->
     <script type="text/javascript">
 var gbl_formseq;
@@ -386,15 +386,15 @@ function addProcLine(flag = false) {
     let i = 0;
     for (; f['form_proc_type[' + i + ']']; ++i) ;
     // build new item html.. a hidden html block to clone may be better here.
-    let cell = "<table class='table table-condensed proc-table'><tr>" +
+    let cell = "<div class='pt-4 pb-4 pa_pt-4 pa_pb-4 container-fluid'><table class='table table-condensed proc-table'><tr>" +
         "<td class='procedure-div'><input type='hidden' name='form_proc_order_title[" + i + "]' value='" + prc_name + "'>" +
         "<input type='text' class='form-control' name='form_proc_type_desc[" + i + "]' onclick='sel_proc_type(" + i + ")' " +
-        "onfocus='this.blur()' title='<?php echo xla('Click to select the desired procedure'); ?>' style='cursor:pointer;cursor:hand' readonly /> " +
+        "onfocus='this.blur()' title='<?php echo xla('Click to select the desired procedure'); ?>' placeholder='<?php echo xla('Click to select the desired procedure'); ?>'style='cursor:pointer;cursor:hand' readonly /> " +
         "<input type='hidden' name='form_proc_type[" + i + "]' value='-1' /></td>" +
         "<td class='diagnosis-div'><input type='text' class='form-control' name='form_proc_type_diag[" + i + "]' onclick='sel_related(this.name)'" +
-        "title='<?php echo xla('Click to add a diagnosis'); ?>' onfocus='this.blur()' style='cursor:pointer;cursor:hand' readonly /></td>" +    
+        "title='<?php echo xla('Click to add a diagnosis'); ?>' placeholder='<?php echo xla('Click to add a diagnosis'); ?>' onfocus='this.blur()' style='cursor:pointer;cursor:hand' readonly /></td>" +    
         "<td ><img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg' alt='' class='xxx pr-2'><img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg' onclick='deleteRow(event)' class='itemDelete' alt=''></td>"+
-        "<td><div id='qoetable[" + i + "]'></div></td></tr></table>";
+        "<td><div id='qoetable[" + i + "]'></div></td></tr></table></div>";
 
     $(".procedure-order-container").append(cell); // add the new item to procedures list
 
@@ -469,111 +469,146 @@ $(function () {
 });
 
 </script>
-<style>
-@media only screen and (max-width: 768px) {
-    [class*="col-"] {
-        width: 100%;
-        text-align: left !Important;
+    <style>
+    @media only screen and (max-width: 768px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: left !Important;
+        }
     }
-}
 
-.qoe-table {
-    margin-bottom: 0px;
-}
+    .qoe-table {
+        margin-bottom: 0px;
+    }
 
-.proc-table {
-    margin-bottom: 5px;
-}
+    .proc-table {
+        margin-bottom: 5px;
+    }
 
-.proc-table .itemDelete {
-    width: 25px;
-    color: #FF0000;
+    .proc-table .itemDelete {
+        width: 25px;
+        color: #FF0000;
 
-    cursor:pointer;
-    cursor:hand;
-}
+        cursor:pointer;
+        cursor:hand;
+    }
 
-</style>
+    </style>
 
 <!-- PA -->
-<style>
+    <style>
     .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
-        background: #3C9DC5;
-        text-decoration: none;
+            background: #3C9DC5;
+            text-decoration: none;
     }
     .pa_row{
-        display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    padding: 5px;
+            display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+        padding: 5px;
     }
-.pa_md6, .pa_md3, .pa_md12, .pa_md4{
-    width: 100%;
-    padding: 0px 15px;
-}
-@media (min-width: 768px)
-{
-.pa_md6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.pa_md3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-.pa_md4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-.pa_md12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-}
-.pa_mt-2, .pa_my-2 {
-    margin-top: .5rem!important;
-}
-.pa_form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.pa_pt-4, .pa_py-4 {
-    padding-top: 1.5rem!important;
-}
+    .pa_md6, .pa_md3, .pa_md12, .pa_md4{
+        width: 100%;
+        padding: 0px 15px;
+    }
+    @media (min-width: 768px)
+    {
+    .pa_md6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .pa_md3 {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .pa_md4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    .pa_md12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    }
+    /* .pa_mt-2, .pa_my-2 {
+        margin-top: .5rem!important;
+    }
+    .pa_form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    } */
+    .pa_pt-4, .pa_py-4 {
+        padding-top: 1.5rem!important;
+    }
 
-.pa_pb-2, .pa_py-2 {
-    padding-bottom: 1.5rem!important;
-}
-.pa_pb-5, .pa_py-5 {
-    padding-bottom: 3rem!important;
-}
-.pa_pt-2, .pa_py-2 {
-    padding-top: 1.5rem!important;
-}
-.form-save {
-    background-color: #3C9DC5;
-    padding: 5px;
-    width: 100%;
-    border: none;
-    outline: none;
-    color: white;
-}
-</style>
+    .pa_pb-2, .pa_py-2 {
+        padding-bottom: 1.5rem!important;
+    }
+    .pa_pb-5, .pa_py-5 {
+        padding-bottom: 3rem!important;
+    }
+    .pa_pt-2, .pa_py-2 {
+        padding-top: 1.5rem!important;
+    }
+    .form-save {
+        background-color: #3C9DC5;
+        padding: 5px;
+        width: 100%;
+        border: none;
+        outline: none;
+        color: white;
+    }
+
+    input[type=text] {
+        background: #fff;
+        border: 1px solid #ced4da;
+        padding: .375rem .75rem;
+        /* margin: 3px; */
+        /* height: calc(1.5em + .75rem + 2px); */
+    }
+    .mt-2{
+        margin-top:.5rem!important;
+    }
+    .form-control {
+        -webkit-box-shadow:none;
+    }
+    .pb-4, .py-4 {
+        padding-bottom: 1.5rem!important;
+    }
+
+    th {
+        padding: 1.25rem !important;
+        vertical-align: top!important;
+        border-top: 1px solid #dee2e6!important;
+        text-align: inherit;
+    }
+    .table-form tr:nth-of-type(even) {
+        background-color: #88c9ef57;
+    }
+
+    input[readonly] {
+        background-color: #ffff!important;
+    }
+    .procedure-div, .diagnosis-div{
+        width:28%;
+    }
+    
+    </style>
 <!-- //PA -->
 <?php
 $name = $enrow['fname'] . ' ';
@@ -601,7 +636,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 <section>
             <div class="body-content body-content2">
                 <div class="container-fluid pb-4 pt-4 pa_pb-4 pa_pt-4">
-                    <window-dashboard title="Procedure Order" class="icon-hide">
+                    <window-dashboard title="" class="icon-hide">
                     <div class="head-component">
                             <div class="row">
                                 <div class="col-6"></div>
@@ -611,33 +646,25 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                             </div>
                         </div>
                         <div class="body-compo" style="height:auto;">
-                        <div id="container_div" class="container-fluid">
-            <form class="form-horizontal" method="post" action="<?php echo $rootdir ?>/forms/procedure_order/new.php?id=<?php echo attr_url($formid); ?>" onsubmit="return validate(this)">
-                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-               
-<!-- PA -->
+                        <div id="container_div" class="">
+                            <form class="form-horizontal" method="post" action="<?php echo $rootdir ?>/forms/procedure_order/new.php?id=<?php echo attr_url($formid); ?>" onsubmit="return validate(this)">
+                                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                            
+                                    <!-- PA -->
                             <div class="row pa_row">
                                 <div class="col-md-6 pa_md6">
                                     <p>Ordering Provider</p>
-                                    <!-- <select name="" id="" class="form-control mt-2">
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                    </select> -->
+                                    
                                     <?php generate_form_field(array('data_type' => 10, 'field_id' => 'provider_id'), $row['provider_id']); ?>
                                 </div>
                                 <div class="col-md-3 pa_md3">
                                     <p>Order Date</p>
-                                    <!-- <input type="date" placeholder="" class="form-control"> -->
+                                    
                                     <input type='text' class='datepicker form-control pa_form-control' name='form_date_ordered' id='form_date_ordered' value="<?php echo attr($row['date_ordered']); ?>" title="<?php echo xla('Date of this order'); ?>"/>
                                 </div>
                                 <div class="col-md-3 pa_md3">
                                     <p>Send to</p>
-                                    <!-- <select name="" class="form-control mt-2">
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                    </select> -->
+                                  
                                     <select name='form_lab_id' onchange='lab_id_changed()' class='form-control mt-2 pa_form-control pa_mt-2'>
                                     <?php
                                     $ppres = sqlStatement("SELECT ppid, name FROM procedure_providers " .
@@ -658,7 +685,6 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                             <div class="row pa_row">
                                 <div class="col-md-3 pa_md3">
                                     <p>Internal Time Collected</p>
-                                    <!-- <input type="time" placeholder="" class="form-control pa_form-control"> -->
                                     <input class='datetimepicker form-control pa_form-control'
                                        type='text'
                                        name='form_date_collected'
@@ -668,11 +694,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 </div>
                                 <div class="col-md-3 pa_md3">
                                     <p>Priority</p>
-                                    <!-- <select name="" id="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                        <option value="">value</option>
-                                    </select> -->
+                                   
                                     <?php
                                     generate_form_field(array('data_type' => 1, 'field_id' => 'order_priority',
                                     'list_id' => 'ord_priority'), $row['order_priority']);
@@ -680,11 +702,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 </div>
                                 <div class="col-md-3 pa_md3">
                                     <p>Status</p>
-                                    <!-- <select name="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                    </select> -->
+                                 
                                     <?php
                                     generate_form_field(array('data_type' => 1, 'field_id' => 'order_status',
                                     'list_id' => 'ord_status'), $row['order_status']);
@@ -692,11 +710,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 </div>
                                 <div class="col-md-3 pa_md3">
                                     <p>History Order</p>
-                                    <!-- <select name="" class="form-control mt-2 pa_form-control pa_mt-2">
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                        <option value="">value </option>
-                                    </select> -->
+                                 
                                     <?php
                                     $historyOrderOpts = array(
                                     'data_type' => 1,
@@ -707,11 +721,11 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                     ?>
                                 </div>
                             </div>
-                            <!--  -->
+                           
                             <div class="row pa_row">
                                 <div class="col-md-12 pa_md12">
                                     <p>Clinical History</p>
-                                    <!-- <textarea name="" class="form-control" rows="4"></textarea> -->
+                                    
                                     <textarea name="form_clinical_hx" id="form_clinical_hx" class="form-control pa_form-control" rows="4"><?php echo attr($row['clinical_hx']); ?></textarea>
                                 </div>
 
@@ -752,7 +766,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                             $oparr[] = array('procedure_name' => '');
                         }
                         ?>                       
-                                </div>
+                    </div>
                     </div>
                         <?php
                         $i = 0;
@@ -762,9 +776,9 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 $ptid = $oprow['procedure_type_id'];
                             }
                             ?>
-                            <div class="pt-4 pb-4 pa_pt-4 pa_pb-4 ">
+                            <div class="pt-4 pb-4 pa_pt-4 pa_pb-4 container-fluid">
                             <!-- <div class="table-div "> -->
-                            <table class="table table-condensed proc-table" id="procedures_item_<?php echo (string) attr($i) ?>">
+                            <table class="table table-condensed proc-table table-form" id="procedures_item_<?php echo (string) attr($i) ?>">
                             <tbody id="TextBoxContainer10" class="repeat-row ">
                                             <tr>
                                             
@@ -795,10 +809,12 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                     <input class='form-control pa_form-control' type='text' name='form_proc_type_diag[<?php echo attr($i); ?>]'
                                            value='<?php echo attr($oprow['diagnoses']) ?>' onclick='sel_related(this.name)'
                                            title='<?php echo xla('Click to add a diagnosis'); ?>'
+                                           placeholder='<?php echo xla('Click to select the desired procedure'); ?>'
                                            onfocus='this.blur()'
                                            style='cursor:pointer;cursor:hand' readonly/>
                                 </td>
                                 <td>
+                                    <input class='form-control pa_form-control' type='text'>
                                     <div class="table-responsive" id='qoetable[<?php echo attr($i); ?>]'>
                                         <?php
                                         $qoe_init_javascript = '';
@@ -829,18 +845,15 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                         <p class="fs-14">Add New</p>
                                     </div>
                                 </div>
-                            <!-- //PA_last_table -->
-                            <div class="pt-4 pb-2 pa_pt-4 pa_pb-2">
-                                <!-- <button class="form-save" type="submit" name='bn_save' onclick='transmitting = false;'>Save</button> -->
+                            
+                            <div class="pt-4 pb-2 pa_pt-4 pa_pb-2 col-md-12">
                                 <button type="submit" class="form-save" name='bn_save' value="save" onclick='transmitting = false;'><?php echo xlt('Save'); ?></button>
                            
                             </div><br>
-                            <div class="pt-2 pb-5 pa_pt-2 pa_pb-5">
-                                <!-- <button class="form-save" type="submit" name='bn_xmit'  onclick='transmitting = true;'>Save And Send</button> -->
+                            <div class="pt-2 pb-5 pa_pt-2 pa_pb-5 col-md-12">
                                 <button type="submit" class="form-save" name='bn_xmit' value="transmit" onclick='transmitting = true;'><?php echo xlt('Save and Send'); ?></button>
 
                             </div>
-<!-- //PA -->
 
 
 
@@ -963,5 +976,20 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 </div>
 </div>
 </section>
+
+<script>
+$(document).ready(function() {
+
+makeTextboxEditable1();
+});
+
+function makeTextboxEditable1() {
+$(".xxx").click(function() {
+    $(this)
+        .closest(".tablerow")
+        .addClass("activatetextarea1")
+});
+}
+</script>
 </body>
 </html>

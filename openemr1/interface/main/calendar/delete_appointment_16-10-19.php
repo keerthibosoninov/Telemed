@@ -87,10 +87,8 @@ if ($_POST['form_action'] == "delete") { //    DELETE EVENT(s)
             } else {
                 // fully delete the event from the database
                 sqlStatement("DELETE FROM openemr_postcalendar_events WHERE pc_eid = ?", array($eid));
-                
             }
         }
-        
     }
 
     ?>

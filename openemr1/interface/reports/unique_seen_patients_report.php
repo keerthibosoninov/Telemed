@@ -71,6 +71,28 @@ if ($_POST['form_labels']) {
    }
 }
 
+        .custom-btn{
+            margin-top: 1rem;
+        }
+        
+        thead{
+            padding: .75rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .form-save{
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        body{
+            font-size: 16px;
+        }
+
+        .table-div{
+            height:auto;
+            overflow:auto;
+        }
+
 </style>
 
 <title><?php echo xlt('Front Office Receipts'); ?></title>
@@ -282,7 +304,7 @@ input[type=date]{
 
                                 </div>
 
-                                <div id="report_parameter" class="pt-4 pb-5">
+                                <div id="report_parameter" class="pt-4 pb-5 custom-btn">
                                     <div class="row">
                                         <div class="col-md-3"></div>
                                         <div class="col-md-2"> <button onclick='$("#form_refresh").attr("value","true"); $("#form_labels").val(""); $("#theform").submit();' class="form-save">SEARCH</button></div>

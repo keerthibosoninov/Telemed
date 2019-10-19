@@ -276,7 +276,7 @@ $obj = $formid ? formFetch("form_treatment_plan", $formid) : array();
 
                             </div>
 
-                            <div class="pt-4 pb-5"><button class="form-save">Save</button></div>
+                            <div class="pt-4 pb-5 col-md-12"><button class="form-save">Save</button></div>
 
 
                         </form>

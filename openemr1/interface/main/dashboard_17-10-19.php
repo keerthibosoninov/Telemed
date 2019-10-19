@@ -86,7 +86,7 @@ $provider_id=$_SESSION['authUserID'];
         var format_date_moment_js = '<?php echo attr(DateFormatRead("validateJS")); ?>';
         <?php require_once "$srcdir/restoreSession.php"; ?>
     </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script type="text/javascript" src="<?php echo $GLOBALS['web_root']; ?>/interface/main/messages/js/reminder_appts.js?v=<?php echo $v_js_includes; ?>"></script>
 
@@ -99,7 +99,7 @@ $provider_id=$_SESSION['authUserID'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
@@ -411,7 +411,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </div>
                                         <div class="col-2 task-para">
                                             <div class="task-icon">
-                                                <a href=""><img name="form_details" class='form_details' idss="<?= attr($appointment['pid']) ?>" src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/ico-users.svg" alt=""></a>
+                                                <a href=""><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/ico-users.svg" alt=""></a>
                                                 <!-- delete_appointment -->
                                                 <a href=""><img  name='form_delete' class='form_delete' idd="<?= attr($appointment['pc_recurrtype']) ?>" ids="<?php echo attr($appointment['pc_eid']); ?>" src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/ico-nouser.svg" alt=""></a>                                                                                        
                                                 <!-- //delete_appointment -->
@@ -427,7 +427,7 @@ if (!empty($_REQUEST['go'])) { ?>
 
 
 <!-- popup_reccur -->
-<!-- <div id="recurr_popup" style="visibility: hidden; position: absolute; top: 50px; left: 50px; width: 400px;height:135px; border: 3px outset #4da8d1; background-color:#ffff; padding: 5px;">
+<div id="recurr_popup" style="visibility: hidden; position: absolute; top: 50px; left: 50px; width: 400px;height:135px; border: 3px outset #4da8d1; background-color:#ffff; padding: 5px;">
 <?php echo xlt('Apply the changes to the Current event only, to this and all Future occurrences, or to All occurrences?') ?>
 <br>
 <div class="row">
@@ -446,7 +446,7 @@ if (!empty($_REQUEST['go'])) { ?>
 <input type="button" class="form-save" name="current_event" id="current_event" value="<?php echo xla('Current'); ?>">
 </div>
 </div>
-</div> -->
+</div>
 <!-- //popup_recurr -->
                                 </div>
 
@@ -1007,15 +1007,15 @@ if (!empty($_REQUEST['go'])) { ?>
             $eid=thiss.attr('ids');
             // alert($eid);
            
-            // $recurr=thiss.attr('idd');
+            $recurr=thiss.attr('idd');
             // alert($recurr);
-            // if ($recurr == 1) {                         
-            //     $("#recurr_popup").css("visibility", "visible");
-            // }else{
+            if ($recurr == 1) {                         
+                $("#recurr_popup").css("visibility", "visible");
+            }else{
                 if (confirm("<?php echo addslashes(xl('Deleting this event cannot be undone. It cannot be recovered once it is gone. Are you sure you wish to delete this event?')); ?>")) {       
                 delete_app($eid,"");
                 }
-            // } 
+            } 
 
             
     });
@@ -1033,24 +1033,25 @@ if (!empty($_REQUEST['go'])) { ?>
                  },
             success: function(data){
                 // alert(data);
-                console.log(data);  
-                // window.location.reload();     
+                // console.log(data);       
                         }
         });                  
     }
     
    
 //---------//delete_appointment
-
-$(".form_details").click(function(e) {
-    e.preventDefault();
-           thisss=$(this);       
-            $pid=thisss.attr('idss');
-            // alert($pid);   
-            $webroot= "<?php echo $GLOBALS['webroot'];?>";              
-           window.location.href=$webroot+"/interface/main/employee_info.php?pid="+$pid;  
-                             
-    });
     </script>
+<!-- <?php //include('dashboard_assets.php');?>
+<script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
+  <script>
+          $(function() {
+            $("#sortable").sortable({
+                distance: 1
+
+            });
+            $("#sortable").disableSelection();
+        });
+    </script> -->
 </body>
+
 </html>

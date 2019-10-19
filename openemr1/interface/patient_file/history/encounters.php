@@ -169,23 +169,11 @@ function generatePageElement($start, $pagesize, $billing, $issue, $text)
 ?>
 <html>
 <head>
-<!-- <link rel="stylesheet" href="<?php echo $GLOBALS['webroot'] ?>/library/css/encounters.css" type="text/css"> -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
 
-    <!-- <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/main.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/addmore.js"></script>
-    <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/panzoom.min.js"></script> -->
 <?php //Header::setupHeader(['no_textformat']); ?>
 
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/ajtooltip.js"></script>
@@ -336,7 +324,7 @@ for ($idx=0; $idx<count($pagesizes); $idx++) {
     </select>
 </span>
 
-<div id="encounters" class="pt-4 pb-5">
+<div id="encounters" class="pt-4 pb-5 container-fluid">
 <div class="table-div">
 <table class="table table-form">
  <!-- <tr class='text'>

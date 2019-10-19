@@ -355,6 +355,29 @@ if ($_POST['form_csvexport']) {
             background-color: transparent !important;
             margin-top: 10px;
         }
+
+        .custom-btn{
+            margin-top: 1rem;
+        }
+        
+        thead{
+            padding: .75rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .form-save{
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        body{
+            font-size: 16px;
+        }
+
+        .table-div{
+            height:auto;
+            overflow:auto;
+        }
+
     </style>
 
     <script language="JavaScript">
@@ -452,13 +475,13 @@ if ($_POST['form_csvexport']) {
 
                                             </div>
 
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn">
                                                 <div class="row">
-                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-4"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#form_csvexport").attr("value",""); $("#theform").submit();'>SEARCH</button></div>
                                                     <div class="col-md-2"> <button class="form-save" id='printbutton'>PRINT</button></div>
-                                                    <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value",""); $("#form_csvexport").attr("value","true"); $("#theform").submit();'>CSV Export</button></div>
-                                                    <div class="col-md-3"></div>
+                                                    <!-- <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value",""); $("#form_csvexport").attr("value","true"); $("#theform").submit();'>CSV Export</button></div> -->
+                                                    <div class="col-md-4"></div>
                                                 </div>
 
                                             </div>
@@ -663,7 +686,8 @@ if ($_POST['form_csvexport']) {
                                                         <?php $report_from_date = oeFormatShortDate($form_from_date)  ;
                                                         $report_to_date = oeFormatShortDate($form_to_date)  ;
                                                         ?>
-                                                        <div align='right'><span class='title' ><?php echo xlt('Report Date'). ' '; ?><?php echo text($report_from_date);?> - <?php echo text($report_to_date);?></span></div>
+                                                        <!-- <div align='right'><span class='title' >
+                                                        <?php echo xlt('Report Date'). ' '; ?><?php echo text($report_from_date);?> - <?php echo text($report_to_date);?></span></div> -->
                                                         <?php
                                                     } // End not csv export
                                                 }

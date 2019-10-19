@@ -119,6 +119,27 @@ $form_facility = isset($_POST['form_facility']) ? $_POST['form_facility'] : '';
             background-color: transparent !important;
             margin-top: 10px;
         }
+        .custom-btn{
+        margin-top: 1rem;
+        }
+        
+        thead{
+            padding: .75rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .form-save{
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        body{
+            font-size: 16px;
+        }
+
+        .table-div{
+            height:auto;
+            overflow:auto;
+        }
 
     </style>
 
@@ -172,7 +193,7 @@ $form_facility = isset($_POST['form_facility']) ? $_POST['form_facility'] : '';
 
 
                                             </div>
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 custom-btn">
                                                 <div class="row">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-2"> <button class="form-save" onclick='$("#form_refresh").attr("value","true"); $("#theform").submit();'>SEARCH</button></div>
