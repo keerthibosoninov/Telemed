@@ -256,7 +256,6 @@ $condition_str = '';
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
 
-    <!-- <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css"> -->
 
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
 
@@ -278,6 +277,16 @@ $condition_str = '';
         }
         .pb-2{
             border:10px solid transparent;
+        }
+
+        /* .table td, .table th {
+            padding: .75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        } */
+
+        .his_table th, .his_table td{
+            border-top:none !important;
         }
     </style>
 
@@ -759,138 +768,82 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </form>
                                     </div>
                                     <div id="menu2" class="tab-pane fade">
-                                        <form id="family_history" name="family_history" onsubmit="family_history_submit();">
-                                            <?php
-                                            $layout = sqlStatement("SELECT * FROM layout_options 
-                                            WHERE data_type= ?  AND form_id=? AND group_id= ? ORDER BY seq", array(2,'HIS',2));
-                                            while ($frow = sqlFetchArray($layout)) {
-                                                $data_type   = $frow['data_type'];
-                                                $field_id    = $frow['field_id'];
-                                                $list_id     = $frow['list_id'];
-                                                $backup_list = $frow['list_backup_id'];
+                                    <!-- onsubmit="family_history_submit();" -->
+                                        <form id="family_history" name="family_history" action="<?php echo $GLOBALS['webroot']?>/interface/main/history_save.php" method="POST">
+                                            <div>
+                                                <table class="table  table2 text-center his_table">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Mother</th>
+                                                        <th>Father</th>
+                                                        <th>Siblings</th>
+                                                        <th>Other</th>
+                                                        <th>Notes</th>
+                                                    </tr>
+                                                    <?php
 
-                                                // escaped variables to use in html
-                                                $field_id_esc= htmlspecialchars($field_id, ENT_QUOTES);
-                                                $list_id_esc = htmlspecialchars($list_id, ENT_QUOTES);
+                                                    $list = sqlStatement("SELECT * FROM list_options 
+                                                    WHERE list_id= ?  ORDER BY seq", array('familyhistory'));
+                                                    while ($frow = sqlFetchArray($list)) {
+                                                        $option_id = $frow['option_id'];
+                                                        $option_id_esc = htmlspecialchars($option_id, ENT_QUOTES);
+                                                       
+                                                    ?>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="pt-3"><?php echo $frow['title']?></p>
+                                                        </td>
+                                                        <?php
+                                                         $layout = sqlStatement("SELECT * FROM layout_options 
+                                                         WHERE data_type= ?  AND form_id= ? AND group_id= ? AND seq != ? AND seq != ? ORDER BY seq", array(2,'HIS',2,7,9));
+                                                         while ($lrow = sqlFetchArray($layout)) {
+                                                            $field_id =$lrow['field_id'];
+                                                            $field_id_esc= htmlspecialchars($field_id, ENT_QUOTES);
+                                                           
+                                                            if (isset($result_history[$field_id])) {
+                                                                $currvalue = $result_history[$field_id];
+                                                            }
 
-                                                // if (!$list_id) {
-                                                //     echo "<input type='checkbox' name='form_{$field_id_esc}' " .
-                                                //     "id='form_{$field_id_esc}' value='Yes' $lbfonchange";
-                                                //     if ($currvalue) {
-                                                //         echo " checked";
-                                                //     }
-                                                //     echo " $disabled />";
-                                                // } else {
-                                                // // In this special case, fld_length is the number of columns generated.
-                                                //     $cols = max(1, $frow['fld_length']);
-                                                //     $avalue = explode('|', $currvalue);
-                                                //     $lres = sqlStatement("SELECT * FROM list_options " .
-                                                //     "WHERE list_id = ? AND activity = 1 ORDER BY seq, title", array($list_id));
-                                                //     echo "<table cellpadding='0' cellspacing='0' width='100%' title='".attr($description)."'>";
-                                                //     $tdpct = (int) (100 / $cols);
-                                                //     for ($count = 0; $lrow = sqlFetchArray($lres); ++$count) {
-                                                //         $option_id = $lrow['option_id'];
-                                                //         $option_id_esc = htmlspecialchars($option_id, ENT_QUOTES);
-                                                //         // if ($count) echo "<br />";
-                                                //         if ($count % $cols == 0) {
-                                                //             if ($count) {
-                                                //                 echo "</tr>";
-                                                //             }
-                                                //             echo "<tr>";
-                                                //         }
-                                                //         echo "<td width='" . attr($tdpct) . "%' nowrap>";
-                                                //         echo "<input type='checkbox' name='form_{$field_id_esc}[$option_id_esc]'" .
-                                                //         "id='form_{$field_id_esc}[$option_id_esc]' class='form-control' value='1' $lbfonchange";
-                                                //         if (in_array($option_id, $avalue)) {
-                                                //             echo " checked";
-                                                //         }
-                                                //         // Added 5-09 by BM - Translate label if applicable
-                                                //         echo " $disabled />" . htmlspecialchars(xl_list_label($lrow['title']), ENT_NOQUOTES);
-                                                //         echo "</td>";
-                                                //     }
-                                                //     if ($count) {
-                                                //         echo "</tr>";
-                                                //         if ($count > $cols) {
-                                                //             // Add some space after multiple rows of checkboxes.
-                                                //             $cols = htmlspecialchars($cols, ENT_QUOTES);
-                                                //             echo "<tr><td colspan='$cols' style='height:0.7em'></td></tr>";
-                                                //         }
-                                                //     }
-                                                //     echo "</table>";
-                                                // }
-                                            }
-                                            ?>
-                                            <!-- <div class="pt-4 pb-5">
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Father</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="text-right">
-                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 pt-2">
-                                                        <textarea name="history_father" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_father'])){ echo $history_data['history_father'];}?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Mother</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="text-right">
-                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 pt-2">
-                                                        <textarea name="history_mother" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_mother'])){echo $history_data['history_mother'];}?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Siblings</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="text-right">
-                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 pt-2">
-                                                        <textarea name="history_siblings" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_siblings'])){echo $history_data['history_siblings'];}?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Spouse</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="text-right">
-                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 pt-2">
-                                                        <textarea name="history_spouse" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_spouse'])){ echo $history_data['history_spouse'];}?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <p class="fs-14">Offspring</p>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="text-right">
-                                                            <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" class="xx" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 pt-2">
-                                                        <textarea name="history_offspring" id="" class="form-control active-text " rows="4 "><?php if(isset($history_data['history_offspring'])){echo $history_data['history_offspring'];}?></textarea>
-                                                    </div>
-                                                </div>
 
+                                                             $avalue = explode('|', $currvalue);
+                                                            
+                                                        ?>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+                                                                    <?php
+
+                                                          
+                                                                echo "<input type='checkbox' name='form_{$field_id_esc}[$option_id_esc]'" .
+                                                                "id='form_{$field_id_esc}[$option_id_esc]' class='form-check-input' value='$option_id_esc' $lbfonchange";
+                                                                if (in_array($option_id, $avalue)) {
+                                                                    echo " checked";
+                                                                }
+                                                                // Added 5-09 by BM - Translate label if applicable
+                                                                echo " $disabled />";
+                                                               
+                                                                ?>
+                                                                    
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                       
+                                                        <td><input type="text" class="form-control" name="form_"></td>
+                                                    </tr>
+                                                    <?php
+                                                    }
+                                                
+                                                    ?>
+                                                   
+                                                </table>
                                             </div>
+                                            <!-- <input type="hidden" name="form_id" value="family_data"> -->
                                             <input type="hidden" name="pid" value="<?php echo $pid;?>">
-                                            <input type="hidden" name="form_id" value="family_data">
-                                            <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div> -->
+                                            <div class="pt-4 pb-5"><button class="form-save" type="submit">Save</button></div>
+                                            
                                         </form>
                                     </div>
 
@@ -1264,7 +1217,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                     </div>
 
                                       <!-- medication -->
-                                    <div id="menu6" class="container tab-pane fade ">
+                                    <div id="menu6" class="tab-pane fade ">
                                         <div class="pt-4 pb-4">                                           
                                             <div id="medication_list"></div>
                                             <div id="addnew">
@@ -1399,16 +1352,16 @@ $(document).ready(function() {
 function family_history_submit(){
     $webroot=  "<?php echo $GLOBALS['webroot'];?>";
 
-
+alert();
     $.ajax({
         type: 'POST',
         url: $webroot+"/interface/main/history_details_save.php",
         data: $('#family_history').serialize(),   
         success: function(data){
-        // alert(data);
-        location.reload();
+        alert(data);
+        // location.reload();
 
-        // console.log(data);       
+        console.log(data);       
         }
     });
 }

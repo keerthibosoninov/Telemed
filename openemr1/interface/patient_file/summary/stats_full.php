@@ -146,7 +146,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 
 
 <div id="list_data">
-    <div id="container_div" class="<?php echo $oemr_ui->oeContainer();?>">
+    <div id="container_div">
       
 
         <div id='patient_stats'>

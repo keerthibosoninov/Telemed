@@ -168,7 +168,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 
 
 <div id="list_data">
-    <div id="container_div" class="<?php echo $oemr_ui->oeContainer();?>">
+    <div id="container_div" >
       
 
         <div id='patient_stats'>
@@ -324,7 +324,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                     // echo "  <input type='button' value='" . attr($ierow['count']) . "' class='editenc' id='" . attr($rowid) . "' />";
                     // echo "  </td>";
                     echo "<td>
-                        <img src='".$GLOBALS['assets_static_relative']."/img/edit-text.svg'  id='" . attr($rowid) . "' alt='' style='cursor:pointer;' class='pr-2 hide-parent-open1 edit_data'><br>
+                        <img src='".$GLOBALS['assets_static_relative']."/img/edit-text.svg'  id='" . attr($rowid) . "' alt='' style='cursor:pointer;' class='pr-2 hide-parent-open1 edit_data'>
                         <img src='".$GLOBALS['assets_static_relative']."/img/delete.svg' alt='' ids='" . attr($rowid) . "' class='remove20' style='cursor:pointer;'></td>
                     ";
                     echo " </tr>\n";

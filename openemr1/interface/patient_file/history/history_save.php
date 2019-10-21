@@ -44,6 +44,8 @@ foreach ($_POST as $key => $val) {
     }
 }
 
+
+
 // Update history_data:
 //
 $newdata = array();
@@ -72,7 +74,12 @@ if(isset($_POST['form_pid'] )){
     $newdata['pid']=$_POST['form_pid'];
 }
 
-updateHistoryData($pid, $newdata);
+// print_r($newdata);
+
+$s= updateHistoryData($pid, $newdata);
+// print_r($s);
+
+// exit;
 
 header('Location: ../../main/health_history.php'); 
 

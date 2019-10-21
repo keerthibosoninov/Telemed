@@ -274,7 +274,7 @@ function genMiscLink($frame, $name, $level, $title, $url, $mono = false, $encfor
     global $disallowed;
     if (empty($disallowed[$name])) {
         $id = $name . $level;
-        echo "<li><a href='' id='" . attr($id) . "' onclick=\"";
+        echo "<li><a href='' class='menu-link'  id='" . attr($id) . "' onclick=\"";
         if ($mono) {
             if ($frame == 'RTop') {
                 echo "forceSpec(true,false);";
@@ -1386,9 +1386,9 @@ $(function (){
     if (acl_check('patients', 'rx') && !$GLOBALS['disable_prescriptions']) {
         genMiscLink('RTop', 'rep', '0', xl('Prescriptions'), 'reports/prescriptions_report.php');
     } 
-     if (acl_check('patients', 'med')) {
-        genMiscLink('RTop', 'rep', '0', xl('Employee List Creation'), 'reports/patient_list_creation.php');
-    } 
+    //  if (acl_check('patients', 'med')) {
+    //     genMiscLink('RTop', 'rep', '0', xl('Employee List Creation'), 'reports/patient_list_creation.php');
+    // } 
     if (acl_check('patients', 'med')) {
         genMiscLink('RTop', 'rep', '0', xl('Clinical Report'), 'reports/clinical_reports.php');
     } 
