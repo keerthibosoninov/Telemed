@@ -71,15 +71,11 @@ if(isset($_POST['risk_oth_other'] )){
 
 // for lifestyle
 if(isset($_POST['form_pid'] )){
-    $newdata['pid']=$_POST['form_pid'];
+    $newdata['pid']= $pid=$_POST['form_pid'];
+   
 }
 
-// print_r($newdata);
-
-$s= updateHistoryData($pid, $newdata);
-// print_r($s);
-
-// exit;
+updateHistoryData($pid, $newdata);
 
 header('Location: ../../main/health_history.php'); 
 

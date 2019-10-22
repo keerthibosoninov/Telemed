@@ -1788,44 +1788,41 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     class="w-100" alt="">
                                             </div>
                                             <div class="col-10">
-                                                <!-- <p class="fs-9  font-light text-right">| 23 minutes ago</p> -->
-                                                <!-- <p class="fs-10">Dr. Tom Cruise Purple submitted an Encounter Notes</p> -->
-                                                <hr>
-                                                <div>
-
-                                                <p class="fs-12">Medical Encounter Notes:<br>
+                                                <?php
+                                                $res = sqlStatement("select date from pnotes where pid = ? and deleted != 1 and activity = 1 order by date desc limit 1", array($pid));
+                                                $result = sqlFetchArray($res);
+                                                $date=$result['date'];
+                                                
+                                                if($date){
+                                                ?>
+                                                    <p class="fs-9  font-light text-right">| <?php echo time_elapsed_string($date); ?></p>
 
                                                 <?php
-
-
-                                                // refrences from  interface->patient_file->report->custom_report.php
-                                                $res = sqlStatement("select * from pnotes where pid = ? and deleted != 1 and activity = 1 order by date", array(1));
-                                                while ($result = sqlFetchArray($res)) {
-
-                                                    
-                                                    echo "<span class=bold>".text(oeFormatSDFT(strtotime($result{"date"}))).":</span><span class=text>".$result['body']." </span>";
-
-                                                    echo "<br>";
-                                                
-                                                
                                                 }
+                                                ?>
+                                                <p class="fs-10">Medical Encounter Notes</p>
+                                                <hr>
+                                                <div>
+                                                    <?php
+
+
+                                                    // refrences from  interface->patient_file->report->custom_report.php
+                                                    $res = sqlStatement("select * from pnotes where pid = ? and deleted != 1 and activity = 1 order by date desc", array($pid));
+                                                    while ($result = sqlFetchArray($res)) {
+
+                                                        echo "<p class='fs-12'>".$result['body']." </p>";
+                                                        echo "<br>";
+                                                    
+                                                    }
 
                                                 ?>
-
-                                                    </p>
-                                                   
-                                                    <!-- <p class="fs-12"> Subjective</p>
-                                                    <p class="fs-12"> Chief Complaints</p>
-                                                    <p class="fs-12"> Abdominal Pain, Fever</p>
-                                                    <p class="fs-12"> History of Illness</p>
-
-                                                    <p class="fs-12"> Past Medical History</p> -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                              <!-- medication  -->
                              <div class="update" id="medicationlists">
                                 <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/vitals.svg" class="notes"
@@ -1838,44 +1835,52 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     class="w-100" alt="">
                                             </div>
                                             <div class="col-10">
-                                               
-                                                <!-- <p class="fs-10">Medications</p> -->
-                                                <!-- <hr> -->
+                                                <?php
+                                                $pid = $_SESSION['pid']; 
+                                                $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'medication' ORDER BY date desc LIMIT 1 ";
+                                                $res = sqlStatement($sql, array($pid));
+                                                $myrow = sqlFetchArray($res);
+                                                $date=$myrow['date'];
+
+                                                if($date){
+                                                ?>
+                                                    <p class="fs-9  font-light text-right">| <?php echo time_elapsed_string($date); ?></p>
+                                                    
+                                                   
+                                                <?php
+                                                }
+                                                ?>
+                                                  <p class="fs-10">Dr.&nbsp;<?php echo text($myrow['referredby']); ?>&nbsp;submitted the Medication</p>  
+                                                  <hr>
                                                 <div>
-                                                    <!-- <p class="fs-12">Medical Encounter Notes</p>
-                                                    <p class="fs-12"> Subjective</p>
-                                                    <p class="fs-12"> Chief Complaints</p>
-                                                    <p class="fs-12"> Abdominal Pain, Fever</p>
-                                                    <p class="fs-12"> History of Illness</p>
-                                                    <p class="fs-12"> Past Medical History</p> -->
+                                                  
                                                     <?php
-                                        $pid = $_SESSION['pid'];                                                                            
-                                        $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'medication' ORDER BY begdate";
-                                        $res = sqlStatement($sql, array($pid));
-                                        // var_dump($pid);
-                                        if (sqlNumRows($res)>0) {                                        
-                                         
-                                         while ($myrow = sqlFetchArray($res))
-                                        {
-                                     
-                                            $title = $myrow['title'];
-                                       ?>
-                                       <!-- ($row['referredby'] -->
-                                       <p class="fs-10">Dr.&nbsp;<?php echo text($myrow['referredby']); ?>&nbsp;submitted the Medication</p>
-                                       <hr>
-                                        <p class="fs-12"> <?= $title ?> </p><br>
-                                        <?php
-                                            }
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                            <p class="fs-10">Medications</p>
-                                            <hr>
-                                             <p class="fs-12"> Nothing Recorded </p>
-                                            <?php
-                                        }
-                                        ?>
+                                                                                                                               
+                                                    $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'medication' ORDER BY date desc";
+                                                    $res = sqlStatement($sql, array($pid));
+                                                   
+                                                    if (sqlNumRows($res)>0) {                                        
+                                                    
+                                                        while ($myrow = sqlFetchArray($res))
+                                                        {
+                                                    
+                                                            $title = $myrow['title'];
+                                                            ?>
+                                                         
+                                                            
+                                                            <p class="fs-12"> <?= $title ?> </p>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                    ?>
+                                                        <p class="fs-10">Medications</p>
+                                                        <hr>
+                                                        <p class="fs-12"> Nothing Recorded </p>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -1913,12 +1918,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                             $result=sqlQuery("SELECT * FROM form_vitals AS FORM_VITALS LEFT JOIN forms AS FORMS ON FORM_VITALS.id = FORMS.form_id WHERE FORM_VITALS.pid=? AND FORMS.deleted != '1' ORDER BY FORM_VITALS.date DESC", array($pid));
 
                                             if ($result) {
-                                                // print_r($result);
-
-                                                // ---------vitals------
+                                                
                                             ?>
                                             <div class="col-10">
-                                            <p class="fs-10">Most recent vitals from:&nbsp;<?= text($result['date']); ?></p>
+                                                <p class="fs-9  font-light text-right">| <?php echo time_elapsed_string($result['date']); ?></p>
+
+                                                <p class="fs-10">Vitals</p>
                                                 <hr>
                                                 <div>
                                                 <?php 
@@ -1939,13 +1944,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                         
                                                     $key = ucwords(str_replace("_", " ", $key));
                                         
-                                                    //modified by BM 06-2009 for required translation
-                                                    
+                                                 
+                                        
                                                     if ($key == "Bps") {
                                                         $bps = $value;
                                                         if ($bpd) {
                                                             ?>
-                                                         <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt('Blood Pressure') . ": </div><div class='text' style='display:inline-block'>" . text($bps) . "/". text($bpd)  . "</div></td>"; -->
                                                             <p class="fs-12">Blood Pressure- <?= text($bps) . "/". text($bpd) ?></p>
                                                             <?php
                                                         } else {
@@ -1955,27 +1959,25 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         $bpd = $value;
                                                         if ($bps) {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt('Blood Pressure') . ": </div><div class='text' style='display:inline-block'>" . text($bps) . "/". text($bpd)  . "</div></td>"; -->
                                                             <p class="fs-12">Blood Pressure- <?= text($bps) . "/". text($bpd) ?></p>
                                                             <?php
                                                         } else {
                                                             continue;
                                                         }
                                                     
-                                                ?>
+                                                    ?>
                                                
-                                                <?php 
-                                                
-                                            } 
+                                                    <?php 
+                                                    } 
                                             
-                                            elseif ($key == "Weight") {
-                                                    $value=$result['weight'];
-                                                    $convValue = number_format($value*0.45359237,2);
+                                                    elseif ($key == "Weight") {
+                                                        $value=$result['weight'];
+                                                        $convValue = number_format($value*0.45359237,2);
 
-                                                     
-                                                    $mode=$GLOBALS['us_weight_format'];
-                    
-                                                    if ($GLOBALS['units_of_measurement'] == 2) {                                                      
+                                                        
+                                                        $mode=$GLOBALS['us_weight_format'];
+                        
+                                                        if ($GLOBALS['units_of_measurement'] == 2) {                                                      
                                                         ?>
                                                          <p class="fs-12"> Weight -&nbsp;<?= $convValue ?>&nbsp;kg(<?= US_weight($value,$mode)?>)</p>
                                                        <?php
@@ -2001,25 +2003,21 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                     elseif ($key == "Height" || $key == "Waist Circ"  || $key == "Head Circ") {
                                                         $convValue = round(number_format($value*2.54, 2), 1);
-                                                        // show appropriate units
+                                                       
                                                         if ($GLOBALS['units_of_measurement'] == 2) {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($convValue) . " " . xlt('cm') . " (" . text($value) . " " . xlt('in')  . ")</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($convValue) ?>&nbsp;cm(&nbsp;<?= text($value) ?>&nbsp;in)</p>
                                                             <?php
                                                         } elseif ($GLOBALS['units_of_measurement'] == 3) {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('in') . "</div></td>"; -->
                                                             <p class="fs-12"><?= xlt($key) ?> -<?= text($value) ?>&nbsp;in</p>
                                                             <?php
                                                         } elseif ($GLOBALS['units_of_measurement'] == 4) {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($convValue) . " " . xlt('cm') . "</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($convValue) ?>&nbsp;cm</p>
                                                             <?php
                                                         } else { // = 1 or not set
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('in') . " (" . text($convValue) . " " . xlt('cm')  . ")</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?>&nbsp;in(&nbsp;<?= text($convValue) ?>&nbsp;cm)</p>
                                                             <?php
                                                         }
@@ -2029,23 +2027,19 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         // show appropriate units
                                                         if ($GLOBALS['units_of_measurement'] == 2) {
                                                             ?>
-                                                        <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($convValue) . " " . xlt('C') . " (" . text($value) . " " . xlt('F')  . ")</div></td>";  -->
                                                         <p class="fs-12"> <?= xlt($key) ?> -<?= text($convValue) ?>&nbsp;C&nbsp;<?= text($value) ?>&nbsp;F</p>
-                                                    <?php
+                                                        <?php
                                                         
                                                         } elseif ($GLOBALS['units_of_measurement'] == 3) {
-                                                            ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('F') . "</div></td>"; -->
+                                                        ?>
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?>&nbsp;F</p>
                                                             <?php
                                                         } elseif ($GLOBALS['units_of_measurement'] == 4) {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($convValue) . " " . xlt('C') . "</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($convValue) ?>&nbsp;C</p>
                                                             <?php
                                                         } else { // = 1 or not set
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('F') . " (" . text($convValue) . " " . xlt('C')  . ")</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?>&nbsp;F&nbsp;<?= text($convValue) ?>&nbsp;C</p>
                                                             <?php
                                                         }
@@ -2054,37 +2048,25 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         $value = number_format($value, 0);
                                                         if ($key == "Oxygen Saturation") {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('%') . "</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?>&nbsp;%</p>
                                                             <?php
                                                         } elseif ($key == "BMI") {
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('kg/m^2') . "</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?>&nbsp;kg/m^2</p>
                                                             <?php
                                                         } else { //pulse and respirations
                                                             ?>
-                                                            <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . " " . xlt('per min') . "</div></td>"; -->
                                                             <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?>&nbsp;per min</p>
                                                             <?php
                                                         }
                                                     } 
                                                     else {
                                                         ?>
-                                                        <!-- $vitals .= "<td><div class='bold' style='display:inline-block'>" . xlt($key) . ": </div><div class='text' style='display:inline-block'>" . text($value) . "</div></td>"; -->
-                                                        <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?></p>
+                                                        <!-- <p class="fs-12"> <?= xlt($key) ?> -<?= text($value) ?></p> -->
                                                         <?php
                                                     }
                                                     ?>
-                                                    
-
-                                                    <!-- <p class="fs-12"> Height - 1.8 m</p> -->
-                                                    <!-- <p class="fs-12"> Blood Pressure - 120/80</p> -->
-                                                    <!-- <p class="fs-12"> Body Temprature - 37 C</p> -->
-
-                                              
-                                                
-                                                 
+                                                  
                                                  <?php 
                                             }
                                              ?>
@@ -2115,11 +2097,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/user.svg"
                                                     class="w-100" alt="">
                                             </div>
-                                            <div class="col-10">
-                                                <p class="fs-9  font-light text-right">| 23 minutes ago</p>
-                                                <p class="fs-10">Dr. White Widow submitted Vitals</p>
-                                                <hr>
-                                                <div>
+                                           
                                                 <?php
                                                     $current_user = $_SESSION["authId"];
                                                     $date_filter = '';
@@ -2144,15 +2122,23 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     $query = "SELECT d.*,CONCAT(pd.fname,' ',pd.lname) AS pname,GROUP_CONCAT(n.note ORDER BY n.date DESC SEPARATOR '|') AS docNotes,
                                                         GROUP_CONCAT(n.date ORDER BY n.date DESC SEPARATOR '|') AS docDates FROM documents d
                                                         INNER JOIN patient_data pd ON d.foreign_id = pd.pid
-                                                        INNER JOIN categories_to_documents ctd ON d.id = ctd.document_id AND ctd.category_id = ?
+                                                        LEFT JOIN categories_to_documents ctd ON d.id = ctd.document_id AND ctd.category_id = ?
                                                         LEFT JOIN notes n ON d.id = n.foreign_id
                                                         WHERE " . $date_filter . " GROUP BY d.id ORDER BY date DESC";
                                                         array_unshift($query_array, $catID);
                                                     $resultSet = sqlStatement($query, $query_array);
                                                     if (sqlNumRows($resultSet)) {
-                                                        while ($row = sqlFetchArray($resultSet)) {
+                                                        $row1 = sqlFetchArray($resultSet);
+                                                    ?>
+                                                    <div class="col-10">
+                                                        <p class="fs-9  font-light text-right">| <?php echo time_elapsed_string($row1['date']); ?></p>
 
-                                                            //print_r($row);
+                                                        
+                                                        <p class="fs-10">Labs</p>
+                                                        <hr>
+                                                        <div>
+                                                        <?php
+                                                        while ($row = sqlFetchArray($resultSet)) {
 
                                                             $url = $GLOBALS['webroot'] . "/controller.php?document&retrieve&patient_id=" . attr_url($row["foreign_id"]) . "&document_id=" . attr_url($row["id"]) . '&as_file=false';
                                                     ?>
@@ -2164,14 +2150,29 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                     <?php
                                                         }
-                                                        
+                                                        ?>
+                                                        </div>
+                                                        </div>
+                                                    <?php   
+                                                    }else{
+                                                    ?>
+                                                        <div class="col-10">
+                                                            <p class="fs-10">Labs</p>
+                                                            <hr>
+                                                            <div>
+                                                                <p class="fs-12">No Labs have been documented.</p>
+                                                            </div>
+                                                        </div>
+                                                    <?php
                                                     }
                                                     ?> 
                                                     
                                                     
 
-                                                </div>
-                                            </div>
+                                                <!-- </div>
+                                            </div> -->
+
+                                               
                                         </div>
                                     </div>
                                 </div>
@@ -2248,7 +2249,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                 <div id="collapseThree" class="collapse" data-parent="#accordion">
                                     <div class="acco-body">
                                         <div class="container-fluid">
-                                            <div class="row">
+                                            
                                             <?php
                                                     $current_user = $_SESSION['pid'];
                                                     $date_filter = '';
@@ -2275,7 +2276,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     $query = "SELECT d.*,CONCAT(pd.fname,' ',pd.lname) AS pname,GROUP_CONCAT(n.note ORDER BY n.date DESC SEPARATOR '|') AS docNotes,
                                                         GROUP_CONCAT(n.date ORDER BY n.date DESC SEPARATOR '|') AS docDates FROM documents d
                                                         INNER JOIN patient_data pd ON d.foreign_id = pd.pid
-                                                        INNER JOIN categories_to_documents ctd ON d.id = ctd.document_id AND ctd.category_id = ?
+                                                        LEFT JOIN categories_to_documents ctd ON d.id = ctd.document_id AND ctd.category_id = ?
                                                         LEFT JOIN notes n ON d.id = n.foreign_id
                                                         WHERE " . $date_filter . " GROUP BY d.id ORDER BY date DESC";
                                                         array_unshift($query_array, $catID);
@@ -2284,27 +2285,28 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     if (sqlNumRows($resultSet)) {
                                                         while ($row = sqlFetchArray($resultSet)) {
 
-                                                            // print_r($row);
-
                                                             $url = $GLOBALS['webroot'] . "/controller.php?document&retrieve&patient_id=" . attr_url($row["foreign_id"]) . "&document_id=" . attr_url($row["id"]) . '&as_file=false';
                                                     ?>
-                                                                                                        
-                                                    <div class="col-8 p-0">
-                                                    <img src="<?php echo $url; ?>" class="w-100" alt="">
-                                                    <!-- <img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/sample-test.svg"
-                                                        class="w-100" alt=""> -->
-                                                    </div>
-                                                    <div class="col-4">
-                                                    <p class="b-700 fs-13">Type:</p>
-                                                    <!-- <p class=" fs-13">CT SCAN</p> -->
-                                                    <p class=" fs-13"><?= attr_url($row["docNotes"]) ?></p>
+                                                    <div class="row">                                                  
+                                                        <div class="col-8 p-0">
+                                                            <img src="<?php echo $url; ?>" class="w-100" alt="">
                                                     
-                                                    <p class="b-700 fs-13">Date:</p>
-                                                    <p class=" fs-13"><?= $row["date"] ?></p>
-                                                    <p class="b-700 fs-13">Part:</p>
-                                                    <p class=" fs-13"><?= $row["documentationOf"] ?></p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="b-700 fs-13">Type:</p>
+                                                        
+                                                            <p class=" fs-13"><?= attr_url($row["docNotes"]) ?></p>
+                                                        
+                                                            <p class="b-700 fs-13">Date:</p>
+                                                            <!-- <p class=" fs-13"><?= $row["docdate"]; ?></p> -->
+                                                            <p class=" fs-13"><?= date("d/m/y", strtotime($row["docdate"])); ?></p>
+                                                            
+                                                            <p class="b-700 fs-13">Part:</p>
+                                                            <p class=" fs-13"><?= $row["documentationOf"] ?></p>
+                                                        </div>
+                                                   
                                                     </div>
-                                                    
+                                                    <br>
                                                     <?php
                                                         }
                                                     }
@@ -2319,7 +2321,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 
                                                 
 
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -2787,12 +2789,25 @@ if (!empty($_REQUEST['go'])) { ?>
             $('#medicationlists').hide();
             $('#imaging').hide();      
        }    
+       else  if($(this).attr('id') == 'receipt') {
+            $('#vitals').hide();  
+            $('#encounter').hide();   
+            $('#medicationlists').hide();
+            $('#imaging').hide();      
+       }
+       else  if($(this).attr('id') == 'other') {
+            $('#vitals').hide();  
+            $('#encounter').hide();   
+            $('#medicationlists').hide();
+            $('#imaging').hide();      
+       }   
        else  if($(this).attr('id') == 'lab') {
             $('#vitals').hide();  
             $('#encounter').hide();   
             $('#medicationlists').hide();
             $('#imaging').show();      
-       }  
+       }    
+       
        else {
             $('#medicationlists').show();   
             $('#encounter').show();   

@@ -451,7 +451,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 col-md-12">
                                                 <button class="form-save" >Save</button>
                                             </div>
                                         </div>
@@ -637,7 +637,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <input type="hidden" name="treatment" value="1">
                                                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-                                                <div class="pt-4 pb-5">
+                                                <div class="pt-4 pb-5 col-md-12">
                                                     <button class="form-save" type="submit">Save</button>
                                                 </div>
                                             </div>
@@ -731,13 +731,13 @@ if (!empty($_REQUEST['go'])) { ?>
                                                             <p>Phone No.</p>
                                                             <input type="text" name="m_phone[]" class="form-control">
                                                         </div>
-                                                        <input type="hidden" name="pid" value="1">
+                                                        <input type="hidden" name="pid" value="<?php echo $pid;?>">
                                                     </div>
                                                     <div id="TextBoxContainer5" class="repeat-row"></div>
                                                     <div class="text-center p-3"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/addmore.svg" id="btnemp" alt=""></div>
                                                 </div>
                                             </div>
-                                            <div class="pt-4 pb-5">
+                                            <div class="pt-4 pb-5 col-md-12">
                                                 <button id="employer_save" type="submit" class="form-save">Save</button>
                                             </div>
                                         </div>
@@ -865,8 +865,8 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="pid" value="1">
-                                            <div class="pt-4 pb-5">
+                                            <input type="hidden" name="pid" value="<?php echo $pid;?>">
+                                            <div class="pt-4 pb-5 col-md-12">
                                                 <button id="claim_save" type="submit" class="form-save">Save</button>
                                             </div>
 

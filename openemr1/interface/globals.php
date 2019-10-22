@@ -581,7 +581,6 @@ if (!empty($_GET['pid']) && empty($_SESSION['pid'])) {
     $_SESSION['pid'] = $_POST['pid'];
 }
 
-// $_SESSION['pid'] =8;
 $pid = empty($_SESSION['pid']) ? 0 : $_SESSION['pid'];
 $userauthorized = empty($_SESSION['userauthorized']) ? 0 : $_SESSION['userauthorized'];
 $groupname = empty($_SESSION['authProvider']) ? 0 : $_SESSION['authProvider'];
@@ -609,4 +608,34 @@ ini_set("session.bug_compat_warn", "off");
 if ((int) $GLOBALS['user_debug'] > 1) {
     error_reporting(error_reporting() & ~E_WARNING & ~E_NOTICE & ~E_USER_WARNING);
     ini_set('display_errors', 1);
+}
+
+
+ function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'minute',
+        's' => 'second',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
 }

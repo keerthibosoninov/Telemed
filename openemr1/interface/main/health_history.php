@@ -90,10 +90,7 @@ if ($GLOBALS['date_display_format'] == 1) {
 }
 
 
-// for test
-// $pid=8;
 $pid=$_SESSION['pid'];
-$pid=8;
 
 if($pid){
     $history_data = getHistoryData($pid);
@@ -784,6 +781,7 @@ if (!empty($_REQUEST['go'])) { ?>
 
                                                     $list = sqlStatement("SELECT * FROM list_options 
                                                     WHERE list_id= ?  ORDER BY seq", array('familyhistory'));
+                                                    $i=0;
                                                     while ($frow = sqlFetchArray($list)) {
                                                         $option_id = $frow['option_id'];
                                                         $option_id_esc = htmlspecialchars($option_id, ENT_QUOTES);
@@ -804,8 +802,9 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                 $currvalue = $result_history[$field_id];
                                                             }
 
+                                                            $avalue = explode('|', $currvalue);
 
-                                                             $avalue = explode('|', $currvalue);
+                                                          
                                                             
                                                         ?>
                                                         <td>
@@ -829,11 +828,27 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         </td>
                                                         <?php
                                                         }
-                                                        ?>
-                                                       
-                                                        <td><input type="text" class="form-control" name="form_"></td>
+
+                                                        if (isset($result_history['history_notes'])) {
+                                                            $notes_all = $result_history['history_notes'];
+                                                        }
+
+                                                        $notes = array();
+                                                        $notes_exp = array();
+                                                        $notes= explode('|', $notes_all);
+                                                        
+                                                      
+                                                     
+                                                 
+                                                       $value_n=$notes[$i];
+                                                       $notes_t= explode(':', $value_n);
+                                                       $notes=$notes_t[1];
+                                                       echo "<td><input type='text' class='form-control' name='note_$option_id_esc'  value='$notes'></td>";
+                                                       ?>
                                                     </tr>
                                                     <?php
+
+                                                    $i++;
                                                     }
                                                 
                                                     ?>

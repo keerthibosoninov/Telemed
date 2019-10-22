@@ -151,9 +151,9 @@ if (($_POST['setting_bootstrap_submenu']) ||
 }
 /*  */
 
-input[type=text]{
+/* input[type=text]{
     border: 1px solid #ced4da !important;
-}
+} */
 </style>
 <!-- //relatives_tab_css -->
 
@@ -310,6 +310,9 @@ input[type=text]{
     }
     .border-none{
         border:none!important;    
+    }
+    .formtext{
+        border: 1px solid #ced4da!important;  
     }
 
     
@@ -611,7 +614,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pa_row">
                                                     <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Title</p>
-                                                        <input type="text" name="form_title" class="form-control pa_form-control" placeholder="">
+                                                        <input type="text" name="form_title" class="form-control formtext" placeholder="">
                                                     </div>
 
 
@@ -623,7 +626,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     <div class="col-md-12 pa_md12 mt-2">
                                                         <p>ICD Codes</p>
                                                         <!-- <input type="text" class="form-control" name='form_diagnosis'> -->
-                                                        <input type='text' class="form-control pa_form-control" name='form_diagnosis' id='form_diagnosis'
+                                                        <input type='text' class="form-control formtext" name='form_diagnosis' id='form_diagnosis'
                                                         onclick='sel_diagnosis()' title='<?php echo xla('Click to select or change coding'); ?>' readonly >
                                                     
                                                     </div>
@@ -637,7 +640,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pa_row">
                                                     <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Occurence</p>
-                                                        <input type="number" name="form_occur" class="form-control pa_form-control">
+                                                        <input type="number" name="form_occur" class="form-control ">
                                                     </div>
 
 
@@ -648,7 +651,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pa_row">
                                                     <div class="col-md-12 pa_md12 mt-2">
                                                         <p>Referred By</p>
-                                                        <input type="text" name='form_referredby' class="form-control pa_form-control">
+                                                        <input type="text" name='form_referredby' class="form-control formtext">
                                                     </div>
 
 
@@ -681,7 +684,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                 <div class="row pa_row">
                                                     <div class="col-md-12 pa_md12 ">
                                                         <p>Destination</p>
-                                                        <input type="text" name="form_destination" class="form-control pa_form-control">
+                                                        <input type="text" name="form_destination" class="form-control formtext">
                                                     </div>
 
 
@@ -770,7 +773,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                         <div class="col-md-6"><h4>Vitals</h4></div><br><br>
                                                             <div class="pa_row">
                                                                 <div class="col-md-4 pa_md4">
-                                                                    <div class="mt-3">
+                                                                    <div class="row mt-3">
                                                                         <div class="col-sm-6">
                                                                             <p class="fs-14"> Blood Pressure</p>
                                                                         </div>
@@ -778,12 +781,12 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="bp" class="form-control  active-text border-none" style="border:none !important;">
+                                                                            <input type="text" name="bp" class="form-control  active-text border-none" >
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 pa_md4">
-                                                                    <div class="mt-3">
+                                                                    <div class="row mt-3">
                                                                         <div class="col-sm-6">
                                                                             <p class="fs-14"> Height</p>
                                                                         </div>
@@ -791,13 +794,13 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="height" class="form-control active-text" style="border:none !important;">
+                                                                            <input type="text" name="height" class="form-control active-text" >
 
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 pa_md4">
-                                                                    <div class="mt-3">
+                                                                    <div class="row mt-3">
                                                                         <div class="col-sm-6">
                                                                             <p class="fs-14"> Temprature Method</p>
                                                                         </div>
@@ -805,7 +808,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="temp_method" class="form-control active-text" style="border:none !important;">
+                                                                            <input type="text" name="temp_method" class="form-control active-text" >
 
                                                                         </div>
                                                                     </div>
@@ -819,7 +822,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="temp" class="form-control active-text" style="border:none !important;">
+                                                                            <input type="text" name="temp" class="form-control active-text" >
 
                                                                         </div>
                                                                     </div>
@@ -833,7 +836,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="weight" class="form-control active-text" style="border:none !important;">
+                                                                            <input type="text" name="weight" class="form-control active-text" >
 
                                                                         </div>
                                                                     </div>
@@ -847,7 +850,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                                                             <div class="text-right"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xx"></div>
                                                                         </div>
                                                                         <div class="col-sm-12 pt-2">
-                                                                            <input type="text" name="pulse" class="form-control active-text" style="border:none !important;">
+                                                                            <input type="text" name="pulse" class="form-control active-text" >
 
                                                                         </div>
                                                                     </div>
