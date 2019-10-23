@@ -535,117 +535,114 @@ if ($type) { // note this only happens when its new
  });
 </script>
 
-<form method='post' name='theform' id="theform" action='addrbook_list.php?id=<?php echo attr_url($userid) ?>'>
-<!-- action='addrbook_list.php' -->
-<input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+                        <form method='post' name='theform' id="theform" action='addrbook_list.php?id=<?php echo attr_url($userid) ?>'>
+                            <!-- action='0.php' -->
+                            <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-<div class="pt-4 pb-4">
-<?php if (acl_check('admin', 'practice')) { // allow choose type option if have admin access ?>
+                            <div class="pt-4 pb-4">
+                                    <?php if (acl_check('admin', 'practice')) { // allow choose type option if have admin access ?>
 
- <div class="row">
-  
-  <div class="col-md-3">
-                                        <p>Type</p>
-    <?php
-    echo generate_select_list('form_abook_type', 'abook_type', $row['abook_type'], '', 'Unassigned', '', 'typeSelect(this.value)');
-    ?>
-  </div>
-<?php } // end of if has admin access ?>
+                            <div class="row">
+                                
+                                <div class="col-md-3">
+                                    <p>Type</p>
+                                    <?php
+                                    echo generate_select_list('form_abook_type', 'abook_type', $row['abook_type'], '', 'Unassigned', '', 'typeSelect(this.value)');
+                                        ?>
+                                </div>
+                                <?php } // end of if has admin access ?>
 
  
-  <div class="col-md-3">
-<p>Name</p>
+                                <div class="col-md-3">
+                                    <p>Name</p>
 
-   <input type='text' size='10' name='form_fname' placeholder='First name' class='form-control pr-1 pl-1' maxlength='50' value='<?php echo attr($row['fname']); ?>' />
-</div>
-<div class="col-md-3">
- <p class="invisible">To</p>
-<input type='text' size='4' name='form_mname' placeholder="Middile Name" class="form-control pr-1 pl-1" maxlength='50' value='<?php echo attr($row['mname']); ?>' />
+                                    <input type='text' size='10' name='form_fname' placeholder='First name' class='form-control pr-1 pl-1' maxlength='50' value='<?php echo attr($row['fname']); ?>' />
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="invisible">To</p>
+                                    <input type='text' size='4' name='form_mname' placeholder="Middile Name" class="form-control pr-1 pl-1" maxlength='50' value='<?php echo attr($row['mname']); ?>' />
 
-</div>
-    <div class="col-md-3">
-     <p class="invisible">To</p>
-        <input type='text' size='10' name='form_lname' placeholder="Last Name" class="form-control pr-1 pl-1" maxlength='50' value='<?php echo attr($row['lname']); ?>'/>                                                                                            
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="invisible">To</p>
+                                    <input type='text' size='10' name='form_lname' placeholder="Last Name" class="form-control pr-1 pl-1" maxlength='50' value='<?php echo attr($row['lname']); ?>'/>                                                                                            
 
-                </div>
-  </div>
+                                </div>
+                            </div>
 
-</div>
+                            </div>
 
- <div class="row pt-4">
- <div class="col-md-3">
-<p>Speciality</p>
-   <input type='text' size='40' class="form-control pr-1 pl-1" name='form_specialty' maxlength='250'
-    value='<?php echo attr($row['specialty']); ?>'
-    style='width:100%'  />
-</div>
+                            <div class="row pt-4">
+                                <div class="col-md-3">
+                                    <p>Speciality</p>
+                                    <input type='text' size='40' class="form-control pr-1 pl-1" name='form_specialty' maxlength='250'
+                                    value='<?php echo attr($row['specialty']); ?>'
+                                    style='width:100%'  />
+                                </div>
  
- <div class="col-md-3">
-                                        <p>Organization</p>
-   <input type='text' size='40' name='form_organization' class="form-control pr-1 pl-1" maxlength='250'
-    value='<?php echo attr($row['organization']); ?>'
-    style='width:100%'  />
-    <span id='cpoe_span' style="display:none;">
-        <input type='checkbox' title="<?php echo xla('CPOE'); ?>" name='form_cpoe' id='form_cpoe' value='1' <?php echo ($row['cpoe']=='1') ? "CHECKED" : ""; ?>/>
-        <label for='form_cpoe'><b><?php echo xlt('CPOE'); ?></b></label>
-   </span>
-</div>
+                                <div class="col-md-3">
+                                    <p>Organization</p>
+                                    <input type='text' size='40' name='form_organization' class="form-control pr-1 pl-1" maxlength='250'
+                                    value='<?php echo attr($row['organization']); ?>'
+                                    style='width:100%'  />
+                                    <span id='cpoe_span' style="display:none;">
+                                        <input type='checkbox' title="<?php echo xla('CPOE'); ?>" name='form_cpoe' id='form_cpoe' value='1' <?php echo ($row['cpoe']=='1') ? "CHECKED" : ""; ?>/>
+                                        <label for='form_cpoe'><b><?php echo xlt('CPOE'); ?></b></label>
+                                    </span>
+                                </div>
  
- <div class="col-md-3">
-<p>Valedictory</p>
-   <input type='text' size='40' name='form_valedictory' class="form-control pr-1 pl-1" maxlength='250'
-    value='<?php echo attr($row['valedictory']); ?>'
-    style='width:100%'  />
-</div>
-</div>
+                                <div class="col-md-3">
+                                    <p>Valedictory</p>
+                                    <input type='text' size='40' name='form_valedictory' class="form-control pr-1 pl-1" maxlength='250'
+                                    value='<?php echo attr($row['valedictory']); ?>'
+                                    style='width:100%'  />
+                                </div>
+                            </div>
 
-<div class="row pt-4"> 
-<div class="col-md-3">
-                                        <p>Phone</p>
-   <input type='text' size='11' name='form_phonew1' value='<?php echo attr($row['phone']); ?>'
-    maxlength='30' class='form-control pr-1 pl-1' />&nbsp;
-  
-</div>
+                            <div class="row pt-4"> 
+                                <div class="col-md-3">
+                                    <p>Phone</p>
+                                    <input type='text' size='11' name='form_phonew1' value='<?php echo attr($row['phone']); ?>'
+                                    maxlength='30' class='form-control pr-1 pl-1' />&nbsp;
+                                
+                                </div>
  
- <div class="col-md-3">
-                                        <p>E-Mail</p>
-   <input type='text' size='40' name='form_email' maxlength='250'
-    value='<?php echo attr($row['email']); ?>'
-    style='width:100%' class='form-control pr-1 pl-1' />
-</div>
-<div class="col-md-3">
-<p>Fax</p>                                       
-<input type='text' size='11' name='form_fax' value='<?php echo attr($row['fax']); ?>' maxlength='30' class='form-control pr-1 pl-1' />
-    </div>
+                                <div class="col-md-3">
+                                    <p>E-Mail</p>
+                                    <input type='text' size='40' name='form_email' maxlength='250'
+                                    value='<?php echo attr($row['email']); ?>'
+                                    style='width:100%' class='form-control pr-1 pl-1' />
+                                </div>
+                                <div class="col-md-3">
+                                    <p>Fax</p>                                       
+                                    <input type='text' size='11' name='form_fax' value='<?php echo attr($row['fax']); ?>' maxlength='30' class='form-control pr-1 pl-1' />
+                                </div>
 
- <div class="col-md-3">
-<p>Website</p>
-   <input type='text' size='40' name='form_url' maxlength='250'
-    value='<?php echo attr($row['url']); ?>'
-    style='width:100%' class='form-control pr-1 pl-1' />
-</div>
-</div>
+                                <div class="col-md-3">
+                                    <p>Website</p>
+                                    <input type='text' size='40' name='form_url' maxlength='250'
+                                    value='<?php echo attr($row['url']); ?>'
+                                    style='width:100%' class='form-control pr-1 pl-1' />
+                                </div>
+                            </div>
 
 
- <div class="row pt-4">
-    <div class="col-md-12">
-<p>Address</p>
-    <textarea name='form_street' class="form-control pt-3" rows="3"><?php echo attr($row['street']); ?></textarea>
- </div>
+                                <div class="row pt-4">
+                                    <div class="col-md-12">
+                                        <p>Address</p>
+                                        <textarea name='form_street' class="form-control pt-3" rows="3"><?php echo attr($row['street']); ?></textarea>
+                                    </div>
 
-</div>
+                                </div>
 
-<div class="row pt-4">
+                                <div class="row pt-4">
                                     <div class="col-md-3">
                                         <p>City</p>
-                                        <input type='text' size='10' name='form_city' maxlength='30'
-    value='<?php echo attr($row['city']); ?>' class='form-control pr-1 pl-1' />
+                                        <input type='text' size='10' name='form_city' maxlength='30' value='<?php echo attr($row['city']); ?>' class='form-control pr-1 pl-1' />
                                     </div>
                                     <div class="col-md-3">
                                         <p>State</p>
-                                        <!-- <input type='text' size='10' name='form_state' maxlength='30'
-    value='<?php echo attr($row['state']); ?>' class='form-control pr-1 pl-1' /> -->
-    <select name="form_state" id="" class="form-control mt-2">
+                                        <select name="form_state" id="" class="form-control mt-2">
                                                         <?php
                                                             $body = sqlStatement("SELECT option_id, title FROM list_options " .
                                                             "WHERE list_id = 'state' AND activity = 1 ORDER BY seq");
@@ -663,36 +660,30 @@ if ($type) { // note this only happens when its new
                                     </div>
                                     <div class="col-md-3">
                                         <p>Country</p>
-                                        <input type='text' size='10' name='form_country' maxlength='30'
-    value='<?php echo attr($row['country']); ?>' class='form-control pr-1 pl-1' />
+                                        <input type='text' size='10' name='form_country' maxlength='30' value='<?php echo attr($row['country']); ?>' class='form-control pr-1 pl-1' />
                                     </div>
                                     <div class="col-md-3">
                                         <p>Zip</p>
-                                        <input type='text' size='10' name='form_zip' maxlength='20'
-    value='<?php echo attr($row['zip']); ?>' class='form-control pr-1 pl-1' />
+                                        <input type='text' size='10' name='form_zip' maxlength='20' value='<?php echo attr($row['zip']); ?>' class='form-control pr-1 pl-1' />
                                     </div>
                                 </div>
 
- <div class="row pt-4">
+                                <div class="row pt-4">
                                     <div class="col-md-3">
                                         <p>NPI</p>
-                                        <input type="text" name='form_npi'
-    value='<?php echo attr($row['npi']); ?>' placeholder="" class="form-control pr-1 pl-1">
+                                        <input type="text" name='form_npi' value='<?php echo attr($row['npi']); ?>' placeholder="" class="form-control pr-1 pl-1">
                                     </div>
                                     <div class="col-md-3">
                                         <p>TIN</p>
-                                        <input type="text" name='form_federaltaxid' 
-    value='<?php echo attr($row['federaltaxid']); ?>' placeholder="" class="form-control pr-1 pl-1">
+                                        <input type="text" name='form_federaltaxid'  value='<?php echo attr($row['federaltaxid']); ?>' placeholder="" class="form-control pr-1 pl-1">
                                     </div>
                                     <div class="col-md-3">
                                         <p>Taxonomy</p>
-                                        <input type="text" name='form_taxonomy'
-    value='<?php echo attr($row['taxonomy']); ?>' placeholder="" class="form-control pr-1 pl-1">
+                                        <input type="text" name='form_taxonomy' value='<?php echo attr($row['taxonomy']); ?>' placeholder="" class="form-control pr-1 pl-1">
                                     </div>
                                     <div class="col-md-3">
                                         <p>SSN</p>
-                                        <input type="text" name='form_ssn'
-    value='<?php echo attr($row['ssn']); ?>' placeholder="" class="form-control pr-1 pl-1">
+                                        <input type="text" name='form_ssn' value='<?php echo attr($row['ssn']); ?>' placeholder="" class="form-control pr-1 pl-1">
                                     </div>
                                 </div>
                                 <div class="row pt-4">
@@ -704,21 +695,10 @@ if ($type) { // note this only happens when its new
                                 </div>
 
 
-
-<!-- <input type='submit' name='form_save' value='<?php echo xla('Save'); ?>' /> -->
-<div class="pt-4 pb-2 col-md-12">
-    <!-- <button type='submit' name='form_save' class="form-save" value='<?php echo xla('Save'); ?>'>Save</button> -->
-    <input type='submit' name='form_save' class="form-save" value='<?php echo xla('Save'); ?>' />
-                               
-</div>
-<!-- <?php if ($userid && !$row['username']) { ?>
-&nbsp;
-<input type='submit' name='form_delete' value='<?php echo xla('Delete'); ?>' style='color:red' />
-<?php } ?> -->
-
-<!-- <input type='button' value='<?php echo xla('Cancel'); ?>' onclick='window.close()' /> -->
-<!-- </p> -->
-</form>
+                            <div class="pt-4 pb-2 col-md-12">
+                                <input type='submit' name='form_save' class="form-save" value='<?php echo xla('Save'); ?>' />                              
+                            </div>
+                        </form>
 
 
 <?php    $use_validate_js = 1;?>
@@ -751,27 +731,23 @@ $("#emp_form").load("addrbook_list.php?id="+$id);
 });
 
 $(".dlt").click(function() {
-// alert();
-	thiss=$(this);
-    $id=thiss.attr('idss');
-    // $form_del=$('#form_del').val();
-    $webroot=  "<?php echo $GLOBALS['webroot'];?>";
-// alert($id);
-// alert($form_del);
+    if(confirm('Are you sure?')){
+        thiss=$(this);
+        $id=thiss.attr('idss');
+        $webroot=  "<?php echo $GLOBALS['webroot'];?>";
 
-$.ajax({
-    type: 'POST',
-    url: $webroot+"/interface/usergroup/delete_proc_employee.php?id="+$id,  
-    data: $('#table_frm').serialize(),
-    success: function(data){
-    // alert(data);
-    // console.log(data);  
-    window.location.href="addrbook_list.php";
+
+        $.ajax({
+            type: 'POST',
+            url: $webroot+"/interface/usergroup/delete_proc_employee.php?id="+$id,  
+            data: $('#table_frm').serialize(),
+            success: function(data){
+            
+            window.location.href="addrbook_list.php";
+            }
+        });
+
     }
-});
-
-
-
 });
     </script>
 </body>
