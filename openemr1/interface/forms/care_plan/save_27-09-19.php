@@ -96,11 +96,8 @@ if ($id && $id != 0) {
     $newid = sqlInsert("INSERT INTO form_clinical_instructions (pid,encounter,user,instruction) VALUES (?,?,?,?)", array($pid, $encounter, $_SESSION['authUser'], $instruction));
     addForm($encounter, "Clinical Instructions", $newid, "clinical_instructions", $pid, $userauthorized);
 }
-header("Location: new.php");
+
 $_SESSION["encounter"] = $encounter;
-
-// formHeader("Redirecting....");
-// formJump();
+formHeader("Redirecting....");
+formJump();
 formFooter();
-?>
-

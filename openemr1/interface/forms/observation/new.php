@@ -79,6 +79,9 @@ $check_res = $formid ? $check_res : array();
             .code_date{
                 margin-top:2px !important;
             }
+            .form-control {
+                -webkit-box-shadow: none !important;
+            }
         </style>
 
         <script type="text/javascript">

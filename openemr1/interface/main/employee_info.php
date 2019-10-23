@@ -1875,8 +1875,8 @@ if (!empty($_REQUEST['go'])) { ?>
                                                     else
                                                     {
                                                     ?>
-                                                        <p class="fs-10">Medications</p>
-                                                        <hr>
+                                                        <!-- <p class="fs-10">Medications</p>
+                                                        <hr> -->
                                                         <p class="fs-12"> Nothing Recorded </p>
                                                     <?php
                                                     }

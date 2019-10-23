@@ -1,7 +1,3 @@
-<!-- <head> -->
- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-
-
 <?php
 /**
  * Provides manual administration for codes
@@ -16,8 +12,6 @@
  * @copyright Copyright (c) 2018 Brady Miller <brady.g.miller@gmail.com>
  * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
  */
-
-
 
 require_once("../../globals.php");
 require_once("../../../custom/code_types.inc.php");
@@ -56,7 +50,6 @@ function bucks($amount)
 
     return '';
 }
-
 
 $alertmsg = '';
 $pagesize = 100;
@@ -165,22 +158,6 @@ if (isset($mode) && $thisauthwrite) {
             $reportable   = 0 + $row['reportable'];
             $financial_reporting  = 0 + $row['financial_reporting'];
         }
-        
-     echo "<script type='text/javascript'>
-        
-        $(document).ready(function(){
-            
-           $('#form_save').addClass('dblock');   
-           $('#btns').addClass('dblock');  
-           $('#addn').addClass('dnone');
-    
-         
-        });
-          
-                  
-       </script> ";
-    
-
     } else if ($mode == "modify") { // someone clicked [Modify]
         // this is to modify external code types, of which the modifications
         // are stored in the codes table
@@ -249,8 +226,6 @@ if (isset($mode) && $thisauthwrite) {
             array($date,$code,$modifier,$active,$reportable,$financial_reporting,$categorey_name,$code_name,$code_text,'',$fee,$action_type,$_SESSION['authUser'])
         );
     }
-
-    
 }
 
 $related_desc = '';
@@ -318,7 +293,8 @@ if ($fend > $count) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/style.css">
-   
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/employee_dashboard_style.css">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assets_static_relative']; ?>/css/emp_info_css.css">
     <script src="<?php echo $GLOBALS['assets_static_relative']; ?>/js/vue.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
@@ -340,7 +316,7 @@ if ($fend > $count) {
     margin-left: 394px;
     }
     .form-save2{
-    background-color: #3C9DC5;
+        background-color: #3C9DC5;
     padding: 6px;
     width: 150px;
     border: none;
@@ -352,10 +328,6 @@ if ($fend > $count) {
     }
     .dblock{
         display:block;
-    }
-
-    select[multiple]:focus option:checked {
-        background: red linear-gradient(0deg, red 0%, red 100%) !important;
     }
     
 </style>
@@ -488,8 +460,8 @@ if ($fend > $count) {
         function submitEdit(id) {
             var f = document.forms[0];
             f.mode.value = 'edit';
-            f.code_id.value = id;            
-            f.submit();                       
+            f.code_id.value = id;
+            f.submit();
         }
 
         function submitModify(code_type_name,code,id) {
@@ -551,10 +523,10 @@ if ($fend > $count) {
                             </div>
                             <div class="body-compo" style="height:auto;">
                             <div class="container-fluid">
-                                <form method='post' action='superbill_custom_full.php' name='theform'>
-                                <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+    <form method='post' action='superbill_custom_full.php' name='theform'>
+    <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
-                                <input type='hidden' name='mode' value=''>
+    <input type='hidden' name='mode' value=''>
       
                 <div class="row pt-4">
                                 <div class="col-md-3">
@@ -599,12 +571,9 @@ if ($fend > $count) {
                                 </div>
                     <input type='hidden' name='fstart' value='<?php echo attr($fstart) ?>'>               
             
-                    </div>
-                    <div class="row"> 
-                        <div class="col-md-5"></div>
-                        <div class="pt-4 pb-2 col-md-2">
-                            <button type="submit" name="go" class="form-save">Search</button>
-                        </div>
+                    </div> 
+                    <div class="pt-4 pb-2">
+                    <button type="submit" name="go" class="form-save1">Search</button>
                     </div>
 
 
@@ -660,7 +629,7 @@ if ($fend > $count) {
         <th> <?php echo xlt('Serv Rep'); ?> </th>
         <th> <?php echo xlt('Type'); ?> </th>
         <th> <?php echo xlt('Description'); ?> </th>
-        <!-- <th> <?php echo xlt('Short Description'); ?> </th> -->
+        <th> <?php echo xlt('Short Description'); ?> </th>
         <?php if (related_codes_are_used()) { ?>
             <th> <?php echo xlt('Related'); ?> </th>
         <?php } ?>
@@ -685,34 +654,53 @@ if ($fend > $count) {
             }
 
             echo " <tr>\n";
-            echo "  <td>" . text($iter["code"]) . "</td>\n";
-            echo "  <td>" . text($iter["modifier"]) . "</td>\n";
+            echo "  <td  >" . text($iter["code"]) . "</td>\n";
+            // echo "  <td ><input type='text' class='form-control active-text1' value='". text($iter["code"]) ."'></td>\n";
+
+            echo "  <td  >" . text($iter["modifier"]) . "</td>\n";
+            // echo "  <td ><input type='text' class='form-control active-text1' value='". text($iter["modifier"]) ."'></td>\n";
+
             if ($institutional) {
-                echo "  <td>" . ($iter['revenue_code'] > '' ? text($iter['revenue_code']) : 'none') ."</td>\n";
+                echo "  <td  >" . ($iter['revenue_code'] > '' ? text($iter['revenue_code']) : 'none') ."</td>\n";
+                // echo "  <td ><input type='text' class='form-control active-text1' value='". ($iter['revenue_code'] > '' ? text($iter['revenue_code']) : 'none') ."'></td>\n";
+
             }
             if ($iter["code_external"] > 0) {                
-                echo "  <td>" . ( ($iter["active"] || $iter["active"]==null) ? xlt('Yes') : xlt('No')) . "</td>\n";
+                echo "  <td  >" . ( ($iter["active"] || $iter["active"]==null) ? xlt('Yes') : xlt('No')) . "</td>\n";
+                // echo "  <td ><input type='text' class='form-control active-text1' value='".  ( ($iter["active"] || $iter["active"]==null) ? xlt('Yes') : xlt('No')) ."'></td>\n";
+
             } else {
-                echo "  <td>" . ( ($iter["active"]) ? xlt('Yes') : xlt('No')) . "</td>\n";
+                echo "  <td  >" . ( ($iter["active"]) ? xlt('Yes') : xlt('No')) . "</td>\n";
+                // echo "  <td ><input type='text' class='form-control active-text1' value='". ( ($iter["active"]) ? xlt('Yes') : xlt('No')) ."'></td>\n";
+
             }
 
             $sres = sqlStatement("SELECT title " .
                 "FROM list_options AS lo " .
                 "WHERE lo.list_id = 'superbill' AND lo.option_id = ?", array($iter['superbill']));
             if ($srow = sqlFetchArray($sres)) {
-                echo "  <td>" . text($srow['title']) . "</td>\n";
+                echo "  <td  >" . text($srow['title']) . "</td>\n";
+                // echo "  <td ><input type='text' class='form-control active-text1' value='". text($srow['title']) ."'></td>\n";
+
             } else {
-                echo "  <td>" . '' . "</td>\n";
+                echo "  <td  >" . '' . "</td>\n";
+                // echo "  <td ><input type='text' class='form-control active-text1' value=' '></td>\n";
+
             }
-            echo "  <td>" . ($iter["reportable"] ? xlt('Yes') : xlt('No')) . "</td>\n";
+            echo "  <td  >" . ($iter["reportable"] ? xlt('Yes') : xlt('No')) . "</td>\n";
+            // echo " <td ><input type='text' class='form-control active-text1' value='". ($iter["reportable"] ? xlt('Yes') : xlt('No')) ."'></td>\n";
 
-            echo "  <td>" . ($iter["financial_reporting"] ? xlt('Yes') : xlt('No')) . "</td>\n";
+            echo "  <td  >" . ($iter["financial_reporting"] ? xlt('Yes') : xlt('No')) . "</td>\n";
+            // echo " <td ><input type='text' class='form-control active-text1' value='". ($iter["financial_reporting"] ? xlt('Yes') : xlt('No')) ."'></td>\n";
 
-            echo "  <td>" . text($iter['code_type_name']) . "</td>\n";
+            echo "  <td  >" . text($iter['code_type_name']) . "</td>\n";
+            // echo " <td ><input type='text' class='form-control active-text1' value='". text($iter['code_type_name']) ."'></td>\n";
 
-            echo "  <td>" . text($iter['code_text']) . "</td>\n";
+            echo "  <td  >" . text($iter['code_text']) . "</td>\n";
+            // echo " <td ><input type='text' class='form-control active-text1' value='". text($iter['code_text']) ."'></td>\n";
 
-            // echo "  <td>" . text($iter['code_text_short']) . "</td>\n";
+            echo "  <td  >" . text($iter['code_text_short']) . "</td>\n";
+            // echo " <td ><input type='text' class='form-control active-text1' value='". text($iter['code_text_short']) ."'></td>\n";
 
 
             if (related_codes_are_used()) {
@@ -740,8 +728,10 @@ if ($fend > $count) {
                 if ($iter["code_external"] > 0) {
                     echo "  <td align='right'><a class='link' href='javascript:submitModify(" . attr_js($iter['code_type_name']) . "," . attr_js($iter['code']) . "," . attr_js($iter['id']) . ")'>[" . xlt('Modify') . "]</a></td>\n";
                 } else {
-                    echo "<td><a class='link'  href='javascript:submitEdit(" . attr_js($iter['id']) . ")' ><img src='". $GLOBALS['assets_static_relative'] ."/img/edit-text.svg' class='remove16' ></a><a class='link' href='javascript:submitDelete(" . attr_js($iter['id']) . ")'><img src='". $GLOBALS['assets_static_relative'] ."/img/delete.svg'  class='xxx pr-2'></a></td>";
+                    echo "<td><a class='link' href='javascript:submitEdit(" . attr_js($iter['id']) . ")'><img src='". $GLOBALS['assets_static_relative'] ."/img/edit-text.svg' class='remove16'></a><br><br><a class='link' href='javascript:submitDelete(" . attr_js($iter['id']) . ")'><img src='". $GLOBALS['assets_static_relative'] ."/img/delete.svg'  class='xxx pr-2'></a></td>";
 
+                    // echo "  <td align='right'><a class='link' href='javascript:submitDelete(" . attr_js($iter['id']) . ")'>[" . xlt('Delete') . "]</a></td>\n";
+                    // echo "  <td align='right'><a class='link' href='javascript:submitEdit(" . attr_js($iter['id']) . ")'>[" . xlt('Edit') . "]</a></td>\n";
                 }
             }
 
@@ -962,8 +952,8 @@ if ($fend > $count) {
 
                                                               
         </div>
-        <!-- <div class="pt-4 pb-2" id="btns"> -->
-        <!-- <div class="row"> -->
+        <div class="pt-4 pb-2">
+        <div class="row">
                     
         <input type="hidden" name="code_id" value="<?php echo attr($code_id) ?>"><br>
                     <input type="hidden" name="code_type_name_external" value="<?php echo attr($code_type_name_external) ?>">
@@ -972,26 +962,18 @@ if ($fend > $count) {
                         <?php if ($mode == "modify") { ?>
                             <a href='javascript:submitModifyComplete();' class='link'><button class="form-save">Update</button></a>
                         <?php } else { ?>
-                            <!-- <div class="col-md-4"></div> -->
-                            <?php if ($mode == "edit") { ?>
-                            <!-- <div class="col-md-2"> -->
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2">
                             <!-- <a href='javascript:submitUpdate();' class='form-save2'>Update</a> -->
-                            <div class="pt-4 pb-2 dnone" id="btns">
                             <button onclick="javascript:submitUpdate();" class="form-save">Update</button>
-                            </div>
-                        <!-- </div> -->
-                        <?php } else { ?>
-                        <!-- <div class="col-md-2"> -->
+                        </div>
+                        <div class="col-md-2">
                             <!-- <a href='javascript:submitAdd();' class='form-save2'>Save</a> -->
-                            <div class="pt-4 pb-2 dnone" id="btns">
                             <button onclick="javascript:submitAdd();" class="form-save">Save</button>
-                            </div>
-                        <!-- </div> -->
-                        <?php } ?>
+                        </div>
                         <?php } ?>
                     <?php } ?>
                        
-                        <!-- </div> -->
                         </div>
 
 </form>
@@ -1014,17 +996,11 @@ if ($fend > $count) {
         echo "alert(" . js_escape($alertmsg) . ");\n";
     }
     ?>
-function display_form()
-{
-   
-        $("#form_save").addClass("dblock");   
-        $("#btns").addClass("dblock");  
-        $("#addn").addClass("dnone");
-}
-$('#addnew').on('click', function () {
-       display_form();
-    });
 
+$('#addnew').on('click', function () {
+        $("#form_save").addClass("dblock");     
+        $("#addn").addClass("dnone");
+    });
 </script>
 
 </body>

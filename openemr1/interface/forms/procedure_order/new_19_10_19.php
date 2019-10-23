@@ -168,18 +168,18 @@ if ($_POST['bn_save'] || $_POST['bn_xmit']) {
         }
 
         $prefix = "ans$i" . "_";
+
         sqlBeginTrans();
         $procedure_order_seq = sqlQuery("SELECT IFNULL(MAX(procedure_order_seq),0) + 1 AS increment FROM procedure_order_code WHERE procedure_order_id = ? ", array($formid));
         $poseq = sqlInsert(
             "INSERT INTO procedure_order_code SET " .
             "procedure_order_id = ?, " .
             "diagnoses = ?, " .
-            "order_question = ?, " .
             "procedure_order_title = ?, " .
             "procedure_code = (SELECT procedure_code FROM procedure_type WHERE procedure_type_id = ?), " .
             "procedure_name = (SELECT name FROM procedure_type WHERE procedure_type_id = ?)," .
             "procedure_order_seq = ? ",
-            array($formid, $_POST['form_proc_type_diag'][$i],$_POST['form_proc_order_ques'][$i], $_POST['form_proc_order_title'][$i], $ptid, $ptid, $procedure_order_seq['increment'])
+            array($formid, $_POST['form_proc_type_diag'][$i], $_POST['form_proc_order_title'][$i], $ptid, $ptid, $procedure_order_seq['increment'])
         );
         sqlCommitTrans();
 
@@ -339,15 +339,13 @@ function sel_proc_type(formseq) {
 // This is for callback by the find-procedure-type popup.
 // Sets both the selected type ID and its descriptive name.
 // Also set diagnosis if supplied in configuration and custom test groups.
-function set_proc_type(typeid, typename, diagcodes = '',typeques, newCnt = 0) {
+function set_proc_type(typeid, typename, diagcodes = '', newCnt = 0) {
     let f = document.forms[0];
     let ptvarname = 'form_proc_type[' + gbl_formseq + ']';
     let ptdescname = 'form_proc_type_desc[' + gbl_formseq + ']';
     let ptcodes = 'form_proc_type_diag[' + gbl_formseq + ']';
-    let ptques = 'form_proc_order_ques[' + gbl_formseq + ']';
     f[ptvarname].value = typeid;
     f[ptdescname].value = typename;
-    // f[ptques].value = typeques;
     if (diagcodes)
         f[ptcodes].value = diagcodes;
     if (newCnt > 1) {
@@ -389,17 +387,14 @@ function addProcLine(flag = false) {
     for (; f['form_proc_type[' + i + ']']; ++i) ;
     // build new item html.. a hidden html block to clone may be better here.
     let cell = "<div class='pt-4 pb-4 pa_pt-4 pa_pb-4 container-fluid'><table class='table table-condensed proc-table'><tr>" +
-        "<td class='procedure-div '><input type='hidden' name='form_proc_order_title[" + i + "]' value='" + prc_name + "'>" +
-        "<input type='text' class='form-control active-text2' name='form_proc_type_desc[" + i + "]' onclick='sel_proc_type(" + i + ")' " +
-        "onfocus='this.blur()' title='<?php echo xla('Click to select the desired procedure'); ?>' placeholder='<?php echo xla('Click to select the desired procedure'); ?>'style='cursor:pointer;cursor:hand'  /> " +
+        "<td class='procedure-div'><input type='hidden' name='form_proc_order_title[" + i + "]' value='" + prc_name + "'>" +
+        "<input type='text' class='form-control' name='form_proc_type_desc[" + i + "]' onclick='sel_proc_type(" + i + ")' " +
+        "onfocus='this.blur()' title='<?php echo xla('Click to select the desired procedure'); ?>' placeholder='<?php echo xla('Click to select the desired procedure'); ?>'style='cursor:pointer;cursor:hand' readonly /> " +
         "<input type='hidden' name='form_proc_type[" + i + "]' value='-1' /></td>" +
-        "<td class='diagnosis-div'><input type='text' class='form-control active-text2' name='form_proc_type_diag[" + i + "]' onclick='sel_related(this.name)'" +
-        "title='<?php echo xla('Click to add a diagnosis'); ?>' placeholder='<?php echo xla('Click to add a diagnosis'); ?>' onfocus='this.blur()' style='cursor:pointer;cursor:hand'  /></td>" +            
-        "<td><input class='form-control pa_form-control active-text2' type='text' name='form_proc_order_ques[" + i + "]'/></td>" + 
+        "<td class='diagnosis-div'><input type='text' class='form-control' name='form_proc_type_diag[" + i + "]' onclick='sel_related(this.name)'" +
+        "title='<?php echo xla('Click to add a diagnosis'); ?>' placeholder='<?php echo xla('Click to add a diagnosis'); ?>' onfocus='this.blur()' style='cursor:pointer;cursor:hand' readonly /></td>" +    
         "<td ><img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg' alt='' class='xxx pr-2'><img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg' onclick='deleteRow(event)' class='itemDelete' alt=''></td>"+
-        "<div id='qoetable[" + i + "]'></div></tr></table></div>";
-        // <img src='<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg' alt='' class='xxx pr-2'>
-        // "<td><div id='qoetable[" + i + "]'></div></td></tr></table></div>";
+        "<td><div id='qoetable[" + i + "]'></div></td></tr></table></div>";
 
     $(".procedure-order-container").append(cell); // add the new item to procedures list
 
@@ -435,7 +430,7 @@ function sel_related(varname) {
     // Might be nice to have a lab parameter for acceptable code types.
     // Also note the controlling script here runs from interface/patient_file/encounter/.
     let title = <?php echo xlj("Select Diagnosis Codes"); ?>;
-    dlgopen('../../patient_file/encounter/find_code_dynamic.php?codetype=' + <?php echo js_url(collect_codetypes("diagnosis", "csv")); ?>, '_blank', 985, 750, '', title);
+    dlgopen('find_code_dynamic.php?codetype=' + <?php echo js_url(collect_codetypes("diagnosis", "csv")); ?>, '_blank', 985, 750, '', title);
 }
 
 // This is for callback by the find-code popup.
@@ -498,62 +493,9 @@ $(function () {
         cursor:hand;
     }
 
-    /* .table-form tr:nth-of-type(even) {
-    background-color: #88c9ef57;
-} */
-
     </style>
 
 <!-- PA -->
-<style>
-    /* .activatetextarea .active-text {
-    pointer-events: all;
-    border: 1px solid silver!important;
-    background-color: #ffff!important;
-} */
-.activatetextarea .active-text1 {
-    pointer-events: all;
-    border: 1px solid silver !important;
-    padding: 0px 5px
-}
-
-
-.xxx {
-    cursor: pointer;
-}
-.active-text {
-    pointer-events: none;
-    border: 0px solid silver!important;
-    background-color: #d6edfa!important;
-}
-.active-text1 {
-    pointer-events: none;
-    border: none;
-    background-color: transparent;
-    padding: 0px;
-    margin: 0px;
-}
-.table-form tr:nth-of-type(even) {
-    background-color: #88c9ef57;
-}
-.inputtext_PA{
-    background: none!important;
-    border: none!important;
-}
-
-.active-text2 {
-    pointer-events: all;
-    border: 1px solid silver !important;
-    padding: 0px 5px
-    /* pointer-events: all;
-    border: 1px solid silver!important;
-    background-color: #ffff!important; */
-}
-/* .active-text tr:nth-of-type(even) {
-    background-color: #d6edfa!important;
-} */
-
-</style>
     <style>
     .css_button:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
             background: #3C9DC5;
@@ -636,10 +578,9 @@ $(function () {
         background: #fff;
         border: 1px solid #ced4da;
         padding: .375rem .75rem;
-       
+        /* margin: 3px; */
+        /* height: calc(1.5em + .75rem + 2px); */
     }
-    
-    
     .mt-2{
         margin-top:.5rem!important;
     }
@@ -656,13 +597,13 @@ $(function () {
         border-top: 1px solid #dee2e6!important;
         text-align: inherit;
     }
-    /* .table-form tr:nth-of-type(even) {
+    .table-form tr:nth-of-type(even) {
         background-color: #88c9ef57;
-    } */
+    }
 
-    /* input[readonly] {
+    input[readonly] {
         background-color: #ffff!important;
-    } */
+    }
     .procedure-div, .diagnosis-div{
         width:28%;
     }
@@ -806,7 +747,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         if ($formid) {
                             $opres = sqlStatement(
                                 "SELECT " .
-                                "pc.procedure_order_seq,pc.procedure_code,pc.order_question, pc.procedure_name, " .
+                                "pc.procedure_order_seq, pc.procedure_code, pc.procedure_name, " .
                                 "pc.diagnoses, pc.procedure_order_title, " .
                                 "(SELECT pt.procedure_type_id FROM procedure_type AS pt WHERE " .
                                 "(pt.procedure_type LIKE 'ord%' OR pt.procedure_type LIKE 'for%') AND pt.lab_id = ? AND " .
@@ -827,20 +768,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         ?>                       
                     </div>
                     </div>
-                       
-                            <div class="pt-4 pb-4 pa_pt-4 pa_pb-4 container-fluid">
-                            <!-- <div class="table-div "> -->
-                            <table class="table table-condensed proc-table table-form" id="procedures_item_<?php echo (string) attr($i) ?>">
-                            <tbody id="TextBoxContainer10" class="repeat-row ">
-                                            <tr>
-                                            
-                                                <th>Procedure Test</th>
-                                                <th>Diagnostic Codes</th>
-                                                <th>Order Questions</th>
-                                                <th></th>
-
-                                            </tr>
-                                            <?php
+                        <?php
                         $i = 0;
                         foreach ($oparr as $oprow) {
                             $ptid = -1; 
@@ -848,7 +776,19 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 $ptid = $oprow['procedure_type_id'];
                             }
                             ?>
-                            <tr class="tablerow bodypart10 ">
+                            <div class="pt-4 pb-4 pa_pt-4 pa_pb-4 container-fluid">
+                            <!-- <div class="table-div "> -->
+                            <table class="table table-condensed proc-table table-form" id="procedures_item_<?php echo (string) attr($i) ?>">
+                            <tbody id="TextBoxContainer10" class="repeat-row ">
+                                            <tr>
+                                            
+                                                <th>Procedure Test</th>
+                                                <th>Dignostic Codes</th>
+                                                <th>Order Questions</th>
+                                                <th></th>
+
+                                            </tr>
+                            <tr class="tablerow bodypart10">
                                 
                                 <td class="procedure-div">
                                     <?php if (empty($formid) || empty($oprow['procedure_order_title'])) : ?>
@@ -862,20 +802,19 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                            onfocus='this.blur()'
                                            title='<?php echo xla('Click to select the desired procedure'); ?>'
                                            placeholder='<?php echo xla('Click to select the desired procedure'); ?>'
-                                           style='cursor:pointer;cursor:hand' class='form-control pa_form-control active-text1 inputtext_PA' />
+                                           style='cursor:pointer;cursor:hand' class='form-control pa_form-control' readonly/>
                                     <input type='hidden' name='form_proc_type[<?php echo attr($i); ?>]' value='<?php echo attr($ptid); ?>'/>
                                 </td>
                                 <td class="diagnosis-div">
-                                    <input class='form-control pa_form-control active-text1 inputtext_PA' type='text' name='form_proc_type_diag[<?php echo attr($i); ?>]'
+                                    <input class='form-control pa_form-control' type='text' name='form_proc_type_diag[<?php echo attr($i); ?>]'
                                            value='<?php echo attr($oprow['diagnoses']) ?>' onclick='sel_related(this.name)'
                                            title='<?php echo xla('Click to add a diagnosis'); ?>'
                                            placeholder='<?php echo xla('Click to select the desired procedure'); ?>'
                                            onfocus='this.blur()'
-                                           style='cursor:pointer;cursor:hand' />
+                                           style='cursor:pointer;cursor:hand' readonly/>
                                 </td>
                                 <td>
-                                    <input class='form-control pa_form-control active-text1 inputtext_PA' type='text' name='form_proc_order_ques[<?php echo attr($i); ?>]'
-                                           value='<?php echo attr($oprow['order_question']) ?>'>
+                                    <input class='form-control pa_form-control' type='text'>
                                     <div class="table-responsive" id='qoetable[<?php echo attr($i); ?>]'>
                                         <?php
                                         $qoe_init_javascript = '';
@@ -888,14 +827,15 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 </td>
                                 <td ><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/edit-text.svg" alt="" class="xxx pr-2"><img src="<?php echo $GLOBALS['assets_static_relative']; ?>/img/delete.svg" class="itemDelete" alt=""></td>
                             </tr>
-                               
+                                </tbody>
+                            </table>
+                                    <!-- </div> -->
+                                    
+                                    </div>
                             <?php
                             ++$i;
                         }
-                        ?>  
-                         </tbody>
-                            </table>
-                            </div>                                          
+                        ?>                                            
                         </div>
                         <div>
                                     <div class="text-center">
@@ -1047,7 +987,7 @@ function makeTextboxEditable1() {
 $(".xxx").click(function() {
     $(this)
         .closest(".tablerow")
-        .addClass("activatetextarea")
+        .addClass("activatetextarea1")
 });
 }
 </script>
